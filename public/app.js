@@ -1,5 +1,5 @@
-const DATA_URL = "/catalog-data.json?v=20260617-nav-panels-mobile-fix";
-const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260617-nav-panels-mobile-fix";
+const DATA_URL = "/catalog-data.json?v=20260618-liquid-glass-mobile";
+const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260618-liquid-glass-mobile";
 const CART_KEY = "blackmarket-wholesale-cart-v4";
 const STORE_KEY = "blackmarket-wholesale-store-v3";
 const SITE_KEY = "blackmarket-wholesale-site-v1";
@@ -9,6 +9,7 @@ const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 
 const ADMIN_USER = "pmart";
 const ADMIN_PASS = "123pmart";
+const MEDIA_PRELOAD_CONCURRENCY = 8;
 
 const SECTION_META = [
   { slug: "thermogenics", label: "Thermogenics" },
@@ -68,6 +69,12 @@ const state = {
   activeFilter: "thermogenics",
   query: "",
   adminAuthed: loadJson(ADMIN_KEY, false),
+};
+
+const mediaPreload = {
+  active: 0,
+  queue: [],
+  seen: new Set(),
 };
 
 const dom = {
@@ -141,6 +148,7 @@ async function init() {
   state.products = mergeProducts();
   state.items = buildItems(state.products);
   state.catalogPages = catalogData.pages || [];
+  preloadProductMedia();
   pruneCart();
   hydrateStoreForm();
   renderProductEntrypoints();
@@ -361,6 +369,7 @@ function mergeProducts() {
 function rebuildProductState() {
   state.products = mergeProducts();
   state.items = buildItems(state.products);
+  preloadProductMedia();
   pruneCart();
   renderProductEntrypoints();
   renderCategoryNav();
@@ -621,6 +630,47 @@ function renderSkuCard(item) {
   `;
 }
 
+function preloadProductMedia() {
+  enqueueMediaPreloads(prioritizedProductMediaUrls());
+}
+
+function prioritizedProductMediaUrls() {
+  const panelUrls = unique(state.items.map((item) => item.panel));
+  const bottleUrls = unique(state.items.map((item) => item.bottle));
+  const galleryUrls = unique(state.products.flatMap((product) => [product.panel, product.bottle, ...(product.siteImages || [])]));
+  const announcementUrls = unique(state.site.announcements.map((item, index) => announcementImage(item, index)));
+  return unique([...panelUrls, ...bottleUrls, ...galleryUrls, ...announcementUrls]);
+}
+
+function enqueueMediaPreloads(urls) {
+  urls
+    .filter(Boolean)
+    .forEach((url) => {
+      if (mediaPreload.seen.has(url)) return;
+      mediaPreload.seen.add(url);
+      mediaPreload.queue.push(url);
+    });
+  pumpMediaPreloadQueue();
+}
+
+function pumpMediaPreloadQueue() {
+  while (mediaPreload.active < MEDIA_PRELOAD_CONCURRENCY && mediaPreload.queue.length) {
+    const url = mediaPreload.queue.shift();
+    mediaPreload.active += 1;
+    const image = new Image();
+    const done = () => {
+      mediaPreload.active = Math.max(0, mediaPreload.active - 1);
+      pumpMediaPreloadQueue();
+    };
+    image.decoding = "async";
+    image.loading = "eager";
+    image.onload = done;
+    image.onerror = done;
+    image.src = url;
+    if (image.decode) image.decode().catch(() => {});
+  }
+}
+
 function renderMiniQty(id) {
   const qty = getQty(id);
   return `
@@ -665,6 +715,7 @@ function openProductModal(itemId) {
   if (!item) return;
   const product = state.products.find((entry) => entry.id === item.productId);
   const gallery = imageGalleryForItem(item, product);
+  enqueueMediaPreloads(gallery.map((image) => image.src));
   dom.modalContent.innerHTML = `
     <div class="product-detail">
       <div class="detail-layout">

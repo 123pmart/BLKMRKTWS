@@ -4207,3 +4207,614 @@ body.cart-open #cartView .order-bar {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Liquid glass experience pass. */
+:root {
+  --liquid-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --liquid-ease-soft: cubic-bezier(0.22, 0.9, 0.18, 1);
+  --glass-bg: rgba(18, 18, 22, 0.58);
+  --glass-bg-strong: rgba(22, 22, 27, 0.76);
+  --glass-bg-soft: rgba(255, 255, 255, 0.045);
+  --glass-line: rgba(255, 255, 255, 0.12);
+  --glass-line-strong: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  --glass-blur: blur(24px) saturate(1.22);
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% -8%, rgba(255, 255, 255, 0.09), transparent 34%),
+    linear-gradient(180deg, #09090b 0%, #050506 52%, #020203 100%);
+}
+
+body::before {
+  opacity: 0.025;
+}
+
+.topbar {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  background: rgba(5, 5, 7, 0.64);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: 0 10px 38px rgba(0, 0, 0, 0.22);
+}
+
+.brand,
+.cart-icon,
+.mobile-nav,
+.top-nav button,
+.chip-row button,
+.landing-card .landing-card-media,
+.sku-card,
+.qty-mini,
+.qty-control,
+.link-button,
+.download-link,
+.news-card,
+.cart-line,
+.store-card,
+.admin-card,
+.admin-login,
+.detail-bottle,
+.detail-copy,
+.nutrition-block,
+.detail-gallery button {
+  transition:
+    transform 420ms var(--liquid-ease),
+    opacity 360ms var(--liquid-ease),
+    border-color 360ms var(--liquid-ease),
+    background 360ms var(--liquid-ease),
+    box-shadow 360ms var(--liquid-ease),
+    color 240ms var(--liquid-ease);
+}
+
+.mobile-nav,
+.cart-icon,
+.top-nav button,
+.chip-row button,
+.link-button,
+.download-link,
+.qty-mini,
+.qty-control,
+.order-actions button,
+.admin-login button,
+.admin-card button {
+  touch-action: manipulation;
+}
+
+.top-nav {
+  padding: 4px;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.052);
+  backdrop-filter: blur(18px) saturate(1.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.top-nav button {
+  min-height: 34px;
+  border-radius: 999px;
+}
+
+.top-nav button:hover,
+.top-nav button.active {
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.top-nav button.active {
+  color: #050505;
+  background: linear-gradient(180deg, #ffc756, #f3a817);
+}
+
+.mobile-nav,
+.cart-icon {
+  border: 1px solid var(--glass-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.mobile-nav:hover,
+.cart-icon:hover {
+  border-color: var(--glass-line-strong);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
+}
+
+.search,
+.chip-row button,
+.sku-card,
+.news-card,
+.store-card,
+.admin-card,
+.admin-login,
+.cart-line,
+.empty-state,
+.detail-copy,
+.nutrition-block,
+.detail-gallery button {
+  border-color: var(--glass-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.026)),
+    rgba(12, 12, 15, 0.64);
+  backdrop-filter: blur(18px) saturate(1.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.sku-card:hover,
+.sku-card:focus-visible,
+.news-card:hover,
+.news-card:focus-visible,
+.landing-card:hover .landing-card-media,
+.landing-card:focus-visible .landing-card-media {
+  border-color: rgba(255, 255, 255, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.032)),
+    rgba(18, 18, 22, 0.74);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.qty-mini,
+.qty-control {
+  border-color: rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+}
+
+.qty-mini button:hover,
+.qty-control button:hover {
+  background: rgba(246, 167, 0, 0.18);
+}
+
+.cart-backdrop {
+  background: rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(16px) saturate(0.95);
+  transition: opacity 360ms var(--liquid-ease);
+}
+
+#cartView.view {
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  width: min(580px, calc(100vw - 24px));
+  padding: 22px;
+  border: 1px solid var(--glass-line);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.028)),
+    rgba(11, 11, 14, 0.78);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  transform: translateX(22px) scale(0.985);
+  transition:
+    opacity 420ms var(--liquid-ease),
+    transform 520ms var(--liquid-ease),
+    visibility 420ms var(--liquid-ease);
+}
+
+body.cart-open #cartView.view {
+  transform: translateX(0) scale(1);
+}
+
+#cartView .cart-layout,
+#cartView .order-bar {
+  transform: none;
+}
+
+#cartView .cart-head {
+  position: sticky;
+  top: -22px;
+  z-index: 4;
+  margin: -22px -22px 16px;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: var(--glass-blur);
+}
+
+#cartView .cart-head h1 {
+  font-size: 1.18rem;
+}
+
+#cartView .link-button {
+  min-height: 36px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+#cartView .cart-list {
+  gap: 12px;
+}
+
+#cartView .cart-line {
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+}
+
+#cartView .cart-line img {
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.09), transparent 50%),
+    rgba(255, 255, 255, 0.045);
+}
+
+#cartView .cart-line h3 {
+  margin-right: 22px;
+  font-size: 0.88rem;
+  line-height: 1.18;
+}
+
+#cartView .cart-line p {
+  margin-bottom: 10px;
+  color: #a9a9b2;
+}
+
+#cartView .remove-line {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+#cartView .store-card {
+  gap: 12px;
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+#cartView .store-card input,
+#cartView .store-card textarea,
+#cartView .store-card select {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.058);
+  transition: border-color 240ms var(--liquid-ease), background 240ms var(--liquid-ease), box-shadow 240ms var(--liquid-ease);
+}
+
+#cartView .store-card input:focus,
+#cartView .store-card textarea:focus,
+#cartView .store-card select:focus {
+  border-color: rgba(246, 167, 0, 0.56);
+  background: rgba(255, 255, 255, 0.078);
+  box-shadow: 0 0 0 3px rgba(246, 167, 0, 0.1);
+}
+
+#cartView .order-bar {
+  position: sticky;
+  bottom: -22px;
+  width: calc(100% + 44px);
+  margin: 16px -22px -22px;
+  padding: 16px 22px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(8, 8, 10, 0.82);
+  backdrop-filter: var(--glass-blur);
+}
+
+#cartView .order-bar > strong {
+  font-size: 1.46rem;
+}
+
+#cartView .order-actions button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 14px;
+  color: #070707;
+  background: linear-gradient(180deg, #ffc85c, #f3a616);
+  box-shadow: 0 10px 26px rgba(246, 167, 0, 0.2);
+}
+
+#cartView .order-actions button:disabled {
+  color: #6e6e75;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+}
+
+#cartView .order-bar p {
+  color: #b9b9c0;
+  font-size: 0.72rem;
+}
+
+.product-modal,
+.news-modal {
+  transition: opacity 360ms var(--liquid-ease);
+}
+
+.product-modal::backdrop,
+.news-modal::backdrop {
+  background: rgba(0, 0, 0, 0.54);
+  backdrop-filter: blur(18px) saturate(0.92);
+}
+
+.modal-frame {
+  border-color: var(--glass-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.078), rgba(255, 255, 255, 0.026)),
+    rgba(10, 10, 13, 0.86);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+}
+
+.detail-bottle {
+  border: 1px solid var(--glass-line);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.11), transparent 45%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(18px);
+}
+
+.nutrition-block {
+  min-height: 420px;
+}
+
+.nutrition-block img,
+#detailMediaImage[src*="tone-weight-loss-pre-workout-panel-tonerl-crop"] {
+  display: block;
+  min-height: min(460px, 62vh);
+}
+
+.icon-close {
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+}
+
+@media (max-width: 980px) {
+  .portal::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 47;
+    background: rgba(0, 0, 0, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 360ms var(--liquid-ease);
+  }
+
+  body.nav-open .portal::after {
+    opacity: 1;
+  }
+
+  .topbar {
+    background: rgba(5, 5, 7, 0.72);
+  }
+
+  .top-nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: start;
+    justify-content: stretch;
+    justify-items: stretch;
+    gap: 4px;
+    left: 10px;
+    top: calc(var(--header) + 10px);
+    z-index: 60;
+    width: min(238px, calc(100vw - 20px));
+    padding: 8px;
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+      rgba(13, 13, 16, 0.74);
+    backdrop-filter: var(--glass-blur);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.44), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px) scale(0.97);
+    transform-origin: 24px top;
+    visibility: hidden;
+    transition:
+      opacity 300ms var(--liquid-ease),
+      transform 360ms var(--liquid-ease),
+      visibility 300ms var(--liquid-ease);
+  }
+
+  body.nav-open .top-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+  }
+
+  .nav-products {
+    display: block;
+    width: 100%;
+  }
+
+  .products-dropdown {
+    display: none !important;
+  }
+
+  .top-nav button {
+    width: 100%;
+    min-height: 48px;
+    justify-content: flex-start !important;
+    padding: 0 14px;
+    border-radius: 13px;
+    color: #f7f7f8;
+    background: transparent;
+    font-size: 0.82rem;
+    letter-spacing: 0;
+    text-align: left;
+  }
+
+  .top-nav button:hover,
+  .top-nav button.active {
+    color: #060606;
+    background: linear-gradient(180deg, #ffd06b, #f2a616);
+    box-shadow: 0 10px 24px rgba(246, 167, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+
+  .mobile-nav[aria-label] {
+    position: relative;
+    z-index: 61;
+  }
+
+  .sku-card {
+    border-radius: 14px;
+  }
+
+  .product-modal,
+  .news-modal {
+    inset: auto 0 0 0;
+    max-height: 94dvh;
+  }
+
+  .product-modal[open] .modal-frame,
+  .news-modal[open] .modal-frame {
+    animation: liquidSheetIn 460ms var(--liquid-ease);
+  }
+
+  .modal-frame {
+    border-radius: 24px 24px 0 0;
+    max-height: 94dvh;
+  }
+
+  .product-detail {
+    gap: 12px;
+    padding: 8px 12px 20px;
+  }
+
+  .detail-bottle {
+    height: 150px;
+    min-height: 150px;
+    border-radius: 18px;
+  }
+
+  .detail-copy {
+    border-radius: 18px;
+  }
+
+  .nutrition-block {
+    min-height: 360px;
+    border-radius: 18px;
+  }
+
+  .nutrition-block img,
+  #detailMediaImage[src*="tone-weight-loss-pre-workout-panel-tonerl-crop"] {
+    min-height: 318px;
+    max-height: 56dvh;
+  }
+
+  .detail-gallery button {
+    border-radius: 16px;
+  }
+
+  #cartView.view {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: min(92dvh, 840px);
+    padding: 18px 14px 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 24px 24px 0 0;
+    transform: translateY(24px) scale(0.99);
+  }
+
+  body.cart-open #cartView.view {
+    transform: translateY(0) scale(1);
+  }
+
+  #cartView .cart-head {
+    top: -18px;
+    margin: -18px -14px 14px;
+    padding: 16px 14px 12px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  #cartView .cart-layout {
+    gap: 14px;
+  }
+
+  #cartView .cart-line {
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    border-radius: 18px;
+  }
+
+  #cartView .cart-line img {
+    width: 58px;
+    height: 66px;
+  }
+
+  #cartView .qty-control {
+    grid-template-columns: 38px 58px 38px;
+    width: 134px;
+    height: 40px;
+  }
+
+  #cartView .store-card {
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  #cartView .order-bar {
+    bottom: 0;
+    width: calc(100% + 28px);
+    margin: 14px -14px 0;
+    padding: 14px 14px calc(16px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 560px) {
+  .brand span {
+    font-size: 0.78rem;
+  }
+
+  .brand strong {
+    font-size: 0.5rem;
+  }
+
+  .top-nav {
+    width: min(232px, calc(100vw - 20px));
+  }
+
+  .top-nav button {
+    min-height: 46px;
+  }
+
+  .detail-bottle {
+    height: 132px;
+    min-height: 132px;
+  }
+
+  .nutrition-block {
+    min-height: 338px;
+  }
+
+  .nutrition-block img,
+  #detailMediaImage[src*="tone-weight-loss-pre-workout-panel-tonerl-crop"] {
+    min-height: 292px;
+  }
+
+  #cartView .cart-line {
+    grid-template-columns: 54px minmax(0, 1fr);
+  }
+
+  #cartView .cart-line > strong {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  #cartView .cart-line img {
+    width: 54px;
+    height: 62px;
+  }
+
+  #cartView .qty-control {
+    width: min(100%, 150px);
+  }
+}
+
+@keyframes liquidSheetIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.985);
+  }
+}
