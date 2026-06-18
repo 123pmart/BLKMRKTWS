@@ -1,0 +1,1335 @@
+{
+  "brand": "BLACKMARKET",
+  "subtitle": "Wholesale Product Portal",
+  "categories": [
+    {
+      "name": "Thermogenic Products",
+      "slug": "thermogenic",
+      "short": "Thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "strap": "Fat-burner and metabolic support"
+    },
+    {
+      "name": "Strength Products",
+      "slug": "strength",
+      "short": "Strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "strap": "Strength, testosterone, and raw essentials"
+    },
+    {
+      "name": "High Stimulant & Focus Products",
+      "slug": "focus",
+      "short": "High Stim & Focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "strap": "High stimulant, nootropic, and focus formulas"
+    },
+    {
+      "name": "Pump Products",
+      "slug": "pump",
+      "short": "Pump",
+      "accent": "#ff7a1a",
+      "secondary": "#00b7f0",
+      "strap": "Stim-free pump, hydration, and vascularity"
+    }
+  ],
+  "products": [
+    {
+      "id": "cuts-thermogenic-pre-workout",
+      "title": "CUTS Thermogenic Pre-workout",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: CUTS is our #1 selling pre-workout for over a decade. Burn fat with our premium, effective, and powerful thermogenic formula. Define your body with consistent energy, performance, and sharp focus.",
+      "featured": false,
+      "bottle": "/assets/products/cuts-thermogenic-pre-workout-bottle.png",
+      "panel": "/assets/site-images/cuts-thermogenic-pre-workout-panel-cuts-fruitpunch-supfact.jpg",
+      "variants": [
+        {
+          "id": "cuts-thermogenic-pre-workout-blue-razz-56232",
+          "item": "56232",
+          "upc": "858113007023",
+          "flavor": "Blue Razz",
+          "description": "CUTS Thermogenic Pre-workout Blue Razz 30 serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-blue-razz-56232-cuts-bluerazz-final-camera-ddb3e140-e6d5-45db-98d8-61c29c96d049.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-fruit-punch-56234",
+          "item": "56234",
+          "upc": "858113007016",
+          "flavor": "Fruit Punch",
+          "description": "CUTS Thermogenic Pre-workout Fruit Punch 30 serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-fruit-punch-56234-cuts-fruitpunch-final-35830f14-197b-424a-bf77-e5ccb06409ec.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-peach-ring-56260",
+          "item": "56260",
+          "upc": "810055900671",
+          "flavor": "Peach Ring",
+          "description": "CUTS Thermogenic Pre-workout Peach Ring 30 serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-peach-ring-56260-cuts-peach-final-0c11449c-2079-4002-9349-57b78e19ea46.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-sour-gummy-56237",
+          "item": "56237",
+          "upc": "858113007313",
+          "flavor": "Sour Gummy",
+          "description": "CUTS Thermogenic Pre-workout Sour Gummy 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-sour-gummy-56237-cuts-sourgum-final-4d49f525-59ae-4e13-a9af-f9efec6b5a9a.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-watermelon-56233",
+          "item": "56233",
+          "upc": "858113007009",
+          "flavor": "Watermelon",
+          "description": "CUTS Thermogenic Pre-workout Watermelon 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-watermelon-56233-cuts-watermel-final-1840ea7a-1623-4589-b35d-c037392ed0b3.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-strawberry-lemonade-56235",
+          "item": "56235",
+          "upc": "810055900619",
+          "flavor": "Strawberry Lemonade",
+          "description": "CUTS Thermogenic Pre-workout Strawberry Lemonade 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-strawberry-lemonade-56235-cuts-strawlem-final-2380b303-8396-4679-9b7c-8c0b99afce16.png",
+          "available": true
+        },
+        {
+          "id": "cuts-thermogenic-pre-workout-blue-slushy-bomb-56323",
+          "item": "56323",
+          "upc": "810055901531",
+          "flavor": "Blue Slushy Bomb",
+          "description": "CUTS Thermogenic Pre-workout LE Blue Slushy Bomb 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-blue-slushy-bomb-56323-cuts-blue-slush-front.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Fruit Punch",
+        "Watermelon",
+        "Blue Razz",
+        "Sour Gummy",
+        "Strawberry Lemonade",
+        "Peach Rings"
+      ],
+      "handle": "cuts-thermogenic-pre-workout",
+      "siteImages": [
+        "/assets/site-images/cuts-thermogenic-pre-workout-1-cuts-fruitpunch-final-35830f14-197b-424a-bf77-e5ccb06409ec.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-2-cuts-watermel-final-1840ea7a-1623-4589-b35d-c037392ed0b3.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-3-cuts-bluerazz-final-camera-ddb3e140-e6d5-45db-98d8-61c29c96d049.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-4-cuts-sourgum-final-4d49f525-59ae-4e13-a9af-f9efec6b5a9a.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-5-cuts-strawlem-final-2380b303-8396-4679-9b7c-8c0b99afce16.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-6-cuts-peach-final-0c11449c-2079-4002-9349-57b78e19ea46.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-7-cuts-side-2.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-8-cuts-side-1.png",
+        "/assets/site-images/cuts-thermogenic-pre-workout-9-cuts-fruitpunch-supfact.jpg",
+        "/assets/site-images/cuts-thermogenic-pre-workout-10-cuts-fruitpunch-bullet-points.jpg",
+        "/assets/site-images/cuts-thermogenic-pre-workout-11-cuts-peach-product.jpg"
+      ]
+    },
+    {
+      "id": "cuts-natural-thermogenic-pre-workout",
+      "title": "CUTS Natural Thermogenic Pre-workout",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "NEW: CUTS NATURAL . PURPOSE: Our #1 selling CUTS thermogenic formula, with natural flavors, colors, and sweeteners for those who read labels as closely as they track results.",
+      "featured": true,
+      "bottle": "/assets/products/cuts-natural-thermogenic-pre-workout-bottle.png",
+      "panel": "/assets/site-images/cuts-natural-thermogenic-pre-workout-panel-cutsnat-supfacts.jpg",
+      "variants": [
+        {
+          "id": "cuts-natural-thermogenic-pre-workout-sour-gummy-56325",
+          "item": "56325",
+          "upc": "810055901548",
+          "flavor": "Sour Gummy",
+          "description": "CUTS Natural Thermogenic Pre-Workout Sour Gummy 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-natural-thermogenic-pre-workout-cuts-natural-thermogenic-pre-workout-sour-gummy-56325-cuts-natural-sourgum.png",
+          "available": true
+        },
+        {
+          "id": "cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326",
+          "item": "56326",
+          "upc": "810055901555",
+          "flavor": "Strawberry Lemonade",
+          "description": "CUTS Natural Thermogenic Pre-Workout Strawberry Lemonade 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-natural-thermogenic-pre-workout-cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326-cuts-natural-strawlem-b395b73b-c5a1-463d-bea4-33741aca1ebe.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "SOUR GUMMY",
+        "STRAWBERRY LEMONADE"
+      ],
+      "handle": "cuts-natural",
+      "siteImages": [
+        "/assets/site-images/cuts-natural-thermogenic-pre-workout-1-cuts-natural-sourgum.png",
+        "/assets/site-images/cuts-natural-thermogenic-pre-workout-2-cuts-natural-strawlem-b395b73b-c5a1-463d-bea4-33741aca1ebe.png",
+        "/assets/site-images/cuts-natural-thermogenic-pre-workout-3-cuts-natural-side-2.png",
+        "/assets/site-images/cuts-natural-thermogenic-pre-workout-4-cuts-natural-side-1.png",
+        "/assets/site-images/cuts-natural-thermogenic-pre-workout-5-cutsnat-supfacts.jpg"
+      ]
+    },
+    {
+      "id": "cuts-diamond-ultra-thermogenic",
+      "title": "CUTS Diamond Ultra Thermogenic",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: CUTS DIAMOND is our strongest thermogenic pre-workout. Support your body’s natural metabolism while experiencing powerful pumps, energy, performance, and focus.",
+      "featured": false,
+      "bottle": "/assets/products/cuts-diamond-ultra-thermogenic-bottle.png",
+      "panel": "/assets/site-images/cuts-diamond-ultra-thermogenic-panel-cutsdiamond-watmelon-supfact.png",
+      "variants": [
+        {
+          "id": "cuts-diamond-ultra-thermogenic-fruit-punch-56292",
+          "item": "56292",
+          "upc": "850018672399",
+          "flavor": "Fruit Punch",
+          "description": "CUTS Diamond Ultra Thermogenic Pre-workout Fruit Punch 25 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-fruit-punch-56292-diamond-fruitpunch-final.png",
+          "available": true
+        },
+        {
+          "id": "cuts-diamond-ultra-thermogenic-blue-razz-56293",
+          "item": "56293",
+          "upc": "850018672986",
+          "flavor": "Blue Razz",
+          "description": "CUTS Diamond Ultra Thermogenic Pre-workout Blue Razz 25 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-blue-razz-56293-diamond-bluerazz-final-c2a68878-f709-4a98-af4d-623ceaadd04d.png",
+          "available": true
+        },
+        {
+          "id": "cuts-diamond-ultra-thermogenic-watermelon-56294",
+          "item": "56294",
+          "upc": "850018672993",
+          "flavor": "Watermelon",
+          "description": "CUTS Diamond Ultra Thermogenic Pre-workout Watermelon 25 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-watermelon-56294-diamond-watermelon-final.png",
+          "available": true
+        },
+        {
+          "id": "cuts-diamond-ultra-thermogenic-grape-limeade-56316",
+          "item": "56316",
+          "upc": "810055901463",
+          "flavor": "Grape Limeade",
+          "description": "CUTS Diamond Ultra Thermogenic Pre-workout LE Grape Limeade 25 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-grape-limeade-56316-diamondglrfront-1bca6efa-95b7-43b7-b4f5-0abf7487c56b.png",
+          "available": true,
+          "panel": "/assets/site-images/cuts-diamond-ultra-thermogenic-grape-limeade-panel-suppfacts.jpg"
+        }
+      ],
+      "siteVariants": [
+        "Fruit Punch",
+        "Watermelon",
+        "Blue Razz",
+        "Grape Limeade"
+      ],
+      "handle": "cuts-diamond-thermogenic-pre-workout",
+      "siteImages": [
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-1-diamond-fruitpunch-final.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-2-diamond-watermelon-final.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-3-diamond-bluerazz-final-c2a68878-f709-4a98-af4d-623ceaadd04d.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-4-diamond-side1final.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-5-diamond-side2final.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-6-cutsdiamond-watmelon-supfact.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-7-diamondglrfront-1bca6efa-95b7-43b7-b4f5-0abf7487c56b.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-8-diamondglrfront.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-9-diamondglrside1.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-10-diamondglrside2.png",
+        "/assets/site-images/cuts-diamond-ultra-thermogenic-11-suppfacts.jpg"
+      ]
+    },
+    {
+      "id": "cuts-pump-thermogenic-liquid-glycerol",
+      "title": "CUTS PUMP Thermogenic Liquid Glycerol",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: CUTS PUMP is a powerful, caffeine-free, liquid glycerol shot with added L-carnitine. It helps boost metabolism, enhance endurance, and maximize muscle hydration and volume.",
+      "featured": false,
+      "bottle": "/assets/products/cuts-pump-thermogenic-liquid-glycerol-bottle.png",
+      "panel": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-panel-cutsliquid-sourgum-ingred.png",
+      "variants": [
+        {
+          "id": "cuts-pump-thermogenic-liquid-glycerol-sour-gummy-56310",
+          "item": "56310",
+          "upc": "810055901401",
+          "flavor": "Sour Gummy",
+          "description": "CUTS PUMP - Thermogenic Liquid Glycerol Sour Gummy 30/60 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-sour-gummy-56310-cutsliquidsourgum-front-ea2df2c3-4a26-4ca6-9ad7-a7ec800175db.png",
+          "available": true
+        },
+        {
+          "id": "cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311",
+          "item": "56311",
+          "upc": "810055901418",
+          "flavor": "Strawberry Lemonade",
+          "description": "CUTS PUMP - Thermogenic Liquid Glycerol Strawberry Lemonade 30/60 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311-cutsliquidstrawlem-front.png",
+          "available": true
+        },
+        {
+          "id": "cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324",
+          "item": "56324",
+          "upc": "810055901562",
+          "flavor": "Bubble Gum Chew",
+          "description": "CUTS PUMP - Thermogenic Liquid Glycerol LE Bubble Gum Chew 30/60 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324-gum-cuts-pump-1-f7ed92d0-157d-494b-a1f4-c5ee61cfcc26.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Sour Gummy",
+        "Strawberry Lemonade",
+        "Bubble Gum Chew"
+      ],
+      "handle": "cuts-pump-thermogenic-glycerol",
+      "siteImages": [
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-1-cutsliquidstrawlem-front.png",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-2-cutsliquidsourgum-front-ea2df2c3-4a26-4ca6-9ad7-a7ec800175db.png",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-3-cutsliquidsourgum-side1.png",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-4-cutsliquidsourgum-side2.png",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-5-cutsliquid-sourgum-ingred.png",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-6-pouring-shot.jpg",
+        "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-7-gum-cuts-pump-1-f7ed92d0-157d-494b-a1f4-c5ee61cfcc26.png"
+      ]
+    },
+    {
+      "id": "cuts-pills-thermogenic-capsules",
+      "title": "CUTS PILLS Thermogenic Capsules",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: CUTS PILLS deliver intense thermogenic support in a fast, convenient capsule. Designed to boost metabolism, energy, and focus, this formula hits hard and fast.",
+      "featured": false,
+      "bottle": "/assets/products/cuts-pills-thermogenic-capsules-bottle.png",
+      "panel": "/assets/products/cuts-pills-thermogenic-capsules-panel.png",
+      "variants": [
+        {
+          "id": "cuts-pills-thermogenic-capsules-capsules-56314",
+          "item": "56314",
+          "upc": "810055901449",
+          "flavor": "Capsules",
+          "description": "CUTS PILLS Thermogenic Capusles 30 Serv",
+          "wholesale": "$21.00",
+          "wholesaleValue": 21,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/cuts-pills-thermogenic-capsules-cuts-pills-thermogenic-capsules-capsules-56314-cuts-pills-front-1cb8ad70-9bf6-423c-b2aa-40c987b21b82.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Default Title"
+      ],
+      "handle": "cuts-thermogenic-pills",
+      "siteImages": [
+        "/assets/site-images/cuts-pills-thermogenic-capsules-1-cuts-pills-front-1cb8ad70-9bf6-423c-b2aa-40c987b21b82.png",
+        "/assets/site-images/cuts-pills-thermogenic-capsules-2-cuts-pills-side-3e6a82cd-b8ca-472c-91b9-29e3fb9b88ff.png",
+        "/assets/site-images/cuts-pills-thermogenic-capsules-3-cuts-pills-back-8997930d-79b9-4fc6-a88d-ffb8b9f58021.png",
+        "/assets/site-images/cuts-pills-thermogenic-capsules-4-cutspills-ing.jpg"
+      ]
+    },
+    {
+      "id": "cuts-heat-stim-free-thermogenic",
+      "title": "CUTS HEAT Stim-Free Thermogenic",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: CUTS HEAT is a stim-free thermogenic built to support your body’s natural metabolism without caffeine. Designed for higher metabolic drive, sustained thermogenic heat, and focused performance.",
+      "featured": false,
+      "bottle": "/assets/products/cuts-heat-stim-free-thermogenic-bottle.png",
+      "panel": "/assets/site-images/cuts-heat-stim-free-thermogenic-panel-cuts-heat-wm-supfact.jpg",
+      "variants": [
+        {
+          "id": "cuts-heat-stim-free-thermogenic-watermelon-56320",
+          "item": "56320",
+          "upc": "810055901517",
+          "flavor": "Watermelon",
+          "description": "CUTS Heat Stimulant Free Thermogenic Watermelon 30 Serv",
+          "wholesale": "$25.00",
+          "wholesaleValue": 25,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-watermelon-56320-cuts-heat-wm-front.png",
+          "available": true
+        },
+        {
+          "id": "cuts-heat-stim-free-thermogenic-blue-razz-56321",
+          "item": "56321",
+          "upc": "810055901524",
+          "flavor": "Blue Razz",
+          "description": "CUTS Heat Stimulant Free Thermogenic Blue Razz 30 Serv",
+          "wholesale": "$25.00",
+          "wholesaleValue": 25,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-blue-razz-56321-cuts-heatblue-razz-front.png",
+          "available": true
+        },
+        {
+          "id": "cuts-heat-stim-free-thermogenic-fruit-punch-56322",
+          "item": "56322",
+          "upc": "810055901500",
+          "flavor": "Fruit Punch",
+          "description": "CUTS Heat Stimulant Free Thermogenic Fruit Punch 30 Serv",
+          "wholesale": "$25.00",
+          "wholesaleValue": 25,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-fruit-punch-56322-cuts-heat-fp-front.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Fruit Punch",
+        "Watermelon",
+        "Blue Razz"
+      ],
+      "handle": "cuts-heat-stim-free-thermogenic",
+      "siteImages": [
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-1-cuts-heat-fp-front.png",
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-2-cuts-heat-wm-front.png",
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-3-cuts-heatblue-razz-front.png",
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-4-cuts-heat-wm-side1.png",
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-5-cuts-heat-wm-side2.png",
+        "/assets/site-images/cuts-heat-stim-free-thermogenic-6-cuts-heat-wm-supfact.jpg"
+      ]
+    },
+    {
+      "id": "scorch-ultra-thermogenic",
+      "title": "SCORCH Ultra Thermogenic",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "Introducing SCORCH - an explosive collaboration between BLACKMARKET & Anabolic Warfare.. Scorch is the pinnacle of ultra-thermogenic pre-workouts.",
+      "featured": false,
+      "bottle": "/assets/products/scorch-ultra-thermogenic-bottle.png",
+      "panel": "/assets/site-images/scorch-ultra-thermogenic-panel-scorch-killshot-ingrd.png",
+      "variants": [
+        {
+          "id": "scorch-ultra-thermogenic-hawaiian-kill-shot-56312",
+          "item": "56312",
+          "upc": "810055901432",
+          "flavor": "Hawaiian Kill Shot",
+          "description": "SCORCH Ultra Theromogenic Pre-workout Hawaiian Kill Shot 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/scorch-ultra-thermogenic-scorch-ultra-thermogenic-hawaiian-kill-shot-56312-scorch-killshot-front.png",
+          "available": true
+        },
+        {
+          "id": "scorch-ultra-thermogenic-cherry-slush-bomb-56313",
+          "item": "56313",
+          "upc": "810055901425",
+          "flavor": "Cherry Slush Bomb",
+          "description": "SCORCH Ultra Theromogenic Pre-workout Cherry Slush Bomb 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/scorch-ultra-thermogenic-scorch-ultra-thermogenic-cherry-slush-bomb-56313-scorch-cherry-sidefront.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Hawaiian Kill Shot",
+        "Cherry Slushy Bomb"
+      ],
+      "handle": "scorch-ultra-thermogenic-pre-workout",
+      "siteImages": [
+        "/assets/site-images/scorch-ultra-thermogenic-1-scorch-killshot-front.png",
+        "/assets/site-images/scorch-ultra-thermogenic-2-scorch-cherry-sidefront.png",
+        "/assets/site-images/scorch-ultra-thermogenic-3-scorch-killshot-side-1.png",
+        "/assets/site-images/scorch-ultra-thermogenic-4-scorch-killshot-side-2.png",
+        "/assets/site-images/scorch-ultra-thermogenic-5-scorch-killshot-ingrd.png",
+        "/assets/site-images/scorch-ultra-thermogenic-6-scorch-killshot-ingred.jpg"
+      ]
+    },
+    {
+      "id": "tone-weight-loss-pre-workout",
+      "title": "TONE Weight-Loss Pre-workout",
+      "category": "Thermogenic Products",
+      "categorySlug": "thermogenic",
+      "accent": "#f5a400",
+      "secondary": "#ff2a1f",
+      "description": "PURPOSE: TONE is a unique blend of effective weight-loss components, and antioxidants, with sustained energy and sharp focus. Featuring biotin to promote healthier hair, skin, and nail growth..",
+      "featured": false,
+      "bottle": "/assets/products/tone-weight-loss-pre-workout-bottle.png",
+      "panel": "/assets/site-images/tone-weight-loss-pre-workout-panel-tonerl-crop.png",
+      "variants": [
+        {
+          "id": "tone-weight-loss-pre-workout-raspberry-lemonade-52061",
+          "item": "52061",
+          "upc": "858113007108",
+          "flavor": "Raspberry Lemonade",
+          "description": "TONE Weightloss Pre-workout Raspberry Lemonade 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/tone-weight-loss-pre-workout-tone-weight-loss-pre-workout-raspberry-lemonade-52061-tonerasplemfront.png",
+          "available": true
+        },
+        {
+          "id": "tone-weight-loss-pre-workout-strawberry-kiwi-52059",
+          "item": "52059",
+          "upc": "858113007085",
+          "flavor": "Strawberry Kiwi",
+          "description": "TONE Weightloss Pre-workout Strawberry Kiwi 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/tone-weight-loss-pre-workout-tone-weight-loss-pre-workout-strawberry-kiwi-52059-tonestrwkiwifront.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Strawberry Kiwi / 30 Servings",
+        "Orange Mango / 30 Servings",
+        "Raspberry Lemonade / 30 Servings"
+      ],
+      "handle": "tone-weight-loss-pre-workout",
+      "siteImages": [
+        "/assets/site-images/tone-weight-loss-pre-workout-1-tonestrwkiwifront.png",
+        "/assets/site-images/tone-weight-loss-pre-workout-2-toneorangefront.png",
+        "/assets/site-images/tone-weight-loss-pre-workout-3-tonerasplemfront.png",
+        "/assets/site-images/tone-weight-loss-pre-workout-4-tonerl.png"
+      ]
+    },
+    {
+      "id": "bulk-testosterone-pre-workout",
+      "title": "BULK Testosterone Pre-workout",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "PURPOSE: BULK is one of our most dependable and time-tested pre-workouts, with everything you need for immense power output, strength, and natural testosterone support.",
+      "featured": false,
+      "bottle": "/assets/products/bulk-testosterone-pre-workout-bottle.png",
+      "panel": "/assets/site-images/bulk-testosterone-pre-workout-panel-bulk-side-2.png",
+      "variants": [
+        {
+          "id": "bulk-testosterone-pre-workout-fruit-punch-51114",
+          "item": "51114",
+          "upc": "858113007054",
+          "flavor": "Fruit Punch",
+          "description": "BULK Testosterone Pre-workout Fruit Punch 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-fruit-punch-51114-bulk-fruitpunch-final-fb798d5e-d4f4-4f03-89d1-34d1db71bfb5.png",
+          "available": true
+        },
+        {
+          "id": "bulk-testosterone-pre-workout-watermelon-51115",
+          "item": "51115",
+          "upc": "858113007047",
+          "flavor": "Watermelon",
+          "description": "BULK Testosterone Pre-workout Watermelon 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-watermelon-51115-bulk-watermel-final-f75c5b23-17a9-4b10-94f8-4d1e64318140.png",
+          "available": true
+        },
+        {
+          "id": "bulk-testosterone-pre-workout-blue-razz-51116",
+          "item": "51116",
+          "upc": "858113007061",
+          "flavor": "Blue Razz",
+          "description": "BULK Testosterone Pre-workout Blue Razz 30 Serv",
+          "wholesale": "$24.00",
+          "wholesaleValue": 24,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-blue-razz-51116-bulk-bluerazz-final-1e2f65f5-2b46-4f3a-b759-253953df1127.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Fruit Punch",
+        "Blue Razz",
+        "Watermelon"
+      ],
+      "handle": "bulk-strength-pre-workout",
+      "siteImages": [
+        "/assets/site-images/bulk-testosterone-pre-workout-1-bulk-fruitpunch-final-fb798d5e-d4f4-4f03-89d1-34d1db71bfb5.png",
+        "/assets/site-images/bulk-testosterone-pre-workout-2-bulk-bluerazz-final-1e2f65f5-2b46-4f3a-b759-253953df1127.png",
+        "/assets/site-images/bulk-testosterone-pre-workout-3-bulk-watermel-final-f75c5b23-17a9-4b10-94f8-4d1e64318140.png",
+        "/assets/site-images/bulk-testosterone-pre-workout-4-bulk-side-2.png",
+        "/assets/site-images/bulk-testosterone-pre-workout-5-bulkoging.png"
+      ]
+    },
+    {
+      "id": "bulk-apex-strength-pre-workout",
+      "title": "BULK APEX Strength Pre-workout",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "PURPOSE: BULK APEX is our most powerful strength-based pre-workout. Engineered to maximize ATP production, force output, neuromuscular drive, and muscle preservation.",
+      "featured": false,
+      "bottle": "/assets/products/bulk-apex-strength-pre-workout-bottle.png",
+      "panel": "/assets/site-images/bulk-apex-strength-pre-workout-panel-bulkapex-sup-facts.png",
+      "variants": [
+        {
+          "id": "bulk-apex-strength-pre-workout-sour-gummy-56317",
+          "item": "56317",
+          "upc": "810055901470",
+          "flavor": "Sour Gummy",
+          "description": "BULK Apex Strength Pre-Workout Sour gummy 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-sour-gummy-56317-bulkapex-frontsour-d002e3c5-66aa-4a5b-b9c5-5f0961927c48.png",
+          "available": true
+        },
+        {
+          "id": "bulk-apex-strength-pre-workout-strawberry-lemonade-56318",
+          "item": "56318",
+          "upc": "810055901487",
+          "flavor": "Strawberry Lemonade",
+          "description": "BULK Apex Strength Pre-Workout Strawberry Lemonade 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-strawberry-lemonade-56318-bulkapex-frontstrawlem-fa6445a5-640f-43c3-b854-6f45a9df9c49.png",
+          "available": true
+        },
+        {
+          "id": "bulk-apex-strength-pre-workout-grape-limeade-56319",
+          "item": "56319",
+          "upc": "810055901494",
+          "flavor": "Grape Limeade",
+          "description": "BULK Apex Strength Pre-Workout Grape Limeade 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-grape-limeade-56319-bulkapex-frontgrape-b3e946fb-a12d-441f-9703-e655fdef66b7.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Grape Limeade",
+        "Strawberry Lemonade",
+        "Sour Gummy"
+      ],
+      "handle": "bulk-apex-strength-pre-workout",
+      "siteImages": [
+        "/assets/site-images/bulk-apex-strength-pre-workout-1-bulkapex-frontstrawlem-fa6445a5-640f-43c3-b854-6f45a9df9c49.png",
+        "/assets/site-images/bulk-apex-strength-pre-workout-2-bulkapex-side1sour.png",
+        "/assets/site-images/bulk-apex-strength-pre-workout-3-bulkapex-sup-facts.png",
+        "/assets/site-images/bulk-apex-strength-pre-workout-4-bulkapex-side2.png",
+        "/assets/site-images/bulk-apex-strength-pre-workout-5-bulk-apex-sup-facts.jpg",
+        "/assets/site-images/bulk-apex-strength-pre-workout-6-bulkapex-frontsour-d002e3c5-66aa-4a5b-b9c5-5f0961927c48.png",
+        "/assets/site-images/bulk-apex-strength-pre-workout-7-bulkapex-frontgrape-b3e946fb-a12d-441f-9703-e655fdef66b7.png"
+      ]
+    },
+    {
+      "id": "bulk-pills-testosterone-capsules",
+      "title": "BULK PILLS Testosterone Capsules",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "PURPOSE: BULK PILLS are your results-driven strength and testosterone support solution. With this research-backed formula, lift heavier, recover faster, and feel more powerful.",
+      "featured": false,
+      "bottle": "/assets/products/bulk-pills-testosterone-capsules-bottle.png",
+      "panel": "/assets/products/bulk-pills-testosterone-capsules-panel.png",
+      "variants": [
+        {
+          "id": "bulk-pills-testosterone-capsules-capsules-56315",
+          "item": "56315",
+          "upc": "810055901456",
+          "flavor": "Capsules",
+          "description": "BULK PILLS Testosterone Capsules 30 Serv",
+          "wholesale": "$23.00",
+          "wholesaleValue": 23,
+          "map": "$69.99",
+          "mapValue": 69.99,
+          "bottle": "/assets/site-images/bulk-pills-testosterone-capsules-bulk-pills-testosterone-capsules-capsules-56315-bulk-pills-front-60d22c81-4aff-4b29-96eb-fe4ed60ce37d.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Default Title"
+      ],
+      "handle": "bulk-testosterone-pills",
+      "siteImages": [
+        "/assets/site-images/bulk-pills-testosterone-capsules-1-bulk-pills-front-60d22c81-4aff-4b29-96eb-fe4ed60ce37d.png",
+        "/assets/site-images/bulk-pills-testosterone-capsules-2-bulk-pills-side-33bd9057-e443-4577-87ba-b6e4d08f4c0d.png",
+        "/assets/site-images/bulk-pills-testosterone-capsules-3-bulk-pills-back-213580e0-a654-428f-a1e1-47bab78cddc4.png",
+        "/assets/site-images/bulk-pills-testosterone-capsules-4-bulkpills-ing.jpg"
+      ]
+    },
+    {
+      "id": "beta-alanine-raw",
+      "title": "Beta-Alanine RAW",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "Beta-Alanine is one of the most recognized supplements on the market today. Studies have shown that this popular amino acid can help to increase endurance while reducing muscle fatigue.",
+      "featured": false,
+      "bottle": "/assets/products/beta-alanine-raw-bottle.png",
+      "panel": "/assets/site-images/beta-alanine-raw-panel-beta-ingred.png",
+      "variants": [
+        {
+          "id": "beta-alanine-raw-unflavored-53002",
+          "item": "53002",
+          "upc": "858113007191",
+          "flavor": "Unflavored",
+          "description": "Beta Alanine Raw 60 Serv",
+          "wholesale": "$12.50",
+          "wholesaleValue": 12.5,
+          "map": "$24.99",
+          "mapValue": 24.99,
+          "bottle": "/assets/site-images/beta-alanine-raw-beta-alanine-raw-unflavored-53002-beta-front.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "RAW Beta-Alanine"
+      ],
+      "handle": "beta-alanine",
+      "siteImages": [
+        "/assets/site-images/beta-alanine-raw-1-beta-front.png",
+        "/assets/site-images/beta-alanine-raw-2-beta-side-1.png",
+        "/assets/site-images/beta-alanine-raw-3-beta-side-2.png",
+        "/assets/site-images/beta-alanine-raw-4-beta-ingred.png"
+      ]
+    },
+    {
+      "id": "creatine-monohydrate-raw",
+      "title": "Creatine Monohydrate RAW",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "Creatine Monohydrate is the most studied supplement in the fitness industry, and the results are always the same. IT WORKS! Creatine has been proven to increase muscle size, strength, and definition.",
+      "featured": false,
+      "bottle": "/assets/products/creatine-monohydrate-raw-bottle.png",
+      "panel": "/assets/site-images/creatine-monohydrate-raw-panel-creatine-ingred-aae1b4f5-c2bc-4635-9eba-1e1f66ef4734.png",
+      "variants": [
+        {
+          "id": "creatine-monohydrate-raw-unflavored-53003",
+          "item": "53003",
+          "upc": "858113007207",
+          "flavor": "Unflavored",
+          "description": "Creatine Raw 60 Serv",
+          "wholesale": "$16.00",
+          "wholesaleValue": 16,
+          "map": "$34.99",
+          "mapValue": 34.99,
+          "bottle": "/assets/site-images/creatine-monohydrate-raw-creatine-monohydrate-raw-unflavored-53003-creatine-front-377a03ff-f450-49f0-bacc-51618c087085.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Default Title"
+      ],
+      "handle": "creatine",
+      "siteImages": [
+        "/assets/site-images/creatine-monohydrate-raw-1-creatine-front-377a03ff-f450-49f0-bacc-51618c087085.png",
+        "/assets/site-images/creatine-monohydrate-raw-2-creatine-side-1.png",
+        "/assets/site-images/creatine-monohydrate-raw-3-creatine-side-2-93b59a50-3d53-45ca-8162-38803f1dbfc2.png",
+        "/assets/site-images/creatine-monohydrate-raw-4-creatine-ingred-aae1b4f5-c2bc-4635-9eba-1e1f66ef4734.png"
+      ]
+    },
+    {
+      "id": "nootropic-high-focus-pre-workout",
+      "title": "NOOTROPIC High Focus Pre-workout",
+      "category": "High Stimulant & Focus Products",
+      "categorySlug": "focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "description": "PURPOSE: ELEVATE YOUR MIND. One of our best products designed strictly with focus and cognitive function in mind!",
+      "featured": false,
+      "bottle": "/assets/products/nootropic-high-focus-pre-workout-bottle.png",
+      "panel": "/assets/site-images/nootropic-high-focus-pre-workout-panel-nootr-final-side2.png",
+      "variants": [
+        {
+          "id": "nootropic-high-focus-pre-workout-candy-dust-56055",
+          "item": "56055",
+          "upc": "858113007504",
+          "flavor": "Candy Dust",
+          "description": "Adrenolyn Nootropic High Focus Pre-workout Candy Dust 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-candy-dust-56055-nootrop-candydust-final.png",
+          "available": true
+        },
+        {
+          "id": "nootropic-high-focus-pre-workout-peach-ring-56262",
+          "item": "56262",
+          "upc": "810055900664",
+          "flavor": "Peach Ring",
+          "description": "Adrenolyn Nootropic High Focus Pre-workout Peach Ring 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-peach-ring-56262-nootrop-peach-final.png",
+          "available": true
+        },
+        {
+          "id": "nootropic-high-focus-pre-workout-strawberry-lemonade-56070",
+          "item": "56070",
+          "upc": "858113007788",
+          "flavor": "Strawberry Lemonade",
+          "description": "Adrenolyn Nootropic High Focus Pre-workout Strawberry Lemonade 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-strawberry-lemonade-56070-nootrop-strawlem-final.png",
+          "available": true
+        },
+        {
+          "id": "nootropic-high-focus-pre-workout-candy-road-56303",
+          "item": "56303",
+          "upc": "810055901326",
+          "flavor": "Candy Road",
+          "description": "Adrenolyn Nootropic High Focus Pre-workout LE Candy Road 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-candy-road-56303-candyroad-bottle-1-221b08b6-8e8e-421b-8d22-eed64109fc77.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Candy Dust",
+        "Strawberry Lemonade",
+        "Peach Rings",
+        "CANDY ROAD (Limited Edtion)"
+      ],
+      "handle": "nootropic-high-focus-pre-workout",
+      "siteImages": [
+        "/assets/site-images/nootropic-high-focus-pre-workout-1-nootrop-strawlem-final.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-2-nootrop-candydust-final.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-3-nootrop-peach-final.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-4-nootr-final-side1.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-5-candyroad-bottle-1-221b08b6-8e8e-421b-8d22-eed64109fc77.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-6-nootr-final-side2.png",
+        "/assets/site-images/nootropic-high-focus-pre-workout-7-nootr-straw-lem.png"
+      ]
+    },
+    {
+      "id": "underground-high-stimulant",
+      "title": "UNDERGROUND High Stimulant",
+      "category": "High Stimulant & Focus Products",
+      "categorySlug": "focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "description": "PURPOSE: Not cocky, but calculated. Push your body to the edge and further, with more than 6 high-energy stimulants, designed to help you take matters into your own hands.",
+      "featured": false,
+      "bottle": "/assets/products/underground-high-stimulant-bottle.png",
+      "panel": "/assets/site-images/underground-high-stimulant-panel-under-final-side2.png",
+      "variants": [
+        {
+          "id": "underground-high-stimulant-strawberry-lemonade-56063",
+          "item": "56063",
+          "upc": "858113007764",
+          "flavor": "Strawberry Lemonade",
+          "description": "AdreNOlyn Underground High Stimulant Pre-workout Strawberry Lemonade 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-strawberry-lemonade-56063-under-strawlem-final.png",
+          "available": true
+        },
+        {
+          "id": "underground-high-stimulant-candy-dust-56126",
+          "item": "56126",
+          "upc": "850018672443",
+          "flavor": "Candy Dust",
+          "description": "AdreNOlyn Underground High Stimulant Pre-workout Candy Dust 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-candy-dust-56126-under-candy-final.png",
+          "available": true
+        },
+        {
+          "id": "underground-high-stimulant-peach-ring-56263",
+          "item": "56263",
+          "upc": "810055900657",
+          "flavor": "Peach Ring",
+          "description": "AdreNOlyn Underground High Stimulant Pre-workout Peach Ring 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-peach-ring-56263-under-peach-final.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Strawberry Lemonade",
+        "Candy Dust",
+        "Peach Rings"
+      ],
+      "handle": "underground-high-stimulant-pre-workout",
+      "siteImages": [
+        "/assets/site-images/underground-high-stimulant-1-under-strawlem-final.png",
+        "/assets/site-images/underground-high-stimulant-2-under-candy-final.png",
+        "/assets/site-images/underground-high-stimulant-3-under-peach-final.png",
+        "/assets/site-images/underground-high-stimulant-4-under-final-side1.png",
+        "/assets/site-images/underground-high-stimulant-5-under-final-side2.png",
+        "/assets/site-images/underground-high-stimulant-6-under-peach-sup-fact.png"
+      ]
+    },
+    {
+      "id": "defy-hyper-stimulant",
+      "title": "DEFY Hyper-Stimulant",
+      "category": "High Stimulant & Focus Products",
+      "categorySlug": "focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "description": "PURPOSE: DEFY is one of our most extensively formulated hyper-stimulant pre-workouts, delivering continuous and extreme energy from 6 different stimulants.",
+      "featured": false,
+      "bottle": "/assets/products/defy-hyper-stimulant-bottle.png",
+      "panel": "/assets/site-images/defy-hyper-stimulant-panel-defy-razzmango-supfact.png",
+      "variants": [
+        {
+          "id": "defy-hyper-stimulant-peach-rings-56277",
+          "item": "56277",
+          "upc": "810055901128",
+          "flavor": "Peach Rings",
+          "description": "DEFY Hyper Stimulant Pre-workout Peach Rings 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-peach-rings-56277-defy-peach-final.png",
+          "available": true
+        },
+        {
+          "id": "defy-hyper-stimulant-watermelon-lemonade-56278",
+          "item": "56278",
+          "upc": "810055901135",
+          "flavor": "Watermelon Lemonade",
+          "description": "DEFY Hyper Stimulant Pre-workout Watermelon Lemonade 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-watermelon-lemonade-56278-defy-waterlem-final.png",
+          "available": true
+        },
+        {
+          "id": "defy-hyper-stimulant-razz-mango-sherbert-56182",
+          "item": "56182",
+          "upc": "810055901180",
+          "flavor": "Razz Mango Sherbert",
+          "description": "DEFY Hyper Stimulant Pre-workout Razz Mango Sherbert 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-razz-mango-sherbert-56182-defy-razzmango-final.png",
+          "available": true
+        },
+        {
+          "id": "defy-hyper-stimulant-white-gummy-bear-56298",
+          "item": "56298",
+          "upc": "810055901302",
+          "flavor": "White Gummy Bear",
+          "description": "DEFY Hyper Stimulant Pre-workout LE White Gummy Bear 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-white-gummy-bear-56298-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "RAZZ MANGO SHERBET",
+        "PEACH RINGS",
+        "WATERMELON LEMONADE",
+        "Walter White Gummy Bear"
+      ],
+      "handle": "defy-hyper-stimulant-pre-workout",
+      "siteImages": [
+        "/assets/site-images/defy-hyper-stimulant-1-defy-razzmango-final.png",
+        "/assets/site-images/defy-hyper-stimulant-2-defy-peach-final.png",
+        "/assets/site-images/defy-hyper-stimulant-3-defy-waterlem-final.png",
+        "/assets/site-images/defy-hyper-stimulant-4-whitegummy-ae60b986-ce0d-4e5a-8bac-8f57c8cc9e67.png",
+        "/assets/site-images/defy-hyper-stimulant-5-defy-side-1.png",
+        "/assets/site-images/defy-hyper-stimulant-6-defy-side-2.png",
+        "/assets/site-images/defy-hyper-stimulant-7-defy-razzmango-supfact.png",
+        "/assets/site-images/defy-hyper-stimulant-8-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png"
+      ]
+    },
+    {
+      "id": "rule-hyper-focus",
+      "title": "RULE Hyper-Focus",
+      "category": "High Stimulant & Focus Products",
+      "categorySlug": "focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "description": "PURPOSE: RULE is our most concentrated hyper-focus pre-workout. Delivering premium and controlled focus from 8 different nootropic ingredients.",
+      "featured": false,
+      "bottle": "/assets/products/rule-hyper-focus-bottle.png",
+      "panel": "/assets/site-images/rule-hyper-focus-panel-rule-watlem-supfact.png",
+      "variants": [
+        {
+          "id": "rule-hyper-focus-peach-rings-56277",
+          "item": "56277",
+          "upc": "810055901210",
+          "flavor": "Peach Rings",
+          "description": "RULE Hyper Focus Pre-workout Peach Rings 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-peach-rings-56277-rule-peach-final.png",
+          "available": true
+        },
+        {
+          "id": "rule-hyper-focus-watermelon-lemonade-56278",
+          "item": "56278",
+          "upc": "810055901203",
+          "flavor": "Watermelon Lemonade",
+          "description": "RULE Hyper Focus Pre-workout Watermelon Lemonade 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-watermelon-lemonade-56278-rule-waterlem-final-508e9cf9-46d7-4c76-8428-3ce618c8e550.png",
+          "available": true
+        },
+        {
+          "id": "rule-hyper-focus-razz-mango-sherbert-56182",
+          "item": "56182",
+          "upc": "810055901197",
+          "flavor": "Razz Mango Sherbert",
+          "description": "RULE Hyper Focus Pre-workout Razz Mango Sherbert 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-razz-mango-sherbert-56182-rule-razzmango-final.png",
+          "available": true
+        },
+        {
+          "id": "rule-hyper-focus-purge-pop-56299",
+          "item": "56299",
+          "upc": "810055901319",
+          "flavor": "Purge Pop",
+          "description": "RULE Hyper Focus Pre-workout LE Purge Pop 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-purge-pop-56299-purgepop-webbottle-361bd1e4-9b53-4bde-9cd6-3c2a9924455f.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Watermelon Lemonade",
+        "Peach Rings",
+        "Razz Mango Sherbet",
+        "Purge Pop"
+      ],
+      "handle": "rule-hyper-focus-pre-workout",
+      "siteImages": [
+        "/assets/site-images/rule-hyper-focus-1-rule-waterlem-final-508e9cf9-46d7-4c76-8428-3ce618c8e550.png",
+        "/assets/site-images/rule-hyper-focus-2-rule-peach-final.png",
+        "/assets/site-images/rule-hyper-focus-3-rule-razzmango-final.png",
+        "/assets/site-images/rule-hyper-focus-4-rule-side-1.png",
+        "/assets/site-images/rule-hyper-focus-5-rule-side-2.png",
+        "/assets/site-images/rule-hyper-focus-6-rule-watlem-supfact.png",
+        "/assets/site-images/rule-hyper-focus-7-purgepop-webbottle-361bd1e4-9b53-4bde-9cd6-3c2a9924455f.png"
+      ]
+    },
+    {
+      "id": "bump-laser-focus-nootropic",
+      "title": "BUMP Laser-Focus Nootropic",
+      "category": "High Stimulant & Focus Products",
+      "categorySlug": "focus",
+      "accent": "#f72b8d",
+      "secondary": "#08bfe8",
+      "description": "PURPOSE: BUMP was made for ambitious professionals, creators, and innovators craving sharp mental clarity, smooth energy, and daily cognitive edge.",
+      "featured": false,
+      "bottle": "/assets/products/bump-laser-focus-nootropic-bottle.png",
+      "panel": "/assets/site-images/bump-laser-focus-nootropic-panel-bump-raspman-ingred.jpg",
+      "variants": [
+        {
+          "id": "bump-laser-focus-nootropic-razz-mango-sherbet-56305",
+          "item": "56305",
+          "upc": "810055901371",
+          "flavor": "Razz Mango Sherbet",
+          "description": "BUMP Laser Focus Nootropic Razz Mango Sherbet 20/40 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/bump-laser-focus-nootropic-bump-laser-focus-nootropic-razz-mango-sherbet-56305-bump-razz-mango-front-d103294b-52f5-4a19-a558-8b6c76a0a51c.png",
+          "available": true
+        },
+        {
+          "id": "bump-laser-focus-nootropic-watermelon-lemonade-56307",
+          "item": "56307",
+          "upc": "810055901395",
+          "flavor": "Watermelon Lemonade",
+          "description": "BUMP Laser Focus Nootropic Watermelon Lemonade 20/40 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/site-images/bump-laser-focus-nootropic-bump-laser-focus-nootropic-watermelon-lemonade-56307-bump-watlem-front-882840ec-1158-4481-b039-bcabee6ac2d7.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Razz Mango Sherbet",
+        "Watermelon Lemonade"
+      ],
+      "handle": "bump-laser-focus-nootropic",
+      "siteImages": [
+        "/assets/site-images/bump-laser-focus-nootropic-1-bump-razz-mango-front-d103294b-52f5-4a19-a558-8b6c76a0a51c.png",
+        "/assets/site-images/bump-laser-focus-nootropic-2-bump-watlem-front-882840ec-1158-4481-b039-bcabee6ac2d7.png",
+        "/assets/site-images/bump-laser-focus-nootropic-3-bump-watlem-side2.png",
+        "/assets/site-images/bump-laser-focus-nootropic-4-bump-watlem-side1.png",
+        "/assets/site-images/bump-laser-focus-nootropic-5-bump-raspman-ingred.jpg"
+      ]
+    },
+    {
+      "id": "nitricoxide-stim-free-pre-workout",
+      "title": "NITRICOXIDE Stim-Free Pre-workout",
+      "category": "Pump Products",
+      "categorySlug": "pump",
+      "accent": "#ff7a1a",
+      "secondary": "#00b7f0",
+      "description": "PURPOSE: Powerful performance, endurance, and focus from one of the best STIM FREE Pre-Workouts! Six different vein-bursting Nitric Oxide compounds. Designed to give you an extreme pump.",
+      "featured": false,
+      "bottle": "/assets/products/nitricoxide-stim-free-pre-workout-bottle.png",
+      "panel": "/assets/site-images/nitricoxide-stim-free-pre-workout-panel-nitric-strawlem-supfact.png",
+      "variants": [
+        {
+          "id": "nitricoxide-stim-free-pre-workout-strawberry-lemonade-56157",
+          "item": "56157",
+          "upc": "850018672740",
+          "flavor": "Strawberry Lemonade",
+          "description": "AdreNOlyn Nitric Oxide Stim Free Pre-workout Strawberry Lemonade 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nitricoxide-stim-free-pre-workout-nitricoxide-stim-free-pre-workout-strawberry-lemonade-56157-nitric-strawlem-final.png",
+          "available": true
+        },
+        {
+          "id": "nitricoxide-stim-free-pre-workout-candy-dust-56155",
+          "item": "56155",
+          "upc": "850018672764",
+          "flavor": "Candy Dust",
+          "description": "AdreNOlyn Nitric Oxide Stim Free Pre-workout Candy Dust 25 Serv",
+          "wholesale": "$26.00",
+          "wholesaleValue": 26,
+          "map": "$54.99",
+          "mapValue": 54.99,
+          "bottle": "/assets/site-images/nitricoxide-stim-free-pre-workout-nitricoxide-stim-free-pre-workout-candy-dust-56155-nitric-candy-final.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Strawberry Lemonade",
+        "Candy Dust"
+      ],
+      "handle": "nitricoxide-stim-free-pre-workout",
+      "siteImages": [
+        "/assets/site-images/nitricoxide-stim-free-pre-workout-1-nitric-strawlem-final.png",
+        "/assets/site-images/nitricoxide-stim-free-pre-workout-2-nitric-side1-final.png",
+        "/assets/site-images/nitricoxide-stim-free-pre-workout-3-nitric-side2-final.png",
+        "/assets/site-images/nitricoxide-stim-free-pre-workout-4-nitric-candy-final.png",
+        "/assets/site-images/nitricoxide-stim-free-pre-workout-5-nitric-strawlem-supfact.png"
+      ]
+    },
+    {
+      "id": "pump-hyper-pump-pre-workout",
+      "title": "PUMP Hyper-Pump Pre-workout",
+      "category": "Pump Products",
+      "categorySlug": "pump",
+      "accent": "#ff7a1a",
+      "secondary": "#00b7f0",
+      "description": "PURPOSE: PUMP is our newest stimulant-free hyper pump pre-workout. Delivering superior vascularity from over 16g of distinct ingredients for muscle volume and blood flow.",
+      "featured": false,
+      "bottle": "/assets/products/pump-hyper-pump-pre-workout-bottle.png",
+      "panel": "/assets/site-images/pump-hyper-pump-pre-workout-panel-pump-ingredients.png",
+      "variants": [
+        {
+          "id": "pump-hyper-pump-pre-workout-watermelon-lemonade-56302",
+          "item": "56302",
+          "upc": "810055901357",
+          "flavor": "Watermelon Lemonade",
+          "description": "PUMP Hyper Pump Pre-wrokout Watermelon Lemonade 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/pump-hyper-pump-pre-workout-pump-hyper-pump-pre-workout-watermelon-lemonade-56302-pump-watlem-final.png",
+          "available": true
+        },
+        {
+          "id": "pump-hyper-pump-pre-workout-razz-mango-sherbet-56300",
+          "item": "56300",
+          "upc": "810055901333",
+          "flavor": "Razz Mango Sherbet",
+          "description": "PUMP Hyper Pump Pre-wrokout Razz Mango Sherbet 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/pump-hyper-pump-pre-workout-pump-hyper-pump-pre-workout-razz-mango-sherbet-56300-pump-razzman-final.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Razz Mango Sherbert",
+        "Watermelon Lemonade"
+      ],
+      "handle": "pump-hyper-pump-pre-workout",
+      "siteImages": [
+        "/assets/site-images/pump-hyper-pump-pre-workout-1-pump-razzman-final.png",
+        "/assets/site-images/pump-hyper-pump-pre-workout-2-pump-watlem-final.png",
+        "/assets/site-images/pump-hyper-pump-pre-workout-3-pump-side1.png",
+        "/assets/site-images/pump-hyper-pump-pre-workout-4-pump-side2.png",
+        "/assets/site-images/pump-hyper-pump-pre-workout-5-pump-ingredients.png"
+      ]
+    },
+    {
+      "id": "l-citrulline-raw",
+      "title": "L-Citrulline RAW",
+      "category": "Pump Products",
+      "categorySlug": "pump",
+      "accent": "#ff7a1a",
+      "secondary": "#00b7f0",
+      "description": "L-Citrulline is an amino acid that is converted to L-Arginine & Nitric Oxide. By boosting nitric oxide, your arteries are able to work better and improve blood flow.",
+      "featured": false,
+      "bottle": "/assets/products/l-citrulline-raw-bottle.png",
+      "panel": "/assets/site-images/l-citrulline-raw-panel-citrulline-ingred.png",
+      "variants": [
+        {
+          "id": "l-citrulline-raw-unflavored-53006",
+          "item": "53006",
+          "upc": "858113007238",
+          "flavor": "Unflavored",
+          "description": "L-Citrulline Raw 60 Serv",
+          "wholesale": "$18.00",
+          "wholesaleValue": 18,
+          "map": "$36.99",
+          "mapValue": 36.99,
+          "bottle": "/assets/site-images/l-citrulline-raw-l-citrulline-raw-unflavored-53006-citrulline-front.png",
+          "available": true
+        }
+      ],
+      "siteVariants": [
+        "Raw L-Citrulline"
+      ],
+      "handle": "l-citrulline",
+      "siteImages": [
+        "/assets/site-images/l-citrulline-raw-1-citrulline-front.png",
+        "/assets/site-images/l-citrulline-raw-2-citrulline-side-1.png",
+        "/assets/site-images/l-citrulline-raw-3-citrulline-side-2.png",
+        "/assets/site-images/l-citrulline-raw-4-citrulline-ingred.png"
+      ]
+    }
+  ]
+}

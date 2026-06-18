@@ -1,0 +1,15 @@
+{
+  "name": "blackmarket-wholesale-portal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 4173",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 4173"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  }
+}
