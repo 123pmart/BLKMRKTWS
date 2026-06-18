@@ -11,11 +11,25 @@
   <body data-view="landing">
     <div class="portal">
       <header class="topbar">
-        <button class="mobile-nav" id="mobileNavToggle" type="button" aria-label="Open navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div class="mobile-quick-nav" aria-label="Mobile shortcuts">
+          <button class="mobile-icon-nav" type="button" data-view="news" aria-label="Open news">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5.5h14v13H5z" />
+              <path d="M8 9h3" />
+              <path d="M13.5 9h2.5" />
+              <path d="M8 12.5h8" />
+              <path d="M8 16h6" />
+            </svg>
+          </button>
+          <button class="mobile-icon-nav" type="button" data-view="catalog" aria-label="Open catalog">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 3.5h9l3 3v14H6z" />
+              <path d="M14.5 3.5v4h4" />
+              <path d="M9 12h6" />
+              <path d="M9 16h6" />
+            </svg>
+          </button>
+        </div>
         <button class="brand" id="brandHome" type="button">
           <span>BLACKMARKET</span>
           <strong>Wholesale</strong>

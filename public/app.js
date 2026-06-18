@@ -164,7 +164,7 @@ async function init() {
 }
 
 function bindEvents() {
-  dom.mobileNavToggle.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+  dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
   dom.brandHome.addEventListener("click", () => setView("landing"));
   dom.headerCartButton.addEventListener("click", openCartDrawer);
   dom.cartBackdrop.addEventListener("click", closeCartDrawer);
@@ -1049,12 +1049,12 @@ async function sendOrder() {
   state.orders.unshift(order);
   saveJson(ORDERS_KEY, state.orders);
   state.cart = {};
-  saveJson(CART_KEY, state.cart);
+  localStorage.removeItem(CART_KEY);
   renderCart();
   renderAdminOrders();
   dom.sendOrder.textContent = previous;
   closeCartDrawer();
-  showToast("Order sent to admin inbox");
+  showToast("Order sent and cart cleared");
 }
 
 function publicLine({ item, qty, lineWholesale, lineMap }) {

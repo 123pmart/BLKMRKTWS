@@ -4818,3 +4818,146 @@ body.cart-open #cartView.view {
     transform: translateY(26px) scale(0.985);
   }
 }
+
+/* Final nav/cart cleanup: direct mobile shortcuts, text-only desktop tabs, darker checkout. */
+.mobile-quick-nav {
+  display: none;
+}
+
+.top-nav {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.top-nav button,
+.top-nav button:hover,
+.top-nav button.active {
+  border-color: transparent;
+  color: var(--muted);
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.top-nav button:hover {
+  color: var(--text);
+}
+
+.top-nav button.active {
+  color: var(--accent);
+}
+
+.admin-floating,
+.admin-floating:hover,
+.admin-floating.active {
+  position: fixed;
+  left: 18px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  z-index: 75;
+}
+
+#cartView.view {
+  background:
+    linear-gradient(180deg, rgba(70, 70, 76, 0.18), rgba(22, 22, 26, 0.08)),
+    rgba(18, 18, 21, 0.88);
+}
+
+#cartView .cart-head,
+#cartView .order-bar {
+  background: rgba(13, 13, 15, 0.9);
+}
+
+#cartView .cart-line,
+#cartView .store-card {
+  background:
+    linear-gradient(180deg, rgba(105, 105, 112, 0.13), rgba(38, 38, 43, 0.08)),
+    rgba(31, 31, 35, 0.62);
+}
+
+#cartView .store-card input,
+#cartView .store-card textarea,
+#cartView .store-card select {
+  background: rgba(68, 68, 74, 0.34);
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr) 42px;
+  }
+
+  .mobile-quick-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: start;
+  }
+
+  .mobile-icon-nav {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid var(--glass-line);
+    border-radius: 14px;
+    color: #f4f4f6;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.035)),
+      rgba(22, 22, 25, 0.72);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px) saturate(1.14);
+  }
+
+  .mobile-icon-nav.active {
+    color: #070707;
+    background: linear-gradient(180deg, #ffd06b, #f2a616);
+    box-shadow: 0 10px 24px rgba(246, 167, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+
+  .mobile-icon-nav svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .mobile-nav {
+    display: none !important;
+  }
+
+  .portal::after,
+  body.nav-open .portal::after {
+    content: none;
+    display: none;
+  }
+
+  .top-nav,
+  body.nav-open .top-nav {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  #newsView .view-head {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .news-list {
+    width: min(360px, 100%);
+    margin-inline: auto;
+  }
+
+  #cartView.view {
+    background:
+      linear-gradient(180deg, rgba(74, 74, 82, 0.18), rgba(18, 18, 22, 0.08)),
+      rgba(17, 17, 20, 0.92);
+  }
+
+  .admin-floating,
+  .admin-floating:hover,
+  .admin-floating.active {
+    left: 14px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
