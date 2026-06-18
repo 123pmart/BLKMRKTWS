@@ -5070,3 +5070,87 @@ body {
 .cart-backdrop {
   background: rgba(0, 0, 0, 0.62);
 }
+
+/* Mobile news/admin corrections. */
+.mobile-icon-nav {
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.shortcut-news-mark {
+  display: block;
+  font-size: 1.18rem;
+  line-height: 1;
+}
+
+.shortcut-catalog-mark {
+  display: block;
+  font-size: 0.62rem;
+  line-height: 1;
+}
+
+.admin-floating,
+.admin-floating:hover,
+.admin-floating.active {
+  position: fixed !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+  left: 18px !important;
+  z-index: 95;
+  margin: 0 !important;
+}
+
+@media (max-width: 980px) {
+  .news-modal {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    width: min(390px, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+    max-height: min(82dvh, 640px);
+    margin: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .news-modal-frame {
+    max-height: min(82dvh, 640px);
+    border: 1px solid var(--glass-line);
+    border-radius: 24px;
+    overflow: auto;
+  }
+
+  .news-modal[open] .modal-frame {
+    animation: newsModalFloatIn 360ms var(--liquid-ease);
+  }
+
+  .news-detail {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .news-detail > img {
+    max-height: 210px;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .news-detail h2 {
+    font-size: clamp(1.35rem, 7vw, 2rem);
+    line-height: 1.04;
+  }
+
+  .admin-floating,
+  .admin-floating:hover,
+  .admin-floating.active {
+    bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+    left: 14px !important;
+  }
+}
+
+@keyframes newsModalFloatIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+}
