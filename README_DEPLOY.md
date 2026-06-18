@@ -28,13 +28,16 @@ The order email API route supports these Vercel environment variables:
 
 ```text
 ADMIN_PASS
+BLOB_READ_WRITE_TOKEN
 ORDER_STORE_FILE
 RESEND_API_KEY
 ORDER_FROM_EMAIL
 ORDER_TO_EMAIL
 ```
 
-`/api/send-order` always saves valid orders to the portal inbox first. `RESEND_API_KEY` is required only if you also want order emails through Resend. `ADMIN_PASS` defaults to the current admin password, and `ORDER_STORE_FILE` can point the server inbox at a writable JSON file path when your host provides one.
+`/api/send-order` always saves valid orders to the portal inbox first. On Vercel, create a Vercel Blob store so `BLOB_READ_WRITE_TOKEN` is injected; that is the durable production inbox. `ORDER_STORE_FILE` is only a local/self-hosted fallback.
+
+`RESEND_API_KEY` is required for order emails. `ORDER_FROM_EMAIL` defaults to `pmart@blackmarketlabs.com`, and `ORDER_TO_EMAIL` defaults to `pmart@blackmarketlabs.com`. Each order sends an admin copy and a customer confirmation to the store email entered at checkout.
 
 ## Notes
 

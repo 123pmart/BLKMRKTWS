@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { get, put } from "@vercel/blob";
 import os from "node:os";
 import path from "node:path";
 
 const STORE_STATE = Symbol.for("blackmarket.wholesale.orders");
 const MAX_ORDERS = 500;
+const BLOB_PATH = "blackmarket/orders.json";
 
 if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
@@ -16,6 +18,7 @@ if (!globalThis[STORE_STATE]) {
 const memory = globalThis[STORE_STATE];
 
 export async function readOrders() {
+  if (hasBlobStore()) return readBlobOrders();
   if (Array.isArray(memory.orders)) return memory.orders;
 
   for (const filePath of candidatePaths()) {
@@ -78,11 +81,17 @@ export function validateOrder(order) {
 }
 
 export function orderStorageMode() {
+  if (hasBlobStore()) return "vercel blob";
   return memory.storagePath ? "file" : "memory";
 }
 
 async function writeOrders(orders) {
   memory.orders = orders;
+  if (hasBlobStore()) {
+    await writeBlobOrders(orders);
+    return;
+  }
+
   const paths = memory.storagePath ? [memory.storagePath, ...candidatePaths()] : candidatePaths();
 
   for (const filePath of paths) {
@@ -95,6 +104,51 @@ async function writeOrders(orders) {
       console.warn(`Unable to write order store at ${filePath}:`, error?.message || error);
     }
   }
+}
+
+async function readBlobOrders() {
+  try {
+    const result = await get(BLOB_PATH, { access: "private" });
+    if (result?.statusCode !== 200 || !result.stream) {
+      memory.orders = [];
+      return memory.orders;
+    }
+
+    const data = JSON.parse(await streamToText(result.stream));
+    memory.orders = Array.isArray(data.orders) ? data.orders : [];
+    return memory.orders;
+  } catch (error) {
+    if (!isBlobNotFound(error)) {
+      console.warn("Unable to read Vercel Blob order store:", error?.message || error);
+      if (Array.isArray(memory.orders)) return memory.orders;
+      throw error;
+    }
+    memory.orders = [];
+    return memory.orders;
+  }
+}
+
+async function writeBlobOrders(orders) {
+  await put(BLOB_PATH, `${JSON.stringify({ orders }, null, 2)}\n`, {
+    access: "private",
+    allowOverwrite: true,
+    contentType: "application/json",
+    cacheControlMaxAge: 60,
+  });
+}
+
+function hasBlobStore() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+async function streamToText(stream) {
+  const response = new Response(stream);
+  return response.text();
+}
+
+function isBlobNotFound(error) {
+  const message = String(error?.message || "");
+  return /not found|404/i.test(message);
 }
 
 function candidatePaths() {

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#070707" />
     <title>BLACKMARKET Wholesale</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/styles.css?v=20260618-ops-inbox-polish" />
+    <link rel="stylesheet" href="/styles.css?v=20260618-blob-email-admin-pages" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -201,34 +201,32 @@
             </div>
 
             <nav class="admin-section-nav" aria-label="Admin sections">
-              <a href="#adminOrdersSection">Orders</a>
-              <a href="#adminNewsSection">News</a>
-              <a href="#adminProductsSection">Products</a>
-              <a href="#adminSettingsSection">Settings</a>
+              <button class="active" type="button" data-admin-section="orders">Orders</button>
+              <button type="button" data-admin-section="news">News</button>
+              <button type="button" data-admin-section="products">Products</button>
+              <button type="button" data-admin-section="settings">Settings</button>
             </nav>
 
-            <section class="admin-section" id="adminOrdersSection">
+            <section class="admin-section admin-page active" id="adminOrdersSection" data-admin-page="orders">
               <div class="admin-section-head">
                 <div>
-                  <p class="eyebrow">Live order intake</p>
+                  <p class="eyebrow">Orders</p>
                   <h2>Order Inbox</h2>
                 </div>
-                <p>Orders are read from the site API so another device can submit and this panel can see it.</p>
               </div>
               <div class="admin-orders-list" id="adminOrdersList"></div>
             </section>
 
-            <section class="admin-section" id="adminNewsSection">
+            <section class="admin-section admin-page" id="adminNewsSection" data-admin-page="news">
               <div class="admin-section-head">
                 <div>
-                  <p class="eyebrow">Buyer communications</p>
+                  <p class="eyebrow">News</p>
                   <h2>News Desk</h2>
                 </div>
-                <p>Write structured announcements with date, category, imagery, and optional call-to-action details.</p>
               </div>
               <div class="admin-grid admin-grid-wide">
                 <form class="admin-card admin-editor-card" id="announcementForm">
-                  <h3>Create / Edit News</h3>
+                  <h3>Create News</h3>
                   <input id="announcementId" type="hidden" />
                   <div class="form-grid three">
                     <label>
@@ -241,25 +239,29 @@
                     </label>
                     <label>
                       <span>Audience</span>
-                      <input id="announcementAudience" placeholder="Wholesale buyers" />
+                      <input id="announcementAudience" placeholder="Buyers" />
                     </label>
                   </div>
                   <label>
                     <span>Title *</span>
-                    <input id="announcementTitle" placeholder="New product drop" required />
+                    <input id="announcementTitle" placeholder="Title" required />
                   </label>
                   <label>
                     <span>Message *</span>
-                    <textarea id="announcementBody" rows="5" placeholder="Write the update buyers should see..." required></textarea>
+                    <textarea id="announcementBody" rows="5" placeholder="Announcement copy" required></textarea>
                   </label>
                   <label>
                     <span>Photo URL</span>
-                    <input id="announcementImage" placeholder="/assets/products/cuts-natural-thermogenic-pre-workout-bottle.png" />
+                    <input id="announcementImage" placeholder="/assets/products/product.png" />
+                  </label>
+                  <label>
+                    <span>Upload Photo</span>
+                    <input id="announcementImageFile" type="file" accept="image/*" />
                   </label>
                   <div class="form-grid two">
                     <label>
                       <span>CTA Label</span>
-                      <input id="announcementCtaLabel" placeholder="Shop product" />
+                      <input id="announcementCtaLabel" placeholder="Shop" />
                     </label>
                     <label>
                       <span>CTA URL</span>
@@ -279,20 +281,19 @@
               </div>
             </section>
 
-            <section class="admin-section" id="adminProductsSection">
+            <section class="admin-section admin-page" id="adminProductsSection" data-admin-page="products">
               <div class="admin-section-head">
                 <div>
-                  <p class="eyebrow">Catalog controls</p>
+                  <p class="eyebrow">Products</p>
                   <h2>Product Builder</h2>
                 </div>
-                <p>Add products with pricing, UPC, status, imagery, gallery, supplement facts, and buyer-facing copy.</p>
               </div>
               <div class="admin-grid admin-grid-wide">
                 <form class="admin-card admin-editor-card" id="customProductForm">
                   <h3>Add Product</h3>
                   <label>
                     <span>Product Name *</span>
-                    <input id="customProductTitle" placeholder="Example: CUTS Natural" required />
+                    <input id="customProductTitle" placeholder="Product name" required />
                   </label>
                   <div class="form-grid three">
                     <label>
@@ -307,7 +308,7 @@
                     </label>
                     <label>
                       <span>Flavor *</span>
-                      <input id="customProductFlavor" placeholder="Watermelon Lemonade" required />
+                      <input id="customProductFlavor" placeholder="Flavor" required />
                     </label>
                     <label>
                       <span>Status *</span>
@@ -321,15 +322,15 @@
                   <div class="form-grid three">
                     <label>
                       <span>Item # *</span>
-                      <input id="customProductItem" placeholder="56000" required />
+                      <input id="customProductItem" placeholder="Item number" required />
                     </label>
                     <label>
                       <span>UPC</span>
-                      <input id="customProductUpc" placeholder="000000000000" />
+                      <input id="customProductUpc" placeholder="UPC" />
                     </label>
                     <label>
                       <span>Case Pack</span>
-                      <input id="customProductCasePack" placeholder="12 units" />
+                      <input id="customProductCasePack" placeholder="Case pack" />
                     </label>
                   </div>
                   <div class="form-grid two">
@@ -343,28 +344,40 @@
                     </label>
                   </div>
                   <label>
-                    <span>Bottle Image URL *</span>
-                    <input id="customProductBottle" placeholder="/assets/products/example-bottle.png" required />
+                    <span>Bottle Image URL</span>
+                    <input id="customProductBottle" placeholder="/assets/products/bottle.png" />
                   </label>
                   <label>
-                    <span>Nutrition Panel URL *</span>
-                    <input id="customProductPanel" placeholder="/assets/products/example-panel.png" required />
+                    <span>Upload Bottle</span>
+                    <input id="customProductBottleFile" type="file" accept="image/*" />
+                  </label>
+                  <label>
+                    <span>Nutrition Panel URL</span>
+                    <input id="customProductPanel" placeholder="/assets/products/panel.png" />
+                  </label>
+                  <label>
+                    <span>Upload Nutrition Panel</span>
+                    <input id="customProductPanelFile" type="file" accept="image/*" />
                   </label>
                   <label>
                     <span>Side / Gallery Image URLs</span>
-                    <textarea id="customProductImages" rows="3" placeholder="One image URL per line"></textarea>
+                    <textarea id="customProductImages" rows="3" placeholder="/assets/products/side.png"></textarea>
+                  </label>
+                  <label>
+                    <span>Upload Gallery Images</span>
+                    <input id="customProductGalleryFiles" type="file" accept="image/*" multiple />
                   </label>
                   <label>
                     <span>Product Highlights</span>
-                    <textarea id="customProductHighlights" rows="3" placeholder="One selling point per line"></textarea>
+                    <textarea id="customProductHighlights" rows="3" placeholder="Highlight per line"></textarea>
                   </label>
                   <label>
                     <span>Description *</span>
-                    <textarea id="customProductDescription" rows="4" placeholder="Buyer-facing product description" required></textarea>
+                    <textarea id="customProductDescription" rows="4" placeholder="Product description" required></textarea>
                   </label>
                   <label>
                     <span>Internal Notes</span>
-                    <textarea id="customProductNotes" rows="3" placeholder="Launch timing, inventory notes, or admin-only context"></textarea>
+                    <textarea id="customProductNotes" rows="3" placeholder="Internal notes"></textarea>
                   </label>
                   <button type="submit">Add Product</button>
                 </form>
@@ -376,13 +389,12 @@
               </div>
             </section>
 
-            <section class="admin-section" id="adminSettingsSection">
+            <section class="admin-section admin-page" id="adminSettingsSection" data-admin-page="settings">
               <div class="admin-section-head">
                 <div>
-                  <p class="eyebrow">System status</p>
+                  <p class="eyebrow">Settings</p>
                   <h2>Portal Settings</h2>
                 </div>
-                <p>Submission status, storage mode, and session controls for the wholesale portal.</p>
               </div>
               <div class="admin-grid">
                 <div class="admin-card">
@@ -395,10 +407,13 @@
                     <span>Storage Mode</span>
                     <input id="adminStorageMode" value="Checking..." disabled />
                   </label>
+                  <label>
+                    <span>Email From</span>
+                    <input value="pmart@blackmarketlabs.com" disabled />
+                  </label>
                 </div>
                 <div class="admin-card">
                   <h3>Session</h3>
-                  <p class="admin-card-copy">Logout when you are done reviewing orders or editing portal content.</p>
                   <button id="adminLogout" type="button">Logout</button>
                 </div>
               </div>
@@ -438,6 +453,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/app.js?v=20260618-ops-inbox-polish"></script>
+    <script type="module" src="/app.js?v=20260618-blob-email-admin-pages"></script>
   </body>
 </html>

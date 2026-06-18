@@ -5196,9 +5196,9 @@ body::before {
   pointer-events: none;
 }
 
-body[data-view="landing"] .admin-floating,
-body[data-view="landing"] .admin-floating:hover,
-body[data-view="landing"] .admin-floating.active {
+body[data-view="catalog"] .admin-floating,
+body[data-view="catalog"] .admin-floating:hover,
+body[data-view="catalog"] .admin-floating.active {
   display: block;
   position: fixed !important;
   top: auto !important;
@@ -5354,22 +5354,40 @@ body[data-view="landing"] .admin-floating.active {
   border-radius: 999px;
 }
 
-.admin-section-nav a {
+.admin-section-nav button {
   display: inline-flex;
   min-height: 34px;
   align-items: center;
   padding: 0 13px;
+  border: 0;
   border-radius: 999px;
   color: #b9b9c1;
+  background: transparent;
   font-size: 0.72rem;
   font-weight: 850;
-  text-decoration: none;
   text-transform: uppercase;
 }
 
-.admin-section-nav a:hover {
+.admin-section-nav button:hover,
+.admin-section-nav button.active {
   color: var(--accent);
   background: rgba(246, 167, 0, 0.08);
+}
+
+.admin-page {
+  display: none;
+}
+
+.admin-page.active {
+  display: grid;
+  animation: adminPageIn 340ms var(--liquid-ease);
+}
+
+@keyframes adminPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.992);
+  }
 }
 
 .admin-section {
@@ -5511,9 +5529,9 @@ body[data-view="landing"] .admin-floating.active {
     gap: 6px;
   }
 
-  body[data-view="landing"] .admin-floating,
-  body[data-view="landing"] .admin-floating:hover,
-  body[data-view="landing"] .admin-floating.active {
+  body[data-view="catalog"] .admin-floating,
+  body[data-view="catalog"] .admin-floating:hover,
+  body[data-view="catalog"] .admin-floating.active {
     bottom: calc(12px + env(safe-area-inset-bottom)) !important;
     left: 14px !important;
   }
@@ -5560,5 +5578,329 @@ body[data-view="landing"] .admin-floating.active {
   .admin-section {
     padding: 14px;
     border-radius: 20px;
+  }
+}
+
+/* Serious interface pass: tighter, more interactive, less draft-like. */
+:root {
+  --radius: 8px;
+  --motion-fast: 180ms;
+  --motion-med: 320ms;
+  --motion-slow: 560ms;
+  --premium-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  transition:
+    transform var(--motion-fast) var(--premium-ease),
+    border-color var(--motion-fast) var(--premium-ease),
+    background var(--motion-med) var(--premium-ease),
+    color var(--motion-fast) var(--premium-ease),
+    box-shadow var(--motion-med) var(--premium-ease),
+    opacity var(--motion-fast) var(--premium-ease);
+}
+
+.view.active {
+  animation: refinedViewIn 420ms var(--premium-ease);
+}
+
+@keyframes refinedViewIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.topbar {
+  height: 68px;
+  border-color: rgba(255, 255, 255, 0.075);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.014)),
+    rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(26px) saturate(1.25);
+}
+
+.brand span {
+  letter-spacing: 0.04em;
+}
+
+.cart-icon,
+.mobile-icon-nav,
+.chip-row button,
+.download-link,
+.link-button,
+.qty-mini,
+.qty-control,
+.admin-section-nav,
+.store-card,
+.admin-login,
+.admin-card,
+.sku-card,
+.news-card,
+.landing-card .landing-card-media,
+.modal-frame,
+.order-download-frame {
+  border-radius: var(--radius);
+}
+
+.cart-icon:hover,
+.mobile-icon-nav:hover,
+.landing-card:hover,
+.sku-card:hover,
+.news-card:hover,
+.download-link:hover,
+.link-button:hover {
+  transform: translateY(-2px);
+}
+
+.mobile-icon-nav,
+.cart-icon,
+.chip-row button,
+.download-link,
+.link-button {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+}
+
+.mobile-icon-nav.active,
+.chip-row button.active,
+.download-link:hover,
+.link-button:hover {
+  box-shadow: 0 12px 30px rgba(246, 167, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.landing-grid,
+.catalog-list,
+.news-list,
+.catalog-pages {
+  animation: contentSettle 520ms var(--premium-ease);
+}
+
+@keyframes contentSettle {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.992);
+  }
+}
+
+.landing-card .landing-card-media,
+.sku-card,
+.news-card,
+.cart-line,
+.store-card,
+.admin-card,
+.admin-overview > div {
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-card .landing-card-media::after,
+.sku-card::after,
+.news-card::after,
+.store-card::after,
+.admin-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, 0.075) 49%, transparent 60% 100%);
+  opacity: 0;
+  transform: translateX(-36%);
+  transition: opacity 220ms var(--premium-ease), transform 640ms var(--premium-ease);
+}
+
+.landing-card:hover .landing-card-media::after,
+.sku-card:hover::after,
+.news-card:hover::after,
+.store-card:hover::after,
+.admin-card:hover::after {
+  opacity: 1;
+  transform: translateX(36%);
+}
+
+.sku-card,
+.news-card,
+.admin-card,
+.store-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.014)),
+    rgba(3, 3, 5, 0.88);
+}
+
+.sku-card:hover,
+.news-card:hover {
+  border-color: rgba(246, 167, 0, 0.32);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(246, 167, 0, 0.08);
+}
+
+.bottle-stage img,
+.landing-card img,
+.news-thumb img {
+  transition: transform var(--motion-slow) var(--premium-ease), filter var(--motion-med) var(--premium-ease);
+}
+
+.sku-card:hover .bottle-stage img,
+.landing-card:hover img,
+.news-card:hover .news-thumb img {
+  transform: translateY(-4px) scale(1.035);
+  filter: drop-shadow(0 22px 22px rgba(0, 0, 0, 0.42));
+}
+
+.admin-shell {
+  gap: 16px;
+}
+
+.admin-overview {
+  gap: 10px;
+}
+
+.admin-section {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 0;
+}
+
+.admin-section-head {
+  padding: 4px 2px 2px;
+}
+
+.admin-section-head h2 {
+  font-size: clamp(1.55rem, 3vw, 2.1rem);
+}
+
+.admin-grid-wide,
+.admin-grid {
+  align-items: start;
+}
+
+.admin-editor-card,
+.admin-list-card,
+.admin-orders-list .admin-order,
+.admin-login {
+  padding: clamp(16px, 2.2vw, 24px);
+}
+
+.admin-section-nav {
+  width: 100%;
+  max-width: 560px;
+  border-radius: var(--radius);
+}
+
+.admin-section-nav button {
+  flex: 1 1 0;
+  justify-content: center;
+  min-height: 40px;
+  letter-spacing: 0;
+}
+
+.admin-section-nav button.active {
+  color: #060606;
+  background: linear-gradient(180deg, #ffd36f, #f2a616);
+  box-shadow: 0 10px 24px rgba(246, 167, 0, 0.16);
+}
+
+.admin-page {
+  min-height: 420px;
+}
+
+.admin-card input[type="file"] {
+  height: auto;
+  min-height: 46px;
+  padding: 10px;
+  color: #c8c8d0;
+}
+
+.admin-card input[type="file"]::file-selector-button {
+  min-height: 30px;
+  margin-right: 10px;
+  border: 0;
+  border-radius: var(--radius);
+  color: #070707;
+  background: var(--accent);
+  font-weight: 850;
+}
+
+.admin-order-toolbar {
+  top: calc(var(--header) + 12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-order-head {
+  align-items: start;
+}
+
+.admin-order-actions button {
+  color: #050505;
+  background: var(--accent);
+}
+
+.order-download-frame {
+  animation: modalFocusIn 420ms var(--premium-ease);
+}
+
+@keyframes modalFocusIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr) 42px;
+  }
+
+  .content {
+    padding-top: 92px;
+  }
+
+  .mobile-icon-nav {
+    min-width: 46px;
+  }
+
+  .admin-section-nav {
+    max-width: 100%;
+  }
+
+  .admin-section-nav button {
+    min-width: 96px;
+  }
+
+  .admin-page {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .topbar {
+    gap: 8px;
+    padding-inline: 10px;
+  }
+
+  .brand span {
+    font-size: 0.72rem;
+  }
+
+  .brand strong {
+    font-size: 0.48rem;
+  }
+
+  .admin-section-nav {
+    padding: 5px;
+  }
+
+  .admin-section-nav button {
+    min-width: 84px;
+    min-height: 38px;
+    padding-inline: 9px;
+    font-size: 0.68rem;
   }
 }

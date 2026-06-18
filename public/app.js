@@ -2,6 +2,7 @@ const DATA_URL = "/catalog-data.json?v=20260618-liquid-glass-mobile";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260618-liquid-glass-mobile";
 const ORDERS_API_URL = "/api/orders";
 const ORDER_SUBMIT_URL = "/api/send-order";
+const ASSET_UPLOAD_URL = "/api/upload-asset";
 const CART_KEY = "blackmarket-wholesale-cart-v4";
 const STORE_KEY = "blackmarket-wholesale-store-v3";
 const SITE_KEY = "blackmarket-wholesale-site-v1";
@@ -71,6 +72,7 @@ const state = {
   activeFilter: "thermogenics",
   query: "",
   adminAuthed: loadJson(ADMIN_KEY, false),
+  activeAdminSection: "orders",
   orderStorageMode: "local fallback",
 };
 
@@ -109,6 +111,8 @@ const dom = {
   newsList: document.querySelector("#newsList"),
   adminLoginForm: document.querySelector("#adminLoginForm"),
   adminPanel: document.querySelector("#adminPanel"),
+  adminSectionNav: document.querySelector(".admin-section-nav"),
+  adminPages: document.querySelectorAll("[data-admin-page]"),
   announcementForm: document.querySelector("#announcementForm"),
   announcementId: document.querySelector("#announcementId"),
   announcementLabel: document.querySelector("#announcementLabel"),
@@ -117,6 +121,7 @@ const dom = {
   announcementTitle: document.querySelector("#announcementTitle"),
   announcementBody: document.querySelector("#announcementBody"),
   announcementImage: document.querySelector("#announcementImage"),
+  announcementImageFile: document.querySelector("#announcementImageFile"),
   announcementCtaLabel: document.querySelector("#announcementCtaLabel"),
   announcementCtaUrl: document.querySelector("#announcementCtaUrl"),
   announcementSubmit: document.querySelector("#announcementSubmit"),
@@ -140,8 +145,11 @@ const dom = {
   customProductWholesale: document.querySelector("#customProductWholesale"),
   customProductMap: document.querySelector("#customProductMap"),
   customProductBottle: document.querySelector("#customProductBottle"),
+  customProductBottleFile: document.querySelector("#customProductBottleFile"),
   customProductPanel: document.querySelector("#customProductPanel"),
+  customProductPanelFile: document.querySelector("#customProductPanelFile"),
   customProductImages: document.querySelector("#customProductImages"),
+  customProductGalleryFiles: document.querySelector("#customProductGalleryFiles"),
   customProductHighlights: document.querySelector("#customProductHighlights"),
   customProductDescription: document.querySelector("#customProductDescription"),
   customProductNotes: document.querySelector("#customProductNotes"),
@@ -303,9 +311,15 @@ function bindEvents() {
     }
   });
 
-  dom.announcementForm.addEventListener("submit", (event) => {
+  dom.adminSectionNav.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-admin-section]");
+    if (!button) return;
+    setAdminSection(button.dataset.adminSection);
+  });
+
+  dom.announcementForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    publishAnnouncement();
+    await publishAnnouncement();
   });
 
   dom.announcementCancel.addEventListener("click", clearAnnouncementEditor);
@@ -350,9 +364,9 @@ function bindEvents() {
     renderAdmin();
   });
 
-  dom.customProductForm.addEventListener("submit", (event) => {
+  dom.customProductForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    addCustomProduct();
+    await addCustomProduct();
   });
 
   dom.adminProductsList.addEventListener("click", (event) => {
@@ -1262,10 +1276,26 @@ function adminHeaders() {
 function renderAdmin() {
   dom.adminLoginForm.hidden = state.adminAuthed;
   dom.adminPanel.hidden = !state.adminAuthed;
+  renderAdminPages();
   renderAdminMetrics();
   renderAdminNews();
   renderAdminOrders();
   renderAdminProducts();
+}
+
+function setAdminSection(section) {
+  state.activeAdminSection = section || "orders";
+  renderAdminPages();
+  if (state.activeAdminSection === "orders") loadServerOrders({ silent: true });
+}
+
+function renderAdminPages() {
+  dom.adminSectionNav?.querySelectorAll("[data-admin-section]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.adminSection === state.activeAdminSection);
+  });
+  dom.adminPages.forEach((page) => {
+    page.classList.toggle("active", page.dataset.adminPage === state.activeAdminSection);
+  });
 }
 
 function renderAdminMetrics() {
@@ -1278,17 +1308,24 @@ function renderAdminMetrics() {
   if (dom.adminStorageMode) dom.adminStorageMode.value = `${state.orderStorageMode} inbox`;
 }
 
-function publishAnnouncement() {
+async function publishAnnouncement() {
   const id = dom.announcementId.value.trim();
   const title = dom.announcementTitle.value.trim();
   const body = dom.announcementBody.value.trim();
   const label = dom.announcementLabel.value.trim() || "Update";
   const date = dom.announcementDate.value || today();
   const audience = dom.announcementAudience.value.trim();
-  const image = dom.announcementImage.value.trim();
+  let image = dom.announcementImage.value.trim();
   const ctaLabel = dom.announcementCtaLabel.value.trim();
   const ctaUrl = dom.announcementCtaUrl.value.trim();
   if (!title || !body) return;
+
+  try {
+    image = await uploadOptionalFile(dom.announcementImageFile, "news", image);
+  } catch (error) {
+    showToast(error?.message || "News image upload failed");
+    return;
+  }
 
   if (id) {
     state.site.announcements = state.site.announcements.map((item) =>
@@ -1416,7 +1453,7 @@ function renderAdminOrderField(label, value) {
   `;
 }
 
-function addCustomProduct() {
+async function addCustomProduct() {
   const title = dom.customProductTitle.value.trim();
   const section = dom.customProductSection.value;
   const flavor = dom.customProductFlavor.value.trim();
@@ -1424,11 +1461,23 @@ function addCustomProduct() {
   const itemNumber = dom.customProductItem.value.trim();
   const upc = dom.customProductUpc.value.trim();
   const casePack = dom.customProductCasePack.value.trim();
-  const bottle = dom.customProductBottle.value.trim();
-  const panel = dom.customProductPanel.value.trim();
+  let bottle = dom.customProductBottle.value.trim();
+  let panel = dom.customProductPanel.value.trim();
   const wholesaleValue = parseMoney(dom.customProductWholesale.value);
   const mapValue = parseMoney(dom.customProductMap.value) || 0;
   const description = dom.customProductDescription.value.trim();
+  const existingImages = splitImageList(dom.customProductImages.value);
+  let uploadedGallery = [];
+
+  try {
+    bottle = await uploadOptionalFile(dom.customProductBottleFile, "products", bottle);
+    panel = await uploadOptionalFile(dom.customProductPanelFile, "products", panel);
+    uploadedGallery = await uploadOptionalFiles(dom.customProductGalleryFiles, "products");
+  } catch (error) {
+    showToast(error?.message || "Product image upload failed");
+    return;
+  }
+
   if (!title || !section || !flavor || !itemNumber || !bottle || !panel || !description || wholesaleValue <= 0 || mapValue <= 0) {
     showToast("Complete required product fields before adding");
     return;
@@ -1437,7 +1486,7 @@ function addCustomProduct() {
   const productId = `custom-${slugify(title)}-${Date.now()}`;
   const variantId = `${productId}-${slugify(flavor)}`;
   const sectionMeta = SECTION_META.find((entry) => entry.slug === section) || SECTION_META[0];
-  const extraImages = splitImageList(dom.customProductImages.value);
+  const extraImages = unique([...existingImages, ...uploadedGallery]);
   const highlights = splitImageList(dom.customProductHighlights.value);
   const adminNotes = dom.customProductNotes.value.trim();
   const product = {
@@ -1542,6 +1591,33 @@ function clearAnnouncementEditor() {
   dom.announcementDate.value = today();
   dom.announcementSubmit.textContent = "Publish Update";
   dom.announcementCancel.hidden = true;
+}
+
+async function uploadOptionalFile(input, scope, fallback = "") {
+  const file = input?.files?.[0];
+  if (!file) return fallback;
+  showToast("Uploading image...");
+  const form = new FormData();
+  form.append("file", file);
+  form.append("scope", scope);
+  const response = await fetch(ASSET_UPLOAD_URL, {
+    method: "POST",
+    headers: adminHeaders(),
+    body: form,
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.ok) throw new Error(body.message || "Image upload failed");
+  return body.url;
+}
+
+async function uploadOptionalFiles(input, scope) {
+  const files = Array.from(input?.files || []);
+  const urls = [];
+  for (const file of files) {
+    const holder = { files: [file] };
+    urls.push(await uploadOptionalFile(holder, scope, ""));
+  }
+  return urls;
 }
 
 function saveSite() {
