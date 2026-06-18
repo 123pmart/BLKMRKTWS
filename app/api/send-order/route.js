@@ -1,56 +1,86 @@
+import { normalizeOrderPayload, upsertOrder, validateOrder } from "../orders/store.js";
+
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
 const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "BLACKMARKET Wholesale <orders@blackmarketlabs.com>";
 
 export const runtime = "nodejs";
 
 export async function POST(request) {
+  const payload = await request.json().catch(() => ({}));
+  const order = normalizeOrderPayload(payload);
+  const validationError = validateOrder(order);
+  if (validationError) {
+    return Response.json({ ok: false, message: validationError }, { status: 400 });
+  }
+
+  order.delivery = {
+    inbox: "saved",
+    email: "not-configured",
+  };
+  await upsertOrder(order);
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     return Response.json({
-      ok: false,
-      message: "Email service is not configured. Add RESEND_API_KEY and ORDER_FROM_EMAIL in Vercel.",
-    }, {
-      status: 501,
+      ok: true,
+      id: order.id,
+      order,
+      emailStatus: "not-configured",
+      message: "Order saved to the portal inbox.",
     });
   }
 
-  const { store, lines, totals } = await request.json().catch(() => ({}));
-  if (!store || !Array.isArray(lines) || !lines.length) {
-    return Response.json({ ok: false, message: "Order is missing store information or items." }, { status: 400 });
+  const subject = `BLACKMARKET Wholesale Order - ${order.store.storeName}`;
+  const text = orderText(order.store, order.lines, order.totals);
+  const html = orderHtml(order.store, order.lines, order.totals);
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: ORDER_FROM_EMAIL,
+        to: [ORDER_TO_EMAIL],
+        reply_to: order.store.email,
+        subject,
+        text,
+        html,
+      }),
+    });
+
+    const body = await response.json().catch(() => ({}));
+    if (response.ok) {
+      order.delivery.email = "sent";
+      order.delivery.emailId = body.id || null;
+      await upsertOrder(order);
+      return Response.json({ ok: true, id: order.id, order, emailStatus: "sent" });
+    }
+
+    order.delivery.email = "failed";
+    order.delivery.emailError = body.message || "Email provider rejected the order.";
+    await upsertOrder(order);
+    return Response.json({
+      ok: true,
+      id: order.id,
+      order,
+      emailStatus: "failed",
+      message: "Order saved to the portal inbox, but email delivery failed.",
+    });
+  } catch (error) {
+    order.delivery.email = "failed";
+    order.delivery.emailError = error?.message || "Email delivery failed.";
+    await upsertOrder(order);
+    return Response.json({
+      ok: true,
+      id: order.id,
+      order,
+      emailStatus: "failed",
+      message: "Order saved to the portal inbox, but email delivery failed.",
+    });
   }
-
-  const required = ["storeName", "phone", "email", "street", "city", "state", "zip"];
-  const missing = required.filter((key) => !String(store[key] || "").trim());
-  if (missing.length) {
-    return Response.json({ ok: false, message: `Missing required fields: ${missing.join(", ")}` }, { status: 400 });
-  }
-
-  const subject = `BLACKMARKET Wholesale Order - ${store.storeName}`;
-  const text = orderText(store, lines, totals);
-  const html = orderHtml(store, lines, totals);
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: ORDER_FROM_EMAIL,
-      to: [ORDER_TO_EMAIL],
-      reply_to: store.email,
-      subject,
-      text,
-      html,
-    }),
-  });
-
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    return Response.json({ ok: false, message: body.message || "Email provider rejected the order." }, { status: 502 });
-  }
-
-  return Response.json({ ok: true, id: body.id || null });
 }
 
 export function GET() {

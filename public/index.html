@@ -6,14 +6,14 @@
     <meta name="theme-color" content="#070707" />
     <title>BLACKMARKET Wholesale</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/styles.css?v=20260618-news-admin-mobile" />
+    <link rel="stylesheet" href="/styles.css?v=20260618-ops-inbox-polish" />
   </head>
   <body data-view="landing">
     <div class="portal">
       <header class="topbar">
         <div class="mobile-quick-nav" aria-label="Mobile shortcuts">
           <button class="mobile-icon-nav" type="button" data-view="news" aria-label="Open news">
-            <span class="shortcut-news-mark" aria-hidden="true">!</span>
+            <span class="shortcut-news-mark" aria-hidden="true">NEWS</span>
           </button>
           <button class="mobile-icon-nav" type="button" data-view="catalog" aria-label="Open catalog">
             <span class="shortcut-catalog-mark" aria-hidden="true">ctlg</span>
@@ -78,7 +78,7 @@
 
             <form class="store-card" id="storeForm">
               <h2>Store Information</h2>
-              <p class="store-note">Store contact details are required. Address and notes are optional.</p>
+              <p class="store-note">Store contact and shipping address are required before an order can be sent.</p>
               <label>
                 <span>Store Name *</span>
                 <input id="storeName" name="storeName" autocomplete="organization" placeholder="Your store name..." required />
@@ -98,21 +98,21 @@
                 <input id="email" name="email" type="email" autocomplete="email" placeholder="store@example.com" required />
               </label>
               <label>
-                <span>Street Address</span>
-                <input id="street" name="street" autocomplete="shipping street-address" placeholder="Optional" />
+                <span>Street Address *</span>
+                <input id="street" name="street" autocomplete="shipping street-address" placeholder="Street address" required />
               </label>
               <div class="form-grid three">
                 <label>
-                  <span>City</span>
-                  <input id="city" name="city" autocomplete="shipping address-level2" placeholder="Optional" />
+                  <span>City *</span>
+                  <input id="city" name="city" autocomplete="shipping address-level2" placeholder="City" required />
                 </label>
                 <label>
-                  <span>State</span>
-                  <input id="stateField" name="state" autocomplete="shipping address-level1" placeholder="Optional" />
+                  <span>State *</span>
+                  <input id="stateField" name="state" autocomplete="shipping address-level1" placeholder="State" required />
                 </label>
                 <label>
-                  <span>ZIP</span>
-                  <input id="zip" name="zip" autocomplete="shipping postal-code" placeholder="Optional" />
+                  <span>ZIP *</span>
+                  <input id="zip" name="zip" autocomplete="shipping postal-code" placeholder="ZIP" required />
                 </label>
               </div>
               <label>
@@ -176,115 +176,233 @@
             <button type="submit">Login</button>
           </form>
 
-          <div class="admin-panel" id="adminPanel" hidden>
-            <div class="admin-card">
-              <h2>Order Inbox</h2>
+          <div class="admin-panel admin-shell" id="adminPanel" hidden>
+            <div class="admin-overview">
+              <div>
+                <span>Inbox</span>
+                <strong id="adminOrderCount">0</strong>
+                <small>server orders</small>
+              </div>
+              <div>
+                <span>Revenue</span>
+                <strong id="adminOrderRevenue">$0.00</strong>
+                <small>wholesale total</small>
+              </div>
+              <div>
+                <span>Products</span>
+                <strong id="adminProductCount">0</strong>
+                <small>custom listings</small>
+              </div>
+              <div>
+                <span>News</span>
+                <strong id="adminNewsCount">0</strong>
+                <small>published posts</small>
+              </div>
+            </div>
+
+            <nav class="admin-section-nav" aria-label="Admin sections">
+              <a href="#adminOrdersSection">Orders</a>
+              <a href="#adminNewsSection">News</a>
+              <a href="#adminProductsSection">Products</a>
+              <a href="#adminSettingsSection">Settings</a>
+            </nav>
+
+            <section class="admin-section" id="adminOrdersSection">
+              <div class="admin-section-head">
+                <div>
+                  <p class="eyebrow">Live order intake</p>
+                  <h2>Order Inbox</h2>
+                </div>
+                <p>Orders are read from the site API so another device can submit and this panel can see it.</p>
+              </div>
               <div class="admin-orders-list" id="adminOrdersList"></div>
-            </div>
-            <div class="admin-grid">
-              <form class="admin-card" id="announcementForm">
-                <h2>News Editor</h2>
-                <input id="announcementId" type="hidden" />
-                <label>
-                  <span>Label</span>
-                  <input id="announcementLabel" placeholder="Launch" />
-                </label>
-                <label>
-                  <span>Title *</span>
-                  <input id="announcementTitle" placeholder="New product drop" required />
-                </label>
-                <label>
-                  <span>Message *</span>
-                  <textarea id="announcementBody" rows="4" placeholder="Write the update buyers should see..." required></textarea>
-                </label>
-                <label>
-                  <span>Photo URL</span>
-                  <input id="announcementImage" placeholder="/assets/products/cuts-natural-thermogenic-pre-workout-bottle.png" />
-                </label>
-                <div class="admin-actions">
-                  <button type="submit" id="announcementSubmit">Publish Update</button>
-                  <button type="button" id="announcementCancel" hidden>Cancel Edit</button>
-                </div>
-              </form>
+            </section>
 
-              <div class="admin-card">
-                <h2>Portal Settings</h2>
-                <label>
-                  <span>Order Handling</span>
-                  <input id="adminOrderEmail" value="Admin inbox" disabled />
-                </label>
-                <label>
-                  <span>Submission Mode</span>
-                  <input value="Stored in this portal admin panel" disabled />
-                </label>
-                <button id="adminLogout" type="button">Logout</button>
+            <section class="admin-section" id="adminNewsSection">
+              <div class="admin-section-head">
+                <div>
+                  <p class="eyebrow">Buyer communications</p>
+                  <h2>News Desk</h2>
+                </div>
+                <p>Write structured announcements with date, category, imagery, and optional call-to-action details.</p>
               </div>
-            </div>
-            <div class="admin-grid">
-              <form class="admin-card" id="customProductForm">
-                <h2>Add Product</h2>
-                <label>
-                  <span>Product Name *</span>
-                  <input id="customProductTitle" placeholder="Example: CUTS Natural" required />
-                </label>
-                <div class="form-grid two">
+              <div class="admin-grid admin-grid-wide">
+                <form class="admin-card admin-editor-card" id="announcementForm">
+                  <h3>Create / Edit News</h3>
+                  <input id="announcementId" type="hidden" />
+                  <div class="form-grid three">
+                    <label>
+                      <span>Label *</span>
+                      <input id="announcementLabel" placeholder="Launch" required />
+                    </label>
+                    <label>
+                      <span>Date *</span>
+                      <input id="announcementDate" type="date" required />
+                    </label>
+                    <label>
+                      <span>Audience</span>
+                      <input id="announcementAudience" placeholder="Wholesale buyers" />
+                    </label>
+                  </div>
                   <label>
-                    <span>Category *</span>
-                    <select id="customProductSection" required>
-                      <option value="thermogenics">Thermogenics</option>
-                      <option value="focus">High Stim &amp; Nootropics</option>
-                      <option value="pump">Pump</option>
-                      <option value="strength">Strength</option>
-                      <option value="raws">RAWS</option>
-                    </select>
+                    <span>Title *</span>
+                    <input id="announcementTitle" placeholder="New product drop" required />
                   </label>
                   <label>
-                    <span>Flavor *</span>
-                    <input id="customProductFlavor" placeholder="Watermelon Lemonade" required />
-                  </label>
-                </div>
-                <div class="form-grid three">
-                  <label>
-                    <span>Item #</span>
-                    <input id="customProductItem" placeholder="56000" />
+                    <span>Message *</span>
+                    <textarea id="announcementBody" rows="5" placeholder="Write the update buyers should see..." required></textarea>
                   </label>
                   <label>
-                    <span>Wholesale *</span>
-                    <input id="customProductWholesale" placeholder="$28.00" required />
+                    <span>Photo URL</span>
+                    <input id="announcementImage" placeholder="/assets/products/cuts-natural-thermogenic-pre-workout-bottle.png" />
                   </label>
-                  <label>
-                    <span>MAP</span>
-                    <input id="customProductMap" placeholder="$59.99" />
-                  </label>
-                </div>
-                <label>
-                  <span>Bottle Image URL *</span>
-                  <input id="customProductBottle" placeholder="/assets/products/example-bottle.png" required />
-                </label>
-                <label>
-                  <span>Nutrition Panel URL *</span>
-                  <input id="customProductPanel" placeholder="/assets/products/example-panel.png" required />
-                </label>
-                <label>
-                  <span>Side / Gallery Image URLs</span>
-                  <textarea id="customProductImages" rows="3" placeholder="One image URL per line"></textarea>
-                </label>
-                <label>
-                  <span>Description</span>
-                  <textarea id="customProductDescription" rows="3" placeholder="Short buyer-facing product description"></textarea>
-                </label>
-                <button type="submit">Add Product</button>
-              </form>
+                  <div class="form-grid two">
+                    <label>
+                      <span>CTA Label</span>
+                      <input id="announcementCtaLabel" placeholder="Shop product" />
+                    </label>
+                    <label>
+                      <span>CTA URL</span>
+                      <input id="announcementCtaUrl" placeholder="#productsView" />
+                    </label>
+                  </div>
+                  <div class="admin-actions">
+                    <button type="submit" id="announcementSubmit">Publish Update</button>
+                    <button type="button" id="announcementCancel" hidden>Cancel Edit</button>
+                  </div>
+                </form>
 
-              <div class="admin-card">
-                <h2>Custom Products</h2>
-                <div class="admin-products-list" id="adminProductsList"></div>
+                <div class="admin-card admin-list-card">
+                  <h3>Published Updates</h3>
+                  <div class="admin-news-list" id="adminNewsList"></div>
+                </div>
               </div>
-            </div>
-            <div class="admin-card">
-              <h2>Published Updates</h2>
-              <div class="admin-news-list" id="adminNewsList"></div>
-            </div>
+            </section>
+
+            <section class="admin-section" id="adminProductsSection">
+              <div class="admin-section-head">
+                <div>
+                  <p class="eyebrow">Catalog controls</p>
+                  <h2>Product Builder</h2>
+                </div>
+                <p>Add products with pricing, UPC, status, imagery, gallery, supplement facts, and buyer-facing copy.</p>
+              </div>
+              <div class="admin-grid admin-grid-wide">
+                <form class="admin-card admin-editor-card" id="customProductForm">
+                  <h3>Add Product</h3>
+                  <label>
+                    <span>Product Name *</span>
+                    <input id="customProductTitle" placeholder="Example: CUTS Natural" required />
+                  </label>
+                  <div class="form-grid three">
+                    <label>
+                      <span>Category *</span>
+                      <select id="customProductSection" required>
+                        <option value="thermogenics">Thermogenics</option>
+                        <option value="focus">High Stim &amp; Nootropics</option>
+                        <option value="pump">Pump</option>
+                        <option value="strength">Strength</option>
+                        <option value="raws">RAWS</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Flavor *</span>
+                      <input id="customProductFlavor" placeholder="Watermelon Lemonade" required />
+                    </label>
+                    <label>
+                      <span>Status *</span>
+                      <select id="customProductStatus" required>
+                        <option value="available">Available</option>
+                        <option value="coming-soon">Coming Soon</option>
+                        <option value="inactive">Inactive</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="form-grid three">
+                    <label>
+                      <span>Item # *</span>
+                      <input id="customProductItem" placeholder="56000" required />
+                    </label>
+                    <label>
+                      <span>UPC</span>
+                      <input id="customProductUpc" placeholder="000000000000" />
+                    </label>
+                    <label>
+                      <span>Case Pack</span>
+                      <input id="customProductCasePack" placeholder="12 units" />
+                    </label>
+                  </div>
+                  <div class="form-grid two">
+                    <label>
+                      <span>Wholesale *</span>
+                      <input id="customProductWholesale" placeholder="$28.00" required />
+                    </label>
+                    <label>
+                      <span>MAP *</span>
+                      <input id="customProductMap" placeholder="$59.99" required />
+                    </label>
+                  </div>
+                  <label>
+                    <span>Bottle Image URL *</span>
+                    <input id="customProductBottle" placeholder="/assets/products/example-bottle.png" required />
+                  </label>
+                  <label>
+                    <span>Nutrition Panel URL *</span>
+                    <input id="customProductPanel" placeholder="/assets/products/example-panel.png" required />
+                  </label>
+                  <label>
+                    <span>Side / Gallery Image URLs</span>
+                    <textarea id="customProductImages" rows="3" placeholder="One image URL per line"></textarea>
+                  </label>
+                  <label>
+                    <span>Product Highlights</span>
+                    <textarea id="customProductHighlights" rows="3" placeholder="One selling point per line"></textarea>
+                  </label>
+                  <label>
+                    <span>Description *</span>
+                    <textarea id="customProductDescription" rows="4" placeholder="Buyer-facing product description" required></textarea>
+                  </label>
+                  <label>
+                    <span>Internal Notes</span>
+                    <textarea id="customProductNotes" rows="3" placeholder="Launch timing, inventory notes, or admin-only context"></textarea>
+                  </label>
+                  <button type="submit">Add Product</button>
+                </form>
+
+                <div class="admin-card admin-list-card">
+                  <h3>Custom Products</h3>
+                  <div class="admin-products-list" id="adminProductsList"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="admin-section" id="adminSettingsSection">
+              <div class="admin-section-head">
+                <div>
+                  <p class="eyebrow">System status</p>
+                  <h2>Portal Settings</h2>
+                </div>
+                <p>Submission status, storage mode, and session controls for the wholesale portal.</p>
+              </div>
+              <div class="admin-grid">
+                <div class="admin-card">
+                  <h3>Order Handling</h3>
+                  <label>
+                    <span>Inbox Source</span>
+                    <input id="adminOrderEmail" value="Server API inbox" disabled />
+                  </label>
+                  <label>
+                    <span>Storage Mode</span>
+                    <input id="adminStorageMode" value="Checking..." disabled />
+                  </label>
+                </div>
+                <div class="admin-card">
+                  <h3>Session</h3>
+                  <p class="admin-card-copy">Logout when you are done reviewing orders or editing portal content.</p>
+                  <button id="adminLogout" type="button">Logout</button>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
       </main>
@@ -305,7 +423,21 @@
       </div>
     </dialog>
 
+    <dialog class="order-download-modal" id="orderDownloadModal">
+      <div class="modal-frame order-download-frame">
+        <p class="eyebrow">Order copy</p>
+        <h2>Download before sending?</h2>
+        <p>Save a local copy for your records before this order is submitted to BLACKMARKET Wholesale.</p>
+        <div class="order-download-summary" id="orderDownloadSummary"></div>
+        <div class="order-download-actions">
+          <button id="downloadOrderCopy" type="button">Download &amp; Send</button>
+          <button id="sendWithoutDownload" type="button">Send Only</button>
+          <button id="cancelOrderSend" type="button">Cancel</button>
+        </div>
+      </div>
+    </dialog>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/app.js?v=20260618-liquid-glass-mobile"></script>
+    <script type="module" src="/app.js?v=20260618-ops-inbox-polish"></script>
   </body>
 </html>

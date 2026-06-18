@@ -1,5 +1,7 @@
 const DATA_URL = "/catalog-data.json?v=20260618-liquid-glass-mobile";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260618-liquid-glass-mobile";
+const ORDERS_API_URL = "/api/orders";
+const ORDER_SUBMIT_URL = "/api/send-order";
 const CART_KEY = "blackmarket-wholesale-cart-v4";
 const STORE_KEY = "blackmarket-wholesale-store-v3";
 const SITE_KEY = "blackmarket-wholesale-site-v1";
@@ -69,6 +71,7 @@ const state = {
   activeFilter: "thermogenics",
   query: "",
   adminAuthed: loadJson(ADMIN_KEY, false),
+  orderStorageMode: "local fallback",
 };
 
 const mediaPreload = {
@@ -109,25 +112,39 @@ const dom = {
   announcementForm: document.querySelector("#announcementForm"),
   announcementId: document.querySelector("#announcementId"),
   announcementLabel: document.querySelector("#announcementLabel"),
+  announcementDate: document.querySelector("#announcementDate"),
+  announcementAudience: document.querySelector("#announcementAudience"),
   announcementTitle: document.querySelector("#announcementTitle"),
   announcementBody: document.querySelector("#announcementBody"),
   announcementImage: document.querySelector("#announcementImage"),
+  announcementCtaLabel: document.querySelector("#announcementCtaLabel"),
+  announcementCtaUrl: document.querySelector("#announcementCtaUrl"),
   announcementSubmit: document.querySelector("#announcementSubmit"),
   announcementCancel: document.querySelector("#announcementCancel"),
   adminNewsList: document.querySelector("#adminNewsList"),
   adminOrdersList: document.querySelector("#adminOrdersList"),
+  adminOrderCount: document.querySelector("#adminOrderCount"),
+  adminOrderRevenue: document.querySelector("#adminOrderRevenue"),
+  adminProductCount: document.querySelector("#adminProductCount"),
+  adminNewsCount: document.querySelector("#adminNewsCount"),
+  adminStorageMode: document.querySelector("#adminStorageMode"),
   adminLogout: document.querySelector("#adminLogout"),
   customProductForm: document.querySelector("#customProductForm"),
   customProductTitle: document.querySelector("#customProductTitle"),
   customProductSection: document.querySelector("#customProductSection"),
   customProductFlavor: document.querySelector("#customProductFlavor"),
   customProductItem: document.querySelector("#customProductItem"),
+  customProductUpc: document.querySelector("#customProductUpc"),
+  customProductCasePack: document.querySelector("#customProductCasePack"),
+  customProductStatus: document.querySelector("#customProductStatus"),
   customProductWholesale: document.querySelector("#customProductWholesale"),
   customProductMap: document.querySelector("#customProductMap"),
   customProductBottle: document.querySelector("#customProductBottle"),
   customProductPanel: document.querySelector("#customProductPanel"),
   customProductImages: document.querySelector("#customProductImages"),
+  customProductHighlights: document.querySelector("#customProductHighlights"),
   customProductDescription: document.querySelector("#customProductDescription"),
+  customProductNotes: document.querySelector("#customProductNotes"),
   adminProductsList: document.querySelector("#adminProductsList"),
   productModal: document.querySelector("#productModal"),
   modalContent: document.querySelector("#modalContent"),
@@ -135,6 +152,11 @@ const dom = {
   newsModal: document.querySelector("#newsModal"),
   newsModalContent: document.querySelector("#newsModalContent"),
   closeNewsModal: document.querySelector("#closeNewsModal"),
+  orderDownloadModal: document.querySelector("#orderDownloadModal"),
+  orderDownloadSummary: document.querySelector("#orderDownloadSummary"),
+  downloadOrderCopy: document.querySelector("#downloadOrderCopy"),
+  sendWithoutDownload: document.querySelector("#sendWithoutDownload"),
+  cancelOrderSend: document.querySelector("#cancelOrderSend"),
   toast: document.querySelector("#toast"),
 };
 
@@ -150,7 +172,9 @@ async function init() {
   state.catalogPages = catalogData.pages || [];
   preloadProductMedia();
   pruneCart();
+  if (state.adminAuthed) await loadServerOrders({ silent: true });
   hydrateStoreForm();
+  if (dom.announcementDate && !dom.announcementDate.value) dom.announcementDate.value = today();
   renderProductEntrypoints();
   renderCategoryNav();
   renderAnnouncements();
@@ -272,6 +296,7 @@ function bindEvents() {
       state.adminAuthed = true;
       saveJson(ADMIN_KEY, true);
       renderAdmin();
+      loadServerOrders({ silent: true });
       showToast("Admin unlocked");
     } else {
       showToast("Invalid admin login");
@@ -291,6 +316,7 @@ function bindEvents() {
       state.site.announcements = state.site.announcements.filter((item) => item.id !== remove.dataset.removeAnnouncement);
       if (dom.announcementId.value === remove.dataset.removeAnnouncement) clearAnnouncementEditor();
       saveSite();
+      renderAdminMetrics();
       return;
     }
 
@@ -298,13 +324,23 @@ function bindEvents() {
     if (edit) editAnnouncement(edit.dataset.editAnnouncement);
   });
 
-  dom.adminOrdersList.addEventListener("click", (event) => {
+  dom.adminOrdersList.addEventListener("click", async (event) => {
+    const refresh = event.target.closest("[data-refresh-orders]");
+    if (refresh) {
+      await loadServerOrders();
+      return;
+    }
+
+    const download = event.target.closest("[data-download-order]");
+    if (download) {
+      const order = state.orders.find((entry) => entry.id === download.dataset.downloadOrder);
+      if (order) downloadOrder(order);
+      return;
+    }
+
     const clear = event.target.closest("[data-clear-orders]");
     if (clear) {
-      state.orders = [];
-      saveJson(ORDERS_KEY, state.orders);
-      renderAdminOrders();
-      showToast("Order inbox cleared");
+      await clearServerOrders();
     }
   });
 
@@ -336,10 +372,15 @@ function bindEvents() {
     if (event.target === dom.newsModal) closeNewsModal();
   });
 
+  dom.orderDownloadModal.addEventListener("click", (event) => {
+    if (event.target === dom.orderDownloadModal) dom.cancelOrderSend.click();
+  });
+
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeProductModal();
       closeNewsModal();
+      closeOrderDownloadModal();
       closeCartDrawer();
       document.body.classList.remove("nav-open");
     }
@@ -535,9 +576,10 @@ function openNewsModal(id) {
     <article class="news-detail">
       ${image ? `<img src="${escapeHtml(image)}" alt="" />` : ""}
       <div>
-        <p class="eyebrow">${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}</p>
+        <p class="eyebrow">${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</p>
         <h2>${escapeHtml(item.title)}</h2>
         <p>${escapeHtml(item.body)}</p>
+        ${item.ctaLabel && item.ctaUrl ? `<a class="news-cta" href="${escapeHtml(item.ctaUrl)}">${escapeHtml(item.ctaLabel)}</a>` : ""}
       </div>
     </article>
   `;
@@ -546,7 +588,12 @@ function openNewsModal(id) {
 
 function closeNewsModal() {
   if (dom.newsModal.open) dom.newsModal.close();
-  if (!dom.productModal.open) document.body.classList.remove("modal-open");
+  if (!dom.productModal.open && !dom.orderDownloadModal.open) document.body.classList.remove("modal-open");
+}
+
+function closeOrderDownloadModal() {
+  if (dom.orderDownloadModal.open) dom.orderDownloadModal.close();
+  if (!dom.productModal.open && !dom.newsModal.open) document.body.classList.remove("modal-open");
 }
 
 function renderCatalog() {
@@ -905,7 +952,7 @@ function handleModalQuantityClick(event) {
 
 function closeProductModal() {
   if (dom.productModal.open) dom.productModal.close();
-  if (!dom.newsModal.open) document.body.classList.remove("modal-open");
+  if (!dom.newsModal.open && !dom.orderDownloadModal.open) document.body.classList.remove("modal-open");
 }
 
 function addToCart(id) {
@@ -1001,7 +1048,7 @@ function renderCartLine({ item, qty, lineWholesale }) {
 function updateOrderState() {
   const ready = cartLines().length > 0 && dom.storeForm.checkValidity();
   dom.sendOrder.disabled = !ready;
-  dom.orderHint.textContent = ready ? "Ready to send to the admin inbox" : "Add products and store contact info to send order";
+  dom.orderHint.textContent = ready ? "Ready to send to the server inbox" : "Add products, contact info, and shipping address to send order";
 }
 
 function openCartDrawer() {
@@ -1035,26 +1082,126 @@ async function sendOrder() {
     showToast("Complete the cart and store information");
     return;
   }
+  const lines = cartLines();
+  const order = buildClientOrder(lines);
+  const shouldSend = await askDownloadBeforeSend(order);
+  if (!shouldSend) return;
+
   const previous = dom.sendOrder.textContent;
   dom.sendOrder.disabled = true;
   dom.sendOrder.textContent = "Sending...";
-  const lines = cartLines();
-  const order = {
+
+  try {
+    const result = await sendOrderToServer(order);
+    const savedOrder = result.order || order;
+    state.orders = [savedOrder, ...state.orders.filter((entry) => entry.id !== savedOrder.id)].slice(0, 500);
+    saveJson(ORDERS_KEY, state.orders);
+    state.cart = {};
+    localStorage.removeItem(CART_KEY);
+    renderCart();
+    renderAdminOrders();
+    closeCartDrawer();
+    showToast(result.message || "Order sent and cart cleared");
+  } catch (error) {
+    showToast(error?.message || "Order could not be sent");
+  } finally {
+    dom.sendOrder.textContent = previous;
+    updateOrderState();
+  }
+}
+
+function buildClientOrder(lines = cartLines()) {
+  return {
     id: `${Date.now()}`,
     date: new Date().toISOString(),
     store: storeData(),
     lines: lines.map(publicLine),
     totals: cartTotals(lines),
   };
-  state.orders.unshift(order);
-  saveJson(ORDERS_KEY, state.orders);
-  state.cart = {};
-  localStorage.removeItem(CART_KEY);
-  renderCart();
-  renderAdminOrders();
-  dom.sendOrder.textContent = previous;
-  closeCartDrawer();
-  showToast("Order sent and cart cleared");
+}
+
+async function askDownloadBeforeSend(order) {
+  dom.orderDownloadSummary.innerHTML = `
+    <strong>${escapeHtml(order.store.storeName || "Store order")}</strong>
+    <span>${order.totals.units} unit${order.totals.units === 1 ? "" : "s"} / ${money(order.totals.wholesale)}</span>
+  `;
+
+  return new Promise((resolve) => {
+    const finish = (send, download) => {
+      dom.downloadOrderCopy.removeEventListener("click", onDownload);
+      dom.sendWithoutDownload.removeEventListener("click", onSendOnly);
+      dom.cancelOrderSend.removeEventListener("click", onCancel);
+      dom.orderDownloadModal.removeEventListener("cancel", onDialogCancel);
+      if (download) downloadOrder(order);
+      closeOrderDownloadModal();
+      resolve(send);
+    };
+    const onDownload = () => finish(true, true);
+    const onSendOnly = () => finish(true, false);
+    const onCancel = () => finish(false, false);
+    const onDialogCancel = (event) => {
+      event.preventDefault();
+      finish(false, false);
+    };
+
+    dom.downloadOrderCopy.addEventListener("click", onDownload);
+    dom.sendWithoutDownload.addEventListener("click", onSendOnly);
+    dom.cancelOrderSend.addEventListener("click", onCancel);
+    dom.orderDownloadModal.addEventListener("cancel", onDialogCancel);
+    showDialog(dom.orderDownloadModal);
+  });
+}
+
+async function sendOrderToServer(order) {
+  const response = await fetch(ORDER_SUBMIT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.ok) {
+    throw new Error(body.message || "Order could not be sent");
+  }
+  return body;
+}
+
+function downloadOrder(order) {
+  const blob = new Blob([formatOrderForDownload(order)], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `blackmarket-order-${safeFilePart(order.store.storeName)}-${today()}.txt`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function formatOrderForDownload(order) {
+  const store = order.store || {};
+  const lines = order.lines || [];
+  return [
+    "BLACKMARKET Wholesale Order",
+    `Order ID: ${order.id}`,
+    `Date: ${new Date(order.date).toLocaleString()}`,
+    "",
+    "Store",
+    `Store: ${store.storeName || ""}`,
+    `Contact: ${store.contactName || ""}`,
+    `Phone: ${store.phone || ""}`,
+    `Email: ${store.email || ""}`,
+    `Address: ${[store.street, store.city, store.state, store.zip].filter(Boolean).join(", ")}`,
+    store.notes ? `Notes: ${store.notes}` : "",
+    "",
+    "Items",
+    ...lines.map((line) => `${line.qty} x ${line.product} ${line.flavor} / #${line.item} / ${line.wholesale} = ${money(line.lineWholesale)}`),
+    "",
+    `Units: ${order.totals?.units || 0}`,
+    `Wholesale total: ${money(order.totals?.wholesale || 0)}`,
+    `Projected MAP value: ${money(order.totals?.map || 0)}`,
+  ].filter((line) => line !== "").join("\n");
 }
 
 function publicLine({ item, qty, lineWholesale, lineMap }) {
@@ -1071,12 +1218,64 @@ function publicLine({ item, qty, lineWholesale, lineMap }) {
   };
 }
 
+async function loadServerOrders(options = {}) {
+  if (!state.adminAuthed) return;
+  try {
+    const response = await fetch(ORDERS_API_URL, { headers: adminHeaders() });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok || !body.ok) throw new Error(body.message || "Unable to load orders");
+    state.orders = Array.isArray(body.orders) ? body.orders : [];
+    state.orderStorageMode = body.storage || "server";
+    saveJson(ORDERS_KEY, state.orders);
+    renderAdminOrders();
+    renderAdminMetrics();
+    if (!options.silent) showToast("Order inbox refreshed");
+  } catch (error) {
+    state.orderStorageMode = "local fallback";
+    renderAdminMetrics();
+    if (!options.silent) showToast(error?.message || "Unable to refresh orders");
+  }
+}
+
+async function clearServerOrders() {
+  try {
+    const response = await fetch(ORDERS_API_URL, {
+      method: "DELETE",
+      headers: adminHeaders(),
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok || !body.ok) throw new Error(body.message || "Unable to clear orders");
+    state.orders = [];
+    saveJson(ORDERS_KEY, state.orders);
+    renderAdminOrders();
+    renderAdminMetrics();
+    showToast("Order inbox cleared");
+  } catch (error) {
+    showToast(error?.message || "Unable to clear orders");
+  }
+}
+
+function adminHeaders() {
+  return { "x-admin-pass": ADMIN_PASS };
+}
+
 function renderAdmin() {
   dom.adminLoginForm.hidden = state.adminAuthed;
   dom.adminPanel.hidden = !state.adminAuthed;
+  renderAdminMetrics();
   renderAdminNews();
   renderAdminOrders();
   renderAdminProducts();
+}
+
+function renderAdminMetrics() {
+  if (!state.adminAuthed) return;
+  const revenue = state.orders.reduce((total, order) => total + Number(order.totals?.wholesale || 0), 0);
+  if (dom.adminOrderCount) dom.adminOrderCount.textContent = String(state.orders.length);
+  if (dom.adminOrderRevenue) dom.adminOrderRevenue.textContent = money(revenue);
+  if (dom.adminProductCount) dom.adminProductCount.textContent = String(state.customProducts.length);
+  if (dom.adminNewsCount) dom.adminNewsCount.textContent = String(state.site.announcements.length);
+  if (dom.adminStorageMode) dom.adminStorageMode.value = `${state.orderStorageMode} inbox`;
 }
 
 function publishAnnouncement() {
@@ -1084,12 +1283,16 @@ function publishAnnouncement() {
   const title = dom.announcementTitle.value.trim();
   const body = dom.announcementBody.value.trim();
   const label = dom.announcementLabel.value.trim() || "Update";
+  const date = dom.announcementDate.value || today();
+  const audience = dom.announcementAudience.value.trim();
   const image = dom.announcementImage.value.trim();
+  const ctaLabel = dom.announcementCtaLabel.value.trim();
+  const ctaUrl = dom.announcementCtaUrl.value.trim();
   if (!title || !body) return;
 
   if (id) {
     state.site.announcements = state.site.announcements.map((item) =>
-      item.id === id ? { ...item, label, title, body, image } : item,
+      item.id === id ? { ...item, label, title, body, image, date, audience, ctaLabel, ctaUrl } : item,
     );
   } else {
     state.site.announcements.unshift({
@@ -1098,12 +1301,16 @@ function publishAnnouncement() {
       title,
       body,
       image,
-      date: today(),
+      date,
+      audience,
+      ctaLabel,
+      ctaUrl,
     });
   }
 
   clearAnnouncementEditor();
   saveSite();
+  renderAdminMetrics();
   showToast(id ? "Update saved" : "Announcement published");
 }
 
@@ -1119,7 +1326,7 @@ function renderAdminNews() {
         ${announcementImage(item, index) ? `<img src="${escapeHtml(announcementImage(item, index))}" alt="" />` : ""}
         <div>
           <strong>${escapeHtml(item.title)}</strong>
-          <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}</span>
+          <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</span>
         </div>
         <div class="admin-news-actions">
           <button type="button" data-edit-announcement="${item.id}">Edit</button>
@@ -1133,12 +1340,19 @@ function renderAdminNews() {
 function renderAdminOrders() {
   if (!state.adminAuthed || !dom.adminOrdersList) return;
   if (!state.orders.length) {
-    dom.adminOrdersList.innerHTML = `<div class="empty-state">No orders submitted yet.</div>`;
+    dom.adminOrdersList.innerHTML = `
+      <div class="admin-order-toolbar">
+        <span>No server orders yet</span>
+        <button type="button" data-refresh-orders>Refresh Inbox</button>
+      </div>
+      <div class="empty-state">No orders submitted yet.</div>
+    `;
     return;
   }
   dom.adminOrdersList.innerHTML = `
     <div class="admin-order-toolbar">
       <span>${state.orders.length} order${state.orders.length === 1 ? "" : "s"}</span>
+      <button type="button" data-refresh-orders>Refresh Inbox</button>
       <button type="button" data-clear-orders>Clear Inbox</button>
     </div>
     ${state.orders.map(renderAdminOrder).join("")}
@@ -1148,35 +1362,48 @@ function renderAdminOrders() {
 function renderAdminOrder(order) {
   const date = new Date(order.date).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
   const store = order.store || {};
-  const address = [store.street, store.city, store.state, store.zip].filter(Boolean).join(", ");
-  const units = order.totals.units || order.lines.reduce((total, line) => total + Number(line.qty || 0), 0);
+  const totals = order.totals || {};
+  const lines = Array.isArray(order.lines) ? order.lines : [];
+  const address = formatAddress(store);
+  const units = totals.units || lines.reduce((total, line) => total + Number(line.qty || 0), 0);
+  const delivery = order.delivery?.email ? `Email ${order.delivery.email}` : "Inbox saved";
   return `
     <article class="admin-order">
       <div class="admin-order-head">
         <div>
           <strong>${escapeHtml(store.storeName || "Unnamed Store")}</strong>
-          <span>${escapeHtml(date)} / ${units} item${units === 1 ? "" : "s"}</span>
+          <span>${escapeHtml(date)} / ${units} item${units === 1 ? "" : "s"} / ${escapeHtml(delivery)}</span>
         </div>
-        <b>${money(order.totals.wholesale)}</b>
+        <div class="admin-order-actions">
+          <b>${money(totals.wholesale)}</b>
+          <button type="button" data-download-order="${escapeHtml(order.id)}">Download</button>
+        </div>
       </div>
+      <div class="admin-order-id">Order ID: ${escapeHtml(order.id || "")}</div>
       <div class="admin-order-contact">
         ${renderAdminOrderField("Contact", store.contactName)}
         ${renderAdminOrderField("Phone", store.phone)}
         ${renderAdminOrderField("Email", store.email)}
         ${address ? renderAdminOrderField("Address", address) : ""}
+        ${renderAdminOrderField("MAP Value", money(totals.map))}
       </div>
       ${store.notes ? `<p class="admin-order-notes">${escapeHtml(store.notes)}</p>` : ""}
       <div class="admin-order-lines">
-        ${order.lines.map((line) => `
+        ${lines.map((line) => `
           <div>
             <span>${escapeHtml(String(line.qty))}x</span>
             <strong>${escapeHtml(line.product)} ${escapeHtml(line.flavor)}</strong>
-            <em>#${escapeHtml(line.item)} / ${escapeHtml(line.wholesale)}</em>
+            <em>#${escapeHtml(line.item)}${line.upc ? ` / UPC ${escapeHtml(line.upc)}` : ""} / ${escapeHtml(line.wholesale)} / line ${money(line.lineWholesale)}</em>
           </div>
         `).join("")}
       </div>
     </article>
   `;
+}
+
+function formatAddress(store = {}) {
+  const cityLine = [store.city, store.state, store.zip].filter(Boolean).join(" ");
+  return [store.street, cityLine].filter(Boolean).join(", ");
 }
 
 function renderAdminOrderField(label, value) {
@@ -1193,20 +1420,26 @@ function addCustomProduct() {
   const title = dom.customProductTitle.value.trim();
   const section = dom.customProductSection.value;
   const flavor = dom.customProductFlavor.value.trim();
+  const status = dom.customProductStatus.value;
+  const itemNumber = dom.customProductItem.value.trim();
+  const upc = dom.customProductUpc.value.trim();
+  const casePack = dom.customProductCasePack.value.trim();
   const bottle = dom.customProductBottle.value.trim();
   const panel = dom.customProductPanel.value.trim();
   const wholesaleValue = parseMoney(dom.customProductWholesale.value);
   const mapValue = parseMoney(dom.customProductMap.value) || 0;
-  if (!title || !section || !flavor || !bottle || !panel || wholesaleValue <= 0) {
-    showToast("Add a name, category, flavor, bottle, panel, and wholesale price");
+  const description = dom.customProductDescription.value.trim();
+  if (!title || !section || !flavor || !itemNumber || !bottle || !panel || !description || wholesaleValue <= 0 || mapValue <= 0) {
+    showToast("Complete required product fields before adding");
     return;
   }
 
   const productId = `custom-${slugify(title)}-${Date.now()}`;
   const variantId = `${productId}-${slugify(flavor)}`;
   const sectionMeta = SECTION_META.find((entry) => entry.slug === section) || SECTION_META[0];
-  const description = dom.customProductDescription.value.trim();
   const extraImages = splitImageList(dom.customProductImages.value);
+  const highlights = splitImageList(dom.customProductHighlights.value);
+  const adminNotes = dom.customProductNotes.value.trim();
   const product = {
     id: productId,
     custom: true,
@@ -1214,23 +1447,29 @@ function addCustomProduct() {
     category: sectionMeta.label,
     categorySlug: section,
     description,
+    highlights,
+    casePack,
+    adminNotes,
+    status,
     bottle,
     panel,
     siteImages: unique([bottle, panel, ...extraImages]),
     variants: [
       {
         id: variantId,
-        item: dom.customProductItem.value.trim() || "CUSTOM",
-        upc: "",
+        item: itemNumber,
+        upc,
         flavor,
         description,
         wholesale: money(wholesaleValue),
         wholesaleValue,
-        map: mapValue > 0 ? money(mapValue) : "$0.00",
+        map: money(mapValue),
         mapValue,
         bottle,
         panel,
-        available: true,
+        casePack,
+        status,
+        available: status === "available",
       },
     ],
   };
@@ -1239,6 +1478,7 @@ function addCustomProduct() {
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
   dom.customProductForm.reset();
   rebuildProductState();
+  renderAdminMetrics();
   showToast("Product added");
 }
 
@@ -1246,6 +1486,7 @@ function removeCustomProduct(id) {
   state.customProducts = state.customProducts.filter((product) => product.id !== id);
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
   rebuildProductState();
+  renderAdminMetrics();
   showToast("Product removed");
 }
 
@@ -1264,7 +1505,8 @@ function renderAdminProducts() {
           <img src="${escapeHtml(variant.bottle || product.bottle)}" alt="" />
           <div>
             <strong>${escapeHtml(product.title)}</strong>
-            <span>${escapeHtml(variant.flavor || "")} / ${escapeHtml(product.category || "")}</span>
+            <span>${escapeHtml(variant.flavor || "")} / ${escapeHtml(product.category || "")} / ${escapeHtml(variant.status || "available")}</span>
+            <small>#${escapeHtml(variant.item || "CUSTOM")}${variant.upc ? ` / UPC ${escapeHtml(variant.upc)}` : ""}${variant.casePack ? ` / ${escapeHtml(variant.casePack)}` : ""}</small>
           </div>
           <button type="button" data-remove-product="${escapeHtml(product.id)}">Remove</button>
         </article>
@@ -1282,9 +1524,13 @@ function editAnnouncement(id) {
   if (!item) return;
   dom.announcementId.value = item.id;
   dom.announcementLabel.value = item.label || "";
+  dom.announcementDate.value = item.date || today();
+  dom.announcementAudience.value = item.audience || "";
   dom.announcementTitle.value = item.title || "";
   dom.announcementBody.value = item.body || "";
   dom.announcementImage.value = item.image || "";
+  dom.announcementCtaLabel.value = item.ctaLabel || "";
+  dom.announcementCtaUrl.value = item.ctaUrl || "";
   dom.announcementSubmit.textContent = "Save Update";
   dom.announcementCancel.hidden = false;
   dom.announcementTitle.focus();
@@ -1293,6 +1539,7 @@ function editAnnouncement(id) {
 function clearAnnouncementEditor() {
   dom.announcementForm.reset();
   dom.announcementId.value = "";
+  dom.announcementDate.value = today();
   dom.announcementSubmit.textContent = "Publish Update";
   dom.announcementCancel.hidden = true;
 }
@@ -1320,6 +1567,7 @@ function setView(view) {
   });
   document.body.classList.remove("nav-open");
   document.body.dataset.view = view;
+  if (view === "admin" && state.adminAuthed) loadServerOrders({ silent: true });
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1350,6 +1598,10 @@ function groupBy(items, keyFn) {
 
 function slugify(value) {
   return String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+function safeFilePart(value) {
+  return slugify(value || "store-order") || "store-order";
 }
 
 function loadJson(key, fallback) {

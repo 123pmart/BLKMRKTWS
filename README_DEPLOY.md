@@ -27,12 +27,14 @@ Then open `http://localhost:4173`.
 The order email API route supports these Vercel environment variables:
 
 ```text
+ADMIN_PASS
+ORDER_STORE_FILE
 RESEND_API_KEY
 ORDER_FROM_EMAIL
 ORDER_TO_EMAIL
 ```
 
-`RESEND_API_KEY` is required only if you want `/api/send-order` to send email through Resend. `ORDER_FROM_EMAIL` defaults to `BLACKMARKET Wholesale <orders@blackmarketlabs.com>`, and `ORDER_TO_EMAIL` defaults to `pmart@blackmarketlabs.com`.
+`/api/send-order` always saves valid orders to the portal inbox first. `RESEND_API_KEY` is required only if you also want order emails through Resend. `ADMIN_PASS` defaults to the current admin password, and `ORDER_STORE_FILE` can point the server inbox at a writable JSON file path when your host provides one.
 
 ## Notes
 
