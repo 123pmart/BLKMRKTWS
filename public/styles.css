@@ -4961,3 +4961,112 @@ body.cart-open #cartView.view {
     bottom: calc(12px + env(safe-area-inset-bottom));
   }
 }
+
+/* Black glass tone pass: darken frosted UI globally. */
+:root {
+  --glass-bg: rgba(5, 5, 7, 0.78);
+  --glass-bg-strong: rgba(8, 8, 10, 0.9);
+  --glass-bg-soft: rgba(255, 255, 255, 0.026);
+  --glass-line: rgba(255, 255, 255, 0.095);
+  --glass-line-strong: rgba(255, 255, 255, 0.16);
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.05), transparent 30%),
+    linear-gradient(180deg, #050506 0%, #020203 58%, #000 100%);
+}
+
+.topbar,
+#cartView .cart-head,
+#cartView .order-bar {
+  background: rgba(3, 3, 5, 0.88);
+}
+
+.mobile-icon-nav,
+.cart-icon,
+.search,
+.chip-row button,
+.landing-card .landing-card-media,
+.sku-card,
+.news-card,
+.store-card,
+.admin-card,
+.admin-login,
+.cart-line,
+.empty-state,
+.detail-bottle,
+.detail-copy,
+.nutrition-block,
+.detail-gallery button,
+.modal-frame,
+#cartView.view,
+#cartView .cart-line,
+#cartView .store-card {
+  border-color: var(--glass-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.84);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.sku-card:hover,
+.sku-card:focus-visible,
+.news-card:hover,
+.news-card:focus-visible,
+.landing-card:hover .landing-card-media,
+.landing-card:focus-visible .landing-card-media,
+.detail-gallery button:hover,
+.detail-gallery button.active {
+  border-color: var(--glass-line-strong);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.018)),
+    rgba(7, 7, 9, 0.9);
+}
+
+.bottle-stage,
+.news-thumb,
+#cartView .cart-line img {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.055), transparent 52%),
+    rgba(8, 8, 10, 0.78);
+}
+
+.qty-mini,
+.qty-control,
+#cartView .store-card input,
+#cartView .store-card textarea,
+#cartView .store-card select,
+.store-card input,
+.store-card textarea,
+.admin-login input,
+.admin-card input,
+.admin-card textarea,
+.store-card select,
+.admin-card select {
+  border-color: rgba(255, 255, 255, 0.09);
+  background: rgba(12, 12, 15, 0.76);
+}
+
+.mobile-icon-nav {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.86);
+}
+
+#cartView.view {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    rgba(4, 4, 6, 0.94);
+}
+
+#cartView .cart-head,
+#cartView .order-bar {
+  background: rgba(2, 2, 4, 0.94);
+}
+
+.product-modal::backdrop,
+.news-modal::backdrop,
+.cart-backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}
