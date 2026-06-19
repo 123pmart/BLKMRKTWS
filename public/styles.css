@@ -6629,3 +6629,8 @@ body {
     transition: none !important;
   }
 }
+
+/* Product image pass: remove the inner black image well so bottles sit on glass. */
+.sku-card .bottle-stage {
+  background: transparent;
+}
