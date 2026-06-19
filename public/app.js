@@ -14,6 +14,10 @@ const ADMIN_USER = "pmart";
 const ADMIN_PASS = "123pmart";
 const MEDIA_PRELOAD_CONCURRENCY = 8;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
+const CATALOG_TRANSITION_OUT_MS = 110;
+const CATALOG_TRANSITION_IN_MS = 340;
+let catalogTransitionToken = 0;
+let catalogTransitionTimer = 0;
 
 const SECTION_META = [
   { slug: "thermogenics", label: "Thermogenics" },
@@ -540,13 +544,14 @@ function renderCategoryNav() {
 }
 
 function setProductFilter(filter, options = {}) {
+  if (state.activeFilter === filter && options.keepView) return;
   state.activeFilter = filter;
   if (!options.keepQuery) {
     state.query = "";
     dom.search.value = "";
   }
   renderCategoryNav();
-  renderCatalog();
+  renderCatalog({ animate: options.keepView });
   if (!options.keepView) setView("products");
 }
 
@@ -638,15 +643,9 @@ function closeOrderDownloadModal() {
   if (!dom.productModal.open && !dom.newsModal.open) document.body.classList.remove("modal-open");
 }
 
-function renderCatalog() {
-  const items = filteredItems();
-  if (dom.catalogCount) dom.catalogCount.textContent = String(items.length);
-  if (!items.length) {
-    dom.catalog.innerHTML = `<div class="empty-state">No products found.</div>`;
-    return;
-  }
-
-  dom.catalog.innerHTML = `
+function catalogHtml(items) {
+  if (!items.length) return `<div class="empty-state">No products found.</div>`;
+  return `
     <section class="sku-section">
       <div class="section-title">
         <div>
@@ -657,6 +656,41 @@ function renderCatalog() {
       ${renderUnifiedSkuGrid(items)}
     </section>
   `;
+}
+
+function renderCatalog(options = {}) {
+  const items = filteredItems();
+  if (dom.catalogCount) dom.catalogCount.textContent = String(items.length);
+  const html = catalogHtml(items);
+  const shouldAnimate =
+    options.animate &&
+    document.body.dataset.view === "products" &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  clearTimeout(catalogTransitionTimer);
+  catalogTransitionToken += 1;
+  const token = catalogTransitionToken;
+
+  if (!shouldAnimate) {
+    dom.catalog.classList.remove("catalog-transitioning", "catalog-transition-out", "catalog-transition-in");
+    dom.catalog.innerHTML = html;
+    return;
+  }
+
+  dom.catalog.classList.add("catalog-transitioning", "catalog-transition-out");
+  dom.catalog.classList.remove("catalog-transition-in");
+
+  catalogTransitionTimer = window.setTimeout(() => {
+    if (token !== catalogTransitionToken) return;
+    dom.catalog.innerHTML = html;
+    dom.catalog.classList.remove("catalog-transition-out");
+    dom.catalog.classList.add("catalog-transition-in");
+
+    catalogTransitionTimer = window.setTimeout(() => {
+      if (token !== catalogTransitionToken) return;
+      dom.catalog.classList.remove("catalog-transitioning", "catalog-transition-in");
+    }, CATALOG_TRANSITION_IN_MS);
+  }, CATALOG_TRANSITION_OUT_MS);
 }
 
 function renderUnifiedSkuGrid(items) {
