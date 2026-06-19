@@ -524,11 +524,16 @@ function representativeItem(option) {
 }
 
 function renderCategoryNav() {
-  const filters = [...SECTION_META, { slug: "all", label: "All Products" }];
-  dom.categoryNav.innerHTML = filters
+  dom.categoryNav.innerHTML = LANDING_OPTIONS
     .map((filter) => {
+      const item = representativeItem(filter);
       const active = state.activeFilter === filter.slug ? "active" : "";
-      return `<button class="${active}" type="button" data-filter="${filter.slug}">${escapeHtml(filter.label)}</button>`;
+      return `
+        <button class="category-tile ${active}" type="button" data-filter="${escapeHtml(filter.slug)}">
+          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" loading="lazy" />` : ""}</span>
+          <span class="category-tile-label">${escapeHtml(filter.label)}</span>
+        </button>
+      `;
     })
     .join("");
 }
