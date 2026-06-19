@@ -26,7 +26,7 @@ export async function POST(request) {
       id: order.id,
       order,
       emailStatus: "not-configured",
-      message: "Order saved to the portal inbox.",
+      message: "Order request received.",
     });
   }
 
@@ -64,7 +64,7 @@ export async function POST(request) {
       order.delivery.adminEmailId = adminEmail.value.id || null;
       order.delivery.customerEmailId = customerEmail.value.id || null;
       await upsertOrder(order);
-      return Response.json({ ok: true, id: order.id, order, emailStatus: "sent" });
+      return Response.json({ ok: true, id: order.id, order, emailStatus: "sent", message: "Order request received." });
     }
 
     order.delivery.email = "failed";
@@ -78,7 +78,7 @@ export async function POST(request) {
       id: order.id,
       order,
       emailStatus: "failed",
-      message: "Order saved to the portal inbox, but email delivery failed.",
+      message: "Order request received.",
     });
   } catch (error) {
     order.delivery.email = "failed";
@@ -89,7 +89,7 @@ export async function POST(request) {
       id: order.id,
       order,
       emailStatus: "failed",
-      message: "Order saved to the portal inbox, but email delivery failed.",
+      message: "Order request received.",
     });
   }
 }

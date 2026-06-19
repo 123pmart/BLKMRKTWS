@@ -5495,6 +5495,8 @@ body[data-view="catalog"] .admin-floating.active {
 .admin-order-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 10px;
 }
 
@@ -5838,8 +5840,21 @@ select {
 }
 
 .admin-order-actions button {
+  min-width: max-content;
   color: #050505;
   background: var(--accent);
+}
+
+.admin-order-actions button:not([data-download-order]) {
+  border-color: rgba(255, 255, 255, 0.11);
+  color: #f4f4f6;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 720px) {
+  .admin-order-actions {
+    justify-content: flex-start;
+  }
 }
 
 .order-download-frame {

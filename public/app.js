@@ -26,6 +26,7 @@ const LANDING_OPTIONS = [
   { slug: "thermogenics", label: "Thermogenics", match: (item) => item.productId === "cuts-thermogenic-pre-workout" },
   { slug: "focus", label: "High Stim & Nootropics", match: (item) => item.productId === "defy-hyper-stimulant" },
   { slug: "pump", label: "Pump", match: (item) => item.productId === "pump-hyper-pump-pre-workout" },
+  { slug: "strength", label: "Strength", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
   { slug: "raws", label: "RAWS", match: (item) => item.productId === "creatine-monohydrate-raw" },
   { slug: "all", label: "All Products", match: (item) => item.productId === "rule-hyper-focus" },
 ];
@@ -349,6 +350,27 @@ function bindEvents() {
     if (download) {
       const order = state.orders.find((entry) => entry.id === download.dataset.downloadOrder);
       if (order) downloadOrder(order);
+      return;
+    }
+
+    const copyEmail = event.target.closest("[data-copy-email]");
+    if (copyEmail) {
+      const order = state.orders.find((entry) => entry.id === copyEmail.dataset.copyEmail);
+      if (order) copyOrderEmail(order);
+      return;
+    }
+
+    const copySummary = event.target.closest("[data-copy-summary]");
+    if (copySummary) {
+      const order = state.orders.find((entry) => entry.id === copySummary.dataset.copySummary);
+      if (order) copyOrderSummary(order);
+      return;
+    }
+
+    const copyDraft = event.target.closest("[data-copy-draft]");
+    if (copyDraft) {
+      const order = state.orders.find((entry) => entry.id === copyDraft.dataset.copyDraft);
+      if (order) copyOrderEmailDraft(order);
       return;
     }
 
@@ -1115,7 +1137,7 @@ async function sendOrder() {
     renderCart();
     renderAdminOrders();
     closeCartDrawer();
-    showToast(result.message || "Order sent and cart cleared");
+    showToast(result.message || "Order request received and cart cleared");
   } catch (error) {
     showToast(error?.message || "Order could not be sent");
   } finally {
@@ -1193,6 +1215,26 @@ function downloadOrder(order) {
   URL.revokeObjectURL(url);
 }
 
+async function copyOrderEmail(order) {
+  const email = order.store?.email || "";
+  if (!email) {
+    showToast("No customer email on this order");
+    return;
+  }
+  await copyText(email);
+  showToast("Customer email copied");
+}
+
+async function copyOrderSummary(order) {
+  await copyText(formatOrderForDownload(order));
+  showToast("Order summary copied");
+}
+
+async function copyOrderEmailDraft(order) {
+  await copyText(formatCustomerEmailDraft(order));
+  showToast("Email draft copied");
+}
+
 function formatOrderForDownload(order) {
   const store = order.store || {};
   const lines = order.lines || [];
@@ -1216,6 +1258,24 @@ function formatOrderForDownload(order) {
     `Wholesale total: ${money(order.totals?.wholesale || 0)}`,
     `Projected MAP value: ${money(order.totals?.map || 0)}`,
   ].filter((line) => line !== "").join("\n");
+}
+
+function formatCustomerEmailDraft(order) {
+  const store = order.store || {};
+  return [
+    `To: ${store.email || ""}`,
+    `Subject: BLACKMARKET Wholesale Order Request Received - ${store.storeName || "Wholesale Order"}`,
+    "",
+    `Hi ${store.contactName || store.storeName || "there"},`,
+    "",
+    "We received your BLACKMARKET Wholesale order request. Here is the order summary for review:",
+    "",
+    formatOrderForDownload(order),
+    "",
+    "We will review availability and follow up with next steps.",
+    "",
+    "BLACKMARKET Wholesale",
+  ].join("\n");
 }
 
 function publicLine({ item, qty, lineWholesale, lineMap }) {
@@ -1413,6 +1473,9 @@ function renderAdminOrder(order) {
         </div>
         <div class="admin-order-actions">
           <b>${money(totals.wholesale)}</b>
+          <button type="button" data-copy-email="${escapeHtml(order.id)}">Copy Email</button>
+          <button type="button" data-copy-summary="${escapeHtml(order.id)}">Copy Summary</button>
+          <button type="button" data-copy-draft="${escapeHtml(order.id)}">Copy Email Draft</button>
           <button type="button" data-download-order="${escapeHtml(order.id)}">Download</button>
         </div>
       </div>
@@ -1711,6 +1774,23 @@ function splitImageList(value) {
 
 function unique(values) {
   return [...new Set(values.filter(Boolean))];
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.left = "-9999px";
+  document.body.append(field);
+  field.select();
+  document.execCommand("copy");
+  field.remove();
 }
 
 function today() {

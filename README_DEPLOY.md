@@ -37,7 +37,7 @@ ORDER_TO_EMAIL
 
 `/api/send-order` always saves valid orders to the portal inbox first. On Vercel, create a Vercel Blob store so `BLOB_READ_WRITE_TOKEN` is injected; that is the durable production inbox. `ORDER_STORE_FILE` is only a local/self-hosted fallback.
 
-`RESEND_API_KEY` is required for order emails. `ORDER_FROM_EMAIL` defaults to `pmart@blackmarketlabs.com`, and `ORDER_TO_EMAIL` defaults to `pmart@blackmarketlabs.com`. Each order sends an admin copy and a customer confirmation to the store email entered at checkout.
+`RESEND_API_KEY` is optional. If it is missing, orders still save to the admin inbox and email sending is skipped silently. When Resend is configured later, `ORDER_FROM_EMAIL` defaults to `pmart@blackmarketlabs.com`, `ORDER_TO_EMAIL` defaults to `pmart@blackmarketlabs.com`, and each order sends an admin copy plus a customer confirmation to the store email entered at checkout.
 
 ## Notes
 
