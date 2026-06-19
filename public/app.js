@@ -13,6 +13,7 @@ const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 const ADMIN_USER = "pmart";
 const ADMIN_PASS = "123pmart";
 const MEDIA_PRELOAD_CONCURRENCY = 8;
+const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
 
 const SECTION_META = [
   { slug: "thermogenics", label: "Thermogenics" },
@@ -1349,17 +1350,22 @@ function renderAdmin() {
 }
 
 function setAdminSection(section) {
-  state.activeAdminSection = section || "orders";
+  state.activeAdminSection = ADMIN_SECTIONS.has(section) ? section : "orders";
   renderAdminPages();
   if (state.activeAdminSection === "orders") loadServerOrders({ silent: true });
 }
 
 function renderAdminPages() {
   dom.adminSectionNav?.querySelectorAll("[data-admin-section]").forEach((button) => {
-    button.classList.toggle("active", button.dataset.adminSection === state.activeAdminSection);
+    const active = button.dataset.adminSection === state.activeAdminSection;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-current", active ? "page" : "false");
   });
+  if (dom.adminPanel) dom.adminPanel.dataset.activeAdminPage = state.activeAdminSection;
   dom.adminPages.forEach((page) => {
-    page.classList.toggle("active", page.dataset.adminPage === state.activeAdminSection);
+    const active = page.dataset.adminPage === state.activeAdminSection;
+    page.classList.toggle("active", active);
+    page.hidden = !active;
   });
 }
 

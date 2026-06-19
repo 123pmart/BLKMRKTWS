@@ -6251,3 +6251,275 @@ select {
     max-width: calc((100% - 16px) / 3);
   }
 }
+
+/* Final audit pass: remove glow leakage, prevent rail clipping, and make Admin true pages. */
+body {
+  background:
+    radial-gradient(circle at 50% -14%, rgba(255, 255, 255, 0.052), transparent 30%),
+    linear-gradient(180deg, #050506 0%, #020203 58%, #000 100%);
+}
+
+.announcement-band button,
+.announcement-band button:hover,
+.search:focus-within,
+.line-controls button:hover,
+.mobile-icon-nav.active,
+.chip-row button.active,
+.download-link:hover,
+.link-button:hover,
+.top-nav button:hover,
+.top-nav button.active,
+#cartView .order-actions button,
+#cartView .store-card input:focus,
+#cartView .store-card textarea:focus,
+#cartView .store-card select:focus,
+.store-card input:focus,
+.store-card textarea:focus,
+.store-card select:focus,
+.admin-login input:focus,
+.admin-card input:focus,
+.admin-card textarea:focus,
+.admin-card select:focus,
+.admin-section-nav button.active,
+.admin-section-nav button:hover,
+.sku-card:hover,
+.sku-card:focus-visible,
+.news-card:hover,
+.news-card:focus-visible,
+.landing-card:hover .landing-card-media,
+.landing-card:focus-visible .landing-card-media,
+.category-tile:hover .category-tile-media,
+.category-tile.active .category-tile-media {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.search:focus-within,
+#cartView .store-card input:focus,
+#cartView .store-card textarea:focus,
+#cartView .store-card select:focus,
+.store-card input:focus,
+.store-card textarea:focus,
+.store-card select:focus,
+.admin-login input:focus,
+.admin-card input:focus,
+.admin-card textarea:focus,
+.admin-card select:focus {
+  border-color: var(--glass-line-strong);
+}
+
+.announcement-band button,
+.announcement-band button:hover {
+  border-color: var(--glass-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.84);
+}
+
+.announcement-band span,
+.top-nav button.active,
+.mobile-icon-nav.active,
+#cartView .order-actions button,
+.admin-section-nav button.active,
+.admin-card input[type="file"]::file-selector-button,
+.admin-card > button,
+.admin-actions button:first-child {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+#productsView,
+#productsView.view {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+#productsView .chip-row {
+  padding-block: 8px 14px;
+}
+
+#productsView .category-tile-media {
+  overflow: visible;
+}
+
+#productsView .category-tile:hover .category-tile-media,
+#productsView .category-tile.active .category-tile-media,
+#productsView .category-tile:hover .category-tile-media img,
+#productsView .category-tile.active .category-tile-media img {
+  transform: none;
+}
+
+@media (max-width: 980px) {
+  #productsView .chip-row {
+    padding: 8px 12px 14px;
+  }
+}
+
+#adminView {
+  width: min(1180px, 100%);
+}
+
+#adminView .view-head {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+  text-align: left;
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 226px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.admin-overview {
+  grid-column: 1 / -1;
+  gap: 10px;
+}
+
+.admin-overview > div {
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.84);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.admin-section-nav {
+  position: sticky;
+  top: calc(var(--header) + 18px);
+  z-index: 4;
+  grid-column: 1;
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  max-width: none;
+  padding: 8px;
+  border: 1px solid var(--glass-line);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.88);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.admin-section-nav button {
+  justify-content: flex-start;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #c7c7ce;
+  background: transparent;
+  text-align: left;
+  text-transform: none;
+}
+
+.admin-section-nav button:hover,
+.admin-section-nav button.active {
+  border-color: var(--glass-line);
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.admin-page:not(.active),
+.admin-page[hidden] {
+  display: none !important;
+}
+
+.admin-page.active {
+  grid-column: 2;
+  display: grid !important;
+}
+
+.admin-section {
+  gap: 18px;
+  min-height: 560px;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 7, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.admin-section-head {
+  align-items: center;
+  padding: 0 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.admin-section-head h2 {
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+.admin-grid,
+.admin-grid-wide {
+  display: grid;
+  align-items: start;
+  gap: 14px;
+}
+
+.admin-grid-wide {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+}
+
+.admin-card,
+.admin-order,
+.admin-order-toolbar,
+.admin-products-list article,
+.admin-news-list article {
+  border-color: var(--glass-line);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0.01)),
+    rgba(2, 2, 3, 0.62);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.admin-editor-card,
+.admin-list-card,
+.admin-orders-list .admin-order {
+  padding: clamp(16px, 2vw, 22px);
+}
+
+.admin-order-toolbar {
+  top: calc(var(--header) + 18px);
+  backdrop-filter: blur(18px);
+}
+
+@media (max-width: 980px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-section-nav,
+  .admin-page.active {
+    grid-column: 1;
+  }
+
+  .admin-section-nav {
+    position: sticky;
+    top: calc(var(--header) + 8px);
+    display: flex;
+    overflow-x: auto;
+    padding: 6px;
+  }
+
+  .admin-section-nav button {
+    flex: 0 0 auto;
+    min-width: max-content;
+    justify-content: center;
+  }
+
+  .admin-section {
+    min-height: 0;
+  }
+
+  .admin-grid-wide {
+    grid-template-columns: 1fr;
+  }
+}
