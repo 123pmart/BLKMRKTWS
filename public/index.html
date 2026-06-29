@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#070707" />
     <title>BLACKMARKET Wholesale</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/styles.css?v=20260619-product-image-stage" />
+    <link rel="stylesheet" href="/styles.css?v=20260629-admin-streettarts" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -165,6 +165,10 @@
           </div>
 
           <form class="admin-login" id="adminLoginForm">
+            <div class="admin-login-head">
+              <span class="admin-kicker">Secure workspace</span>
+              <h2>Portal Access</h2>
+            </div>
             <label>
               <span>Username</span>
               <input id="adminUsername" autocomplete="username" required />
@@ -173,7 +177,7 @@
               <span>Password</span>
               <input id="adminPassword" type="password" autocomplete="current-password" required />
             </label>
-            <button type="submit">Login</button>
+            <button class="admin-button admin-primary" type="submit">Open Admin</button>
           </form>
 
           <div class="admin-panel admin-shell" id="adminPanel" hidden>
@@ -191,7 +195,7 @@
               <div>
                 <span>Products</span>
                 <strong id="adminProductCount">0</strong>
-                <small>custom listings</small>
+                <small>catalog products</small>
               </div>
               <div>
                 <span>News</span>
@@ -212,6 +216,7 @@
                 <div>
                   <p class="eyebrow">Orders</p>
                   <h2>Order Inbox</h2>
+                  <p>Review incoming requests, copy customer details, and export polished order PDFs.</p>
                 </div>
               </div>
               <div class="admin-orders-list" id="adminOrdersList"></div>
@@ -222,16 +227,29 @@
                 <div>
                   <p class="eyebrow">News</p>
                   <h2>News Desk</h2>
+                  <p>Create focused buyer updates, preview the post, and manage published news from one workspace.</p>
                 </div>
               </div>
-              <div class="admin-grid admin-grid-wide">
+              <div class="admin-news-workspace">
                 <form class="admin-card admin-editor-card" id="announcementForm">
-                  <h3>Create News</h3>
+                  <div class="admin-card-heading">
+                    <div>
+                      <span class="admin-kicker">Editor</span>
+                      <h3>Create News Update</h3>
+                    </div>
+                    <span class="admin-status-dot">Draft</span>
+                  </div>
                   <input id="announcementId" type="hidden" />
                   <div class="form-grid three">
                     <label>
-                      <span>Label *</span>
-                      <input id="announcementLabel" placeholder="Launch" required />
+                      <span>Category *</span>
+                      <select id="announcementLabel" required>
+                        <option value="Launch">Launch</option>
+                        <option value="Restock">Restock</option>
+                        <option value="Product">Product</option>
+                        <option value="Portal">Portal</option>
+                        <option value="Update">Update</option>
+                      </select>
                     </label>
                     <label>
                       <span>Date *</span>
@@ -243,21 +261,23 @@
                     </label>
                   </div>
                   <label>
-                    <span>Title *</span>
-                    <input id="announcementTitle" placeholder="Title" required />
+                    <span>Headline *</span>
+                    <input id="announcementTitle" placeholder="What should buyers know?" required />
                   </label>
                   <label>
                     <span>Message *</span>
-                    <textarea id="announcementBody" rows="5" placeholder="Announcement copy" required></textarea>
+                    <textarea id="announcementBody" rows="5" placeholder="Write a concise update for wholesale buyers." required></textarea>
                   </label>
-                  <label>
-                    <span>Photo URL</span>
-                    <input id="announcementImage" placeholder="/assets/products/product.png" />
-                  </label>
-                  <label>
-                    <span>Upload Photo</span>
-                    <input id="announcementImageFile" type="file" accept="image/*" />
-                  </label>
+                  <div class="admin-upload-grid">
+                    <label>
+                      <span>Photo URL</span>
+                      <input id="announcementImage" placeholder="/assets/products/product.png" />
+                    </label>
+                    <label class="admin-file-field">
+                      <span>Upload Photo</span>
+                      <input id="announcementImageFile" type="file" accept="image/*" />
+                    </label>
+                  </div>
                   <div class="form-grid two">
                     <label>
                       <span>CTA Label</span>
@@ -269,13 +289,30 @@
                     </label>
                   </div>
                   <div class="admin-actions">
-                    <button type="submit" id="announcementSubmit">Publish Update</button>
-                    <button type="button" id="announcementCancel" hidden>Cancel Edit</button>
+                    <button class="admin-button admin-primary" type="submit" id="announcementSubmit">Publish Update</button>
+                    <button class="admin-button admin-secondary" type="button" id="announcementCancel" hidden>Cancel Edit</button>
                   </div>
                 </form>
 
-                <div class="admin-card admin-list-card">
-                  <h3>Published Updates</h3>
+                <aside class="admin-news-side">
+                  <div class="admin-card admin-preview-card">
+                    <div class="admin-card-heading">
+                      <div>
+                        <span class="admin-kicker">Preview</span>
+                        <h3>Buyer View</h3>
+                      </div>
+                    </div>
+                    <div class="admin-news-preview" id="adminNewsPreview"></div>
+                  </div>
+                </aside>
+
+                <div class="admin-card admin-list-card admin-news-library">
+                  <div class="admin-card-heading">
+                    <div>
+                      <span class="admin-kicker">Published</span>
+                      <h3>News Library</h3>
+                    </div>
+                  </div>
                   <div class="admin-news-list" id="adminNewsList"></div>
                 </div>
               </div>
@@ -286,19 +323,57 @@
                 <div>
                   <p class="eyebrow">Products</p>
                   <h2>Product Builder</h2>
+                  <p>Add a limited flavor to an existing formula or create an entirely new catalog product.</p>
                 </div>
               </div>
-              <div class="admin-grid admin-grid-wide">
+              <div class="admin-product-toolbar">
+                <label class="admin-search-field">
+                  <span>Search catalog</span>
+                  <input id="adminProductSearch" type="search" placeholder="Search product, flavor, or item #" />
+                </label>
+                <label>
+                  <span>Category</span>
+                  <select id="adminProductFilter">
+                    <option value="all">All categories</option>
+                    <option value="thermogenics">Thermogenics</option>
+                    <option value="focus">High Stim &amp; Nootropics</option>
+                    <option value="pump">Pump</option>
+                    <option value="strength">Strength</option>
+                    <option value="raws">RAWS</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="admin-product-workspace">
                 <form class="admin-card admin-editor-card" id="customProductForm">
-                  <h3>Add Product</h3>
-                  <label>
-                    <span>Product Name *</span>
-                    <input id="customProductTitle" placeholder="Product name" required />
-                  </label>
-                  <div class="form-grid three">
+                  <div class="admin-card-heading">
+                    <div>
+                      <span class="admin-kicker">Catalog editor</span>
+                      <h3 id="customProductEditorTitle">Add Flavor</h3>
+                    </div>
+                  </div>
+
+                  <div class="admin-mode-switch" role="tablist" aria-label="Product editor mode">
+                    <button class="active" type="button" data-product-mode="flavor" role="tab" aria-selected="true">Add Flavor</button>
+                    <button type="button" data-product-mode="product" role="tab" aria-selected="false">New Product</button>
+                  </div>
+
+                  <div class="admin-editor-section" data-product-panel="flavor">
+                    <label>
+                      <span>Existing Product *</span>
+                      <select id="customProductParent"></select>
+                    </label>
+                    <div class="admin-selected-product" id="adminSelectedProduct"></div>
+                  </div>
+
+                  <div class="admin-editor-section" data-product-panel="product" hidden>
+                    <label>
+                      <span>Product Name *</span>
+                      <input id="customProductTitle" placeholder="Product name" />
+                    </label>
                     <label>
                       <span>Category *</span>
-                      <select id="customProductSection" required>
+                      <select id="customProductSection">
                         <option value="thermogenics">Thermogenics</option>
                         <option value="focus">High Stim &amp; Nootropics</option>
                         <option value="pump">Pump</option>
@@ -306,84 +381,116 @@
                         <option value="raws">RAWS</option>
                       </select>
                     </label>
+                  </div>
+
+                  <div class="admin-editor-section">
+                    <div class="admin-editor-section-head">
+                      <span>Flavor details</span>
+                      <label class="admin-check-field">
+                        <input id="customProductLimited" type="checkbox" />
+                        <span>Limited edition</span>
+                      </label>
+                    </div>
+                    <div class="form-grid two">
+                      <label>
+                        <span>Flavor *</span>
+                        <input id="customProductFlavor" placeholder="Flavor name" required />
+                      </label>
+                      <label>
+                        <span>Status *</span>
+                        <select id="customProductStatus" required>
+                          <option value="available">Available</option>
+                          <option value="coming-soon">Coming Soon</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="admin-editor-section">
+                    <span class="admin-editor-label">Inventory</span>
+                    <div class="form-grid three">
+                      <label>
+                        <span>Item # *</span>
+                        <input id="customProductItem" placeholder="Item number" required />
+                      </label>
+                      <label>
+                        <span>UPC</span>
+                        <input id="customProductUpc" placeholder="UPC" />
+                      </label>
+                      <label>
+                        <span>Case Pack</span>
+                        <input id="customProductCasePack" placeholder="Case pack" />
+                      </label>
+                    </div>
+                    <div class="form-grid two">
+                      <label>
+                        <span>Wholesale *</span>
+                        <input id="customProductWholesale" placeholder="$28.00" required />
+                      </label>
+                      <label>
+                        <span>MAP *</span>
+                        <input id="customProductMap" placeholder="$59.99" required />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="admin-editor-section">
+                    <span class="admin-editor-label">Product media</span>
+                    <div class="admin-upload-grid">
+                      <label>
+                        <span>Bottle Image URL</span>
+                        <input id="customProductBottle" placeholder="/assets/products/bottle.png" />
+                      </label>
+                      <label class="admin-file-field">
+                        <span>Upload Bottle *</span>
+                        <input id="customProductBottleFile" type="file" accept="image/*" />
+                      </label>
+                      <label>
+                        <span>Nutrition Panel URL</span>
+                        <input id="customProductPanel" placeholder="/assets/products/panel.png" />
+                      </label>
+                      <label class="admin-file-field">
+                        <span>Upload Nutrition Panel *</span>
+                        <input id="customProductPanelFile" type="file" accept="image/*" />
+                      </label>
+                    </div>
                     <label>
-                      <span>Flavor *</span>
-                      <input id="customProductFlavor" placeholder="Flavor" required />
+                      <span>Side / Gallery Image URLs</span>
+                      <textarea id="customProductImages" rows="3" placeholder="One image URL per line"></textarea>
                     </label>
-                    <label>
-                      <span>Status *</span>
-                      <select id="customProductStatus" required>
-                        <option value="available">Available</option>
-                        <option value="coming-soon">Coming Soon</option>
-                        <option value="inactive">Inactive</option>
-                      </select>
+                    <label class="admin-file-field">
+                      <span>Upload Gallery Images</span>
+                      <input id="customProductGalleryFiles" type="file" accept="image/*" multiple />
                     </label>
                   </div>
-                  <div class="form-grid three">
+
+                  <div class="admin-editor-section">
+                    <span class="admin-editor-label">Copy</span>
                     <label>
-                      <span>Item # *</span>
-                      <input id="customProductItem" placeholder="Item number" required />
+                      <span>Product Highlights</span>
+                      <textarea id="customProductHighlights" rows="3" placeholder="One highlight per line"></textarea>
                     </label>
                     <label>
-                      <span>UPC</span>
-                      <input id="customProductUpc" placeholder="UPC" />
+                      <span>Description</span>
+                      <textarea id="customProductDescription" rows="4" placeholder="Uses the parent product description when left blank"></textarea>
                     </label>
                     <label>
-                      <span>Case Pack</span>
-                      <input id="customProductCasePack" placeholder="Case pack" />
-                    </label>
-                  </div>
-                  <div class="form-grid two">
-                    <label>
-                      <span>Wholesale *</span>
-                      <input id="customProductWholesale" placeholder="$28.00" required />
-                    </label>
-                    <label>
-                      <span>MAP *</span>
-                      <input id="customProductMap" placeholder="$59.99" required />
+                      <span>Internal Notes</span>
+                      <textarea id="customProductNotes" rows="3" placeholder="Only visible in admin"></textarea>
                     </label>
                   </div>
-                  <label>
-                    <span>Bottle Image URL</span>
-                    <input id="customProductBottle" placeholder="/assets/products/bottle.png" />
-                  </label>
-                  <label>
-                    <span>Upload Bottle</span>
-                    <input id="customProductBottleFile" type="file" accept="image/*" />
-                  </label>
-                  <label>
-                    <span>Nutrition Panel URL</span>
-                    <input id="customProductPanel" placeholder="/assets/products/panel.png" />
-                  </label>
-                  <label>
-                    <span>Upload Nutrition Panel</span>
-                    <input id="customProductPanelFile" type="file" accept="image/*" />
-                  </label>
-                  <label>
-                    <span>Side / Gallery Image URLs</span>
-                    <textarea id="customProductImages" rows="3" placeholder="/assets/products/side.png"></textarea>
-                  </label>
-                  <label>
-                    <span>Upload Gallery Images</span>
-                    <input id="customProductGalleryFiles" type="file" accept="image/*" multiple />
-                  </label>
-                  <label>
-                    <span>Product Highlights</span>
-                    <textarea id="customProductHighlights" rows="3" placeholder="Highlight per line"></textarea>
-                  </label>
-                  <label>
-                    <span>Description *</span>
-                    <textarea id="customProductDescription" rows="4" placeholder="Product description" required></textarea>
-                  </label>
-                  <label>
-                    <span>Internal Notes</span>
-                    <textarea id="customProductNotes" rows="3" placeholder="Internal notes"></textarea>
-                  </label>
-                  <button type="submit">Add Product</button>
+                  <button class="admin-button admin-primary" id="customProductSubmit" type="submit">Add Flavor</button>
                 </form>
 
-                <div class="admin-card admin-list-card">
-                  <h3>Custom Products</h3>
+                <div class="admin-card admin-list-card admin-product-library">
+                  <div class="admin-card-heading">
+                    <div>
+                      <span class="admin-kicker">Live catalog</span>
+                      <h3>Products &amp; Flavors</h3>
+                    </div>
+                    <span class="admin-count-badge" id="adminProductLibraryCount">0 products</span>
+                  </div>
                   <div class="admin-products-list" id="adminProductsList"></div>
                 </div>
               </div>
@@ -394,11 +501,14 @@
                 <div>
                   <p class="eyebrow">Settings</p>
                   <h2>Portal Settings</h2>
+                  <p>Review connected services, export content, and manage the current admin session.</p>
                 </div>
               </div>
-              <div class="admin-grid">
+              <div class="admin-settings-grid">
                 <div class="admin-card">
-                  <h3>Order Handling</h3>
+                  <div class="admin-card-heading">
+                    <div><span class="admin-kicker">Orders</span><h3>Order Handling</h3></div>
+                  </div>
                   <label>
                     <span>Inbox Source</span>
                     <input id="adminOrderEmail" value="Server API inbox" disabled />
@@ -411,10 +521,34 @@
                     <span>Email From</span>
                     <input value="pmart@blackmarketlabs.com" disabled />
                   </label>
+                  <label>
+                    <span>Customer Download</span>
+                    <input value="PDF order request" disabled />
+                  </label>
                 </div>
                 <div class="admin-card">
-                  <h3>Session</h3>
-                  <button id="adminLogout" type="button">Logout</button>
+                  <div class="admin-card-heading">
+                    <div><span class="admin-kicker">Catalog</span><h3>Content &amp; Assets</h3></div>
+                  </div>
+                  <div class="admin-settings-stats">
+                    <div><span>Products</span><strong id="adminCatalogProductCount">0</strong></div>
+                    <div><span>Flavors</span><strong id="adminCatalogVariantCount">0</strong></div>
+                  </div>
+                  <label>
+                    <span>Content Storage</span>
+                    <input id="adminContentStorageMode" value="Checking..." disabled />
+                  </label>
+                  <div class="admin-actions">
+                    <button class="admin-button admin-secondary" id="adminRefreshContent" type="button">Refresh Portal Data</button>
+                    <button class="admin-button admin-secondary" id="adminExportContent" type="button">Export Content Backup</button>
+                  </div>
+                </div>
+                <div class="admin-card">
+                  <div class="admin-card-heading">
+                    <div><span class="admin-kicker">Security</span><h3>Admin Session</h3></div>
+                  </div>
+                  <p class="admin-card-copy">End this browser's admin session when you are finished managing the portal.</p>
+                  <button class="admin-button admin-danger" id="adminLogout" type="button">Log Out</button>
                 </div>
               </div>
             </section>
@@ -453,6 +587,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/app.js?v=20260619-category-motion"></script>
+    <script type="module" src="/app.js?v=20260629-admin-streettarts"></script>
   </body>
 </html>

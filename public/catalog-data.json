@@ -1036,13 +1036,29 @@
           "mapValue": 59.99,
           "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-white-gummy-bear-56298-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png",
           "available": true
+        },
+        {
+          "id": "defy-hyper-stimulant-streettarts-56329",
+          "item": "56329",
+          "upc": "",
+          "flavor": "STREETTARTS",
+          "description": "DEFY Hyper Stimulant Pre-workout LE STREETTARTS 20/40 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/site-images/defy-hyper-stimulant-streettarts-front.png",
+          "panel": "/assets/site-images/defy-hyper-stimulant-streettarts-supplement-facts.jpg",
+          "limitedEdition": true,
+          "available": true
         }
       ],
       "siteVariants": [
         "RAZZ MANGO SHERBET",
         "PEACH RINGS",
         "WATERMELON LEMONADE",
-        "Walter White Gummy Bear"
+        "Walter White Gummy Bear",
+        "STREETTARTS"
       ],
       "handle": "defy-hyper-stimulant-pre-workout",
       "siteImages": [
@@ -1053,7 +1069,11 @@
         "/assets/site-images/defy-hyper-stimulant-5-defy-side-1.png",
         "/assets/site-images/defy-hyper-stimulant-6-defy-side-2.png",
         "/assets/site-images/defy-hyper-stimulant-7-defy-razzmango-supfact.png",
-        "/assets/site-images/defy-hyper-stimulant-8-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png"
+        "/assets/site-images/defy-hyper-stimulant-8-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png",
+        "/assets/site-images/defy-hyper-stimulant-streettarts-front.png",
+        "/assets/site-images/defy-hyper-stimulant-streettarts-side1.png",
+        "/assets/site-images/defy-hyper-stimulant-streettarts-side2.png",
+        "/assets/site-images/defy-hyper-stimulant-streettarts-supplement-facts.jpg"
       ]
     },
     {

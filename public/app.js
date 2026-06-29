@@ -1,6 +1,7 @@
-const DATA_URL = "/catalog-data.json?v=20260618-liquid-glass-mobile";
-const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260618-liquid-glass-mobile";
+const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
+const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260629-streettarts-admin";
 const ORDERS_API_URL = "/api/orders";
+const CONTENT_API_URL = "/api/content";
 const ORDER_SUBMIT_URL = "/api/send-order";
 const ASSET_UPLOAD_URL = "/api/upload-asset";
 const CART_KEY = "blackmarket-wholesale-cart-v4";
@@ -79,7 +80,11 @@ const state = {
   query: "",
   adminAuthed: loadJson(ADMIN_KEY, false),
   activeAdminSection: "orders",
+  adminProductMode: "flavor",
+  adminProductQuery: "",
+  adminProductCategory: "all",
   orderStorageMode: "local fallback",
+  contentStorageMode: "local fallback",
 };
 
 const mediaPreload = {
@@ -132,6 +137,7 @@ const dom = {
   announcementCtaUrl: document.querySelector("#announcementCtaUrl"),
   announcementSubmit: document.querySelector("#announcementSubmit"),
   announcementCancel: document.querySelector("#announcementCancel"),
+  adminNewsPreview: document.querySelector("#adminNewsPreview"),
   adminNewsList: document.querySelector("#adminNewsList"),
   adminOrdersList: document.querySelector("#adminOrdersList"),
   adminOrderCount: document.querySelector("#adminOrderCount"),
@@ -139,8 +145,14 @@ const dom = {
   adminProductCount: document.querySelector("#adminProductCount"),
   adminNewsCount: document.querySelector("#adminNewsCount"),
   adminStorageMode: document.querySelector("#adminStorageMode"),
+  adminContentStorageMode: document.querySelector("#adminContentStorageMode"),
   adminLogout: document.querySelector("#adminLogout"),
   customProductForm: document.querySelector("#customProductForm"),
+  customProductModeButtons: document.querySelectorAll("[data-product-mode]"),
+  customProductPanels: document.querySelectorAll("[data-product-panel]"),
+  customProductParent: document.querySelector("#customProductParent"),
+  customProductEditorTitle: document.querySelector("#customProductEditorTitle"),
+  customProductSubmit: document.querySelector("#customProductSubmit"),
   customProductTitle: document.querySelector("#customProductTitle"),
   customProductSection: document.querySelector("#customProductSection"),
   customProductFlavor: document.querySelector("#customProductFlavor"),
@@ -148,6 +160,7 @@ const dom = {
   customProductUpc: document.querySelector("#customProductUpc"),
   customProductCasePack: document.querySelector("#customProductCasePack"),
   customProductStatus: document.querySelector("#customProductStatus"),
+  customProductLimited: document.querySelector("#customProductLimited"),
   customProductWholesale: document.querySelector("#customProductWholesale"),
   customProductMap: document.querySelector("#customProductMap"),
   customProductBottle: document.querySelector("#customProductBottle"),
@@ -159,7 +172,15 @@ const dom = {
   customProductHighlights: document.querySelector("#customProductHighlights"),
   customProductDescription: document.querySelector("#customProductDescription"),
   customProductNotes: document.querySelector("#customProductNotes"),
+  adminSelectedProduct: document.querySelector("#adminSelectedProduct"),
+  adminProductSearch: document.querySelector("#adminProductSearch"),
+  adminProductFilter: document.querySelector("#adminProductFilter"),
+  adminProductLibraryCount: document.querySelector("#adminProductLibraryCount"),
   adminProductsList: document.querySelector("#adminProductsList"),
+  adminCatalogProductCount: document.querySelector("#adminCatalogProductCount"),
+  adminCatalogVariantCount: document.querySelector("#adminCatalogVariantCount"),
+  adminRefreshContent: document.querySelector("#adminRefreshContent"),
+  adminExportContent: document.querySelector("#adminExportContent"),
   productModal: document.querySelector("#productModal"),
   modalContent: document.querySelector("#modalContent"),
   closeProductModal: document.querySelector("#closeProductModal"),
@@ -177,9 +198,16 @@ const dom = {
 init();
 
 async function init() {
-  const [response, catalogResponse] = await Promise.all([fetch(DATA_URL), fetch(CATALOG_PAGES_URL).catch(() => null)]);
+  const [response, catalogResponse, contentResponse] = await Promise.all([
+    fetch(DATA_URL),
+    fetch(CATALOG_PAGES_URL).catch(() => null),
+    fetch(CONTENT_API_URL, { cache: "no-store" }).catch(() => null),
+  ]);
   const data = await response.json();
   const catalogData = catalogResponse?.ok ? await catalogResponse.json() : { pages: [] };
+  const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
+  if (contentData?.content) applyServerContent(contentData.content);
+  if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.baseProducts = normalizeProducts(data.products);
   state.products = mergeProducts();
   state.items = buildItems(state.products);
@@ -310,7 +338,10 @@ function bindEvents() {
       state.adminAuthed = true;
       saveJson(ADMIN_KEY, true);
       renderAdmin();
-      loadServerOrders({ silent: true });
+      Promise.all([
+        loadServerOrders({ silent: true }),
+        loadServerContent({ silent: true }),
+      ]);
       showToast("Admin unlocked");
     } else {
       showToast("Invalid admin login");
@@ -329,6 +360,7 @@ function bindEvents() {
   });
 
   dom.announcementCancel.addEventListener("click", clearAnnouncementEditor);
+  dom.announcementForm.addEventListener("input", renderAdminNewsPreview);
 
   dom.adminNewsList.addEventListener("click", (event) => {
     const remove = event.target.closest("[data-remove-announcement]");
@@ -396,11 +428,37 @@ function bindEvents() {
     await addCustomProduct();
   });
 
+  dom.customProductModeButtons.forEach((button) => {
+    button.addEventListener("click", () => setProductEditorMode(button.dataset.productMode));
+  });
+  dom.customProductParent.addEventListener("change", syncProductEditorFromParent);
+  dom.adminProductSearch.addEventListener("input", (event) => {
+    state.adminProductQuery = event.target.value.trim().toLowerCase();
+    renderAdminProducts();
+  });
+  dom.adminProductFilter.addEventListener("change", (event) => {
+    state.adminProductCategory = event.target.value;
+    renderAdminProducts();
+  });
+
   dom.adminProductsList.addEventListener("click", (event) => {
+    const select = event.target.closest("[data-select-product]");
+    if (select) {
+      setProductEditorMode("flavor");
+      dom.customProductParent.value = select.dataset.selectProduct;
+      syncProductEditorFromParent();
+      dom.customProductForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     const remove = event.target.closest("[data-remove-product]");
     if (!remove) return;
     removeCustomProduct(remove.dataset.removeProduct);
   });
+
+  dom.adminRefreshContent.addEventListener("click", async () => {
+    await loadServerContent();
+  });
+  dom.adminExportContent.addEventListener("click", exportAdminContentBackup);
 
   dom.closeProductModal.addEventListener("click", closeProductModal);
   dom.modalContent.addEventListener("click", handleModalQuantityClick);
@@ -445,7 +503,35 @@ function normalizeProducts(products) {
 }
 
 function mergeProducts() {
-  return [...state.baseProducts, ...state.customProducts];
+  const merged = state.baseProducts.map((product) => ({
+    ...product,
+    variants: product.variants.map((variant) => ({ ...variant })),
+    siteImages: [...(product.siteImages || [])],
+  }));
+
+  state.customProducts.forEach((customProduct) => {
+    const customVariants = (customProduct.variants || []).map((variant) => ({
+      ...variant,
+      customSourceId: customProduct.id,
+    }));
+    const parent = customProduct.extendsProductId
+      ? merged.find((product) => product.id === customProduct.extendsProductId)
+      : null;
+
+    if (parent) {
+      parent.variants.push(...customVariants);
+      parent.siteImages = unique([...(parent.siteImages || []), ...(customProduct.siteImages || [])]);
+      return;
+    }
+
+    merged.push({
+      ...customProduct,
+      customSourceId: customProduct.id,
+      variants: customVariants,
+    });
+  });
+
+  return merged;
 }
 
 function rebuildProductState() {
@@ -738,7 +824,7 @@ function renderSkuCard(item) {
     <article class="sku-card" data-detail="${item.id}" tabindex="0" aria-label="View ${escapeHtml(item.fullTitle)} details">
       <div class="sku-meta">
         <span>#${escapeHtml(item.item)}</span>
-        <span>${escapeHtml(item.flavor)}</span>
+        <span class="${item.limitedEdition ? "sku-limited" : ""}">${item.limitedEdition ? "Limited / " : ""}${escapeHtml(item.flavor)}</span>
       </div>
       <div class="bottle-stage">
         <img src="${item.bottle}" alt="${escapeHtml(item.fullTitle)} bottle" loading="lazy" />
@@ -847,7 +933,7 @@ function openProductModal(itemId) {
             <img src="${item.bottle}" alt="${escapeHtml(item.fullTitle)} bottle" />
           </div>
           <div class="detail-copy">
-            <p class="eyebrow">#${escapeHtml(item.item)}</p>
+            <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
             <h2>${escapeHtml(item.fullTitle)}</h2>
             <p>${escapeHtml(item.description || item.productDescription)}</p>
             <div class="detail-price">
@@ -1244,15 +1330,364 @@ async function sendOrderToServer(order) {
 }
 
 function downloadOrder(order) {
-  const blob = new Blob([formatOrderForDownload(order)], { type: "text/plain;charset=utf-8" });
+  const blob = new Blob([generateOrderPdf(order)], { type: "application/pdf" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `blackmarket-order-${safeFilePart(order.store.storeName)}-${today()}.txt`;
+  link.download = `blackmarket-order-${safeFilePart(order.store.storeName)}-${today()}.pdf`;
   document.body.append(link);
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
+}
+
+function generateOrderPdf(order) {
+  const pages = buildOrderPdfPages(order);
+  return buildPdfFile(pages);
+}
+
+function buildOrderPdfPages(order) {
+  const lines = Array.isArray(order.lines) ? order.lines : [];
+  const pages = [];
+  let index = 0;
+
+  while (index < lines.length || !pages.length) {
+    const ops = [];
+    drawOrderPageHeader(ops, order);
+    let y = drawOrderItemHeader(ops);
+
+    while (index < lines.length) {
+      const row = orderLineForPdf(lines[index], index);
+      const descLines = wrapPdfText(row.description, 160, 9);
+      const rowHeight = Math.max(24, 12 + descLines.length * 11);
+      if (y - rowHeight < 156 && index > 0) break;
+      drawOrderItemRow(ops, row, descLines, y, rowHeight, index);
+      y -= rowHeight;
+      index += 1;
+    }
+
+    pages.push(ops);
+  }
+
+  drawOrderTermsAndTotals(pages[pages.length - 1], order);
+  pages.forEach((ops, pageIndex) => drawOrderFooter(ops, order, pageIndex + 1, pages.length));
+  return pages.map((ops) => ops.join("\n"));
+}
+
+function drawOrderPageHeader(ops, order) {
+  const store = order.store || {};
+  const addressLines = orderAddressLines(store);
+
+  pdfText(ops, "Order Request", 582, 735, { size: 20, bold: true, align: "right" });
+  pdfRect(ops, 30, 681, 76, 14);
+  pdfText(ops, "BLACKMARKET", 68, 685, { size: 8.5, bold: true, align: "center", tracking: 1.6 });
+  pdfText(ops, "BlackMarket, LLC", 110, 708, { size: 16, bold: true });
+  ["Main", "3683 W 2270 S", "Ste D", "Salt Lake City, UT 84120-2308"].forEach((line, i) => {
+    pdfText(ops, line, 110, 691 - i * 14, { size: 11 });
+  });
+
+  pdfTable(ops, 392, 684, [126, 70], 36, [
+    ["Request #", "Date"],
+    [orderRequestNumber(order), shortPdfDate(order.date)],
+  ]);
+
+  const billLines = [
+    store.storeName || "Store order",
+    store.street || "",
+    [store.city, store.state, store.zip].filter(Boolean).join(", "),
+    `Email: ${store.email || ""}`,
+  ].filter(Boolean);
+  const shipLines = [store.storeName || "Store order", ...addressLines].filter(Boolean);
+
+  pdfLabeledBox(ops, 30, 538, 275, 78, "Bill To:", billLines);
+  pdfLabeledBox(ops, 315, 552, 267, 64, "Ship To:", shipLines);
+  pdfRect(ops, 315, 534, 267, 16);
+  pdfText(ops, `Contact: ${store.contactName || store.storeName || ""}`, 319, 538, { size: 10.5 });
+  pdfRect(ops, 30, 520, 275, 16);
+  pdfText(ops, `Customer: ${store.storeName || ""}`, 34, 524, { size: 10.5 });
+
+  pdfTable(ops, 30, 482, [94, 94, 94, 94, 94, 82], 30, [
+    ["Sales Rep", "Payment Terms", "FOB Point", "Carrier", "Ship Service", "Date Scheduled"],
+    ["pmart", "Due on Order", "Origin", "TBD", "Ground", shortPdfDate(order.date)],
+  ]);
+}
+
+function drawOrderItemHeader(ops) {
+  const x = 30;
+  const y = 448;
+  const widths = [30, 44, 86, 174, 74, 64, 80];
+  const headers = ["Item\n#", "Type", "Number", "Description", "Unit Price", "Qty\nOrdered", "Total Price"];
+  pdfSetGray(ops, 0.88);
+  pdfFillRect(ops, x, y, widths.reduce((total, width) => total + width, 0), 28);
+  pdfSetGray(ops, 0);
+  pdfLine(ops, x, y, x + widths.reduce((total, width) => total + width, 0), y);
+  let cx = x;
+  headers.forEach((header, i) => {
+    if (i > 0) pdfLine(ops, cx, y, cx, y + 28, { color: 1 });
+    const parts = header.split("\n");
+    parts.forEach((part, lineIndex) => {
+      const align = i >= 4 ? "right" : i === 0 || i === 1 || i === 5 ? "center" : "left";
+      const tx = align === "right" ? cx + widths[i] - 4 : align === "center" ? cx + widths[i] / 2 : cx + 4;
+      pdfText(ops, part, tx, y + 17 - lineIndex * 11, { size: 10, bold: true, align });
+    });
+    cx += widths[i];
+  });
+  return y - 2;
+}
+
+function drawOrderItemRow(ops, row, descLines, y, height, index) {
+  const x = 30;
+  const widths = [30, 44, 86, 174, 74, 64, 80];
+  if (index % 2 === 1) {
+    pdfSetGray(ops, 0.91);
+    pdfFillRect(ops, x, y - height + 2, widths.reduce((total, width) => total + width, 0), height);
+    pdfSetGray(ops, 0);
+  }
+  let cx = x;
+  const cells = [
+    { text: String(row.index), align: "center", bold: false },
+    { text: "Sale", align: "center", bold: false },
+    { text: row.item, align: "left", bold: false },
+    { lines: descLines, align: "left", bold: false },
+    { text: row.unitPrice, align: "right", bold: false },
+    { text: row.qty, align: "right", bold: false },
+    { text: row.total, align: "right", bold: false },
+  ];
+
+  cells.forEach((cell, i) => {
+    const baseline = y - 12;
+    if (i === 3) {
+      cell.lines.forEach((line, lineIndex) => pdfText(ops, line, cx + 4, baseline - lineIndex * 11, { size: 9 }));
+    } else {
+      const align = cell.align;
+      const tx = align === "right" ? cx + widths[i] - 4 : align === "center" ? cx + widths[i] / 2 : cx + 4;
+      pdfText(ops, cell.text, tx, baseline, { size: 9.5, align, bold: cell.bold });
+    }
+    cx += widths[i];
+  });
+}
+
+function drawOrderTermsAndTotals(ops, order) {
+  const terms = [
+    "Terms and Conditions",
+    "1. Actual amount will be +/- 10% based on qty produced,",
+    "2. Insufficient or incorrect addresses will be subject to return shipping costs",
+    "3. This order is subject to BlackMarket's return and refund policy which can be",
+    "found",
+    "4. here: blackmarketlabs.com/pages/return-policy",
+    "5.",
+    "6.",
+    "7.",
+    "8.",
+    "9.",
+  ];
+  let termY = 124;
+  terms.forEach((line, i) => {
+    const termLines = i === 0 ? [line] : wrapPdfText(line, 330, 8);
+    termLines.forEach((termLine) => {
+      pdfText(ops, termLine, 30, termY, { size: i === 0 ? 8.5 : 8 });
+      termY -= 10;
+    });
+  });
+
+  const totals = order.totals || {};
+  const total = Number(totals.wholesale || 0);
+  const rows = [
+    ["Subtotal:", money(total)],
+    ["Sales Tax:", money(0)],
+    ["Total:", money(total)],
+    ["Paid:", money(0)],
+    ["Balance Due:", money(total)],
+  ];
+  const x = 370;
+  let y = 110;
+  rows.forEach((row, i) => {
+    if (i % 2 === 0) {
+      pdfSetGray(ops, 0.88);
+      pdfFillRect(ops, x, y - 3, 212, 14);
+      pdfSetGray(ops, 0);
+    }
+    pdfText(ops, row[0], x + 68, y, { size: 10, bold: true, align: "right" });
+    pdfText(ops, row[1], x + 208, y, { size: 10, bold: true, align: "right" });
+    y -= 14;
+  });
+}
+
+function drawOrderFooter(ops, order, page, totalPages) {
+  pdfText(ops, pdfDateTime(order.date), 30, 22, { size: 9 });
+  pdfText(ops, "Revision: 1", 306, 22, { size: 9, align: "center" });
+  pdfText(ops, `Page ${page} of ${totalPages}`, 582, 22, { size: 9, align: "right" });
+}
+
+function orderLineForPdf(line, index) {
+  return {
+    index: index + 1,
+    item: line.item || "",
+    description: `${line.product || ""} ${line.flavor || ""}`.trim(),
+    unitPrice: line.wholesale || money(0),
+    qty: `${line.qty || 0} ea`,
+    total: money(line.lineWholesale || 0),
+  };
+}
+
+function orderAddressLines(store = {}) {
+  return [store.street, [store.city, store.state, store.zip].filter(Boolean).join(", ")].filter(Boolean);
+}
+
+function orderRequestNumber(order) {
+  const id = String(order.id || "");
+  return id ? `WEB-${id.slice(-6)}` : "PENDING";
+}
+
+function shortPdfDate(dateValue) {
+  const date = new Date(dateValue || Date.now());
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  const yy = String(date.getFullYear()).slice(-2);
+  return `${mm}/${dd}/${yy}`;
+}
+
+function pdfDateTime(dateValue) {
+  const date = new Date(dateValue || Date.now());
+  return date.toLocaleString([], {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  }).replace(/\s/g, " ");
+}
+
+function pdfLabeledBox(ops, x, y, width, height, label, lines) {
+  pdfRect(ops, x, y, width, height);
+  pdfSetGray(ops, 0.9);
+  pdfFillRect(ops, x, y + height - 17, width, 17);
+  pdfSetGray(ops, 0);
+  pdfLine(ops, x, y + height - 17, x + width, y + height - 17);
+  pdfText(ops, label, x + 4, y + height - 12, { size: 10.5, bold: true });
+  lines.forEach((line, index) => pdfText(ops, line, x + 4, y + height - 32 - index * 13, { size: 10.5 }));
+}
+
+function pdfTable(ops, x, y, widths, height, rows) {
+  const rowHeight = height / rows.length;
+  const totalWidth = widths.reduce((total, width) => total + width, 0);
+  rows.forEach((row, rowIndex) => {
+    const ry = y + height - rowHeight * (rowIndex + 1);
+    if (rowIndex === 0) {
+      pdfSetGray(ops, 0.9);
+      pdfFillRect(ops, x, ry, totalWidth, rowHeight);
+      pdfSetGray(ops, 0);
+    }
+    pdfRect(ops, x, ry, totalWidth, rowHeight);
+    let cx = x;
+    row.forEach((cell, colIndex) => {
+      if (colIndex > 0) pdfLine(ops, cx, ry, cx, ry + rowHeight);
+      pdfText(ops, cell, cx + widths[colIndex] / 2, ry + rowHeight / 2 - 4, {
+        size: 10,
+        bold: rowIndex === 0,
+        align: "center",
+      });
+      cx += widths[colIndex];
+    });
+  });
+}
+
+function wrapPdfText(text, width, size) {
+  const clean = sanitizePdfText(text);
+  const maxChars = Math.max(12, Math.floor(width / (size * 0.5)));
+  const words = clean.split(/\s+/).filter(Boolean);
+  const lines = [];
+  let current = "";
+  words.forEach((word) => {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length > maxChars && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
+  });
+  if (current) lines.push(current);
+  return lines.length ? lines : [""];
+}
+
+function pdfText(ops, text, x, y, options = {}) {
+  const size = options.size || 10;
+  const font = options.bold ? "F2" : "F1";
+  const value = sanitizePdfText(text);
+  const tracking = options.tracking || 0;
+  let tx = x;
+  if (options.align === "right") tx -= pdfApproxTextWidth(value, size, tracking);
+  if (options.align === "center") tx -= pdfApproxTextWidth(value, size, tracking) / 2;
+  ops.push(`BT /${font} ${pdfNum(size)} Tf ${pdfNum(tracking)} Tc ${pdfNum(tx)} ${pdfNum(y)} Td (${escapePdfString(value)}) Tj ET`);
+}
+
+function pdfApproxTextWidth(text, size, tracking = 0) {
+  return text.length * size * 0.52 + Math.max(0, text.length - 1) * tracking;
+}
+
+function sanitizePdfText(text) {
+  return String(text ?? "").replace(/[^\x20-\x7E]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function escapePdfString(text) {
+  return sanitizePdfText(text).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+}
+
+function pdfRect(ops, x, y, width, height) {
+  ops.push(`0 G 0.5 w ${pdfNum(x)} ${pdfNum(y)} ${pdfNum(width)} ${pdfNum(height)} re S`);
+}
+
+function pdfLine(ops, x1, y1, x2, y2, options = {}) {
+  const color = options.color ?? 0;
+  ops.push(`${pdfNum(color)} G 0.5 w ${pdfNum(x1)} ${pdfNum(y1)} m ${pdfNum(x2)} ${pdfNum(y2)} l S`);
+}
+
+function pdfFillRect(ops, x, y, width, height) {
+  ops.push(`${pdfNum(x)} ${pdfNum(y)} ${pdfNum(width)} ${pdfNum(height)} re f`);
+}
+
+function pdfSetGray(ops, gray) {
+  ops.push(`${pdfNum(gray)} g ${pdfNum(gray)} G`);
+}
+
+function pdfNum(value) {
+  return Number(value).toFixed(2).replace(/\.?0+$/, "");
+}
+
+function buildPdfFile(pageContents) {
+  const encoder = new TextEncoder();
+  const objects = [];
+  const pageObjectNumbers = pageContents.map((_, index) => 5 + index * 2);
+
+  objects[1] = "<< /Type /Catalog /Pages 2 0 R >>";
+  objects[2] = `<< /Type /Pages /Kids [${pageObjectNumbers.map((num) => `${num} 0 R`).join(" ")}] /Count ${pageContents.length} >>`;
+  objects[3] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>";
+  objects[4] = "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>";
+
+  pageContents.forEach((content, index) => {
+    const pageNum = pageObjectNumbers[index];
+    const contentNum = pageNum + 1;
+    const bytes = encoder.encode(content);
+    objects[pageNum] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentNum} 0 R >>`;
+    objects[contentNum] = `<< /Length ${bytes.length} >>\nstream\n${content}\nendstream`;
+  });
+
+  const parts = ["%PDF-1.4\n"];
+  const offsets = [0];
+  for (let i = 1; i < objects.length; i += 1) {
+    offsets[i] = encoder.encode(parts.join("")).length;
+    parts.push(`${i} 0 obj\n${objects[i]}\nendobj\n`);
+  }
+  const xrefOffset = encoder.encode(parts.join("")).length;
+  parts.push(`xref\n0 ${objects.length}\n0000000000 65535 f \n`);
+  for (let i = 1; i < objects.length; i += 1) {
+    parts.push(`${String(offsets[i]).padStart(10, "0")} 00000 n \n`);
+  }
+  parts.push(`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+  return encoder.encode(parts.join(""));
 }
 
 async function copyOrderEmail(order) {
@@ -1369,6 +1804,71 @@ async function clearServerOrders() {
   }
 }
 
+function applyServerContent(content) {
+  if (!content || typeof content !== "object") return false;
+  if (Array.isArray(content.announcements)) {
+    state.site = { ...state.site, announcements: content.announcements };
+    saveJson(SITE_KEY, state.site);
+  }
+  if (Array.isArray(content.customProducts)) {
+    state.customProducts = content.customProducts;
+    saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
+  }
+  return true;
+}
+
+async function loadServerContent(options = {}) {
+  try {
+    const response = await fetch(CONTENT_API_URL, {
+      cache: "no-store",
+      headers: state.adminAuthed ? adminHeaders() : {},
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok || !body.ok) throw new Error(body.message || "Unable to load portal content");
+    state.contentStorageMode = body.storage || "server";
+    if (body.content) applyServerContent(body.content);
+    rebuildProductState();
+    renderAnnouncements();
+    renderNews();
+    renderAdmin();
+    if (!options.silent) showToast("Portal content refreshed");
+    return true;
+  } catch (error) {
+    state.contentStorageMode = "local fallback";
+    renderAdminMetrics();
+    if (!options.silent) showToast(error?.message || "Unable to refresh portal content");
+    return false;
+  }
+}
+
+async function persistAdminContent(options = {}) {
+  if (!state.adminAuthed) return false;
+  try {
+    const response = await fetch(CONTENT_API_URL, {
+      method: "PUT",
+      headers: {
+        ...adminHeaders(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        announcements: state.site.announcements,
+        customProducts: state.customProducts,
+      }),
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok || !body.ok) throw new Error(body.message || "Unable to save portal content");
+    state.contentStorageMode = body.storage || "server";
+    renderAdminMetrics();
+    if (!options.silent) showToast("Portal content saved");
+    return true;
+  } catch (error) {
+    state.contentStorageMode = "local fallback";
+    renderAdminMetrics();
+    if (!options.silent) showToast(error?.message || "Saved locally; cloud sync is unavailable");
+    return false;
+  }
+}
+
 function adminHeaders() {
   return { "x-admin-pass": ADMIN_PASS };
 }
@@ -1379,8 +1879,10 @@ function renderAdmin() {
   renderAdminPages();
   renderAdminMetrics();
   renderAdminNews();
+  renderAdminNewsPreview();
   renderAdminOrders();
   renderAdminProducts();
+  renderProductEditor();
 }
 
 function setAdminSection(section) {
@@ -1408,9 +1910,14 @@ function renderAdminMetrics() {
   const revenue = state.orders.reduce((total, order) => total + Number(order.totals?.wholesale || 0), 0);
   if (dom.adminOrderCount) dom.adminOrderCount.textContent = String(state.orders.length);
   if (dom.adminOrderRevenue) dom.adminOrderRevenue.textContent = money(revenue);
-  if (dom.adminProductCount) dom.adminProductCount.textContent = String(state.customProducts.length);
+  if (dom.adminProductCount) dom.adminProductCount.textContent = String(state.products.length);
   if (dom.adminNewsCount) dom.adminNewsCount.textContent = String(state.site.announcements.length);
   if (dom.adminStorageMode) dom.adminStorageMode.value = `${state.orderStorageMode} inbox`;
+  if (dom.adminContentStorageMode) dom.adminContentStorageMode.value = `${state.contentStorageMode} content`;
+  if (dom.adminCatalogProductCount) dom.adminCatalogProductCount.textContent = String(state.products.length);
+  if (dom.adminCatalogVariantCount) {
+    dom.adminCatalogVariantCount.textContent = String(state.products.reduce((total, product) => total + product.variants.length, 0));
+  }
 }
 
 async function publishAnnouncement() {
@@ -1451,7 +1958,7 @@ async function publishAnnouncement() {
   }
 
   clearAnnouncementEditor();
-  saveSite();
+  await saveSite({ silent: true });
   renderAdminMetrics();
   showToast(id ? "Update saved" : "Announcement published");
 }
@@ -1471,12 +1978,34 @@ function renderAdminNews() {
           <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</span>
         </div>
         <div class="admin-news-actions">
-          <button type="button" data-edit-announcement="${item.id}">Edit</button>
-          <button type="button" data-remove-announcement="${item.id}">Remove</button>
+          <button class="admin-button admin-secondary" type="button" data-edit-announcement="${item.id}">Edit</button>
+          <button class="admin-button admin-danger" type="button" data-remove-announcement="${item.id}">Remove</button>
         </div>
       </article>
     `)
     .join("");
+}
+
+function renderAdminNewsPreview() {
+  if (!state.adminAuthed || !dom.adminNewsPreview) return;
+  const title = dom.announcementTitle.value.trim() || "Your headline will appear here";
+  const body = dom.announcementBody.value.trim() || "A concise buyer update will appear here as you type.";
+  const label = dom.announcementLabel.value.trim() || "Update";
+  const date = dom.announcementDate.value || today();
+  const audience = dom.announcementAudience.value.trim();
+  const image = dom.announcementImage.value.trim();
+  const cta = dom.announcementCtaLabel.value.trim();
+  dom.adminNewsPreview.innerHTML = `
+    <article>
+      ${image ? `<img src="${escapeHtml(image)}" alt="" />` : `<div class="admin-preview-placeholder">Photo preview</div>`}
+      <div>
+        <span>${escapeHtml(label)} / ${escapeHtml(date)}${audience ? ` / ${escapeHtml(audience)}` : ""}</span>
+        <strong>${escapeHtml(title)}</strong>
+        <p>${escapeHtml(body)}</p>
+        ${cta ? `<b>${escapeHtml(cta)}</b>` : ""}
+      </div>
+    </article>
+  `;
 }
 
 function renderAdminOrders() {
@@ -1485,7 +2014,7 @@ function renderAdminOrders() {
     dom.adminOrdersList.innerHTML = `
       <div class="admin-order-toolbar">
         <span>No server orders yet</span>
-        <button type="button" data-refresh-orders>Refresh Inbox</button>
+        <button class="admin-button admin-secondary" type="button" data-refresh-orders>Refresh Inbox</button>
       </div>
       <div class="empty-state">No orders submitted yet.</div>
     `;
@@ -1494,8 +2023,8 @@ function renderAdminOrders() {
   dom.adminOrdersList.innerHTML = `
     <div class="admin-order-toolbar">
       <span>${state.orders.length} order${state.orders.length === 1 ? "" : "s"}</span>
-      <button type="button" data-refresh-orders>Refresh Inbox</button>
-      <button type="button" data-clear-orders>Clear Inbox</button>
+      <button class="admin-button admin-secondary" type="button" data-refresh-orders>Refresh Inbox</button>
+      <button class="admin-button admin-danger" type="button" data-clear-orders>Clear Inbox</button>
     </div>
     ${state.orders.map(renderAdminOrder).join("")}
   `;
@@ -1518,10 +2047,10 @@ function renderAdminOrder(order) {
         </div>
         <div class="admin-order-actions">
           <b>${money(totals.wholesale)}</b>
-          <button type="button" data-copy-email="${escapeHtml(order.id)}">Copy Email</button>
-          <button type="button" data-copy-summary="${escapeHtml(order.id)}">Copy Summary</button>
-          <button type="button" data-copy-draft="${escapeHtml(order.id)}">Copy Email Draft</button>
-          <button type="button" data-download-order="${escapeHtml(order.id)}">Download</button>
+          <button class="admin-button admin-secondary" type="button" data-copy-email="${escapeHtml(order.id)}">Copy Email</button>
+          <button class="admin-button admin-secondary" type="button" data-copy-summary="${escapeHtml(order.id)}">Copy Summary</button>
+          <button class="admin-button admin-secondary" type="button" data-copy-draft="${escapeHtml(order.id)}">Copy Email Draft</button>
+          <button class="admin-button admin-primary" type="button" data-download-order="${escapeHtml(order.id)}">Download PDF</button>
         </div>
       </div>
       <div class="admin-order-id">Order ID: ${escapeHtml(order.id || "")}</div>
@@ -1562,10 +2091,13 @@ function renderAdminOrderField(label, value) {
 }
 
 async function addCustomProduct() {
-  const title = dom.customProductTitle.value.trim();
-  const section = dom.customProductSection.value;
+  const mode = state.adminProductMode;
+  const parent = mode === "flavor" ? state.products.find((product) => product.id === dom.customProductParent.value) : null;
+  const title = parent?.title || dom.customProductTitle.value.trim();
+  const section = parent ? adminSectionForProduct(parent) : dom.customProductSection.value;
   const flavor = dom.customProductFlavor.value.trim();
   const status = dom.customProductStatus.value;
+  const limitedEdition = dom.customProductLimited.checked;
   const itemNumber = dom.customProductItem.value.trim();
   const upc = dom.customProductUpc.value.trim();
   const casePack = dom.customProductCasePack.value.trim();
@@ -1573,7 +2105,7 @@ async function addCustomProduct() {
   let panel = dom.customProductPanel.value.trim();
   const wholesaleValue = parseMoney(dom.customProductWholesale.value);
   const mapValue = parseMoney(dom.customProductMap.value) || 0;
-  const description = dom.customProductDescription.value.trim();
+  const description = dom.customProductDescription.value.trim() || parent?.description || "";
   const existingImages = splitImageList(dom.customProductImages.value);
   let uploadedGallery = [];
 
@@ -1586,12 +2118,12 @@ async function addCustomProduct() {
     return;
   }
 
-  if (!title || !section || !flavor || !itemNumber || !bottle || !panel || !description || wholesaleValue <= 0 || mapValue <= 0) {
+  if ((mode === "flavor" && !parent) || !title || !section || !flavor || !itemNumber || !bottle || !panel || !description || wholesaleValue <= 0 || mapValue <= 0) {
     showToast("Complete required product fields before adding");
     return;
   }
 
-  const productId = `custom-${slugify(title)}-${Date.now()}`;
+  const productId = `${parent ? "extension" : "custom"}-${slugify(title)}-${slugify(flavor)}-${Date.now()}`;
   const variantId = `${productId}-${slugify(flavor)}`;
   const sectionMeta = SECTION_META.find((entry) => entry.slug === section) || SECTION_META[0];
   const extraImages = unique([...existingImages, ...uploadedGallery]);
@@ -1600,9 +2132,10 @@ async function addCustomProduct() {
   const product = {
     id: productId,
     custom: true,
+    extendsProductId: parent?.id || "",
     title,
-    category: sectionMeta.label,
-    categorySlug: section,
+    category: parent?.category || sectionMeta.label,
+    categorySlug: parent?.categorySlug || section,
     description,
     highlights,
     casePack,
@@ -1626,6 +2159,7 @@ async function addCustomProduct() {
         panel,
         casePack,
         status,
+        limitedEdition,
         available: status === "available",
       },
     ],
@@ -1633,15 +2167,26 @@ async function addCustomProduct() {
 
   state.customProducts.unshift(product);
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
+  await persistAdminContent({ silent: true });
+  const selectedParent = parent?.id || "";
   dom.customProductForm.reset();
   rebuildProductState();
+  setProductEditorMode(mode);
+  if (selectedParent) {
+    dom.customProductParent.value = selectedParent;
+    syncProductEditorFromParent();
+  }
   renderAdminMetrics();
-  showToast("Product added");
+  showToast(parent ? `${flavor} added to ${parent.title}` : `${title} added to the catalog`);
 }
 
-function removeCustomProduct(id) {
+async function removeCustomProduct(id) {
+  const customProduct = state.customProducts.find((product) => product.id === id);
+  const label = customProduct?.variants?.[0]?.flavor || customProduct?.title || "this custom item";
+  if (!window.confirm(`Remove ${label} from the portal?`)) return;
   state.customProducts = state.customProducts.filter((product) => product.id !== id);
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
+  await persistAdminContent({ silent: true });
   rebuildProductState();
   renderAdminMetrics();
   showToast("Product removed");
@@ -1649,27 +2194,146 @@ function removeCustomProduct(id) {
 
 function renderAdminProducts() {
   if (!state.adminAuthed || !dom.adminProductsList) return;
-  if (!state.customProducts.length) {
-    dom.adminProductsList.innerHTML = `<div class="empty-state">No custom products added yet.</div>`;
+  renderProductParentOptions();
+  const products = state.products.filter((product) => {
+    const section = adminSectionForProduct(product);
+    const queryText = [
+      product.title,
+      product.category,
+      ...product.variants.flatMap((variant) => [variant.flavor, variant.item, variant.upc]),
+    ].join(" ").toLowerCase();
+    return (state.adminProductCategory === "all" || section === state.adminProductCategory) &&
+      (!state.adminProductQuery || queryText.includes(state.adminProductQuery));
+  });
+
+  if (dom.adminProductLibraryCount) {
+    dom.adminProductLibraryCount.textContent = `${products.length} product${products.length === 1 ? "" : "s"}`;
+  }
+  if (!products.length) {
+    dom.adminProductsList.innerHTML = `<div class="empty-state">No catalog products match these filters.</div>`;
     return;
   }
 
-  dom.adminProductsList.innerHTML = state.customProducts
-    .map((product) => {
-      const variant = product.variants[0] || {};
-      return `
-        <article>
-          <img src="${escapeHtml(variant.bottle || product.bottle)}" alt="" />
-          <div>
+  dom.adminProductsList.innerHTML = products
+    .map((product) => `
+      <article class="admin-catalog-product">
+        <header>
+          <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" />
+          <div class="admin-catalog-title">
             <strong>${escapeHtml(product.title)}</strong>
-            <span>${escapeHtml(variant.flavor || "")} / ${escapeHtml(product.category || "")} / ${escapeHtml(variant.status || "available")}</span>
-            <small>#${escapeHtml(variant.item || "CUSTOM")}${variant.upc ? ` / UPC ${escapeHtml(variant.upc)}` : ""}${variant.casePack ? ` / ${escapeHtml(variant.casePack)}` : ""}</small>
+            <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
           </div>
-          <button type="button" data-remove-product="${escapeHtml(product.id)}">Remove</button>
-        </article>
-      `;
-    })
+          <div class="admin-catalog-actions">
+            <b>${product.variants.length} flavor${product.variants.length === 1 ? "" : "s"}</b>
+            <button class="admin-button admin-secondary admin-icon-action" type="button" data-select-product="${escapeHtml(product.id)}">Add Flavor</button>
+          </div>
+        </header>
+        <div class="admin-variant-list">
+          ${product.variants.map((variant) => `
+            <div>
+              <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" />
+              <span>
+                <strong>${escapeHtml(variant.flavor || "Unflavored")}</strong>
+                <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>
+              </span>
+              ${variant.limitedEdition ? `<em>Limited</em>` : ""}
+              ${variant.customSourceId ? `<button class="admin-button admin-danger admin-icon-action" type="button" data-remove-product="${escapeHtml(variant.customSourceId)}">Remove</button>` : `<i>Live</i>`}
+            </div>
+          `).join("")}
+        </div>
+      </article>
+    `)
     .join("");
+}
+
+function setProductEditorMode(mode) {
+  state.adminProductMode = mode === "product" ? "product" : "flavor";
+  renderProductEditor();
+  if (state.adminProductMode === "flavor") syncProductEditorFromParent();
+}
+
+function renderProductEditor() {
+  if (!state.adminAuthed) return;
+  const isFlavor = state.adminProductMode === "flavor";
+  dom.customProductModeButtons.forEach((button) => {
+    const active = button.dataset.productMode === state.adminProductMode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  dom.customProductPanels.forEach((panel) => {
+    panel.hidden = panel.dataset.productPanel !== state.adminProductMode;
+  });
+  dom.customProductParent.required = isFlavor;
+  dom.customProductTitle.required = !isFlavor;
+  dom.customProductSection.required = !isFlavor;
+  dom.customProductEditorTitle.textContent = isFlavor ? "Add Flavor" : "Create Product";
+  dom.customProductSubmit.textContent = isFlavor ? "Add Flavor" : "Create Product";
+  renderProductParentOptions();
+  if (isFlavor && !dom.adminSelectedProduct.innerHTML) syncProductEditorFromParent();
+}
+
+function renderProductParentOptions() {
+  if (!dom.customProductParent || !state.products.length) return;
+  const previous = dom.customProductParent.value;
+  const products = [...state.products].sort((a, b) => a.title.localeCompare(b.title));
+  dom.customProductParent.innerHTML = products
+    .map((product) => `<option value="${escapeHtml(product.id)}">${escapeHtml(product.title)} (${product.variants.length} flavors)</option>`)
+    .join("");
+  const preferred = products.some((product) => product.id === previous)
+    ? previous
+    : products.some((product) => product.id === "defy-hyper-stimulant")
+      ? "defy-hyper-stimulant"
+      : products[0]?.id;
+  if (preferred) dom.customProductParent.value = preferred;
+}
+
+function syncProductEditorFromParent() {
+  if (state.adminProductMode !== "flavor") return;
+  const product = state.products.find((entry) => entry.id === dom.customProductParent.value);
+  if (!product) return;
+  const reference = product.variants[0] || {};
+  dom.customProductTitle.value = product.title;
+  dom.customProductSection.value = adminSectionForProduct(product);
+  dom.customProductWholesale.value = reference.wholesale || "";
+  dom.customProductMap.value = reference.map || "";
+  dom.customProductDescription.value = product.description || "";
+  dom.customProductBottle.value = "";
+  dom.customProductPanel.value = "";
+  dom.customProductImages.value = "";
+  dom.adminSelectedProduct.innerHTML = `
+    <img src="${escapeHtml(reference.bottle || product.bottle || "")}" alt="" />
+    <div>
+      <strong>${escapeHtml(product.title)}</strong>
+      <span>${product.variants.length} existing flavor${product.variants.length === 1 ? "" : "s"}</span>
+      <small>Pricing and product copy are prefilled. Add the new flavor's item data and media.</small>
+    </div>
+  `;
+}
+
+function adminSectionForProduct(product) {
+  const slug = product.categorySlug;
+  if (slug === "thermogenic") return "thermogenics";
+  if (["thermogenics", "focus", "pump", "strength", "raws"].includes(slug)) return slug;
+  const variant = product.variants?.[0] || {};
+  return displaySection({ ...variant, productTitle: product.title, categorySlug: slug });
+}
+
+function exportAdminContentBackup() {
+  const backup = {
+    exportedAt: new Date().toISOString(),
+    announcements: state.site.announcements,
+    customProducts: state.customProducts,
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `blackmarket-portal-backup-${today()}.json`;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  showToast("Content backup downloaded");
 }
 
 function announcementImage(item, index = 0) {
@@ -1680,6 +2344,9 @@ function editAnnouncement(id) {
   const item = state.site.announcements.find((entry) => entry.id === id);
   if (!item) return;
   dom.announcementId.value = item.id;
+  if (item.label && ![...dom.announcementLabel.options].some((option) => option.value === item.label)) {
+    dom.announcementLabel.add(new Option(item.label, item.label));
+  }
   dom.announcementLabel.value = item.label || "";
   dom.announcementDate.value = item.date || today();
   dom.announcementAudience.value = item.audience || "";
@@ -1690,6 +2357,7 @@ function editAnnouncement(id) {
   dom.announcementCtaUrl.value = item.ctaUrl || "";
   dom.announcementSubmit.textContent = "Save Update";
   dom.announcementCancel.hidden = false;
+  renderAdminNewsPreview();
   dom.announcementTitle.focus();
 }
 
@@ -1699,6 +2367,7 @@ function clearAnnouncementEditor() {
   dom.announcementDate.value = today();
   dom.announcementSubmit.textContent = "Publish Update";
   dom.announcementCancel.hidden = true;
+  renderAdminNewsPreview();
 }
 
 async function uploadOptionalFile(input, scope, fallback = "") {
@@ -1728,11 +2397,12 @@ async function uploadOptionalFiles(input, scope) {
   return urls;
 }
 
-function saveSite() {
+async function saveSite(options = {}) {
   saveJson(SITE_KEY, state.site);
   renderAnnouncements();
   renderNews();
   renderAdminNews();
+  return persistAdminContent(options);
 }
 
 function setView(view) {
@@ -1751,7 +2421,12 @@ function setView(view) {
   });
   document.body.classList.remove("nav-open");
   document.body.dataset.view = view;
-  if (view === "admin" && state.adminAuthed) loadServerOrders({ silent: true });
+  if (view === "admin" && state.adminAuthed) {
+    Promise.all([
+      loadServerOrders({ silent: true }),
+      loadServerContent({ silent: true }),
+    ]);
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
