@@ -12,13 +12,23 @@ if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
     orders: null,
     storagePath: null,
+    blobAvailable: null,
   };
 }
 
 const memory = globalThis[STORE_STATE];
 
 export async function readOrders() {
-  if (hasBlobStore()) return readBlobOrders();
+  if (canAttemptBlobStore() && memory.blobAvailable !== false) {
+    try {
+      const orders = await readBlobOrders();
+      memory.blobAvailable = true;
+      return orders;
+    } catch (error) {
+      memory.blobAvailable = false;
+      console.warn("Vercel Blob order storage is unavailable; using a temporary fallback:", error?.message || error);
+    }
+  }
   if (Array.isArray(memory.orders)) return memory.orders;
 
   for (const filePath of candidatePaths()) {
@@ -81,15 +91,22 @@ export function validateOrder(order) {
 }
 
 export function orderStorageMode() {
-  if (hasBlobStore()) return "vercel blob";
+  if (memory.blobAvailable === true) return "vercel blob";
+  if (isVercelRuntime()) return "temporary fallback";
   return memory.storagePath ? "file" : "memory";
 }
 
 async function writeOrders(orders) {
   memory.orders = orders;
-  if (hasBlobStore()) {
-    await writeBlobOrders(orders);
-    return;
+  if (canAttemptBlobStore() && memory.blobAvailable !== false) {
+    try {
+      await writeBlobOrders(orders);
+      memory.blobAvailable = true;
+      return;
+    } catch (error) {
+      memory.blobAvailable = false;
+      console.warn("Unable to write Vercel Blob order store; using a temporary fallback:", error?.message || error);
+    }
   }
 
   const paths = memory.storagePath ? [memory.storagePath, ...candidatePaths()] : candidatePaths();
@@ -120,7 +137,6 @@ async function readBlobOrders() {
   } catch (error) {
     if (!isBlobNotFound(error)) {
       console.warn("Unable to read Vercel Blob order store:", error?.message || error);
-      if (Array.isArray(memory.orders)) return memory.orders;
       throw error;
     }
     memory.orders = [];
@@ -137,8 +153,12 @@ async function writeBlobOrders(orders) {
   });
 }
 
-function hasBlobStore() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+function canAttemptBlobStore() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || isVercelRuntime());
+}
+
+function isVercelRuntime() {
+  return Boolean(process.env.VERCEL || process.env.VERCEL_ENV || process.env.NOW_REGION);
 }
 
 async function streamToText(stream) {

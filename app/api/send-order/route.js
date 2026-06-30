@@ -1,4 +1,4 @@
-import { normalizeOrderPayload, upsertOrder, validateOrder } from "../orders/store.js";
+import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
 
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
 const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "pmart@blackmarketlabs.com";
@@ -18,14 +18,17 @@ export async function POST(request) {
     email: "not-configured",
   };
   await upsertOrder(order);
+  order.delivery.storage = orderStorageMode();
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
+    await upsertOrder(order);
     return Response.json({
       ok: true,
       id: order.id,
       order,
       emailStatus: "not-configured",
+      storage: order.delivery.storage,
       message: "Order request received.",
     });
   }
@@ -64,7 +67,7 @@ export async function POST(request) {
       order.delivery.adminEmailId = adminEmail.value.id || null;
       order.delivery.customerEmailId = customerEmail.value.id || null;
       await upsertOrder(order);
-      return Response.json({ ok: true, id: order.id, order, emailStatus: "sent", message: "Order request received." });
+      return Response.json({ ok: true, id: order.id, order, emailStatus: "sent", storage: order.delivery.storage, message: "Order request received." });
     }
 
     order.delivery.email = "failed";
@@ -78,6 +81,7 @@ export async function POST(request) {
       id: order.id,
       order,
       emailStatus: "failed",
+      storage: order.delivery.storage,
       message: "Order request received.",
     });
   } catch (error) {
@@ -89,6 +93,7 @@ export async function POST(request) {
       id: order.id,
       order,
       emailStatus: "failed",
+      storage: order.delivery.storage,
       message: "Order request received.",
     });
   }

@@ -9,7 +9,7 @@
     "start": "next start -H 0.0.0.0 -p 4173"
   },
   "dependencies": {
-    "@vercel/blob": "^2.4.1",
+    "@vercel/blob": "^2.5.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#070707" />
     <title>BLACKMARKET Wholesale</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/styles.css?v=20260629-admin-streettarts" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260630-portal-foundation" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -64,21 +64,27 @@
         </section>
 
         <section class="view" id="cartView" aria-labelledby="cartTitle">
+          <div class="cart-stepper" aria-label="Checkout progress">
+            <button class="active" type="button" data-cart-step="items"><span>1</span> Order</button>
+            <button type="button" data-cart-step="details"><span>2</span> Details</button>
+          </div>
           <div class="cart-layout">
-            <div>
+            <section class="cart-panel cart-items-panel" data-cart-panel="items">
               <div class="view-head cart-head">
                 <div>
                   <p class="eyebrow">Retailer order</p>
-                  <h1 id="cartTitle">Cart (<span id="cartTitleCount">0</span>)</h1>
+                  <h1 id="cartTitle">Your Order <span id="cartTitleCount">0</span></h1>
                 </div>
                 <button class="link-button" id="continueShopping" type="button">Continue Shopping</button>
               </div>
               <div class="cart-list" id="cartItems"></div>
-            </div>
+            </section>
 
-            <form class="store-card" id="storeForm">
-              <h2>Store Information</h2>
-              <p class="store-note">Store contact and shipping address are required before an order can be sent.</p>
+            <form class="store-card cart-panel" id="storeForm" data-cart-panel="details">
+              <div class="store-card-head">
+                <p class="eyebrow">Step 2</p>
+                <h2>Buyer &amp; Shipping</h2>
+              </div>
               <label>
                 <span>Store Name *</span>
                 <input id="storeName" name="storeName" autocomplete="organization" placeholder="Your store name..." required />
@@ -123,13 +129,15 @@
           </div>
 
           <div class="order-bar">
-            <div>
-              <span>Order Total</span>
+            <div class="order-total-copy">
+              <span>Wholesale Total</span>
               <small id="orderUnits">0 items</small>
             </div>
             <strong id="orderTotal">$0.00</strong>
             <div class="order-actions">
-              <button id="sendOrder" type="button" disabled>Send Order</button>
+              <button class="secondary-action" id="cartBackStep" type="button">Back</button>
+              <button id="cartNextStep" type="button">Continue</button>
+              <button id="sendOrder" type="button" disabled>Review Order</button>
             </div>
             <p id="orderHint">Add products and fill required fields to send order</p>
           </div>
@@ -227,8 +235,9 @@
                 <div>
                   <p class="eyebrow">News</p>
                   <h2>News Desk</h2>
-                  <p>Create focused buyer updates, preview the post, and manage published news from one workspace.</p>
+                  <p>Published buyer updates and launch announcements.</p>
                 </div>
+                <button class="admin-button admin-primary" id="adminOpenNewsEditor" type="button">New Update</button>
               </div>
               <div class="admin-news-workspace">
                 <form class="admin-card admin-editor-card" id="announcementForm">
@@ -237,7 +246,7 @@
                       <span class="admin-kicker">Editor</span>
                       <h3>Create News Update</h3>
                     </div>
-                    <span class="admin-status-dot">Draft</span>
+                    <button class="admin-sheet-close" id="adminCloseNewsEditor" type="button" aria-label="Close news editor">&times;</button>
                   </div>
                   <input id="announcementId" type="hidden" />
                   <div class="form-grid three">
@@ -322,8 +331,12 @@
               <div class="admin-section-head">
                 <div>
                   <p class="eyebrow">Products</p>
-                  <h2>Product Builder</h2>
-                  <p>Add a limited flavor to an existing formula or create an entirely new catalog product.</p>
+                  <h2>Product Library</h2>
+                  <p>Search the live catalog, review flavors, and publish new releases.</p>
+                </div>
+                <div class="admin-actions">
+                  <button class="admin-button admin-secondary" id="adminOpenNewProduct" type="button">New Product</button>
+                  <button class="admin-button admin-primary" id="adminOpenFlavorEditor" type="button">Add Flavor</button>
                 </div>
               </div>
               <div class="admin-product-toolbar">
@@ -351,6 +364,7 @@
                       <span class="admin-kicker">Catalog editor</span>
                       <h3 id="customProductEditorTitle">Add Flavor</h3>
                     </div>
+                    <button class="admin-sheet-close" id="adminCloseProductEditor" type="button" aria-label="Close product editor">&times;</button>
                   </div>
 
                   <div class="admin-mode-switch" role="tablist" aria-label="Product editor mode">
@@ -517,6 +531,7 @@
                     <span>Storage Mode</span>
                     <input id="adminStorageMode" value="Checking..." disabled />
                   </label>
+                  <p class="storage-status" id="adminOrderStorageStatus"></p>
                   <label>
                     <span>Email From</span>
                     <input value="pmart@blackmarketlabs.com" disabled />
@@ -538,6 +553,7 @@
                     <span>Content Storage</span>
                     <input id="adminContentStorageMode" value="Checking..." disabled />
                   </label>
+                  <p class="storage-status" id="adminContentStorageStatus"></p>
                   <div class="admin-actions">
                     <button class="admin-button admin-secondary" id="adminRefreshContent" type="button">Refresh Portal Data</button>
                     <button class="admin-button admin-secondary" id="adminExportContent" type="button">Export Content Backup</button>
@@ -556,6 +572,7 @@
         </section>
       </main>
       <button class="cart-backdrop" id="cartBackdrop" type="button" aria-label="Close cart"></button>
+      <button class="admin-sheet-backdrop" id="adminSheetBackdrop" type="button" aria-label="Close editor"></button>
     </div>
 
     <dialog class="product-modal" id="productModal">
@@ -587,6 +604,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/app.js?v=20260629-admin-streettarts"></script>
+    <script type="module" src="/app.js?v=20260630-portal-foundation"></script>
   </body>
 </html>

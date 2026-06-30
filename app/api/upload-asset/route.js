@@ -9,10 +9,6 @@ export async function POST(request) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    return Response.json({ ok: false, message: "Vercel Blob storage is not configured." }, { status: 501 });
-  }
-
   const form = await request.formData().catch(() => null);
   const file = form?.get("file");
   const scope = safePart(form?.get("scope") || "asset");
@@ -31,10 +27,19 @@ export async function POST(request) {
 
   const extension = extensionFromFile(file);
   const pathname = `blackmarket/assets/${scope}/${Date.now()}-${safePart(file.name)}${extension}`;
-  const blob = await put(pathname, file, {
-    access: "public",
-    addRandomSuffix: true,
-  });
+  let blob;
+  try {
+    blob = await put(pathname, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+  } catch (error) {
+    console.warn("Vercel Blob asset upload is unavailable:", error?.message || error);
+    return Response.json(
+      { ok: false, fallback: "client", message: "Cloud media storage is temporarily unavailable." },
+      { status: 503 },
+    );
+  }
 
   return Response.json({
     ok: true,

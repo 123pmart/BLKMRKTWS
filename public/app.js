@@ -13,7 +13,7 @@ const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 
 const ADMIN_USER = "pmart";
 const ADMIN_PASS = "123pmart";
-const MEDIA_PRELOAD_CONCURRENCY = 8;
+const MEDIA_PRELOAD_CONCURRENCY = 3;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
 const CATALOG_TRANSITION_OUT_MS = 110;
 const CATALOG_TRANSITION_IN_MS = 340;
@@ -83,6 +83,7 @@ const state = {
   adminProductMode: "flavor",
   adminProductQuery: "",
   adminProductCategory: "all",
+  cartStep: "items",
   orderStorageMode: "local fallback",
   contentStorageMode: "local fallback",
 };
@@ -113,6 +114,10 @@ const dom = {
   catalogPages: document.querySelector("#catalogPages"),
   cartItems: document.querySelector("#cartItems"),
   cartTitleCount: document.querySelector("#cartTitleCount"),
+  cartStepButtons: document.querySelectorAll("[data-cart-step]"),
+  cartPanels: document.querySelectorAll("[data-cart-panel]"),
+  cartNextStep: document.querySelector("#cartNextStep"),
+  cartBackStep: document.querySelector("#cartBackStep"),
   continueShopping: document.querySelector("#continueShopping"),
   orderUnits: document.querySelector("#orderUnits"),
   orderTotal: document.querySelector("#orderTotal"),
@@ -137,7 +142,10 @@ const dom = {
   announcementCtaUrl: document.querySelector("#announcementCtaUrl"),
   announcementSubmit: document.querySelector("#announcementSubmit"),
   announcementCancel: document.querySelector("#announcementCancel"),
+  adminOpenNewsEditor: document.querySelector("#adminOpenNewsEditor"),
+  adminCloseNewsEditor: document.querySelector("#adminCloseNewsEditor"),
   adminNewsPreview: document.querySelector("#adminNewsPreview"),
+  adminNewsSide: document.querySelector(".admin-news-side"),
   adminNewsList: document.querySelector("#adminNewsList"),
   adminOrdersList: document.querySelector("#adminOrdersList"),
   adminOrderCount: document.querySelector("#adminOrderCount"),
@@ -145,9 +153,15 @@ const dom = {
   adminProductCount: document.querySelector("#adminProductCount"),
   adminNewsCount: document.querySelector("#adminNewsCount"),
   adminStorageMode: document.querySelector("#adminStorageMode"),
+  adminOrderStorageStatus: document.querySelector("#adminOrderStorageStatus"),
   adminContentStorageMode: document.querySelector("#adminContentStorageMode"),
+  adminContentStorageStatus: document.querySelector("#adminContentStorageStatus"),
   adminLogout: document.querySelector("#adminLogout"),
   customProductForm: document.querySelector("#customProductForm"),
+  adminOpenFlavorEditor: document.querySelector("#adminOpenFlavorEditor"),
+  adminOpenNewProduct: document.querySelector("#adminOpenNewProduct"),
+  adminCloseProductEditor: document.querySelector("#adminCloseProductEditor"),
+  adminSheetBackdrop: document.querySelector("#adminSheetBackdrop"),
   customProductModeButtons: document.querySelectorAll("[data-product-mode]"),
   customProductPanels: document.querySelectorAll("[data-product-panel]"),
   customProductParent: document.querySelector("#customProductParent"),
@@ -226,6 +240,8 @@ async function init() {
   renderCart();
   renderAdmin();
   bindEvents();
+  closeAdminEditors();
+  setCartStep(state.cartStep);
   document.body.dataset.view = state.activeView;
 }
 
@@ -235,6 +251,11 @@ function bindEvents() {
   dom.headerCartButton.addEventListener("click", openCartDrawer);
   dom.cartBackdrop.addEventListener("click", closeCartDrawer);
   dom.continueShopping.addEventListener("click", closeCartDrawer);
+  dom.cartStepButtons.forEach((button) => {
+    button.addEventListener("click", () => setCartStep(button.dataset.cartStep));
+  });
+  dom.cartNextStep.addEventListener("click", () => setCartStep("details"));
+  dom.cartBackStep.addEventListener("click", () => setCartStep("items"));
 
   dom.portalNav.addEventListener("click", (event) => {
     const jump = event.target.closest("[data-filter-jump]");
@@ -359,7 +380,12 @@ function bindEvents() {
     await publishAnnouncement();
   });
 
-  dom.announcementCancel.addEventListener("click", clearAnnouncementEditor);
+  dom.adminOpenNewsEditor.addEventListener("click", () => openNewsEditor({ reset: true }));
+  dom.adminCloseNewsEditor.addEventListener("click", closeNewsEditor);
+  dom.announcementCancel.addEventListener("click", () => {
+    clearAnnouncementEditor();
+    closeNewsEditor();
+  });
   dom.announcementForm.addEventListener("input", renderAdminNewsPreview);
 
   dom.adminNewsList.addEventListener("click", (event) => {
@@ -427,6 +453,10 @@ function bindEvents() {
     event.preventDefault();
     await addCustomProduct();
   });
+  dom.adminOpenFlavorEditor.addEventListener("click", () => openProductEditor("flavor"));
+  dom.adminOpenNewProduct.addEventListener("click", () => openProductEditor("product"));
+  dom.adminCloseProductEditor.addEventListener("click", closeProductEditor);
+  dom.adminSheetBackdrop.addEventListener("click", closeAdminEditors);
 
   dom.customProductModeButtons.forEach((button) => {
     button.addEventListener("click", () => setProductEditorMode(button.dataset.productMode));
@@ -444,10 +474,7 @@ function bindEvents() {
   dom.adminProductsList.addEventListener("click", (event) => {
     const select = event.target.closest("[data-select-product]");
     if (select) {
-      setProductEditorMode("flavor");
-      dom.customProductParent.value = select.dataset.selectProduct;
-      syncProductEditorFromParent();
-      dom.customProductForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      openProductEditor("flavor", select.dataset.selectProduct);
       return;
     }
     const remove = event.target.closest("[data-remove-product]");
@@ -481,6 +508,7 @@ function bindEvents() {
       closeNewsModal();
       closeOrderDownloadModal();
       closeCartDrawer();
+      closeAdminEditors();
       document.body.classList.remove("nav-open");
     }
   });
@@ -636,6 +664,7 @@ function setProductFilter(filter, options = {}) {
     state.query = "";
     dom.search.value = "";
   }
+  preloadFilterMedia(filter);
   renderCategoryNav();
   renderCatalog({ animate: options.keepView });
   if (!options.keepView) setView("products");
@@ -840,15 +869,19 @@ function renderSkuCard(item) {
 }
 
 function preloadProductMedia() {
-  enqueueMediaPreloads(prioritizedProductMediaUrls());
+  const landingItems = LANDING_OPTIONS
+    .map((option) => state.items.find(option.match))
+    .filter(Boolean);
+  const announcementUrls = unique(state.site.announcements.map((item, index) => announcementImage(item, index)));
+  enqueueMediaPreloads(unique([
+    ...landingItems.flatMap((item) => [item.bottle, item.panel]),
+    ...announcementUrls,
+  ]));
 }
 
-function prioritizedProductMediaUrls() {
-  const panelUrls = unique(state.items.map((item) => item.panel));
-  const bottleUrls = unique(state.items.map((item) => item.bottle));
-  const galleryUrls = unique(state.products.flatMap((product) => [product.panel, product.bottle, ...(product.siteImages || [])]));
-  const announcementUrls = unique(state.site.announcements.map((item, index) => announcementImage(item, index)));
-  return unique([...panelUrls, ...bottleUrls, ...galleryUrls, ...announcementUrls]);
+function preloadFilterMedia(filter) {
+  const items = state.items.filter((item) => filter === "all" || item.section === filter);
+  enqueueMediaPreloads(unique(items.flatMap((item) => [item.panel, item.bottle])));
 }
 
 function enqueueMediaPreloads(urls) {
@@ -1208,13 +1241,30 @@ function renderCartLine({ item, qty, lineWholesale }) {
 }
 
 function updateOrderState() {
-  const ready = cartLines().length > 0 && dom.storeForm.checkValidity();
+  const hasItems = cartLines().length > 0;
+  const ready = hasItems && dom.storeForm.checkValidity();
+  dom.cartNextStep.disabled = !hasItems;
   dom.sendOrder.disabled = !ready;
-  dom.orderHint.textContent = ready ? "Ready to send to the server inbox" : "Add products, contact info, and shipping address to send order";
+  dom.orderHint.textContent = ready
+    ? "Ready for final review"
+    : hasItems
+      ? "Complete buyer and shipping details"
+      : "Add products to begin your order";
+}
+
+function setCartStep(step) {
+  state.cartStep = step === "details" ? "details" : "items";
+  document.body.dataset.cartStep = state.cartStep;
+  dom.cartStepButtons.forEach((button) => {
+    const active = button.dataset.cartStep === state.cartStep;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-current", active ? "step" : "false");
+  });
 }
 
 function openCartDrawer() {
   renderCart();
+  setCartStep("items");
   document.body.classList.add("cart-open");
   document.body.classList.remove("nav-open");
 }
@@ -1255,6 +1305,7 @@ async function sendOrder() {
 
   try {
     const result = await sendOrderToServer(order);
+    state.orderStorageMode = result.storage || state.orderStorageMode;
     const savedOrder = result.order || order;
     state.orders = [savedOrder, ...state.orders.filter((entry) => entry.id !== savedOrder.id)].slice(0, 500);
     saveJson(ORDERS_KEY, state.orders);
@@ -1263,7 +1314,11 @@ async function sendOrder() {
     renderCart();
     renderAdminOrders();
     closeCartDrawer();
-    showToast(result.message || "Order request received and cart cleared");
+    showToast(
+      result.storage === "vercel blob"
+        ? "Order request received and cart cleared"
+        : "Order received; cloud inbox storage is temporarily offline",
+    );
   } catch (error) {
     showToast(error?.message || "Order could not be sent");
   } finally {
@@ -1873,9 +1928,55 @@ function adminHeaders() {
   return { "x-admin-pass": ADMIN_PASS };
 }
 
+function openNewsEditor(options = {}) {
+  if (options.reset) clearAnnouncementEditor();
+  dom.announcementForm.inert = false;
+  dom.announcementForm.setAttribute("aria-hidden", "false");
+  dom.adminNewsSide.inert = false;
+  document.body.classList.add("admin-news-editing");
+  document.body.classList.remove("admin-product-editing");
+  window.requestAnimationFrame(() => dom.announcementTitle.focus());
+}
+
+function closeNewsEditor() {
+  document.body.classList.remove("admin-news-editing");
+  dom.announcementForm.inert = true;
+  dom.announcementForm.setAttribute("aria-hidden", "true");
+  dom.adminNewsSide.inert = true;
+}
+
+function openProductEditor(mode = "flavor", parentId = "") {
+  dom.customProductForm.reset();
+  setProductEditorMode(mode);
+  if (mode === "flavor") {
+    dom.customProductParent.value = parentId || "defy-hyper-stimulant";
+    syncProductEditorFromParent();
+  }
+  dom.customProductForm.inert = false;
+  dom.customProductForm.setAttribute("aria-hidden", "false");
+  document.body.classList.add("admin-product-editing");
+  document.body.classList.remove("admin-news-editing");
+  window.requestAnimationFrame(() => {
+    const target = mode === "flavor" ? dom.customProductFlavor : dom.customProductTitle;
+    target.focus();
+  });
+}
+
+function closeProductEditor() {
+  document.body.classList.remove("admin-product-editing");
+  dom.customProductForm.inert = true;
+  dom.customProductForm.setAttribute("aria-hidden", "true");
+}
+
+function closeAdminEditors() {
+  closeNewsEditor();
+  closeProductEditor();
+}
+
 function renderAdmin() {
   dom.adminLoginForm.hidden = state.adminAuthed;
   dom.adminPanel.hidden = !state.adminAuthed;
+  if (!state.adminAuthed) closeAdminEditors();
   renderAdminPages();
   renderAdminMetrics();
   renderAdminNews();
@@ -1914,10 +2015,21 @@ function renderAdminMetrics() {
   if (dom.adminNewsCount) dom.adminNewsCount.textContent = String(state.site.announcements.length);
   if (dom.adminStorageMode) dom.adminStorageMode.value = `${state.orderStorageMode} inbox`;
   if (dom.adminContentStorageMode) dom.adminContentStorageMode.value = `${state.contentStorageMode} content`;
+  renderStorageStatus(dom.adminOrderStorageStatus, state.orderStorageMode, "Orders");
+  renderStorageStatus(dom.adminContentStorageStatus, state.contentStorageMode, "Content");
   if (dom.adminCatalogProductCount) dom.adminCatalogProductCount.textContent = String(state.products.length);
   if (dom.adminCatalogVariantCount) {
     dom.adminCatalogVariantCount.textContent = String(state.products.reduce((total, product) => total + product.variants.length, 0));
   }
+}
+
+function renderStorageStatus(node, mode, label) {
+  if (!node) return;
+  const durable = mode === "vercel blob";
+  node.dataset.state = durable ? "connected" : "temporary";
+  node.textContent = durable
+    ? `${label} sync is connected across devices.`
+    : `${label} is using temporary storage. Connect a Vercel Blob store for cross-device reliability.`;
 }
 
 async function publishAnnouncement() {
@@ -1960,6 +2072,7 @@ async function publishAnnouncement() {
   clearAnnouncementEditor();
   await saveSite({ silent: true });
   renderAdminMetrics();
+  closeNewsEditor();
   showToast(id ? "Update saved" : "Announcement published");
 }
 
@@ -1972,7 +2085,7 @@ function renderAdminNews() {
   dom.adminNewsList.innerHTML = state.site.announcements
     .map((item, index) => `
       <article>
-        ${announcementImage(item, index) ? `<img src="${escapeHtml(announcementImage(item, index))}" alt="" />` : ""}
+        ${announcementImage(item, index) ? `<img src="${escapeHtml(announcementImage(item, index))}" alt="" loading="lazy" />` : ""}
         <div>
           <strong>${escapeHtml(item.title)}</strong>
           <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</span>
@@ -2177,6 +2290,7 @@ async function addCustomProduct() {
     syncProductEditorFromParent();
   }
   renderAdminMetrics();
+  closeProductEditor();
   showToast(parent ? `${flavor} added to ${parent.title}` : `${title} added to the catalog`);
 }
 
@@ -2216,22 +2330,19 @@ function renderAdminProducts() {
 
   dom.adminProductsList.innerHTML = products
     .map((product) => `
-      <article class="admin-catalog-product">
-        <header>
-          <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" />
+      <details class="admin-catalog-product">
+        <summary>
+          <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" loading="lazy" />
           <div class="admin-catalog-title">
             <strong>${escapeHtml(product.title)}</strong>
             <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
           </div>
-          <div class="admin-catalog-actions">
-            <b>${product.variants.length} flavor${product.variants.length === 1 ? "" : "s"}</b>
-            <button class="admin-button admin-secondary admin-icon-action" type="button" data-select-product="${escapeHtml(product.id)}">Add Flavor</button>
-          </div>
-        </header>
+          <b>${product.variants.length} flavor${product.variants.length === 1 ? "" : "s"}</b>
+        </summary>
         <div class="admin-variant-list">
           ${product.variants.map((variant) => `
             <div>
-              <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" />
+              <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" loading="lazy" />
               <span>
                 <strong>${escapeHtml(variant.flavor || "Unflavored")}</strong>
                 <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>
@@ -2241,7 +2352,10 @@ function renderAdminProducts() {
             </div>
           `).join("")}
         </div>
-      </article>
+        <footer>
+          <button class="admin-button admin-secondary" type="button" data-select-product="${escapeHtml(product.id)}">Add Flavor</button>
+        </footer>
+      </details>
     `)
     .join("");
 }
@@ -2358,6 +2472,7 @@ function editAnnouncement(id) {
   dom.announcementSubmit.textContent = "Save Update";
   dom.announcementCancel.hidden = false;
   renderAdminNewsPreview();
+  openNewsEditor();
   dom.announcementTitle.focus();
 }
 
@@ -2373,18 +2488,28 @@ function clearAnnouncementEditor() {
 async function uploadOptionalFile(input, scope, fallback = "") {
   const file = input?.files?.[0];
   if (!file) return fallback;
-  showToast("Uploading image...");
+  showToast("Preparing image...");
   const form = new FormData();
   form.append("file", file);
   form.append("scope", scope);
-  const response = await fetch(ASSET_UPLOAD_URL, {
-    method: "POST",
-    headers: adminHeaders(),
-    body: form,
-  });
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok || !body.ok) throw new Error(body.message || "Image upload failed");
-  return body.url;
+  try {
+    const response = await fetch(ASSET_UPLOAD_URL, {
+      method: "POST",
+      headers: adminHeaders(),
+      body: form,
+    });
+    const body = await response.json().catch(() => ({}));
+    if (response.ok && body.ok) return body.url;
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(body.message || "Image upload is not authorized");
+    }
+  } catch (error) {
+    if (/not authorized|unauthorized/i.test(String(error?.message || ""))) throw error;
+  }
+
+  const dataUrl = await optimizeImageForPortal(file, scope);
+  showToast("Cloud media is offline; image saved with portal content");
+  return dataUrl;
 }
 
 async function uploadOptionalFiles(input, scope) {
@@ -2395,6 +2520,50 @@ async function uploadOptionalFiles(input, scope) {
     urls.push(await uploadOptionalFile(holder, scope, ""));
   }
   return urls;
+}
+
+async function optimizeImageForPortal(file, scope) {
+  const source = URL.createObjectURL(file);
+  try {
+    const image = await loadImage(source);
+    const maxDimension = scope === "news" ? 1600 : 1200;
+    const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
+    const width = Math.max(1, Math.round(image.naturalWidth * scale));
+    const height = Math.max(1, Math.round(image.naturalHeight * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d", { alpha: true });
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(image, 0, 0, width, height);
+    const blob = await canvasToBlob(canvas, "image/webp", 0.84);
+    return blobToDataUrl(blob || file);
+  } finally {
+    URL.revokeObjectURL(source);
+  }
+}
+
+function loadImage(source) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("Image could not be read"));
+    image.src = source;
+  });
+}
+
+function canvasToBlob(canvas, type, quality) {
+  return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Image could not be prepared"));
+    reader.readAsDataURL(blob);
+  });
 }
 
 async function saveSite(options = {}) {
@@ -2420,6 +2589,7 @@ function setView(view) {
     button.classList.toggle("active", active);
   });
   document.body.classList.remove("nav-open");
+  if (view !== "admin") closeAdminEditors();
   document.body.dataset.view = view;
   if (view === "admin" && state.adminAuthed) {
     Promise.all([
@@ -2473,7 +2643,13 @@ function loadJson(key, fallback) {
 }
 
 function saveJson(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    console.warn(`Unable to save ${key}:`, error?.message || error);
+    return false;
+  }
 }
 
 function money(value) {

@@ -12,13 +12,23 @@ if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
     content: undefined,
     storagePath: null,
+    blobAvailable: null,
   };
 }
 
 const memory = globalThis[STORE_STATE];
 
 export async function readContent() {
-  if (hasBlobStore()) return readBlobContent();
+  if (canAttemptBlobStore() && memory.blobAvailable !== false) {
+    try {
+      const content = await readBlobContent();
+      memory.blobAvailable = true;
+      return content;
+    } catch (error) {
+      memory.blobAvailable = false;
+      console.warn("Vercel Blob content storage is unavailable; using a temporary fallback:", error?.message || error);
+    }
+  }
   if (memory.content !== undefined) return memory.content;
 
   for (const filePath of candidatePaths()) {
@@ -42,14 +52,20 @@ export async function writeContent(payload) {
   const content = normalizeContentPayload(payload);
   memory.content = content;
 
-  if (hasBlobStore()) {
-    await put(BLOB_PATH, `${JSON.stringify(content, null, 2)}\n`, {
-      access: "private",
-      allowOverwrite: true,
-      contentType: "application/json",
-      cacheControlMaxAge: 60,
-    });
-    return content;
+  if (canAttemptBlobStore() && memory.blobAvailable !== false) {
+    try {
+      await put(BLOB_PATH, `${JSON.stringify(content, null, 2)}\n`, {
+        access: "private",
+        allowOverwrite: true,
+        contentType: "application/json",
+        cacheControlMaxAge: 60,
+      });
+      memory.blobAvailable = true;
+      return content;
+    } catch (error) {
+      memory.blobAvailable = false;
+      console.warn("Unable to write Vercel Blob content store; using a temporary fallback:", error?.message || error);
+    }
   }
 
   const paths = memory.storagePath ? [memory.storagePath, ...candidatePaths()] : candidatePaths();
@@ -84,7 +100,8 @@ export function publicContent(content) {
 }
 
 export function contentStorageMode() {
-  if (hasBlobStore()) return "vercel blob";
+  if (memory.blobAvailable === true) return "vercel blob";
+  if (isVercelRuntime()) return "temporary fallback";
   return memory.storagePath ? "file" : "memory";
 }
 
@@ -101,7 +118,6 @@ async function readBlobContent() {
   } catch (error) {
     if (!isBlobNotFound(error)) {
       console.warn("Unable to read Vercel Blob content store:", error?.message || error);
-      if (memory.content !== undefined) return memory.content;
       throw error;
     }
     memory.content = null;
@@ -117,8 +133,12 @@ function cleanEntries(entries, maximum) {
     .map((entry) => JSON.parse(JSON.stringify(entry)));
 }
 
-function hasBlobStore() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+function canAttemptBlobStore() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || isVercelRuntime());
+}
+
+function isVercelRuntime() {
+  return Boolean(process.env.VERCEL || process.env.VERCEL_ENV || process.env.NOW_REGION);
 }
 
 async function streamToText(stream) {
