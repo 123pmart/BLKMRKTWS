@@ -1,5 +1,3 @@
-import { put } from "@vercel/blob";
-
 export const runtime = "nodejs";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024;
@@ -29,6 +27,7 @@ export async function POST(request) {
   const pathname = `blackmarket/assets/${scope}/${Date.now()}-${safePart(file.name)}${extension}`;
   let blob;
   try {
+    const { put } = await import("@vercel/blob");
     blob = await put(pathname, file, {
       access: "public",
       addRandomSuffix: true,

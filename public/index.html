@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#070707" />
     <title>BLACKMARKET Wholesale</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260630-portal-foundation" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260630-admin-redesign" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -44,7 +44,7 @@
 
       <main class="content" id="content">
         <section class="view active landing-view" id="landingView" aria-label="Product categories">
-          <div class="landing-brand" aria-hidden="true">
+          <div class="landing-brand">
             <span>BLACKMARKET</span>
             <strong>Wholesale</strong>
           </div>
@@ -63,7 +63,11 @@
           <div class="catalog-list" id="catalog"></div>
         </section>
 
-        <section class="view" id="cartView" aria-labelledby="cartTitle">
+        <section class="view" id="cartView" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="cartTitle" inert>
+          <div class="window-chrome cart-window-chrome">
+            <span>Wholesale Order</span>
+            <button class="icon-close" id="closeCartDrawer" type="button" aria-label="Close cart">Close</button>
+          </div>
           <div class="cart-stepper" aria-label="Checkout progress">
             <button class="active" type="button" data-cart-step="items"><span>1</span> Order</button>
             <button type="button" data-cart-step="details"><span>2</span> Details</button>
@@ -96,7 +100,7 @@
                 </label>
                 <label>
                   <span>Phone *</span>
-                  <input id="phone" name="phone" autocomplete="tel" placeholder="(555) 123-4567" required />
+                  <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567" required />
                 </label>
               </div>
               <label>
@@ -118,7 +122,7 @@
                 </label>
                 <label>
                   <span>ZIP *</span>
-                  <input id="zip" name="zip" autocomplete="shipping postal-code" placeholder="ZIP" required />
+                  <input id="zip" name="zip" inputmode="numeric" autocomplete="shipping postal-code" placeholder="ZIP" required />
                 </label>
               </div>
               <label>
@@ -165,11 +169,12 @@
         </section>
 
         <section class="view" id="adminView" aria-labelledby="adminTitle">
-          <div class="view-head">
+          <div class="view-head admin-masthead">
             <div>
-              <p class="eyebrow">Private controls</p>
-              <h1 id="adminTitle">Admin</h1>
+              <p class="eyebrow">BlackMarketLabs</p>
+              <h1 id="adminTitle">Wholesale Operations</h1>
             </div>
+            <span class="admin-live-status"><i aria-hidden="true"></i> Portal live</span>
           </div>
 
           <form class="admin-login" id="adminLoginForm">
@@ -189,35 +194,26 @@
           </form>
 
           <div class="admin-panel admin-shell" id="adminPanel" hidden>
-            <div class="admin-overview">
-              <div>
-                <span>Inbox</span>
-                <strong id="adminOrderCount">0</strong>
-                <small>server orders</small>
+            <aside class="admin-rail">
+              <div class="admin-rail-brand">
+                <strong>Operations</strong>
+                <span>Wholesale control center</span>
               </div>
-              <div>
-                <span>Revenue</span>
-                <strong id="adminOrderRevenue">$0.00</strong>
-                <small>wholesale total</small>
+              <nav class="admin-section-nav" aria-label="Admin sections">
+                <button class="active" type="button" data-admin-section="orders"><strong>Orders</strong><span>Requests and PDFs</span></button>
+                <button type="button" data-admin-section="news"><strong>News</strong><span>Buyer announcements</span></button>
+                <button type="button" data-admin-section="products"><strong>Products</strong><span>Catalog and flavors</span></button>
+                <button type="button" data-admin-section="settings"><strong>Settings</strong><span>Storage and access</span></button>
+              </nav>
+              <div class="admin-overview" aria-label="Portal metrics">
+                <div><span>Inbox</span><strong id="adminOrderCount">0</strong><small>orders</small></div>
+                <div><span>Revenue</span><strong id="adminOrderRevenue">$0.00</strong><small>wholesale</small></div>
+                <div><span>Products</span><strong id="adminProductCount">0</strong><small>catalog</small></div>
+                <div><span>News</span><strong id="adminNewsCount">0</strong><small>posts</small></div>
               </div>
-              <div>
-                <span>Products</span>
-                <strong id="adminProductCount">0</strong>
-                <small>catalog products</small>
-              </div>
-              <div>
-                <span>News</span>
-                <strong id="adminNewsCount">0</strong>
-                <small>published posts</small>
-              </div>
-            </div>
+            </aside>
 
-            <nav class="admin-section-nav" aria-label="Admin sections">
-              <button class="active" type="button" data-admin-section="orders">Order Inbox</button>
-              <button type="button" data-admin-section="news">News Desk</button>
-              <button type="button" data-admin-section="products">Product Builder</button>
-              <button type="button" data-admin-section="settings">Portal Settings</button>
-            </nav>
+            <div class="admin-workspace">
 
             <section class="admin-section admin-page active" id="adminOrdersSection" data-admin-page="orders">
               <div class="admin-section-head">
@@ -241,10 +237,12 @@
               </div>
               <div class="admin-news-workspace">
                 <form class="admin-card admin-editor-card" id="announcementForm">
-                  <div class="admin-card-heading">
-                    <div>
-                      <span class="admin-kicker">Editor</span>
-                      <h3>Create News Update</h3>
+                  <div class="admin-card-heading admin-editor-heading">
+                    <div class="admin-editor-title">
+                      <div>
+                        <span class="admin-kicker">Editor</span>
+                        <h3>Create News Update</h3>
+                      </div>
                     </div>
                     <button class="admin-sheet-close" id="adminCloseNewsEditor" type="button" aria-label="Close news editor">&times;</button>
                   </div>
@@ -359,10 +357,12 @@
 
               <div class="admin-product-workspace">
                 <form class="admin-card admin-editor-card" id="customProductForm">
-                  <div class="admin-card-heading">
-                    <div>
-                      <span class="admin-kicker">Catalog editor</span>
-                      <h3 id="customProductEditorTitle">Add Flavor</h3>
+                  <div class="admin-card-heading admin-editor-heading">
+                    <div class="admin-editor-title">
+                      <div>
+                        <span class="admin-kicker">Catalog editor</span>
+                        <h3 id="customProductEditorTitle">Add Flavor</h3>
+                      </div>
                     </div>
                     <button class="admin-sheet-close" id="adminCloseProductEditor" type="button" aria-label="Close product editor">&times;</button>
                   </div>
@@ -568,6 +568,7 @@
                 </div>
               </div>
             </section>
+            </div>
           </div>
         </section>
       </main>
@@ -575,17 +576,30 @@
       <button class="admin-sheet-backdrop" id="adminSheetBackdrop" type="button" aria-label="Close editor"></button>
     </div>
 
-    <dialog class="product-modal" id="productModal">
+    <dialog class="product-modal" id="productModal" aria-labelledby="productModalLabel">
       <div class="modal-frame">
-        <button class="icon-close" id="closeProductModal" type="button" aria-label="Close product details">Close</button>
+        <div class="window-chrome modal-window-chrome">
+          <span id="productModalLabel">Product Details</span>
+          <button class="icon-close" id="closeProductModal" type="button" aria-label="Close product details">Close</button>
+        </div>
         <div id="modalContent"></div>
       </div>
     </dialog>
 
     <dialog class="news-modal" id="newsModal">
       <div class="modal-frame news-modal-frame">
-        <button class="icon-close" id="closeNewsModal" type="button" aria-label="Close news article">Close</button>
+        <div class="window-chrome modal-window-chrome">
+          <span>News</span>
+          <button class="icon-close" id="closeNewsModal" type="button" aria-label="Close news article">Close</button>
+        </div>
         <div id="newsModalContent"></div>
+      </div>
+    </dialog>
+
+    <dialog class="image-zoom-modal" id="imageZoomModal" aria-label="Expanded product image">
+      <div class="image-zoom-frame">
+        <button class="icon-close" id="closeImageZoom" type="button" aria-label="Close expanded image">Close</button>
+        <img id="imageZoomContent" src="" alt="" />
       </div>
     </dialog>
 
@@ -604,6 +618,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="/app.js?v=20260630-portal-foundation"></script>
+    <script type="module" src="/app.js?v=20260630-admin-redesign"></script>
   </body>
 </html>

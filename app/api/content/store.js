@@ -1,5 +1,4 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { get, put } from "@vercel/blob";
 import os from "node:os";
 import path from "node:path";
 
@@ -54,6 +53,7 @@ export async function writeContent(payload) {
 
   if (canAttemptBlobStore() && memory.blobAvailable !== false) {
     try {
+      const { put } = await import("@vercel/blob");
       await put(BLOB_PATH, `${JSON.stringify(content, null, 2)}\n`, {
         access: "private",
         allowOverwrite: true,
@@ -107,6 +107,7 @@ export function contentStorageMode() {
 
 async function readBlobContent() {
   try {
+    const { get } = await import("@vercel/blob");
     const result = await get(BLOB_PATH, { access: "private" });
     if (result?.statusCode !== 200 || !result.stream) {
       memory.content = null;

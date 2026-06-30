@@ -1,5 +1,5 @@
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
-const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260629-streettarts-admin";
+const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
 const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
 const ORDER_SUBMIT_URL = "/api/send-order";
@@ -15,26 +15,29 @@ const ADMIN_USER = "pmart";
 const ADMIN_PASS = "123pmart";
 const MEDIA_PRELOAD_CONCURRENCY = 3;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
-const CATALOG_TRANSITION_OUT_MS = 110;
-const CATALOG_TRANSITION_IN_MS = 340;
+const CATALOG_TRANSITION_OUT_MS = 90;
+const CATALOG_TRANSITION_IN_MS = 260;
 let catalogTransitionToken = 0;
 let catalogTransitionTimer = 0;
+let lastProductTrigger = null;
+let lastNewsTrigger = null;
+let lastCartTrigger = null;
 
 const SECTION_META = [
-  { slug: "thermogenics", label: "Thermogenics" },
-  { slug: "focus", label: "High Stim & Nootropics" },
-  { slug: "pump", label: "Pump" },
-  { slug: "strength", label: "Strength" },
+  { slug: "thermogenics", label: "THERMOGENICS" },
+  { slug: "focus", label: "HIGH STIM & NOOTROPICS" },
+  { slug: "pump", label: "PUMP" },
+  { slug: "strength", label: "STRENGTH" },
   { slug: "raws", label: "RAWS" },
 ];
 
 const LANDING_OPTIONS = [
-  { slug: "thermogenics", label: "Thermogenics", match: (item) => item.productId === "cuts-thermogenic-pre-workout" },
-  { slug: "focus", label: "High Stim & Nootropics", match: (item) => item.productId === "defy-hyper-stimulant" },
-  { slug: "pump", label: "Pump", match: (item) => item.productId === "pump-hyper-pump-pre-workout" },
-  { slug: "strength", label: "Strength", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
+  { slug: "thermogenics", label: "THERMOGENICS", match: (item) => item.productId === "cuts-thermogenic-pre-workout" },
+  { slug: "focus", label: "HIGH STIM & NOOTROPICS", match: (item) => item.productId === "defy-hyper-stimulant" },
+  { slug: "pump", label: "PUMP", match: (item) => item.productId === "pump-hyper-pump-pre-workout" },
+  { slug: "strength", label: "STRENGTH", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
   { slug: "raws", label: "RAWS", match: (item) => item.productId === "creatine-monohydrate-raw" },
-  { slug: "all", label: "All Products", match: (item) => item.productId === "rule-hyper-focus" },
+  { slug: "all", label: "ALL PRODUCTS", match: (item) => item.productId === "rule-hyper-focus" },
 ];
 
 const PRODUCT_PANEL_OVERRIDES = {
@@ -103,6 +106,7 @@ const dom = {
   landingGrid: document.querySelector("#landingGrid"),
   productsDropdown: document.querySelector("#productsDropdown"),
   headerCartButton: document.querySelector("#headerCartButton"),
+  cartView: document.querySelector("#cartView"),
   cartBackdrop: document.querySelector("#cartBackdrop"),
   cartBadge: document.querySelector("#cartBadge"),
   sideCartCount: document.querySelector("#sideCartCount"),
@@ -118,6 +122,7 @@ const dom = {
   cartPanels: document.querySelectorAll("[data-cart-panel]"),
   cartNextStep: document.querySelector("#cartNextStep"),
   cartBackStep: document.querySelector("#cartBackStep"),
+  closeCartDrawer: document.querySelector("#closeCartDrawer"),
   continueShopping: document.querySelector("#continueShopping"),
   orderUnits: document.querySelector("#orderUnits"),
   orderTotal: document.querySelector("#orderTotal"),
@@ -201,6 +206,9 @@ const dom = {
   newsModal: document.querySelector("#newsModal"),
   newsModalContent: document.querySelector("#newsModalContent"),
   closeNewsModal: document.querySelector("#closeNewsModal"),
+  imageZoomModal: document.querySelector("#imageZoomModal"),
+  imageZoomContent: document.querySelector("#imageZoomContent"),
+  closeImageZoom: document.querySelector("#closeImageZoom"),
   orderDownloadModal: document.querySelector("#orderDownloadModal"),
   orderDownloadSummary: document.querySelector("#orderDownloadSummary"),
   downloadOrderCopy: document.querySelector("#downloadOrderCopy"),
@@ -227,6 +235,7 @@ async function init() {
   state.items = buildItems(state.products);
   state.catalogPages = catalogData.pages || [];
   preloadProductMedia();
+  scheduleNutritionPanelPreload();
   pruneCart();
   if (state.adminAuthed) await loadServerOrders({ silent: true });
   hydrateStoreForm();
@@ -248,8 +257,9 @@ async function init() {
 function bindEvents() {
   dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
   dom.brandHome.addEventListener("click", () => setView("landing"));
-  dom.headerCartButton.addEventListener("click", openCartDrawer);
+  dom.headerCartButton.addEventListener("click", (event) => openCartDrawer(event.currentTarget));
   dom.cartBackdrop.addEventListener("click", closeCartDrawer);
+  dom.closeCartDrawer.addEventListener("click", closeCartDrawer);
   dom.continueShopping.addEventListener("click", closeCartDrawer);
   dom.cartStepButtons.forEach((button) => {
     button.addEventListener("click", () => setCartStep(button.dataset.cartStep));
@@ -302,7 +312,7 @@ function bindEvents() {
     }
 
     const detail = event.target.closest("[data-detail]");
-    if (detail) openProductModal(detail.dataset.detail);
+    if (detail) openProductModal(detail.dataset.detail, detail);
   });
 
   dom.catalog.addEventListener("keydown", (event) => {
@@ -311,7 +321,7 @@ function bindEvents() {
     const card = event.target.closest("[data-detail]");
     if (!card) return;
     event.preventDefault();
-    openProductModal(card.dataset.detail);
+    openProductModal(card.dataset.detail, card);
   });
 
   dom.cartItems.addEventListener("click", (event) => {
@@ -333,7 +343,7 @@ function bindEvents() {
   dom.newsList.addEventListener("click", (event) => {
     const card = event.target.closest("[data-news]");
     if (!card) return;
-    openNewsModal(card.dataset.news);
+    openNewsModal(card.dataset.news, card);
   });
 
   dom.newsList.addEventListener("keydown", (event) => {
@@ -341,7 +351,7 @@ function bindEvents() {
     const card = event.target.closest("[data-news]");
     if (!card) return;
     event.preventDefault();
-    openNewsModal(card.dataset.news);
+    openNewsModal(card.dataset.news, card);
   });
 
   dom.storeForm.addEventListener("input", () => {
@@ -492,10 +502,27 @@ function bindEvents() {
   dom.productModal.addEventListener("click", (event) => {
     if (event.target === dom.productModal) closeProductModal();
   });
+  dom.productModal.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeProductModal();
+  });
 
   dom.closeNewsModal.addEventListener("click", closeNewsModal);
   dom.newsModal.addEventListener("click", (event) => {
     if (event.target === dom.newsModal) closeNewsModal();
+  });
+  dom.newsModal.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeNewsModal();
+  });
+
+  dom.closeImageZoom.addEventListener("click", closeImageZoom);
+  dom.imageZoomModal.addEventListener("click", (event) => {
+    if (event.target === dom.imageZoomModal) closeImageZoom();
+  });
+  dom.imageZoomModal.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeImageZoom();
   });
 
   dom.orderDownloadModal.addEventListener("click", (event) => {
@@ -503,7 +530,16 @@ function bindEvents() {
   });
 
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Tab" && document.body.classList.contains("cart-open")) {
+      trapCartFocus(event);
+      return;
+    }
     if (event.key === "Escape") {
+      if (dom.imageZoomModal.open) {
+        event.preventDefault();
+        closeImageZoom();
+        return;
+      }
       closeProductModal();
       closeNewsModal();
       closeOrderDownloadModal();
@@ -566,6 +602,7 @@ function rebuildProductState() {
   state.products = mergeProducts();
   state.items = buildItems(state.products);
   preloadProductMedia();
+  scheduleNutritionPanelPreload();
   pruneCart();
   renderProductEntrypoints();
   renderCategoryNav();
@@ -620,7 +657,7 @@ function renderProductEntrypoints() {
     const item = representativeItem(option);
     return `
       <button class="landing-card" type="button" data-filter-jump="${escapeHtml(option.slug)}">
-        <span class="landing-card-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" loading="lazy" />` : ""}</span>
+        <span class="landing-card-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="480" height="480" decoding="async" />` : ""}</span>
         <span class="landing-card-label">${escapeHtml(option.label)}</span>
       </button>
     `;
@@ -631,7 +668,7 @@ function renderProductEntrypoints() {
     const item = representativeItem(option);
     return `
       <button type="button" data-filter-jump="${escapeHtml(option.slug)}">
-        ${item ? `<img src="${escapeHtml(item.bottle)}" alt="" loading="lazy" />` : ""}
+        ${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="160" height="160" loading="lazy" decoding="async" />` : ""}
         <span>${escapeHtml(option.label)}</span>
       </button>
     `;
@@ -648,8 +685,8 @@ function renderCategoryNav() {
       const item = representativeItem(filter);
       const active = state.activeFilter === filter.slug ? "active" : "";
       return `
-        <button class="category-tile ${active}" type="button" data-filter="${escapeHtml(filter.slug)}">
-          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" loading="lazy" />` : ""}</span>
+        <button class="category-tile ${active}" type="button" data-filter="${escapeHtml(filter.slug)}" aria-pressed="${active ? "true" : "false"}">
+          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="320" height="320" decoding="async" />` : ""}</span>
           <span class="category-tile-label">${escapeHtml(filter.label)}</span>
         </button>
       `;
@@ -698,9 +735,9 @@ function renderNews() {
 function renderNewsCard(item, index) {
   const image = announcementImage(item, index);
   return `
-    <article class="news-card" data-news="${escapeHtml(item.id)}" tabindex="0" aria-label="Open ${escapeHtml(item.title)}">
+    <article class="news-card" data-news="${escapeHtml(item.id)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(item.title)}">
       <div class="news-thumb">
-        ${image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" />` : ""}
+        ${image ? `<img src="${escapeHtml(image)}" alt="" width="1200" height="675" loading="lazy" decoding="async" />` : ""}
       </div>
       <div class="news-copy">
         <div class="news-meta">
@@ -721,22 +758,36 @@ function renderCatalogPages() {
     return;
   }
   dom.catalogPages.innerHTML = state.catalogPages
-    .map((page) => `
-      <figure class="catalog-page">
-        <img src="${escapeHtml(page.src)}" width="${page.width}" height="${page.height}" alt="BLACKMARKET catalog page ${page.page}" loading="lazy" />
+    .map((page, index) => `
+      <figure class="catalog-page is-loading">
+        <figcaption>Loading page ${page.page}</figcaption>
+        <img src="${escapeHtml(page.src)}" width="${page.width}" height="${page.height}" alt="BLACKMARKET catalog page ${page.page}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />
       </figure>
     `)
     .join("");
+
+  dom.catalogPages.querySelectorAll(".catalog-page img").forEach((image) => {
+    const page = image.closest(".catalog-page");
+    const settle = (loaded) => {
+      page.classList.remove("is-loading");
+      page.classList.toggle("is-loaded", loaded);
+      page.classList.toggle("is-failed", !loaded);
+      if (!loaded) page.querySelector("figcaption").textContent = "Page unavailable - use Download PDF";
+    };
+    image.addEventListener("load", () => settle(true), { once: true });
+    image.addEventListener("error", () => settle(false), { once: true });
+    if (image.complete) settle(image.naturalWidth > 0);
+  });
 }
 
-function openNewsModal(id) {
+function openNewsModal(id, trigger = document.activeElement) {
   const index = state.site.announcements.findIndex((entry) => entry.id === id);
   const item = state.site.announcements[index];
   if (!item) return;
   const image = announcementImage(item, index);
   dom.newsModalContent.innerHTML = `
     <article class="news-detail">
-      ${image ? `<img src="${escapeHtml(image)}" alt="" />` : ""}
+      ${image ? `<img src="${escapeHtml(image)}" alt="" width="1200" height="675" />` : ""}
       <div>
         <p class="eyebrow">${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</p>
         <h2>${escapeHtml(item.title)}</h2>
@@ -745,12 +796,15 @@ function openNewsModal(id) {
       </div>
     </article>
   `;
+  lastNewsTrigger = trigger instanceof HTMLElement ? trigger : null;
   showDialog(dom.newsModal);
 }
 
 function closeNewsModal() {
-  if (dom.newsModal.open) dom.newsModal.close();
+  const wasOpen = dom.newsModal.open;
+  if (wasOpen) dom.newsModal.close();
   if (!dom.productModal.open && !dom.orderDownloadModal.open) document.body.classList.remove("modal-open");
+  if (wasOpen) restoreFocus(lastNewsTrigger);
 }
 
 function closeOrderDownloadModal() {
@@ -759,7 +813,7 @@ function closeOrderDownloadModal() {
 }
 
 function catalogHtml(items) {
-  if (!items.length) return `<div class="empty-state">No products found.</div>`;
+  if (!items.length) return `<div class="empty-state"><strong>No products found</strong><span>Try another category or search term.</span></div>`;
   return `
     <section class="sku-section">
       <div class="section-title">
@@ -844,19 +898,19 @@ function lineCountLabel(items) {
 }
 
 function activeFilterLabel() {
-  if (state.activeFilter === "all") return "All Products";
-  return SECTION_META.find((section) => section.slug === state.activeFilter)?.label || "Products";
+  if (state.activeFilter === "all") return "ALL PRODUCTS";
+  return SECTION_META.find((section) => section.slug === state.activeFilter)?.label || "PRODUCTS";
 }
 
 function renderSkuCard(item) {
   return `
-    <article class="sku-card" data-detail="${item.id}" tabindex="0" aria-label="View ${escapeHtml(item.fullTitle)} details">
+    <article class="sku-card" data-detail="${item.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(item.fullTitle)} details">
       <div class="sku-meta">
-        <span>#${escapeHtml(item.item)}</span>
-        <span class="${item.limitedEdition ? "sku-limited" : ""}">${item.limitedEdition ? "Limited / " : ""}${escapeHtml(item.flavor)}</span>
+        <span class="sku-number">#${escapeHtml(item.item)}</span>
+        <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""}">${item.limitedEdition ? "Limited / " : ""}${escapeHtml(item.flavor)}</span>
       </div>
       <div class="bottle-stage">
-        <img src="${item.bottle}" alt="${escapeHtml(item.fullTitle)} bottle" loading="lazy" />
+        <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="lazy" decoding="async" />
       </div>
       <h4>${escapeHtml(item.fullTitle)}</h4>
       <div class="sku-price">
@@ -877,6 +931,15 @@ function preloadProductMedia() {
     ...landingItems.flatMap((item) => [item.bottle, item.panel]),
     ...announcementUrls,
   ]));
+}
+
+function scheduleNutritionPanelPreload() {
+  const preloadPanels = () => enqueueMediaPreloads(unique(state.items.map((item) => item.panel)));
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(preloadPanels, { timeout: 2500 });
+  } else {
+    window.setTimeout(preloadPanels, 1200);
+  }
 }
 
 function preloadFilterMedia(filter) {
@@ -952,7 +1015,7 @@ function productRank(item) {
   return 99;
 }
 
-function openProductModal(itemId) {
+function openProductModal(itemId, trigger = document.activeElement) {
   const item = state.items.find((entry) => entry.id === itemId);
   if (!item) return;
   const product = state.products.find((entry) => entry.id === item.productId);
@@ -963,7 +1026,7 @@ function openProductModal(itemId) {
       <div class="detail-layout">
         <div class="detail-left">
           <div class="detail-bottle">
-            <img src="${item.bottle}" alt="${escapeHtml(item.fullTitle)} bottle" />
+            <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="700" height="700" />
           </div>
           <div class="detail-copy">
             <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
@@ -983,20 +1046,26 @@ function openProductModal(itemId) {
             <span>Supplement Facts</span>
             <strong id="detailMediaTitle">${escapeHtml(item.productTitle)}</strong>
           </div>
-          <img id="detailMediaImage" src="${item.panel}" alt="${escapeHtml(item.fullTitle)} nutrition label" />
+          <button class="nutrition-zoom" type="button" data-zoom-image aria-label="Enlarge ${escapeHtml(item.fullTitle)} Supplement Facts">
+            <img id="detailMediaImage" src="${escapeHtml(item.panel)}" alt="${escapeHtml(item.fullTitle)} nutrition label" width="1000" height="1000" />
+            <span>View larger</span>
+          </button>
         </div>
       </div>
       ${gallery.length > 1 ? `
         <div class="detail-gallery" aria-label="Product images">
           ${gallery.map((image, index) => `
-            <button class="${index === 0 ? "active" : ""}" type="button" data-gallery-src="${escapeHtml(image.src)}" data-gallery-title="${escapeHtml(image.label)}">
-              <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.label)}" />
+            <button class="${index === 0 ? "active" : ""}" type="button" data-gallery-src="${escapeHtml(image.src)}" data-gallery-title="${escapeHtml(image.label)}" aria-pressed="${index === 0 ? "true" : "false"}">
+              <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.label)}" width="240" height="240" loading="lazy" decoding="async" />
             </button>
           `).join("")}
         </div>
       ` : ""}
     </div>
   `;
+  lastProductTrigger = trigger instanceof HTMLElement ? trigger : null;
+  const modalLabel = document.querySelector("#productModalLabel");
+  if (modalLabel) modalLabel.textContent = item.flavor || "Product Details";
   showDialog(dom.productModal);
 }
 
@@ -1006,6 +1075,7 @@ function showDialog(dialog) {
   document.body.classList.add("modal-open");
   window.requestAnimationFrame(() => {
     if (!dialog.open) dialog.showModal();
+    window.setTimeout(() => dialog.querySelector(".icon-close")?.focus({ preventScroll: true }), 30);
     const previousScrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = "auto";
     window.scrollTo(scrollX, scrollY);
@@ -1126,6 +1196,13 @@ function normalizeSearch(value) {
 }
 
 function handleModalQuantityClick(event) {
+  const zoomButton = event.target.closest("[data-zoom-image]");
+  if (zoomButton) {
+    const image = zoomButton.querySelector("img");
+    if (image) openImageZoom(image.src, image.alt);
+    return;
+  }
+
   const galleryButton = event.target.closest("[data-gallery-src]");
   if (galleryButton) {
     event.stopPropagation();
@@ -1133,7 +1210,11 @@ function handleModalQuantityClick(event) {
     const title = document.querySelector("#detailMediaTitle");
     if (image) image.src = galleryButton.dataset.gallerySrc;
     if (title) title.textContent = galleryButton.dataset.galleryTitle || "Product Image";
-    document.querySelectorAll("[data-gallery-src]").forEach((button) => button.classList.toggle("active", button === galleryButton));
+    document.querySelectorAll("[data-gallery-src]").forEach((button) => {
+      const active = button === galleryButton;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
     return;
   }
 
@@ -1146,8 +1227,23 @@ function handleModalQuantityClick(event) {
 }
 
 function closeProductModal() {
-  if (dom.productModal.open) dom.productModal.close();
+  const wasOpen = dom.productModal.open;
+  if (wasOpen) dom.productModal.close();
   if (!dom.newsModal.open && !dom.orderDownloadModal.open) document.body.classList.remove("modal-open");
+  if (wasOpen) restoreFocus(lastProductTrigger);
+}
+
+function openImageZoom(src, alt) {
+  dom.imageZoomContent.src = src;
+  dom.imageZoomContent.alt = alt || "Expanded product image";
+  if (!dom.imageZoomModal.open) dom.imageZoomModal.showModal();
+  dom.closeImageZoom.focus({ preventScroll: true });
+}
+
+function closeImageZoom() {
+  if (!dom.imageZoomModal.open) return;
+  dom.imageZoomModal.close();
+  document.querySelector("[data-zoom-image]")?.focus({ preventScroll: true });
 }
 
 function addToCart(id) {
@@ -1224,7 +1320,7 @@ function syncQtyControls() {
 function renderCartLine({ item, qty, lineWholesale }) {
   return `
     <article class="cart-line">
-      <img src="${item.bottle}" alt="${escapeHtml(item.fullTitle)} bottle" />
+      <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="180" height="180" loading="lazy" decoding="async" />
       <div>
         <h3>${escapeHtml(item.fullTitle)}</h3>
         <p>${escapeHtml(item.wholesale)} each / MAP ${escapeHtml(item.map)}</p>
@@ -1262,15 +1358,43 @@ function setCartStep(step) {
   });
 }
 
-function openCartDrawer() {
+function openCartDrawer(trigger = document.activeElement) {
   renderCart();
   setCartStep("items");
+  lastCartTrigger = trigger instanceof HTMLElement ? trigger : null;
+  dom.cartView.inert = false;
+  dom.cartView.setAttribute("aria-hidden", "false");
   document.body.classList.add("cart-open");
   document.body.classList.remove("nav-open");
+  window.setTimeout(() => dom.closeCartDrawer.focus({ preventScroll: true }), 30);
 }
 
 function closeCartDrawer() {
+  const wasOpen = document.body.classList.contains("cart-open");
   document.body.classList.remove("cart-open");
+  dom.cartView.setAttribute("aria-hidden", "true");
+  dom.cartView.inert = true;
+  if (wasOpen) restoreFocus(lastCartTrigger);
+}
+
+function trapCartFocus(event) {
+  const focusable = [...dom.cartView.querySelectorAll("button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), a[href]")]
+    .filter((element) => element.getClientRects().length > 0);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function restoreFocus(element) {
+  if (!element?.isConnected) return;
+  window.requestAnimationFrame(() => element.focus({ preventScroll: true }));
 }
 
 function storeData() {
@@ -1987,6 +2111,7 @@ function renderAdmin() {
 }
 
 function setAdminSection(section) {
+  closeAdminEditors();
   state.activeAdminSection = ADMIN_SECTIONS.has(section) ? section : "orders";
   renderAdminPages();
   if (state.activeAdminSection === "orders") loadServerOrders({ silent: true });
@@ -2085,7 +2210,7 @@ function renderAdminNews() {
   dom.adminNewsList.innerHTML = state.site.announcements
     .map((item, index) => `
       <article>
-        ${announcementImage(item, index) ? `<img src="${escapeHtml(announcementImage(item, index))}" alt="" loading="lazy" />` : ""}
+        ${announcementImage(item, index) ? `<img src="${escapeHtml(announcementImage(item, index))}" alt="" width="320" height="205" loading="lazy" decoding="async" />` : `<div class="admin-news-placeholder">No image</div>`}
         <div>
           <strong>${escapeHtml(item.title)}</strong>
           <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</span>
@@ -2332,7 +2457,7 @@ function renderAdminProducts() {
     .map((product) => `
       <details class="admin-catalog-product">
         <summary>
-          <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" loading="lazy" />
+          <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" width="160" height="160" loading="lazy" decoding="async" />
           <div class="admin-catalog-title">
             <strong>${escapeHtml(product.title)}</strong>
             <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
@@ -2342,7 +2467,7 @@ function renderAdminProducts() {
         <div class="admin-variant-list">
           ${product.variants.map((variant) => `
             <div>
-              <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" loading="lazy" />
+              <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" width="120" height="120" loading="lazy" decoding="async" />
               <span>
                 <strong>${escapeHtml(variant.flavor || "Unflavored")}</strong>
                 <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>

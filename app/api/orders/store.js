@@ -1,6 +1,5 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { get, put } from "@vercel/blob";
 import os from "node:os";
 import path from "node:path";
 
@@ -125,6 +124,7 @@ async function writeOrders(orders) {
 
 async function readBlobOrders() {
   try {
+    const { get } = await import("@vercel/blob");
     const result = await get(BLOB_PATH, { access: "private" });
     if (result?.statusCode !== 200 || !result.stream) {
       memory.orders = [];
@@ -145,6 +145,7 @@ async function readBlobOrders() {
 }
 
 async function writeBlobOrders(orders) {
+  const { put } = await import("@vercel/blob");
   await put(BLOB_PATH, `${JSON.stringify({ orders }, null, 2)}\n`, {
     access: "private",
     allowOverwrite: true,
