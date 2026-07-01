@@ -458,7 +458,7 @@ img {
 
 .sku-card {
   display: grid;
-  grid-template-rows: auto 132px minmax(2.5em, auto) auto 46px;
+  grid-template-rows: auto 168px auto auto 46px;
   gap: 9px;
   min-width: 0;
   padding: 12px;
@@ -519,7 +519,7 @@ img {
 }
 
 .bottle-stage img {
-  width: 92%;
+  width: 96%;
   height: 100%;
   object-fit: contain;
 }
@@ -528,16 +528,12 @@ img {
   position: relative;
   z-index: 1;
   min-width: 0;
-  min-height: 2.45em;
   margin: 0;
   overflow-wrap: anywhere;
   font-size: 0.82rem;
   font-weight: 780;
   line-height: 1.18;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  display: block;
 }
 
 .sku-price {
@@ -2389,7 +2385,7 @@ body.admin-news-editing .admin-news-side {
   }
 
   .sku-card {
-    grid-template-rows: auto 98px minmax(3.2em, auto) auto 42px;
+    grid-template-rows: auto 118px auto auto 42px;
     gap: 7px;
     padding: 8px;
   }
@@ -2405,10 +2401,8 @@ body.admin-news-editing .admin-news-side {
   }
 
   .sku-card h4 {
-    min-height: 3.15em;
     font-size: 0.66rem;
     line-height: 1.12;
-    -webkit-line-clamp: 3;
   }
 
   .sku-price strong {
@@ -2797,7 +2791,7 @@ body.admin-news-editing .admin-news-side {
   }
 
   .sku-card {
-    grid-template-rows: auto 88px minmax(3.25em, auto) auto 40px;
+    grid-template-rows: auto 104px auto auto 40px;
     padding: 7px;
   }
 
