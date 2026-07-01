@@ -458,7 +458,7 @@ img {
 
 .sku-card {
   display: grid;
-  grid-template-rows: auto 142px 2.36em auto 46px;
+  grid-template-rows: auto 132px minmax(2.5em, auto) auto 46px;
   gap: 9px;
   min-width: 0;
   padding: 12px;
@@ -513,17 +513,22 @@ img {
 .bottle-stage {
   display: grid;
   min-width: 0;
+  align-self: stretch;
   place-items: center;
+  overflow: hidden;
 }
 
 .bottle-stage img {
-  width: 100%;
-  height: 88%;
+  width: 92%;
+  height: 100%;
   object-fit: contain;
 }
 
 .sku-card h4 {
+  position: relative;
+  z-index: 1;
   min-width: 0;
+  min-height: 2.45em;
   margin: 0;
   overflow-wrap: anywhere;
   font-size: 0.82rem;
@@ -966,15 +971,17 @@ input:disabled {
 
 .news-list {
   display: grid;
-  width: min(1040px, 100%);
+  width: min(980px, 100%);
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
   margin-inline: auto;
 }
 
 .news-card {
   display: grid;
+  grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
   min-width: 0;
+  min-height: 176px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -993,18 +1000,19 @@ input:disabled {
 .news-thumb {
   display: grid;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   place-items: center;
   overflow: hidden;
-  border-bottom: 1px solid var(--line-soft);
+  border-right: 1px solid var(--line-soft);
+  border-bottom: 0;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 55%),
     #09090a;
 }
 
 .news-thumb img {
-  width: 88%;
-  height: 88%;
+  width: 78%;
+  height: 78%;
   object-fit: contain;
 }
 
@@ -1012,7 +1020,7 @@ input:disabled {
   display: grid;
   align-content: start;
   gap: 10px;
-  padding: 16px;
+  padding: 18px;
 }
 
 .news-meta {
@@ -1056,6 +1064,14 @@ input:disabled {
   gap: 20px;
 }
 
+.catalog-admin-footer {
+  display: flex;
+  justify-content: flex-end;
+  width: min(900px, 100%);
+  margin: 22px auto 0;
+  padding-bottom: 8px;
+}
+
 .catalog-page {
   margin: 0;
   overflow: hidden;
@@ -1072,11 +1088,7 @@ input:disabled {
   display: none;
 }
 
-body[data-view="catalog"] .admin-floating {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 30;
+body[data-view="catalog"] .catalog-admin-footer .admin-entry {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
@@ -2262,7 +2274,7 @@ body.admin-news-editing .admin-news-side {
 
   .shortcut-catalog-mark {
     font-size: 0.68rem;
-    text-transform: lowercase;
+    text-transform: uppercase;
   }
 
   .brand {
@@ -2372,31 +2384,53 @@ body.admin-news-editing .admin-news-side {
   }
 
   .sku-row.unified-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .sku-card {
-    grid-template-rows: auto 132px 2.5em auto 46px;
-    gap: 8px;
-    padding: 10px;
+    grid-template-rows: auto 98px minmax(3.2em, auto) auto 42px;
+    gap: 7px;
+    padding: 8px;
   }
 
   .sku-meta {
     justify-content: flex-start;
+    font-size: 0.52rem;
+  }
+
+  .sku-flavor-chip {
+    max-width: 100%;
+    padding: 2px 5px;
   }
 
   .sku-card h4 {
-    font-size: 0.76rem;
+    min-height: 3.15em;
+    font-size: 0.66rem;
+    line-height: 1.12;
+    -webkit-line-clamp: 3;
   }
 
   .sku-price strong {
-    font-size: 0.86rem;
+    font-size: 0.78rem;
+  }
+
+  .sku-price span {
+    font-size: 0.56rem;
   }
 
   .qty-mini {
-    grid-template-columns: 44px minmax(36px, 1fr) 44px;
-    height: 46px;
+    grid-template-columns: minmax(30px, 0.9fr) minmax(30px, 1fr) minmax(30px, 0.9fr);
+    height: 42px;
+  }
+
+  .qty-mini button {
+    min-width: 0;
+    min-height: 40px;
+  }
+
+  .qty-mini span {
+    font-size: 0.82rem;
   }
 
   #cartView.view {
@@ -2564,6 +2598,9 @@ body.admin-news-editing .admin-news-side {
 
   .news-thumb {
     aspect-ratio: 16 / 9;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
   }
 
   .news-copy {
@@ -2739,6 +2776,12 @@ body.admin-news-editing .admin-news-side {
   }
 }
 
+@media (max-width: 520px) {
+  .sku-row.unified-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 430px) {
   .brand {
     gap: 5px;
@@ -2754,16 +2797,16 @@ body.admin-news-editing .admin-news-side {
   }
 
   .sku-card {
-    grid-template-rows: auto 118px 2.55em auto 46px;
-    padding: 9px;
+    grid-template-rows: auto 88px minmax(3.25em, auto) auto 40px;
+    padding: 7px;
   }
 
   .sku-card h4 {
-    font-size: 0.72rem;
+    font-size: 0.64rem;
   }
 
   .sku-price span {
-    font-size: 0.58rem;
+    font-size: 0.54rem;
   }
 
   .form-grid.two,
