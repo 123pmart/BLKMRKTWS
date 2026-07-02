@@ -49,6 +49,7 @@ const PRODUCT_PANEL_OVERRIDES = {
 };
 
 const defaultSite = {
+  hiddenVariants: [],
   announcements: [
     {
       id: "cuts-natural-launch",
@@ -96,6 +97,9 @@ const mediaPreload = {
   queue: [],
   seen: new Set(),
 };
+
+let designObserver = null;
+let revealObserver = null;
 
 const dom = {
   mobileNavToggle: document.querySelector("#mobileNavToggle"),
@@ -248,6 +252,7 @@ async function init() {
   renderCatalog();
   renderCart();
   renderAdmin();
+  initDesignEffects();
   bindEvents();
   closeAdminEditors();
   setCartStep(state.cartStep);
@@ -487,6 +492,16 @@ function bindEvents() {
       openProductEditor("flavor", select.dataset.selectProduct);
       return;
     }
+    const hide = event.target.closest("[data-hide-variant]");
+    if (hide) {
+      hideCatalogVariant(hide.dataset.hideVariant);
+      return;
+    }
+    const restore = event.target.closest("[data-restore-variant]");
+    if (restore) {
+      restoreCatalogVariant(restore.dataset.restoreVariant);
+      return;
+    }
     const remove = event.target.closest("[data-remove-product]");
     if (!remove) return;
     removeCustomProduct(remove.dataset.removeProduct);
@@ -547,6 +562,91 @@ function bindEvents() {
       closeAdminEditors();
       document.body.classList.remove("nav-open");
     }
+  });
+}
+
+function initDesignEffects() {
+  applyDesignEffects();
+  if ("MutationObserver" in window && !designObserver) {
+    let scheduled = false;
+    designObserver = new MutationObserver(() => {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(() => {
+        scheduled = false;
+        applyDesignEffects();
+      });
+    });
+    designObserver.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+function applyDesignEffects() {
+  const glassSelectors = [
+    ".search",
+    ".landing-card-media",
+    ".category-tile-media",
+    ".sku-card",
+    ".news-card",
+    ".catalog-page",
+    "#cartView",
+    ".cart-line",
+    ".store-card",
+    ".order-bar",
+    ".modal-frame",
+    ".image-zoom-frame",
+    ".admin-login",
+    ".admin-shell",
+    ".admin-card",
+    ".admin-product-toolbar",
+    ".admin-order",
+    ".admin-catalog-product",
+    ".admin-variant-list > div",
+    ".qty-mini",
+    ".qty-control",
+    ".mobile-icon-nav",
+    ".cart-icon",
+    ".link-button",
+    ".download-link",
+  ].join(",");
+
+  document.querySelectorAll(glassSelectors).forEach((element) => {
+    element.classList.add("glass-effect-container");
+    element.dataset.glassMerge = "true";
+  });
+
+  const revealSelectors = [
+    ".landing-card",
+    ".category-tile",
+    ".sku-card",
+    ".news-card",
+    ".catalog-page",
+    ".admin-card",
+    ".admin-order",
+    ".admin-catalog-product",
+  ].join(",");
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!("IntersectionObserver" in window) || reduceMotion) {
+    document.querySelectorAll(revealSelectors).forEach((element) => element.classList.add("is-visible"));
+    return;
+  }
+
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  }
+
+  document.querySelectorAll(revealSelectors).forEach((element) => {
+    if (element.dataset.motionBound) return;
+    element.dataset.motionBound = "true";
+    element.classList.add("motion-reveal");
+    revealObserver.observe(element);
   });
 }
 
@@ -613,7 +713,7 @@ function rebuildProductState() {
 
 function buildItems(products) {
   return products.flatMap((product, productIndex) =>
-    product.variants.map((variant, variantIndex) => {
+    product.variants.filter((variant) => !isVariantHidden(variant.id)).map((variant, variantIndex) => {
       const item = {
         ...variant,
         productId: product.id,
@@ -635,6 +735,15 @@ function buildItems(products) {
       return item;
     }),
   );
+}
+
+function hiddenVariantIds() {
+  if (!Array.isArray(state.site.hiddenVariants)) state.site.hiddenVariants = [];
+  return state.site.hiddenVariants;
+}
+
+function isVariantHidden(id) {
+  return hiddenVariantIds().includes(id);
 }
 
 function displaySection(item) {
@@ -1985,6 +2094,10 @@ async function clearServerOrders() {
 
 function applyServerContent(content) {
   if (!content || typeof content !== "object") return false;
+  if (Array.isArray(content.hiddenVariants)) {
+    state.site = { ...state.site, hiddenVariants: unique(content.hiddenVariants.map(String)) };
+    saveJson(SITE_KEY, state.site);
+  }
   if (Array.isArray(content.announcements)) {
     state.site = { ...state.site, announcements: content.announcements };
     saveJson(SITE_KEY, state.site);
@@ -2031,6 +2144,7 @@ async function persistAdminContent(options = {}) {
       },
       body: JSON.stringify({
         announcements: state.site.announcements,
+        hiddenVariants: hiddenVariantIds(),
         customProducts: state.customProducts,
       }),
     });
@@ -2423,12 +2537,44 @@ async function removeCustomProduct(id) {
   const customProduct = state.customProducts.find((product) => product.id === id);
   const label = customProduct?.variants?.[0]?.flavor || customProduct?.title || "this custom item";
   if (!window.confirm(`Remove ${label} from the portal?`)) return;
+  const removedVariantIds = new Set((customProduct?.variants || []).map((variant) => variant.id));
   state.customProducts = state.customProducts.filter((product) => product.id !== id);
+  state.site.hiddenVariants = hiddenVariantIds().filter((entry) => !removedVariantIds.has(entry));
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
+  saveJson(SITE_KEY, state.site);
   await persistAdminContent({ silent: true });
   rebuildProductState();
   renderAdminMetrics();
   showToast("Product removed");
+}
+
+async function hideCatalogVariant(id) {
+  const item = findCatalogVariant(id);
+  const label = item ? `${item.product.title} ${item.variant.flavor}` : "this SKU";
+  if (!window.confirm(`Hide ${label} from the live catalog?`)) return;
+  state.site.hiddenVariants = unique([...hiddenVariantIds(), id]);
+  saveJson(SITE_KEY, state.site);
+  await persistAdminContent({ silent: true });
+  rebuildProductState();
+  renderAdminMetrics();
+  showToast("SKU hidden from live catalog");
+}
+
+async function restoreCatalogVariant(id) {
+  state.site.hiddenVariants = hiddenVariantIds().filter((entry) => entry !== id);
+  saveJson(SITE_KEY, state.site);
+  await persistAdminContent({ silent: true });
+  rebuildProductState();
+  renderAdminMetrics();
+  showToast("SKU restored to live catalog");
+}
+
+function findCatalogVariant(id) {
+  for (const product of state.products) {
+    const variant = product.variants.find((entry) => entry.id === id);
+    if (variant) return { product, variant };
+  }
+  return null;
 }
 
 function renderAdminProducts() {
@@ -2454,7 +2600,10 @@ function renderAdminProducts() {
   }
 
   dom.adminProductsList.innerHTML = products
-    .map((product) => `
+    .map((product) => {
+      const hiddenCount = product.variants.filter((variant) => isVariantHidden(variant.id)).length;
+      const visibleCount = product.variants.length - hiddenCount;
+      return `
       <details class="admin-catalog-product">
         <summary>
           <img src="${escapeHtml(product.variants[0]?.bottle || product.bottle || "")}" alt="" width="160" height="160" loading="lazy" decoding="async" />
@@ -2462,26 +2611,34 @@ function renderAdminProducts() {
             <strong>${escapeHtml(product.title)}</strong>
             <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
           </div>
-          <b>${product.variants.length} flavor${product.variants.length === 1 ? "" : "s"}</b>
+          <b>${visibleCount} live${hiddenCount ? ` / ${hiddenCount} hidden` : ""}</b>
         </summary>
         <div class="admin-variant-list">
-          ${product.variants.map((variant) => `
-            <div>
+          ${product.variants.map((variant) => {
+            const hidden = isVariantHidden(variant.id);
+            return `
+            <div class="${hidden ? "is-hidden" : ""}">
               <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" width="120" height="120" loading="lazy" decoding="async" />
               <span>
                 <strong>${escapeHtml(variant.flavor || "Unflavored")}</strong>
                 <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>
               </span>
-              ${variant.limitedEdition ? `<em>Limited</em>` : ""}
-              ${variant.customSourceId ? `<button class="admin-button admin-danger admin-icon-action" type="button" data-remove-product="${escapeHtml(variant.customSourceId)}">Remove</button>` : `<i>Live</i>`}
+              <div class="admin-variant-actions">
+                ${variant.limitedEdition ? `<em>Limited</em>` : ""}
+                <i>${hidden ? "Hidden" : "Live"}</i>
+                ${hidden
+                  ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-restore-variant="${escapeHtml(variant.id)}">Restore</button>`
+                  : `<button class="admin-button admin-secondary admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Hide</button>`}
+                ${variant.customSourceId ? `<button class="admin-button admin-danger admin-icon-action" type="button" data-remove-product="${escapeHtml(variant.customSourceId)}">Delete</button>` : ""}
+              </div>
             </div>
-          `).join("")}
+          `}).join("")}
         </div>
         <footer>
           <button class="admin-button admin-secondary" type="button" data-select-product="${escapeHtml(product.id)}">Add Flavor</button>
         </footer>
       </details>
-    `)
+    `})
     .join("");
 }
 
@@ -2561,6 +2718,7 @@ function exportAdminContentBackup() {
   const backup = {
     exportedAt: new Date().toISOString(),
     announcements: state.site.announcements,
+    hiddenVariants: hiddenVariantIds(),
     customProducts: state.customProducts,
   };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });

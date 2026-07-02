@@ -6,6 +6,7 @@ const STORE_STATE = Symbol.for("blackmarket.wholesale.content");
 const BLOB_PATH = "blackmarket/content.json";
 const MAX_ANNOUNCEMENTS = 100;
 const MAX_CUSTOM_PRODUCTS = 300;
+const MAX_HIDDEN_VARIANTS = 1000;
 
 if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
@@ -87,6 +88,7 @@ export function normalizeContentPayload(payload = {}) {
   return {
     announcements: cleanEntries(payload.announcements, MAX_ANNOUNCEMENTS),
     customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS),
+    hiddenVariants: cleanStrings(payload.hiddenVariants, MAX_HIDDEN_VARIANTS),
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : new Date().toISOString(),
   };
 }
@@ -132,6 +134,11 @@ function cleanEntries(entries, maximum) {
     .filter((entry) => entry && typeof entry === "object" && !Array.isArray(entry))
     .slice(0, maximum)
     .map((entry) => JSON.parse(JSON.stringify(entry)));
+}
+
+function cleanStrings(entries, maximum) {
+  if (!Array.isArray(entries)) return [];
+  return unique(entries.map((entry) => String(entry || "").trim()).filter(Boolean)).slice(0, maximum);
 }
 
 function canAttemptBlobStore() {
