@@ -59,6 +59,16 @@ export async function clearOrders() {
   await writeOrders([]);
 }
 
+export async function deleteOrder(id) {
+  const targetId = cleanString(id);
+  if (!targetId) return false;
+  const orders = await readOrders();
+  const next = orders.filter((order) => order.id !== targetId);
+  if (next.length === orders.length) return false;
+  await writeOrders(next);
+  return true;
+}
+
 export function normalizeOrderPayload(payload = {}) {
   const now = new Date().toISOString();
   const lines = Array.isArray(payload.lines) ? payload.lines.map(normalizeLine).filter(Boolean) : [];

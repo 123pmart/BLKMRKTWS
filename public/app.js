@@ -98,9 +98,6 @@ const mediaPreload = {
   seen: new Set(),
 };
 
-let designObserver = null;
-let revealObserver = null;
-
 const dom = {
   mobileNavToggle: document.querySelector("#mobileNavToggle"),
   brandHome: document.querySelector("#brandHome"),
@@ -252,7 +249,6 @@ async function init() {
   renderCatalog();
   renderCart();
   renderAdmin();
-  initDesignEffects();
   bindEvents();
   closeAdminEditors();
   setCartStep(state.cartStep);
@@ -452,6 +448,12 @@ function bindEvents() {
       return;
     }
 
+    const deleteOrder = event.target.closest("[data-delete-order]");
+    if (deleteOrder) {
+      await deleteServerOrder(deleteOrder.dataset.deleteOrder);
+      return;
+    }
+
     const clear = event.target.closest("[data-clear-orders]");
     if (clear) {
       await clearServerOrders();
@@ -500,6 +502,16 @@ function bindEvents() {
     const restore = event.target.closest("[data-restore-variant]");
     if (restore) {
       restoreCatalogVariant(restore.dataset.restoreVariant);
+      return;
+    }
+    const hideProduct = event.target.closest("[data-hide-product]");
+    if (hideProduct) {
+      hideCatalogProduct(hideProduct.dataset.hideProduct);
+      return;
+    }
+    const restoreProduct = event.target.closest("[data-restore-product]");
+    if (restoreProduct) {
+      restoreCatalogProduct(restoreProduct.dataset.restoreProduct);
       return;
     }
     const remove = event.target.closest("[data-remove-product]");
@@ -562,91 +574,6 @@ function bindEvents() {
       closeAdminEditors();
       document.body.classList.remove("nav-open");
     }
-  });
-}
-
-function initDesignEffects() {
-  applyDesignEffects();
-  if ("MutationObserver" in window && !designObserver) {
-    let scheduled = false;
-    designObserver = new MutationObserver(() => {
-      if (scheduled) return;
-      scheduled = true;
-      window.requestAnimationFrame(() => {
-        scheduled = false;
-        applyDesignEffects();
-      });
-    });
-    designObserver.observe(document.body, { childList: true, subtree: true });
-  }
-}
-
-function applyDesignEffects() {
-  const glassSelectors = [
-    ".search",
-    ".landing-card-media",
-    ".category-tile-media",
-    ".sku-card",
-    ".news-card",
-    ".catalog-page",
-    "#cartView",
-    ".cart-line",
-    ".store-card",
-    ".order-bar",
-    ".modal-frame",
-    ".image-zoom-frame",
-    ".admin-login",
-    ".admin-shell",
-    ".admin-card",
-    ".admin-product-toolbar",
-    ".admin-order",
-    ".admin-catalog-product",
-    ".admin-variant-list > div",
-    ".qty-mini",
-    ".qty-control",
-    ".mobile-icon-nav",
-    ".cart-icon",
-    ".link-button",
-    ".download-link",
-  ].join(",");
-
-  document.querySelectorAll(glassSelectors).forEach((element) => {
-    element.classList.add("glass-effect-container");
-    element.dataset.glassMerge = "true";
-  });
-
-  const revealSelectors = [
-    ".landing-card",
-    ".category-tile",
-    ".sku-card",
-    ".news-card",
-    ".catalog-page",
-    ".admin-card",
-    ".admin-order",
-    ".admin-catalog-product",
-  ].join(",");
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!("IntersectionObserver" in window) || reduceMotion) {
-    document.querySelectorAll(revealSelectors).forEach((element) => element.classList.add("is-visible"));
-    return;
-  }
-
-  if (!revealObserver) {
-    revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
-  }
-
-  document.querySelectorAll(revealSelectors).forEach((element) => {
-    if (element.dataset.motionBound) return;
-    element.dataset.motionBound = "true";
-    element.classList.add("motion-reveal");
-    revealObserver.observe(element);
   });
 }
 
@@ -1346,6 +1273,8 @@ function openImageZoom(src, alt) {
   dom.imageZoomContent.src = src;
   dom.imageZoomContent.alt = alt || "Expanded product image";
   if (!dom.imageZoomModal.open) dom.imageZoomModal.showModal();
+  dom.imageZoomModal.querySelector(".image-zoom-frame")?.scrollTo({ top: 0, left: 0 });
+  dom.imageZoomModal.scrollTo?.({ top: 0, left: 0 });
   dom.closeImageZoom.focus({ preventScroll: true });
 }
 
@@ -1642,19 +1571,25 @@ function buildOrderPdfPages(order) {
   while (index < lines.length || !pages.length) {
     const ops = [];
     drawOrderPageHeader(ops, order);
+    const pageStart = index;
     let y = drawOrderItemHeader(ops);
 
     while (index < lines.length) {
       const row = orderLineForPdf(lines[index], index);
       const descLines = wrapPdfText(row.description, 160, 9);
       const rowHeight = Math.max(24, 12 + descLines.length * 11);
-      if (y - rowHeight < 156 && index > 0) break;
+      if (y - rowHeight < 58 && index > pageStart) break;
       drawOrderItemRow(ops, row, descLines, y, rowHeight, index);
       y -= rowHeight;
       index += 1;
     }
 
     pages.push(ops);
+    if (index >= lines.length && y < 156) {
+      const totalsPage = [];
+      drawOrderPageHeader(totalsPage, order);
+      pages.push(totalsPage);
+    }
   }
 
   drawOrderTermsAndTotals(pages[pages.length - 1], order);
@@ -1666,7 +1601,7 @@ function drawOrderPageHeader(ops, order) {
   const store = order.store || {};
   const addressLines = orderAddressLines(store);
 
-  pdfText(ops, "Order Request", 582, 735, { size: 20, bold: true, align: "right" });
+  pdfText(ops, "Invoice", 582, 747, { size: 18, bold: true, align: "right" });
   pdfRect(ops, 30, 681, 76, 14);
   pdfText(ops, "BLACKMARKET", 68, 685, { size: 8.5, bold: true, align: "center", tracking: 1.6 });
   pdfText(ops, "BlackMarket, LLC", 110, 708, { size: 16, bold: true });
@@ -1674,15 +1609,10 @@ function drawOrderPageHeader(ops, order) {
     pdfText(ops, line, 110, 691 - i * 14, { size: 11 });
   });
 
-  pdfTable(ops, 392, 684, [126, 70], 36, [
-    ["Request #", "Date"],
-    [orderRequestNumber(order), shortPdfDate(order.date)],
-  ]);
-
   const billLines = [
     store.storeName || "Store order",
     store.street || "",
-    [store.city, store.state, store.zip].filter(Boolean).join(", "),
+    pdfCityStateZip(store),
     `Email: ${store.email || ""}`,
   ].filter(Boolean);
   const shipLines = [store.storeName || "Store order", ...addressLines].filter(Boolean);
@@ -1696,7 +1626,7 @@ function drawOrderPageHeader(ops, order) {
 
   pdfTable(ops, 30, 482, [94, 94, 94, 94, 94, 82], 30, [
     ["Sales Rep", "Payment Terms", "FOB Point", "Carrier", "Ship Service", "Date Scheduled"],
-    ["pmart", "Due on Order", "Origin", "TBD", "Ground", shortPdfDate(order.date)],
+    ["pmart", "Due on Order", "Origin", "FedEx - 6278-0", "Ground", shortPdfDate(order.date)],
   ]);
 }
 
@@ -1803,7 +1733,7 @@ function drawOrderTermsAndTotals(ops, order) {
 
 function drawOrderFooter(ops, order, page, totalPages) {
   pdfText(ops, pdfDateTime(order.date), 30, 22, { size: 9 });
-  pdfText(ops, "Revision: 1", 306, 22, { size: 9, align: "center" });
+  pdfText(ops, "Revision: 4", 306, 22, { size: 9, align: "center" });
   pdfText(ops, `Page ${page} of ${totalPages}`, 582, 22, { size: 9, align: "right" });
 }
 
@@ -1819,12 +1749,12 @@ function orderLineForPdf(line, index) {
 }
 
 function orderAddressLines(store = {}) {
-  return [store.street, [store.city, store.state, store.zip].filter(Boolean).join(", ")].filter(Boolean);
+  return [store.street, pdfCityStateZip(store)].filter(Boolean);
 }
 
-function orderRequestNumber(order) {
-  const id = String(order.id || "");
-  return id ? `WEB-${id.slice(-6)}` : "PENDING";
+function pdfCityStateZip(store = {}) {
+  const city = store.city ? `${store.city},` : "";
+  return [city, store.state, store.zip].filter(Boolean).join(" ");
 }
 
 function shortPdfDate(dateValue) {
@@ -1837,15 +1767,18 @@ function shortPdfDate(dateValue) {
 
 function pdfDateTime(dateValue) {
   const date = new Date(dateValue || Date.now());
-  return date.toLocaleString([], {
+  const day = date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
+  });
+  const time = date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
     second: "2-digit",
     timeZoneName: "short",
-  }).replace(/\s/g, " ");
+  }).replace(" AM", "AM").replace(" PM", "PM");
+  return `${day}, ${time}`;
 }
 
 function pdfLabeledBox(ops, x, y, width, height, label, lines) {
@@ -2089,6 +2022,28 @@ async function clearServerOrders() {
     showToast("Order inbox cleared");
   } catch (error) {
     showToast(error?.message || "Unable to clear orders");
+  }
+}
+
+async function deleteServerOrder(id) {
+  if (!id) return;
+  const order = state.orders.find((entry) => entry.id === id);
+  const label = order?.store?.storeName || "this order";
+  if (!window.confirm(`Delete ${label} from the admin inbox?`)) return;
+  try {
+    const response = await fetch(`${ORDERS_API_URL}?id=${encodeURIComponent(id)}`, {
+      method: "DELETE",
+      headers: adminHeaders(),
+    });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok || !body.ok) throw new Error(body.message || "Unable to delete order");
+    state.orders = state.orders.filter((entry) => entry.id !== id);
+    saveJson(ORDERS_KEY, state.orders);
+    renderAdminOrders();
+    renderAdminMetrics();
+    showToast("Order deleted");
+  } catch (error) {
+    showToast(error?.message || "Unable to delete order");
   }
 }
 
@@ -2403,6 +2358,7 @@ function renderAdminOrder(order) {
           <button class="admin-button admin-secondary" type="button" data-copy-summary="${escapeHtml(order.id)}">Copy Summary</button>
           <button class="admin-button admin-secondary" type="button" data-copy-draft="${escapeHtml(order.id)}">Copy Email Draft</button>
           <button class="admin-button admin-primary" type="button" data-download-order="${escapeHtml(order.id)}">Download PDF</button>
+          <button class="admin-button admin-danger" type="button" data-delete-order="${escapeHtml(order.id)}">Delete</button>
         </div>
       </div>
       <div class="admin-order-id">Order ID: ${escapeHtml(order.id || "")}</div>
@@ -2569,6 +2525,31 @@ async function restoreCatalogVariant(id) {
   showToast("SKU restored to live catalog");
 }
 
+async function hideCatalogProduct(id) {
+  const product = state.products.find((entry) => entry.id === id);
+  if (!product) return;
+  if (!window.confirm(`Remove ${product.title} from the live catalog? You can restore it later from admin.`)) return;
+  const variantIds = product.variants.map((variant) => variant.id);
+  state.site.hiddenVariants = unique([...hiddenVariantIds(), ...variantIds]);
+  saveJson(SITE_KEY, state.site);
+  await persistAdminContent({ silent: true });
+  rebuildProductState();
+  renderAdminMetrics();
+  showToast("Product removed from live catalog");
+}
+
+async function restoreCatalogProduct(id) {
+  const product = state.products.find((entry) => entry.id === id);
+  if (!product) return;
+  const variantIds = new Set(product.variants.map((variant) => variant.id));
+  state.site.hiddenVariants = hiddenVariantIds().filter((entry) => !variantIds.has(entry));
+  saveJson(SITE_KEY, state.site);
+  await persistAdminContent({ silent: true });
+  rebuildProductState();
+  renderAdminMetrics();
+  showToast("Product restored to live catalog");
+}
+
 function findCatalogVariant(id) {
   for (const product of state.products) {
     const variant = product.variants.find((entry) => entry.id === id);
@@ -2636,6 +2617,12 @@ function renderAdminProducts() {
         </div>
         <footer>
           <button class="admin-button admin-secondary" type="button" data-select-product="${escapeHtml(product.id)}">Add Flavor</button>
+          ${hiddenCount
+            ? `<button class="admin-button admin-secondary" type="button" data-restore-product="${escapeHtml(product.id)}">Restore All</button>`
+            : ""}
+          ${product.customSourceId
+            ? `<button class="admin-button admin-danger" type="button" data-remove-product="${escapeHtml(product.customSourceId)}">Delete Product</button>`
+            : `<button class="admin-button admin-danger" type="button" data-hide-product="${escapeHtml(product.id)}">Delete from Live</button>`}
         </footer>
       </details>
     `})

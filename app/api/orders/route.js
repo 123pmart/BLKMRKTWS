@@ -1,4 +1,4 @@
-import { clearOrders, orderStorageMode, readOrders } from "./store.js";
+import { clearOrders, deleteOrder, orderStorageMode, readOrders } from "./store.js";
 
 export const runtime = "nodejs";
 
@@ -18,6 +18,12 @@ export async function GET(request) {
 export async function DELETE(request) {
   if (!isAdmin(request)) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
+  }
+
+  const id = new URL(request.url).searchParams.get("id");
+  if (id) {
+    const deleted = await deleteOrder(id);
+    return Response.json({ ok: true, deleted });
   }
 
   await clearOrders();
