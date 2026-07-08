@@ -1278,11 +1278,9 @@ dialog::backdrop {
 
 .image-zoom-frame {
   position: relative;
-  display: flex;
+  display: block;
   width: min(1100px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
-  align-items: flex-start;
-  justify-content: center;
   overflow: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -1294,12 +1292,8 @@ dialog::backdrop {
 .image-zoom-frame .icon-close {
   position: sticky;
   top: 12px;
-  right: auto;
-  left: calc(100% - 56px);
-  right: 12px;
-  flex: 0 0 44px;
-  margin: 12px 12px 0 -56px;
   z-index: 2;
+  margin: 12px 12px -56px auto;
 }
 
 .image-zoom-frame > img {
@@ -1308,6 +1302,7 @@ dialog::backdrop {
   max-width: 100%;
   height: auto;
   min-height: 0;
+  margin: 0 auto;
   padding: 24px;
   object-fit: contain;
 }
@@ -2642,6 +2637,25 @@ body.admin-news-editing .admin-news-side {
     max-height: 100dvh;
     border: 0;
     border-radius: 0;
+  }
+
+  .image-zoom-frame {
+    width: 100vw;
+    max-height: 100dvh;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .image-zoom-frame .icon-close {
+    top: max(10px, env(safe-area-inset-top));
+    margin: max(10px, env(safe-area-inset-top)) 10px -54px auto;
+  }
+
+  .image-zoom-frame > img {
+    width: 100%;
+    max-width: 100%;
+    padding: 64px 10px max(24px, env(safe-area-inset-bottom));
   }
 
   .product-detail {
