@@ -477,6 +477,13 @@ img {
   transform: translateY(-2px);
 }
 
+.sku-card.is-coming-soon {
+  border-style: dashed;
+  background:
+    linear-gradient(145deg, rgba(245, 169, 0, 0.055), transparent 34%),
+    var(--panel-gradient);
+}
+
 .sku-meta {
   display: flex;
   min-width: 0;
@@ -509,6 +516,11 @@ img {
 
 .sku-meta .sku-limited {
   color: var(--accent);
+}
+
+.sku-meta .sku-coming {
+  border-color: rgba(245, 169, 0, 0.34);
+  color: #d8d8dc;
 }
 
 .bottle-stage {
@@ -570,6 +582,22 @@ img {
 .qty-mini.has-qty span {
   color: #090909;
   background: var(--accent);
+}
+
+.qty-mini.is-disabled {
+  grid-template-columns: 1fr;
+  border-style: dashed;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.qty-mini.is-disabled span {
+  border: 0;
+  color: #a8a8b0;
+  background: transparent;
+  font-size: 0.64rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .qty-mini button,
@@ -1205,6 +1233,16 @@ dialog::backdrop {
   line-height: 1.5;
 }
 
+.detail-status-note {
+  padding: 10px 12px;
+  border: 1px dashed rgba(245, 169, 0, 0.38);
+  border-radius: 6px;
+  color: #d8d8dc !important;
+  background: rgba(245, 169, 0, 0.06);
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
 .detail-price {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1691,6 +1729,10 @@ dialog::backdrop {
   background: rgba(255, 255, 255, 0.025);
 }
 
+.admin-variant-list > div.is-coming-soon {
+  background: rgba(245, 169, 0, 0.045);
+}
+
 .admin-variant-list > div + div {
   border-top: 1px solid var(--line-soft);
 }
@@ -1726,9 +1768,41 @@ dialog::backdrop {
   color: var(--accent);
 }
 
+.admin-variant-status {
+  min-height: 32px;
+  max-width: 126px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--text);
+  background: #101014;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.admin-mini-check {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: #bebec6;
+  background: #101014;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.admin-mini-check input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+}
+
 .admin-variant-actions {
   display: flex;
-  min-width: 116px;
+  min-width: 240px;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 5px;
@@ -2762,6 +2836,20 @@ body.admin-news-editing .admin-news-side {
   .admin-catalog-product summary > img {
     width: 48px;
     height: 52px;
+  }
+
+  .admin-variant-list > div {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .admin-variant-actions {
+    grid-column: 1 / -1;
+    min-width: 0;
+    justify-content: flex-start;
+  }
+
+  .admin-variant-status {
+    flex: 1 1 126px;
   }
 
   .admin-editor-card {

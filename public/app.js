@@ -50,6 +50,7 @@ const PRODUCT_PANEL_OVERRIDES = {
 
 const defaultSite = {
   hiddenVariants: [],
+  variantOverrides: {},
   announcements: [
     {
       id: "cuts-natural-launch",
@@ -307,8 +308,8 @@ function bindEvents() {
     if (adjust) {
       event.stopPropagation();
       const id = adjust.dataset.variant;
-      setQty(id, getQty(id) + Number(adjust.dataset.adjust));
-      if (Number(adjust.dataset.adjust) > 0) pulseCart();
+      const changed = setQty(id, getQty(id) + Number(adjust.dataset.adjust));
+      if (changed && Number(adjust.dataset.adjust) > 0) pulseCart();
       return;
     }
 
@@ -519,6 +520,19 @@ function bindEvents() {
     removeCustomProduct(remove.dataset.removeProduct);
   });
 
+  dom.adminProductsList.addEventListener("change", async (event) => {
+    const status = event.target.closest("[data-variant-status]");
+    if (status) {
+      await updateVariantOverride(status.dataset.variantStatus, { status: normalizeVariantStatus(status.value) });
+      return;
+    }
+
+    const limited = event.target.closest("[data-variant-limited]");
+    if (limited) {
+      await updateVariantOverride(limited.dataset.variantLimited, { limitedEdition: limited.checked });
+    }
+  });
+
   dom.adminRefreshContent.addEventListener("click", async () => {
     await loadServerContent();
   });
@@ -596,7 +610,7 @@ function normalizeProducts(products) {
 function mergeProducts() {
   const merged = state.baseProducts.map((product) => ({
     ...product,
-    variants: product.variants.map((variant) => ({ ...variant })),
+    variants: product.variants.map((variant) => applyVariantOverride(variant)),
     siteImages: [...(product.siteImages || [])],
   }));
 
@@ -604,7 +618,7 @@ function mergeProducts() {
     const customVariants = (customProduct.variants || []).map((variant) => ({
       ...variant,
       customSourceId: customProduct.id,
-    }));
+    })).map((variant) => applyVariantOverride(variant));
     const parent = customProduct.extendsProductId
       ? merged.find((product) => product.id === customProduct.extendsProductId)
       : null;
@@ -640,7 +654,7 @@ function rebuildProductState() {
 
 function buildItems(products) {
   return products.flatMap((product, productIndex) =>
-    product.variants.filter((variant) => !isVariantHidden(variant.id)).map((variant, variantIndex) => {
+    product.variants.filter((variant) => !isVariantHidden(variant.id) && normalizeVariantStatus(variant.status) !== "inactive").map((variant, variantIndex) => {
       const item = {
         ...variant,
         productId: product.id,
@@ -671,6 +685,52 @@ function hiddenVariantIds() {
 
 function isVariantHidden(id) {
   return hiddenVariantIds().includes(id);
+}
+
+function variantOverrides() {
+  if (!state.site.variantOverrides || typeof state.site.variantOverrides !== "object" || Array.isArray(state.site.variantOverrides)) {
+    state.site.variantOverrides = {};
+  }
+  return state.site.variantOverrides;
+}
+
+function applyVariantOverride(variant) {
+  const override = variantOverrides()[variant.id] || {};
+  const status = normalizeVariantStatus(override.status || variant.status || (variant.available === false ? "coming-soon" : "available"));
+  return {
+    ...variant,
+    status,
+    limitedEdition: typeof override.limitedEdition === "boolean" ? override.limitedEdition : Boolean(variant.limitedEdition),
+    available: status === "available",
+  };
+}
+
+function normalizeVariantStatus(status) {
+  return ["available", "coming-soon", "inactive"].includes(status) ? status : "available";
+}
+
+function variantStatusLabel(status) {
+  if (status === "coming-soon") return "Coming Soon";
+  if (status === "inactive") return "Inactive";
+  return "Live";
+}
+
+function isOrderable(item) {
+  return normalizeVariantStatus(item?.status) === "available";
+}
+
+function cleanVariantOverrides(overrides) {
+  return Object.fromEntries(
+    Object.entries(overrides || {})
+      .map(([id, override]) => {
+        if (!id || !override || typeof override !== "object" || Array.isArray(override)) return null;
+        const clean = {};
+        if (override.status) clean.status = normalizeVariantStatus(override.status);
+        if (typeof override.limitedEdition === "boolean") clean.limitedEdition = override.limitedEdition;
+        return Object.keys(clean).length ? [String(id), clean] : null;
+      })
+      .filter(Boolean),
+  );
 }
 
 function displaySection(item) {
@@ -939,11 +999,17 @@ function activeFilterLabel() {
 }
 
 function renderSkuCard(item) {
+  const orderable = isOrderable(item);
+  const statusPrefix = [
+    !orderable ? "Coming Soon" : "",
+    item.limitedEdition ? "Limited" : "",
+  ].filter(Boolean).join(" / ");
+  const flavorLabel = statusPrefix ? `${statusPrefix} / ${item.flavor}` : item.flavor;
   return `
-    <article class="sku-card" data-detail="${item.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(item.fullTitle)} details">
+    <article class="sku-card ${!orderable ? "is-coming-soon" : ""}" data-detail="${item.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(item.fullTitle)} details">
       <div class="sku-meta">
         <span class="sku-number">#${escapeHtml(item.item)}</span>
-        <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""}">${item.limitedEdition ? "Limited / " : ""}${escapeHtml(item.flavor)}</span>
+        <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""} ${!orderable ? "sku-coming" : ""}">${escapeHtml(flavorLabel)}</span>
       </div>
       <div class="bottle-stage">
         <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="lazy" decoding="async" />
@@ -1013,6 +1079,14 @@ function pumpMediaPreloadQueue() {
 }
 
 function renderMiniQty(id) {
+  const item = state.items.find((entry) => entry.id === id);
+  if (item && !isOrderable(item)) {
+    return `
+      <div class="qty-mini is-disabled" aria-label="Coming soon">
+        <span>Coming soon</span>
+      </div>
+    `;
+  }
   const qty = getQty(id);
   return `
     <div class="qty-mini" aria-label="Quantity controls">
@@ -1068,6 +1142,7 @@ function openProductModal(itemId, trigger = document.activeElement) {
             <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
             <h2>${escapeHtml(item.fullTitle)}</h2>
             <p>${escapeHtml(item.description || item.productDescription)}</p>
+            ${!isOrderable(item) ? `<p class="detail-status-note">Coming soon. Ordering opens when this item is available.</p>` : ""}
             <div class="detail-price">
               <div><span>Wholesale</span><strong>${escapeHtml(item.wholesale)}</strong></div>
               <div><span>MAP</span><strong>${escapeHtml(item.map)}</strong></div>
@@ -1258,8 +1333,8 @@ function handleModalQuantityClick(event) {
   if (!adjust) return;
   event.stopPropagation();
   const id = adjust.dataset.variant;
-  setQty(id, getQty(id) + Number(adjust.dataset.adjust));
-  if (Number(adjust.dataset.adjust) > 0) pulseCart();
+  const changed = setQty(id, getQty(id) + Number(adjust.dataset.adjust));
+  if (changed && Number(adjust.dataset.adjust) > 0) pulseCart();
 }
 
 function closeProductModal() {
@@ -1285,14 +1360,21 @@ function closeImageZoom() {
 }
 
 function addToCart(id) {
-  setQty(id, getQty(id) + 1);
-  pulseCart();
+  if (setQty(id, getQty(id) + 1)) pulseCart();
 }
 
 function setQty(id, requestedQty) {
   const item = state.items.find((entry) => entry.id === id);
-  if (!item) return;
+  if (!item) return false;
   const next = Math.max(0, Math.floor(Number.isFinite(requestedQty) ? requestedQty : 0));
+  if (!isOrderable(item) && next > 0) {
+    delete state.cart[id];
+    saveJson(CART_KEY, state.cart);
+    renderCart();
+    syncQtyControls();
+    showToast(`${item.fullTitle} is coming soon`);
+    return false;
+  }
   if (next === 0) {
     delete state.cart[id];
   } else {
@@ -1301,6 +1383,7 @@ function setQty(id, requestedQty) {
   saveJson(CART_KEY, state.cart);
   renderCart();
   syncQtyControls();
+  return true;
 }
 
 function getQty(id) {
@@ -1311,7 +1394,7 @@ function cartLines() {
   return Object.entries(state.cart)
     .map(([id, qty]) => {
       const item = state.items.find((entry) => entry.id === id);
-      if (!item) return null;
+      if (!item || !isOrderable(item)) return null;
       return { item, qty, lineWholesale: qty * item.wholesaleValue, lineMap: qty * item.mapValue };
     })
     .filter(Boolean);
@@ -2053,6 +2136,10 @@ function applyServerContent(content) {
     state.site = { ...state.site, hiddenVariants: unique(content.hiddenVariants.map(String)) };
     saveJson(SITE_KEY, state.site);
   }
+  if (content.variantOverrides && typeof content.variantOverrides === "object" && !Array.isArray(content.variantOverrides)) {
+    state.site = { ...state.site, variantOverrides: cleanVariantOverrides(content.variantOverrides) };
+    saveJson(SITE_KEY, state.site);
+  }
   if (Array.isArray(content.announcements)) {
     state.site = { ...state.site, announcements: content.announcements };
     saveJson(SITE_KEY, state.site);
@@ -2100,6 +2187,7 @@ async function persistAdminContent(options = {}) {
       body: JSON.stringify({
         announcements: state.site.announcements,
         hiddenVariants: hiddenVariantIds(),
+        variantOverrides: variantOverrides(),
         customProducts: state.customProducts,
       }),
     });
@@ -2550,6 +2638,27 @@ async function restoreCatalogProduct(id) {
   showToast("Product restored to live catalog");
 }
 
+async function updateVariantOverride(id, patch) {
+  const found = findCatalogVariant(id);
+  if (!found) return;
+  const overrides = variantOverrides();
+  overrides[id] = {
+    ...(overrides[id] || {}),
+    ...patch,
+  };
+  overrides[id] = cleanVariantOverrides({ [id]: overrides[id] })[id] || {};
+  if (!Object.keys(overrides[id]).length) delete overrides[id];
+  state.site.variantOverrides = overrides;
+  saveJson(SITE_KEY, state.site);
+  await persistAdminContent({ silent: true });
+  rebuildProductState();
+  renderAdminMetrics();
+  if (patch.status === "coming-soon") showToast("SKU marked coming soon");
+  else if (patch.status === "available") showToast("SKU available for ordering");
+  else if (patch.status === "inactive") showToast("SKU set inactive");
+  else showToast("SKU updated");
+}
+
 function findCatalogVariant(id) {
   for (const product of state.products) {
     const variant = product.variants.find((entry) => entry.id === id);
@@ -2583,7 +2692,8 @@ function renderAdminProducts() {
   dom.adminProductsList.innerHTML = products
     .map((product) => {
       const hiddenCount = product.variants.filter((variant) => isVariantHidden(variant.id)).length;
-      const visibleCount = product.variants.length - hiddenCount;
+      const availableCount = product.variants.filter((variant) => !isVariantHidden(variant.id) && normalizeVariantStatus(variant.status) === "available").length;
+      const comingSoonCount = product.variants.filter((variant) => !isVariantHidden(variant.id) && normalizeVariantStatus(variant.status) === "coming-soon").length;
       return `
       <details class="admin-catalog-product">
         <summary>
@@ -2592,21 +2702,30 @@ function renderAdminProducts() {
             <strong>${escapeHtml(product.title)}</strong>
             <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
           </div>
-          <b>${visibleCount} live${hiddenCount ? ` / ${hiddenCount} hidden` : ""}</b>
+          <b>${availableCount} available${comingSoonCount ? ` / ${comingSoonCount} soon` : ""}${hiddenCount ? ` / ${hiddenCount} hidden` : ""}</b>
         </summary>
         <div class="admin-variant-list">
           ${product.variants.map((variant) => {
             const hidden = isVariantHidden(variant.id);
+            const status = normalizeVariantStatus(variant.status);
             return `
-            <div class="${hidden ? "is-hidden" : ""}">
+            <div class="${hidden ? "is-hidden" : ""} ${status === "coming-soon" ? "is-coming-soon" : ""}">
               <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" width="120" height="120" loading="lazy" decoding="async" />
               <span>
                 <strong>${escapeHtml(variant.flavor || "Unflavored")}</strong>
                 <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>
               </span>
               <div class="admin-variant-actions">
-                ${variant.limitedEdition ? `<em>Limited</em>` : ""}
-                <i>${hidden ? "Hidden" : "Live"}</i>
+                <i>${hidden ? "Hidden" : variantStatusLabel(status)}</i>
+                <select class="admin-variant-status" data-variant-status="${escapeHtml(variant.id)}" aria-label="Set ${escapeHtml(variant.flavor || "SKU")} status">
+                  <option value="available" ${status === "available" ? "selected" : ""}>Available</option>
+                  <option value="coming-soon" ${status === "coming-soon" ? "selected" : ""}>Coming Soon</option>
+                  <option value="inactive" ${status === "inactive" ? "selected" : ""}>Inactive</option>
+                </select>
+                <label class="admin-mini-check">
+                  <input type="checkbox" data-variant-limited="${escapeHtml(variant.id)}" ${variant.limitedEdition ? "checked" : ""} />
+                  <span>Limited</span>
+                </label>
                 ${hidden
                   ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-restore-variant="${escapeHtml(variant.id)}">Restore</button>`
                   : `<button class="admin-button admin-secondary admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Hide</button>`}
@@ -2706,6 +2825,7 @@ function exportAdminContentBackup() {
     exportedAt: new Date().toISOString(),
     announcements: state.site.announcements,
     hiddenVariants: hiddenVariantIds(),
+    variantOverrides: variantOverrides(),
     customProducts: state.customProducts,
   };
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
@@ -2873,7 +2993,8 @@ function setView(view) {
 function pruneCart() {
   let changed = false;
   Object.keys(state.cart).forEach((id) => {
-    if (!state.items.some((item) => item.id === id) || state.cart[id] <= 0) {
+    const item = state.items.find((entry) => entry.id === id);
+    if (!item || !isOrderable(item) || state.cart[id] <= 0) {
       delete state.cart[id];
       changed = true;
     }

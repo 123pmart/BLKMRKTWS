@@ -7,6 +7,7 @@ const BLOB_PATH = "blackmarket/content.json";
 const MAX_ANNOUNCEMENTS = 100;
 const MAX_CUSTOM_PRODUCTS = 300;
 const MAX_HIDDEN_VARIANTS = 1000;
+const MAX_VARIANT_OVERRIDES = 1500;
 
 if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
@@ -89,6 +90,7 @@ export function normalizeContentPayload(payload = {}) {
     announcements: cleanEntries(payload.announcements, MAX_ANNOUNCEMENTS),
     customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS),
     hiddenVariants: cleanStrings(payload.hiddenVariants, MAX_HIDDEN_VARIANTS),
+    variantOverrides: cleanVariantOverrides(payload.variantOverrides, MAX_VARIANT_OVERRIDES),
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : new Date().toISOString(),
   };
 }
@@ -139,6 +141,23 @@ function cleanEntries(entries, maximum) {
 function cleanStrings(entries, maximum) {
   if (!Array.isArray(entries)) return [];
   return unique(entries.map((entry) => String(entry || "").trim()).filter(Boolean)).slice(0, maximum);
+}
+
+function cleanVariantOverrides(overrides, maximum) {
+  if (!overrides || typeof overrides !== "object" || Array.isArray(overrides)) return {};
+  return Object.fromEntries(
+    Object.entries(overrides)
+      .slice(0, maximum)
+      .map(([id, override]) => {
+        if (!override || typeof override !== "object" || Array.isArray(override)) return null;
+        const clean = {};
+        if (["available", "coming-soon", "inactive"].includes(override.status)) clean.status = override.status;
+        if (typeof override.limitedEdition === "boolean") clean.limitedEdition = override.limitedEdition;
+        const cleanId = String(id || "").trim();
+        return cleanId && Object.keys(clean).length ? [cleanId, clean] : null;
+      })
+      .filter(Boolean),
+  );
 }
 
 function canAttemptBlobStore() {
