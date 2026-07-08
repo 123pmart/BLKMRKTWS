@@ -138,6 +138,15 @@ function cleanEntries(entries, maximum) {
     .map((entry) => JSON.parse(JSON.stringify(entry)));
 }
 
+function cleanStringArray(entries, maximum) {
+  if (!Array.isArray(entries)) return [];
+  return unique(
+    entries
+      .map((entry) => String(entry || "").trim())
+      .filter(Boolean)
+  ).slice(0, maximum);
+}
+
 function cleanStrings(entries, maximum) {
   if (!Array.isArray(entries)) return [];
   return unique(entries.map((entry) => String(entry || "").trim()).filter(Boolean)).slice(0, maximum);
