@@ -523,12 +523,23 @@ function bindEvents() {
       restoreCatalogProduct(restoreProduct.dataset.restoreProduct);
       return;
     }
+    const resetImages = event.target.closest("[data-reset-variant-images]");
+    if (resetImages) {
+      resetVariantImages(resetImages.dataset.resetVariantImages);
+      return;
+    }
     const remove = event.target.closest("[data-remove-product]");
     if (!remove) return;
     removeCustomProduct(remove.dataset.removeProduct);
   });
 
   dom.adminProductsList.addEventListener("change", async (event) => {
+    const image = event.target.closest("[data-variant-image]");
+    if (image) {
+      await updateVariantImageOverride(image);
+      return;
+    }
+
     const status = event.target.closest("[data-variant-status]");
     if (status) {
       await updateVariantOverride(status.dataset.variantStatus, { status: normalizeVariantStatus(status.value) });
@@ -538,6 +549,12 @@ function bindEvents() {
     const limited = event.target.closest("[data-variant-limited]");
     if (limited) {
       await updateVariantOverride(limited.dataset.variantLimited, { limitedEdition: limited.checked });
+      return;
+    }
+
+    const runningLow = event.target.closest("[data-variant-running-low]");
+    if (runningLow) {
+      await updateVariantOverride(runningLow.dataset.variantRunningLow, { runningLow: runningLow.checked });
     }
   });
 
@@ -708,8 +725,11 @@ function applyVariantOverride(variant) {
   const status = normalizeVariantStatus(hasOverrideStatus ? override.status : variant.status || (variant.available === false ? "coming-soon" : "available"));
   return {
     ...variant,
+    bottle: override.bottle || variant.bottle,
+    panel: override.panel || variant.panel,
     status,
     limitedEdition: typeof override.limitedEdition === "boolean" ? override.limitedEdition : Boolean(variant.limitedEdition),
+    runningLow: typeof override.runningLow === "boolean" ? override.runningLow : Boolean(variant.runningLow),
     available: status === "available",
   };
 }
@@ -736,6 +756,9 @@ function cleanVariantOverrides(overrides) {
         const clean = {};
         if (override.status) clean.status = normalizeVariantStatus(override.status);
         if (typeof override.limitedEdition === "boolean") clean.limitedEdition = override.limitedEdition;
+        if (typeof override.runningLow === "boolean") clean.runningLow = override.runningLow;
+        if (override.bottle) clean.bottle = String(override.bottle).trim();
+        if (override.panel) clean.panel = String(override.panel).trim();
         return Object.keys(clean).length ? [String(id), clean] : null;
       })
       .filter(Boolean),
@@ -1009,10 +1032,7 @@ function activeFilterLabel() {
 
 function renderSkuCard(item) {
   const orderable = isOrderable(item);
-  const statusPrefix = [
-    !orderable ? "Coming Soon" : "",
-    item.limitedEdition ? "Limited" : "",
-  ].filter(Boolean).join(" / ");
+  const statusPrefix = item.limitedEdition ? "Limited" : "";
   const flavorLabel = statusPrefix ? `${statusPrefix} / ${item.flavor}` : item.flavor;
   return `
     <article class="sku-card ${!orderable ? "is-coming-soon" : ""}" data-detail="${item.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(item.fullTitle)} details">
@@ -1025,7 +1045,10 @@ function renderSkuCard(item) {
       </div>
       <h4>${escapeHtml(item.fullTitle)}</h4>
       <div class="sku-price">
-        <strong>${escapeHtml(item.wholesale)}</strong>
+        <div class="sku-price-line">
+          <strong>${escapeHtml(item.wholesale)}</strong>
+          ${item.runningLow ? `<em class="sku-low-stock">RUNNING LOW</em>` : ""}
+        </div>
         <span>MAP ${escapeHtml(item.map)}</span>
       </div>
       ${renderMiniQty(item.id)}
@@ -1153,7 +1176,11 @@ function openProductModal(itemId, trigger = document.activeElement) {
             <p>${escapeHtml(item.description || item.productDescription)}</p>
             ${!isOrderable(item) ? `<p class="detail-status-note">Coming soon. Ordering opens when this item is available.</p>` : ""}
             <div class="detail-price">
-              <div><span>Wholesale</span><strong>${escapeHtml(item.wholesale)}</strong></div>
+              <div>
+                <span>Wholesale</span>
+                <strong>${escapeHtml(item.wholesale)}</strong>
+                ${item.runningLow ? `<em class="detail-low-stock">RUNNING LOW</em>` : ""}
+              </div>
               <div><span>MAP</span><strong>${escapeHtml(item.map)}</strong></div>
             </div>
             <div class="detail-actions">
@@ -2683,6 +2710,26 @@ async function updateVariantOverride(id, patch) {
   else showToast("SKU updated");
 }
 
+async function updateVariantImageOverride(input) {
+  const id = input.dataset.variantId;
+  const field = input.dataset.variantImage;
+  if (!id || !["bottle", "panel"].includes(field)) return;
+  try {
+    const url = await uploadOptionalFile(input, "products", "");
+    if (!url) return;
+    await updateVariantOverride(id, { [field]: url });
+  } catch (error) {
+    showToast(error?.message || "Product image upload failed");
+  } finally {
+    input.value = "";
+  }
+}
+
+async function resetVariantImages(id) {
+  if (!id) return;
+  await updateVariantOverride(id, { bottle: "", panel: "" });
+}
+
 function findCatalogVariant(id) {
   for (const product of state.products) {
     const variant = product.variants.find((entry) => entry.id === id);
@@ -2732,6 +2779,8 @@ function renderAdminProducts() {
           ${product.variants.map((variant) => {
             const hidden = isVariantHidden(variant.id);
             const status = normalizeVariantStatus(variant.status);
+            const override = variantOverrides()[variant.id] || {};
+            const hasImageOverride = Boolean(override.bottle || override.panel);
             return `
             <div class="${hidden ? "is-hidden" : ""} ${status === "coming-soon" ? "is-coming-soon" : ""}">
               <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" width="120" height="120" loading="lazy" decoding="async" />
@@ -2750,6 +2799,19 @@ function renderAdminProducts() {
                   <input type="checkbox" data-variant-limited="${escapeHtml(variant.id)}" ${variant.limitedEdition ? "checked" : ""} />
                   <span>Limited</span>
                 </label>
+                <label class="admin-mini-check">
+                  <input type="checkbox" data-variant-running-low="${escapeHtml(variant.id)}" ${variant.runningLow ? "checked" : ""} />
+                  <span>Running Low</span>
+                </label>
+                <label class="admin-file-action">
+                  <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image="bottle" />
+                  <span>Front Photo</span>
+                </label>
+                <label class="admin-file-action">
+                  <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image="panel" />
+                  <span>Facts Photo</span>
+                </label>
+                ${hasImageOverride ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-reset-variant-images="${escapeHtml(variant.id)}">Reset Photos</button>` : ""}
                 ${hidden
                   ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-restore-variant="${escapeHtml(variant.id)}">Restore</button>`
                   : variant.customSourceId ? "" : `<button class="admin-button admin-danger admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Delete</button>`}

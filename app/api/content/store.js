@@ -153,6 +153,9 @@ function cleanVariantOverrides(overrides, maximum) {
         const clean = {};
         if (["available", "coming-soon", "inactive"].includes(override.status)) clean.status = override.status;
         if (typeof override.limitedEdition === "boolean") clean.limitedEdition = override.limitedEdition;
+        if (typeof override.runningLow === "boolean") clean.runningLow = override.runningLow;
+        if (override.bottle) clean.bottle = String(override.bottle).trim();
+        if (override.panel) clean.panel = String(override.panel).trim();
         const cleanId = String(id || "").trim();
         return cleanId && Object.keys(clean).length ? [cleanId, clean] : null;
       })
