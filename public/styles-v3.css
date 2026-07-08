@@ -558,6 +558,7 @@ img {
   display: flex;
   min-width: 0;
   align-items: baseline;
+  flex-wrap: wrap;
   gap: 7px;
 }
 
@@ -1851,6 +1852,90 @@ dialog::backdrop {
   cursor: pointer;
 }
 
+.admin-photo-manager {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  margin-top: 2px;
+  padding: 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.admin-photo-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-photo-heading strong {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-photo-heading span {
+  color: var(--muted);
+  font-size: 0.6rem;
+}
+
+.admin-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.admin-photo-item {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  background: #08080a;
+}
+
+.admin-photo-item > img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.admin-photo-item > span {
+  align-self: center;
+}
+
+.admin-photo-item > div {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-photo-add {
+  position: relative;
+  display: grid;
+  min-height: 104px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px dashed rgba(245, 169, 0, 0.42);
+  border-radius: 7px;
+  color: var(--accent);
+  background: rgba(245, 169, 0, 0.045);
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.admin-photo-add input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .admin-variant-actions {
   display: flex;
   min-width: 330px;
@@ -2572,6 +2657,17 @@ body.admin-news-editing .admin-news-side {
 
   .sku-price strong {
     font-size: 0.78rem;
+  }
+
+  .sku-price-line {
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .sku-low-stock {
+    flex-basis: 100%;
+    font-size: 0.48rem;
+    line-height: 1;
   }
 
   .sku-price span {

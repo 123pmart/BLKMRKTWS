@@ -156,6 +156,8 @@ function cleanVariantOverrides(overrides, maximum) {
         if (typeof override.runningLow === "boolean") clean.runningLow = override.runningLow;
         if (override.bottle) clean.bottle = String(override.bottle).trim();
         if (override.panel) clean.panel = String(override.panel).trim();
+        const images = cleanStringArray(override.images, 16);
+        if (images.length) clean.images = images;
         const cleanId = String(id || "").trim();
         return cleanId && Object.keys(clean).length ? [cleanId, clean] : null;
       })

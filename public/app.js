@@ -528,13 +528,18 @@ function bindEvents() {
       resetVariantImages(resetImages.dataset.resetVariantImages);
       return;
     }
+    const removeImage = event.target.closest("[data-remove-variant-image]");
+    if (removeImage) {
+      removeVariantGalleryImage(removeImage.dataset.removeVariantImage, Number(removeImage.dataset.imageIndex || -1));
+      return;
+    }
     const remove = event.target.closest("[data-remove-product]");
     if (!remove) return;
     removeCustomProduct(remove.dataset.removeProduct);
   });
 
   dom.adminProductsList.addEventListener("change", async (event) => {
-    const image = event.target.closest("[data-variant-image]");
+    const image = event.target.closest("[data-variant-image-action]");
     if (image) {
       await updateVariantImageOverride(image);
       return;
@@ -727,6 +732,7 @@ function applyVariantOverride(variant) {
     ...variant,
     bottle: override.bottle || variant.bottle,
     panel: override.panel || variant.panel,
+    galleryImages: Array.isArray(override.images) && override.images.length ? [...override.images] : variant.galleryImages,
     status,
     limitedEdition: typeof override.limitedEdition === "boolean" ? override.limitedEdition : Boolean(variant.limitedEdition),
     runningLow: typeof override.runningLow === "boolean" ? override.runningLow : Boolean(variant.runningLow),
@@ -759,6 +765,8 @@ function cleanVariantOverrides(overrides) {
         if (typeof override.runningLow === "boolean") clean.runningLow = override.runningLow;
         if (override.bottle) clean.bottle = String(override.bottle).trim();
         if (override.panel) clean.panel = String(override.panel).trim();
+        const images = unique(Array.isArray(override.images) ? override.images.map((entry) => String(entry || "").trim()).filter(Boolean) : []).slice(0, 16);
+        if (images.length) clean.images = images;
         return Object.keys(clean).length ? [String(id), clean] : null;
       })
       .filter(Boolean),
@@ -1233,6 +1241,12 @@ function showDialog(dialog) {
 }
 
 function imageGalleryForItem(item, product) {
+  if (Array.isArray(item.galleryImages) && item.galleryImages.length) {
+    return item.galleryImages.map((src, index) => ({
+      src,
+      label: galleryImageLabel(src, item, index),
+    }));
+  }
   const images = [
     { src: item.panel, label: "Supplement Facts" },
     { src: item.bottle, label: `${item.flavor} Front` },
@@ -1244,6 +1258,16 @@ function imageGalleryForItem(item, product) {
     seen.add(image.src);
     return true;
   });
+}
+
+function galleryImageLabel(src, item, index) {
+  if (src === item.panel) return "Supplement Facts";
+  if (src === item.bottle) return `${item.flavor} Front`;
+  const normalized = normalizeSearch(src);
+  if (isPanelImage(normalized)) return "Supplement Facts";
+  if (isFrontBottleImage(src)) return `${item.flavor} Front`;
+  if (isRotatedBottleImage(src)) return `Bottle View ${index + 1}`;
+  return `Product Image ${index + 1}`;
 }
 
 function rotatedImagesForItem(item, product) {
@@ -2712,12 +2736,24 @@ async function updateVariantOverride(id, patch) {
 
 async function updateVariantImageOverride(input) {
   const id = input.dataset.variantId;
-  const field = input.dataset.variantImage;
-  if (!id || !["bottle", "panel"].includes(field)) return;
+  const action = input.dataset.variantImageAction;
+  const role = input.dataset.variantImageRole;
+  const index = Number(input.dataset.imageIndex || -1);
+  if (!id || !["add", "replace"].includes(action)) return;
   try {
     const url = await uploadOptionalFile(input, "products", "");
     if (!url) return;
-    await updateVariantOverride(id, { [field]: url });
+    const images = currentVariantImageUrls(id);
+    const patch = {};
+    if (action === "replace" && index >= 0 && index < images.length) {
+      images[index] = url;
+      if (role === "bottle") patch.bottle = url;
+      if (role === "panel") patch.panel = url;
+    } else {
+      images.push(url);
+    }
+    patch.images = unique(images);
+    await updateVariantOverride(id, patch);
   } catch (error) {
     showToast(error?.message || "Product image upload failed");
   } finally {
@@ -2725,9 +2761,46 @@ async function updateVariantImageOverride(input) {
   }
 }
 
+async function removeVariantGalleryImage(id, index) {
+  const images = currentVariantImageUrls(id);
+  if (!id || index < 0 || index >= images.length) return;
+  if (images.length <= 1) {
+    showToast("At least one product photo is required");
+    return;
+  }
+  images.splice(index, 1);
+  await updateVariantOverride(id, { images: unique(images) });
+}
+
 async function resetVariantImages(id) {
   if (!id) return;
-  await updateVariantOverride(id, { bottle: "", panel: "" });
+  await updateVariantOverride(id, { bottle: "", panel: "", images: [] });
+}
+
+function currentVariantImageUrls(id) {
+  const found = findCatalogVariant(id);
+  if (!found) return [];
+  return adminGalleryForVariant(found.variant, found.product).map((image) => image.src);
+}
+
+function adminGalleryForVariant(variant, product) {
+  const item = {
+    ...variant,
+    productId: product.id,
+    productTitle: product.title,
+    flavor: variant.flavor || "Product",
+    bottle: variant.bottle || product.bottle,
+    panel: variant.panel || product.panel,
+  };
+  return imageGalleryForItem(item, product);
+}
+
+function galleryRoleForVariantImage(image, variant, product) {
+  const bottle = variant.bottle || product.bottle;
+  const panel = variant.panel || product.panel;
+  if (image.src === bottle) return "bottle";
+  if (image.src === panel) return "panel";
+  return "gallery";
 }
 
 function findCatalogVariant(id) {
@@ -2780,7 +2853,8 @@ function renderAdminProducts() {
             const hidden = isVariantHidden(variant.id);
             const status = normalizeVariantStatus(variant.status);
             const override = variantOverrides()[variant.id] || {};
-            const hasImageOverride = Boolean(override.bottle || override.panel);
+            const galleryImages = adminGalleryForVariant(variant, product);
+            const hasImageOverride = Boolean(override.bottle || override.panel || override.images?.length);
             return `
             <div class="${hidden ? "is-hidden" : ""} ${status === "coming-soon" ? "is-coming-soon" : ""}">
               <img src="${escapeHtml(variant.bottle || product.bottle || "")}" alt="" width="120" height="120" loading="lazy" decoding="async" />
@@ -2803,19 +2877,42 @@ function renderAdminProducts() {
                   <input type="checkbox" data-variant-running-low="${escapeHtml(variant.id)}" ${variant.runningLow ? "checked" : ""} />
                   <span>Running Low</span>
                 </label>
-                <label class="admin-file-action">
-                  <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image="bottle" />
-                  <span>Front Photo</span>
-                </label>
-                <label class="admin-file-action">
-                  <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image="panel" />
-                  <span>Facts Photo</span>
-                </label>
-                ${hasImageOverride ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-reset-variant-images="${escapeHtml(variant.id)}">Reset Photos</button>` : ""}
                 ${hidden
                   ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-restore-variant="${escapeHtml(variant.id)}">Restore</button>`
                   : variant.customSourceId ? "" : `<button class="admin-button admin-danger admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Delete</button>`}
                 ${variant.customSourceId ? `<button class="admin-button admin-danger admin-icon-action" type="button" data-remove-product="${escapeHtml(variant.customSourceId)}">Delete</button>` : ""}
+              </div>
+              <div class="admin-photo-manager">
+                <div class="admin-photo-heading">
+                  <strong>Photos</strong>
+                  <span>${galleryImages.length} image${galleryImages.length === 1 ? "" : "s"}</span>
+                </div>
+                <div class="admin-photo-grid">
+                  ${galleryImages.map((image, index) => {
+                    const role = galleryRoleForVariantImage(image, variant, product);
+                    const roleLabel = role === "panel" ? "Facts" : role === "bottle" ? "Front" : "Gallery";
+                    return `
+                    <div class="admin-photo-item">
+                      <img src="${escapeHtml(image.src)}" alt="" width="96" height="96" loading="lazy" decoding="async" />
+                      <span>
+                        <strong>${escapeHtml(image.label)}</strong>
+                        <small>${escapeHtml(roleLabel)}</small>
+                      </span>
+                      <div>
+                        <label class="admin-file-action">
+                          <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image-action="replace" data-variant-image-role="${escapeHtml(role)}" data-image-index="${index}" />
+                          <span>Replace</span>
+                        </label>
+                        <button class="admin-button admin-secondary admin-icon-action" type="button" data-remove-variant-image="${escapeHtml(variant.id)}" data-image-index="${index}">Delete</button>
+                      </div>
+                    </div>
+                  `}).join("")}
+                  <label class="admin-photo-add">
+                    <input type="file" accept="image/*" data-variant-id="${escapeHtml(variant.id)}" data-variant-image-action="add" />
+                    <span>+ Add Photo</span>
+                  </label>
+                </div>
+                ${hasImageOverride ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-reset-variant-images="${escapeHtml(variant.id)}">Restore Default Photos</button>` : ""}
               </div>
             </div>
           `}).join("")}
