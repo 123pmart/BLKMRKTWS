@@ -2085,9 +2085,9 @@ body.admin-news-editing .admin-news-side {
 }
 
 .admin-order-head {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, auto);
   align-items: start;
-  justify-content: space-between;
   gap: 14px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line-soft);
@@ -2103,6 +2103,27 @@ body.admin-news-editing .admin-news-side {
   margin-top: 4px;
   color: var(--muted);
   font-size: 0.66rem;
+}
+
+.admin-order-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(132px, 1fr));
+  align-items: stretch;
+  justify-content: end;
+}
+
+.admin-order-actions b {
+  grid-column: 1 / -1;
+  justify-self: end;
+  padding: 5px 0 2px;
+  color: var(--accent);
+  font-size: 1rem;
+}
+
+.admin-order-actions .admin-button {
+  justify-content: center;
+  min-height: 36px;
+  white-space: nowrap;
 }
 
 .admin-order-contact {
@@ -2873,14 +2894,16 @@ body.admin-news-editing .admin-news-side {
 
   .admin-order-head {
     display: grid;
+    grid-template-columns: 1fr;
   }
 
   .admin-order-actions {
     width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-order-actions .admin-button {
-    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
   }
 
   .admin-order-contact {

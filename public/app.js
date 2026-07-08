@@ -411,7 +411,15 @@ function bindEvents() {
     }
 
     const edit = event.target.closest("[data-edit-announcement]");
-    if (edit) editAnnouncement(edit.dataset.editAnnouncement);
+    if (edit) {
+      editAnnouncement(edit.dataset.editAnnouncement);
+      return;
+    }
+
+    const move = event.target.closest("[data-move-announcement]");
+    if (move) {
+      moveAnnouncement(move.dataset.moveAnnouncement, Number(move.dataset.direction || 0));
+    }
   });
 
   dom.adminOrdersList.addEventListener("click", async (event) => {
@@ -696,7 +704,8 @@ function variantOverrides() {
 
 function applyVariantOverride(variant) {
   const override = variantOverrides()[variant.id] || {};
-  const status = normalizeVariantStatus(override.status || variant.status || (variant.available === false ? "coming-soon" : "available"));
+  const hasOverrideStatus = Object.prototype.hasOwnProperty.call(override, "status");
+  const status = normalizeVariantStatus(hasOverrideStatus ? override.status : variant.status || (variant.available === false ? "coming-soon" : "available"));
   return {
     ...variant,
     status,
@@ -1684,13 +1693,7 @@ function drawOrderPageHeader(ops, order) {
   const store = order.store || {};
   const addressLines = orderAddressLines(store);
 
-  pdfText(ops, "Invoice", 582, 747, { size: 18, bold: true, align: "right" });
-  pdfRect(ops, 30, 681, 76, 14);
-  pdfText(ops, "BLACKMARKET", 68, 685, { size: 8.5, bold: true, align: "center", tracking: 1.6 });
-  pdfText(ops, "BlackMarket, LLC", 110, 708, { size: 16, bold: true });
-  ["Main", "3683 W 2270 S", "Ste D", "Salt Lake City, UT 84120-2308"].forEach((line, i) => {
-    pdfText(ops, line, 110, 691 - i * 14, { size: 11 });
-  });
+  pdfText(ops, "Invoice", 306, 746, { size: 18, bold: true, align: "center" });
 
   const billLines = [
     store.storeName || "Store order",
@@ -1700,14 +1703,14 @@ function drawOrderPageHeader(ops, order) {
   ].filter(Boolean);
   const shipLines = [store.storeName || "Store order", ...addressLines].filter(Boolean);
 
-  pdfLabeledBox(ops, 30, 538, 275, 78, "Bill To:", billLines);
-  pdfLabeledBox(ops, 315, 552, 267, 64, "Ship To:", shipLines);
-  pdfRect(ops, 315, 534, 267, 16);
-  pdfText(ops, `Contact: ${store.contactName || store.storeName || ""}`, 319, 538, { size: 10.5 });
-  pdfRect(ops, 30, 520, 275, 16);
-  pdfText(ops, `Customer: ${store.storeName || ""}`, 34, 524, { size: 10.5 });
+  pdfLabeledBox(ops, 30, 618, 275, 78, "Bill To:", billLines);
+  pdfLabeledBox(ops, 315, 632, 267, 64, "Ship To:", shipLines);
+  pdfRect(ops, 315, 614, 267, 16);
+  pdfText(ops, `Contact: ${store.contactName || store.storeName || ""}`, 319, 618, { size: 10.5 });
+  pdfRect(ops, 30, 600, 275, 16);
+  pdfText(ops, `Customer: ${store.storeName || ""}`, 34, 604, { size: 10.5 });
 
-  pdfTable(ops, 30, 482, [94, 94, 94, 94, 94, 82], 30, [
+  pdfTable(ops, 30, 562, [94, 94, 94, 94, 94, 82], 30, [
     ["Sales Rep", "Payment Terms", "FOB Point", "Carrier", "Ship Service", "Date Scheduled"],
     ["pmart", "Due on Order", "Origin", "FedEx - 6278-0", "Ground", shortPdfDate(order.date)],
   ]);
@@ -1715,7 +1718,7 @@ function drawOrderPageHeader(ops, order) {
 
 function drawOrderItemHeader(ops) {
   const x = 30;
-  const y = 448;
+  const y = 528;
   const widths = [30, 44, 86, 174, 74, 64, 80];
   const headers = ["Item\n#", "Type", "Number", "Description", "Unit Price", "Qty\nOrdered", "Total Price"];
   pdfSetGray(ops, 0.88);
@@ -2373,12 +2376,28 @@ function renderAdminNews() {
           <span>${escapeHtml(item.label || "Update")} / ${escapeHtml(item.date || "")}${item.audience ? ` / ${escapeHtml(item.audience)}` : ""}</span>
         </div>
         <div class="admin-news-actions">
+          <button class="admin-button admin-secondary" type="button" data-move-announcement="${item.id}" data-direction="-1" ${index === 0 ? "disabled" : ""}>Up</button>
+          <button class="admin-button admin-secondary" type="button" data-move-announcement="${item.id}" data-direction="1" ${index === state.site.announcements.length - 1 ? "disabled" : ""}>Down</button>
           <button class="admin-button admin-secondary" type="button" data-edit-announcement="${item.id}">Edit</button>
           <button class="admin-button admin-danger" type="button" data-remove-announcement="${item.id}">Remove</button>
         </div>
       </article>
     `)
     .join("");
+}
+
+async function moveAnnouncement(id, direction) {
+  const from = state.site.announcements.findIndex((item) => item.id === id);
+  if (from < 0 || !direction) return;
+  const to = Math.max(0, Math.min(state.site.announcements.length - 1, from + direction));
+  if (from === to) return;
+  const next = [...state.site.announcements];
+  const [item] = next.splice(from, 1);
+  next.splice(to, 0, item);
+  state.site.announcements = next;
+  await saveSite({ silent: true });
+  renderAdminMetrics();
+  showToast("News order updated");
 }
 
 function renderAdminNewsPreview() {
@@ -2492,7 +2511,7 @@ async function addCustomProduct() {
   const title = parent?.title || dom.customProductTitle.value.trim();
   const section = parent ? adminSectionForProduct(parent) : dom.customProductSection.value;
   const flavor = dom.customProductFlavor.value.trim();
-  const status = dom.customProductStatus.value;
+  const status = normalizeVariantStatus(dom.customProductStatus.value);
   const limitedEdition = dom.customProductLimited.checked;
   const itemNumber = dom.customProductItem.value.trim();
   const upc = dom.customProductUpc.value.trim();
@@ -2562,6 +2581,11 @@ async function addCustomProduct() {
   };
 
   state.customProducts.unshift(product);
+  state.site.variantOverrides = cleanVariantOverrides({
+    ...variantOverrides(),
+    [variantId]: { status, limitedEdition },
+  });
+  saveJson(SITE_KEY, state.site);
   saveJson(CUSTOM_PRODUCTS_KEY, state.customProducts);
   await persistAdminContent({ silent: true });
   const selectedParent = parent?.id || "";
@@ -2595,13 +2619,13 @@ async function removeCustomProduct(id) {
 async function hideCatalogVariant(id) {
   const item = findCatalogVariant(id);
   const label = item ? `${item.product.title} ${item.variant.flavor}` : "this SKU";
-  if (!window.confirm(`Hide ${label} from the live catalog?`)) return;
+  if (!window.confirm(`Delete ${label} from the live catalog? You can restore it later from admin.`)) return;
   state.site.hiddenVariants = unique([...hiddenVariantIds(), id]);
   saveJson(SITE_KEY, state.site);
   await persistAdminContent({ silent: true });
   rebuildProductState();
   renderAdminMetrics();
-  showToast("SKU hidden from live catalog");
+  showToast("SKU deleted from live catalog");
 }
 
 async function restoreCatalogVariant(id) {
@@ -2616,14 +2640,14 @@ async function restoreCatalogVariant(id) {
 async function hideCatalogProduct(id) {
   const product = state.products.find((entry) => entry.id === id);
   if (!product) return;
-  if (!window.confirm(`Remove ${product.title} from the live catalog? You can restore it later from admin.`)) return;
+  if (!window.confirm(`Delete ${product.title} from the live catalog? You can restore it later from admin.`)) return;
   const variantIds = product.variants.map((variant) => variant.id);
   state.site.hiddenVariants = unique([...hiddenVariantIds(), ...variantIds]);
   saveJson(SITE_KEY, state.site);
   await persistAdminContent({ silent: true });
   rebuildProductState();
   renderAdminMetrics();
-  showToast("Product removed from live catalog");
+  showToast("Product deleted from live catalog");
 }
 
 async function restoreCatalogProduct(id) {
@@ -2702,7 +2726,7 @@ function renderAdminProducts() {
             <strong>${escapeHtml(product.title)}</strong>
             <span>${escapeHtml(SECTION_META.find((entry) => entry.slug === adminSectionForProduct(product))?.label || product.category || "Catalog")}</span>
           </div>
-          <b>${availableCount} available${comingSoonCount ? ` / ${comingSoonCount} soon` : ""}${hiddenCount ? ` / ${hiddenCount} hidden` : ""}</b>
+          <b>${availableCount} available${comingSoonCount ? ` / ${comingSoonCount} soon` : ""}${hiddenCount ? ` / ${hiddenCount} deleted` : ""}</b>
         </summary>
         <div class="admin-variant-list">
           ${product.variants.map((variant) => {
@@ -2716,7 +2740,7 @@ function renderAdminProducts() {
                 <small>#${escapeHtml(variant.item || "TBD")} / ${escapeHtml(variant.wholesale || "")} / MAP ${escapeHtml(variant.map || "")}</small>
               </span>
               <div class="admin-variant-actions">
-                <i>${hidden ? "Hidden" : variantStatusLabel(status)}</i>
+                <i>${hidden ? "Deleted" : variantStatusLabel(status)}</i>
                 <select class="admin-variant-status" data-variant-status="${escapeHtml(variant.id)}" aria-label="Set ${escapeHtml(variant.flavor || "SKU")} status">
                   <option value="available" ${status === "available" ? "selected" : ""}>Available</option>
                   <option value="coming-soon" ${status === "coming-soon" ? "selected" : ""}>Coming Soon</option>
@@ -2728,7 +2752,7 @@ function renderAdminProducts() {
                 </label>
                 ${hidden
                   ? `<button class="admin-button admin-secondary admin-icon-action" type="button" data-restore-variant="${escapeHtml(variant.id)}">Restore</button>`
-                  : `<button class="admin-button admin-secondary admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Hide</button>`}
+                  : variant.customSourceId ? "" : `<button class="admin-button admin-danger admin-icon-action" type="button" data-hide-variant="${escapeHtml(variant.id)}">Delete</button>`}
                 ${variant.customSourceId ? `<button class="admin-button admin-danger admin-icon-action" type="button" data-remove-product="${escapeHtml(variant.customSourceId)}">Delete</button>` : ""}
               </div>
             </div>
@@ -2741,7 +2765,7 @@ function renderAdminProducts() {
             : ""}
           ${product.customSourceId
             ? `<button class="admin-button admin-danger" type="button" data-remove-product="${escapeHtml(product.customSourceId)}">Delete Product</button>`
-            : `<button class="admin-button admin-danger" type="button" data-hide-product="${escapeHtml(product.id)}">Delete from Live</button>`}
+            : `<button class="admin-button admin-danger" type="button" data-hide-product="${escapeHtml(product.id)}">Delete Product</button>`}
         </footer>
       </details>
     `})
