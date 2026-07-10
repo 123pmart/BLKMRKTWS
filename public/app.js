@@ -3300,7 +3300,7 @@ const dismissInstall = document.querySelector("#dismissInstall");
 const installMessage = document.querySelector("#installMessage");
 
 function isIosDevice() {
-  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
 
 function isStandaloneMode() {
@@ -3319,7 +3319,7 @@ function showInstallPrompt() {
 
   if (isIosDevice()) {
     installMessage.textContent =
-      "Tap the Share button in Safari, then choose 'Add to Home Screen'.";
+      "Tap Share ↑, then select 'Add to Home Screen' to install BlackMarket.";
     installButton.textContent = "Got It";
   } else {
     installMessage.textContent =
@@ -3331,7 +3331,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
 
-  setTimeout(showInstallPrompt, 8000);
+  setTimeout(showInstallPrompt, 10000);
 });
 
 installButton?.addEventListener("click", async () => {
@@ -3355,9 +3355,14 @@ dismissInstall?.addEventListener("click", () => {
   localStorage.setItem("blackmarket-install-dismissed", "true");
 });
 
-window.addEventListener("load", () => {
+if (document.readyState === "complete") {
   if (isIosDevice()) {
-    setTimeout(showInstallPrompt, 8000);
+    showInstallPrompt();
   }
-});
-
+} else {
+  window.addEventListener("load", () => {
+    if (isIosDevice()) {
+      showInstallPrompt();
+    }
+  });
+}
