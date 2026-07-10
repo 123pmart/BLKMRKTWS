@@ -3299,10 +3299,13 @@ const installButton = document.querySelector("#installButton");
 const dismissInstall = document.querySelector("#dismissInstall");
 const installMessage = document.querySelector("#installMessage");
 
-function isIosDevice() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
+function isIosDevice() {
+  return (
+    /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
 }
-
 function isStandaloneMode() {
   return (
     window.matchMedia("(display-mode: standalone)").matches ||
