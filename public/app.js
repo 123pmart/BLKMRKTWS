@@ -1,3 +1,4 @@
+
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
 const ORDERS_API_URL = "/api/orders";
@@ -3276,18 +3277,6 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function showToast(message) {
-  window.clearTimeout(toastTimer);
-  dom.toast.textContent = message;
-  dom.toast.classList.add("show");
-  toastTimer = window.setTimeout(() => dom.toast.classList.remove("show"), 2200);
-}
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js");
-  });
-}let toastTimer = null;
 function showToast(message) {
   window.clearTimeout(toastTimer);
   dom.toast.textContent = message;
