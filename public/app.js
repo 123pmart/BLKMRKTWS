@@ -3299,7 +3299,6 @@ const installButton = document.querySelector("#installButton");
 const dismissInstall = document.querySelector("#dismissInstall");
 const installMessage = document.querySelector("#installMessage");
 
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
 function isIosDevice() {
   return (
     /iphone|ipad|ipod/i.test(navigator.userAgent) ||
