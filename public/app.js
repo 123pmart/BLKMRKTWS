@@ -3289,3 +3289,75 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
   });
 }
+
+/* PWA install prompt */
+
+let deferredInstallPrompt = null;
+
+const installPrompt = document.querySelector("#installPrompt");
+const installButton = document.querySelector("#installButton");
+const dismissInstall = document.querySelector("#dismissInstall");
+const installMessage = document.querySelector("#installMessage");
+
+function isIosDevice() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function isStandaloneMode() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  );
+}
+
+function showInstallPrompt() {
+  if (!installPrompt || isStandaloneMode()) return;
+
+  if (localStorage.getItem("blackmarket-install-dismissed")) return;
+
+  installPrompt.classList.remove("hidden");
+
+  if (isIosDevice()) {
+    installMessage.textContent =
+      "Tap the Share button in Safari, then choose 'Add to Home Screen'.";
+    installButton.textContent = "Got It";
+  } else {
+    installMessage.textContent =
+      "Install BlackMarket for faster access from your Home Screen.";
+  }
+}
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+
+  setTimeout(showInstallPrompt, 8000);
+});
+
+installButton?.addEventListener("click", async () => {
+  if (isIosDevice()) {
+    installPrompt.classList.add("hidden");
+    return;
+  }
+
+  if (!deferredInstallPrompt) return;
+
+  deferredInstallPrompt.prompt();
+
+  await deferredInstallPrompt.userChoice;
+
+  deferredInstallPrompt = null;
+  installPrompt.classList.add("hidden");
+});
+
+dismissInstall?.addEventListener("click", () => {
+  installPrompt.classList.add("hidden");
+  localStorage.setItem("blackmarket-install-dismissed", "true");
+});
+
+window.addEventListener("load", () => {
+  if (isIosDevice()) {
+    setTimeout(showInstallPrompt, 8000);
+  }
+});
+

@@ -3726,3 +3726,58 @@ body.admin-news-editing .admin-news-side {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* PWA install prompt */
+
+.install-prompt {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  background: #070707;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.45);
+}
+
+.install-prompt.hidden {
+  display: none;
+}
+
+.install-content strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.install-content p {
+  margin: 0 0 16px;
+  color: #b8b8b8;
+}
+
+.install-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.install-actions button {
+  flex: 1;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#installButton {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+}
+
+#dismissInstall {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #444;
+}
