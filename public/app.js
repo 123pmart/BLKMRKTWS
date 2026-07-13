@@ -3375,15 +3375,14 @@ function showInstallPrompt() {
 
   installPrompt.classList.remove("hidden");
 
-  installMessage.textContent =
-    "Follow these quick steps to add BlackMarket to your Home Screen.";
-  installButton.textContent = "Installation Guide";
-}if (isIosDevice()) {
-  installMessage.textContent =
-    "Follow these quick steps to add BlackMarket to your Home Screen.";
-  installButton.textContent = "Installation Guide";
-}
-
+  if (isIosDevice()) {
+    installMessage.textContent =
+      "Follow these quick steps to add BlackMarket to your Home Screen.";
+    installButton.textContent = "Installation Guide";
+  } else {
+    installMessage.textContent =
+      "Install BlackMarket for faster access from your Home Screen.";
+  }
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
@@ -3419,4 +3418,3 @@ installButton?.addEventListener("click", async () => {
   deferredInstallPrompt = null;
   installPrompt.classList.add("hidden");
 });
-}
