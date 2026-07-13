@@ -3742,8 +3742,13 @@ body.admin-news-editing .admin-news-side {
   box-shadow: 0 12px 30px rgba(0,0,0,.45);
 }
 
-.install-prompt.hidden {
   display: none;
+}.install-prompt.hidden {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .install-content strong {
