@@ -3299,6 +3299,38 @@ const installButton = document.querySelector("#installButton");
 const dismissInstall = document.querySelector("#dismissInstall");
 const installMessage = document.querySelector("#installMessage");
 
+const installTutorial = document.querySelector("#installTutorial");
+const installStepImage = document.querySelector("#installStepImage");
+const installStepText = document.querySelector("#installStepText");
+const installStepNumber = document.querySelector("#installStepNumber");
+
+const installSteps = [
+  {
+    image: "/assets/install-step1.png",
+  installPrompt.classList.add("hidden");
+  return;
+}    text: "Tap the three dots in the bottom right corner."
+  },
+  {
+    image: "/assets/install-step2.png",
+    text: "Tap the Share button."
+  },
+  {
+    image: "/assets/install-step3.png",
+    text: "Tap View More."
+  },
+  {
+    image: "/assets/install-step4.png",
+    text: "Tap Add to Home Screen."
+  },
+  {
+    image: "/assets/install-step5.png",
+    text: "Tap Add to install BlackMarket."
+  }
+];
+
+let currentInstallStep = 0;
+
 function isIosDevice() {
   return (
     /iphone|ipad|ipod/i.test(navigator.userAgent) ||
@@ -3312,6 +3344,32 @@ function isStandaloneMode() {
   );
 }
 
+function showInstallStep(index) {
+  const step = installSteps[index];
+  if (!step) return;
+
+  currentInstallStep = index;
+
+  installTutorial?.classList.remove("hidden");
+
+  if (installStepImage) {
+    installStepImage.src = step.image;
+  }
+
+  if (installStepText) {
+    installStepText.textContent = step.text;
+  }
+
+  if (installStepNumber) {
+    installStepNumber.textContent = String(index + 1);
+  }
+
+  if (installButton) {
+    installButton.textContent =
+      index === installSteps.length - 1 ? "Done" : "Next";
+  }
+}
+
 function showInstallPrompt() {
   if (!installPrompt || isStandaloneMode()) return;
 
@@ -3319,14 +3377,10 @@ function showInstallPrompt() {
 
   installPrompt.classList.remove("hidden");
 
-  if (isIosDevice()) {
-    installMessage.textContent =
-      "Tap Share ↑, then select 'Add to Home Screen' to install BlackMarket.";
-    installButton.textContent = "Got It";
-  } else {
-    installMessage.textContent =
-      "Install BlackMarket for faster access from your Home Screen.";
-  }
+if (isIosDevice()) {
+  installMessage.textContent =
+    "Follow these quick steps to add BlackMarket to your Home Screen.";
+  installButton.textContent = "Installation Guide";
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
@@ -3338,6 +3392,17 @@ window.addEventListener("beforeinstallprompt", (event) => {
 
 installButton?.addEventListener("click", async () => {
   if (isIosDevice()) {
+    if (!installTutorial || installTutorial.classList.contains("hidden")) {
+      showInstallStep(0);
+      installButton.textContent = "Next";
+      return;
+    }
+
+    if (currentInstallStep < installSteps.length - 1) {
+      showInstallStep(currentInstallStep + 1);
+      return;
+    }
+
     installPrompt.classList.add("hidden");
     return;
   }
@@ -3351,20 +3416,4 @@ installButton?.addEventListener("click", async () => {
   deferredInstallPrompt = null;
   installPrompt.classList.add("hidden");
 });
-
-dismissInstall?.addEventListener("click", () => {
-  installPrompt.classList.add("hidden");
-  localStorage.setItem("blackmarket-install-dismissed", "true");
-});
-
-if (document.readyState === "complete") {
-  if (isIosDevice()) {
-    showInstallPrompt();
-  }
-} else {
-  window.addEventListener("load", () => {
-    if (isIosDevice()) {
-      showInstallPrompt();
-    }
-  });
 }
