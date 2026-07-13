@@ -3387,7 +3387,7 @@ function showInstallPrompt() {
 
 window.addEventListener("load", () => {
   if (isIosDevice()) {
-    setTimeout(showInstallPrompt, 2000);
+    setTimeout(showInstallPrompt, 8000);
   }
 });
 
@@ -3395,7 +3395,7 @@ window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
 
-  setTimeout(showInstallPrompt, 2000);
+  setTimeout(showInstallPrompt, 8000);
 });
 
 installButton?.addEventListener("click", async () => {
@@ -3423,4 +3423,9 @@ installButton?.addEventListener("click", async () => {
 
   deferredInstallPrompt = null;
   installPrompt.classList.add("hidden");
+});
+
+dismissInstall?.addEventListener("click", () => {
+  installPrompt.classList.add("hidden");
+  localStorage.setItem("blackmarket-install-dismissed", "true");
 });
