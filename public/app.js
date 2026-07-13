@@ -3385,11 +3385,17 @@ function showInstallPrompt() {
   }
 }
 
+window.addEventListener("load", () => {
+  if (isIosDevice()) {
+    setTimeout(showInstallPrompt, 2000);
+  }
+});
+
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
   deferredInstallPrompt = event;
 
-  setTimeout(showInstallPrompt, 10000);
+  setTimeout(showInstallPrompt, 2000);
 });
 
 installButton?.addEventListener("click", async () => {
