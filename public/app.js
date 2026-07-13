@@ -3307,9 +3307,7 @@ const installStepNumber = document.querySelector("#installStepNumber");
 const installSteps = [
   {
     image: "/assets/install-step1.png",
-  installPrompt.classList.add("hidden");
-  return;
-}    text: "Tap the three dots in the bottom right corner."
+    text: "Tap the three dots in the bottom right corner."
   },
   {
     image: "/assets/install-step2.png",
