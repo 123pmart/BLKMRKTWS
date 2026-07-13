@@ -3781,3 +3781,32 @@ body.admin-news-editing .admin-news-side {
   color: #ffffff;
   border: 1px solid #444;
 }
+
+.install-tutorial {
+  margin-top: 16px;
+}
+
+#installStepImage {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.install-progress {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+#installStepText {
+  margin-top: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.install-actions {
+  margin-top: 16px;
+}
