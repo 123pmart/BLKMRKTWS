@@ -3375,10 +3375,15 @@ function showInstallPrompt() {
 
   installPrompt.classList.remove("hidden");
 
-if (isIosDevice()) {
   installMessage.textContent =
     "Follow these quick steps to add BlackMarket to your Home Screen.";
   installButton.textContent = "Installation Guide";
+}if (isIosDevice()) {
+  installMessage.textContent =
+    "Follow these quick steps to add BlackMarket to your Home Screen.";
+  installButton.textContent = "Installation Guide";
+}
+
 }
 
 window.addEventListener("beforeinstallprompt", (event) => {
