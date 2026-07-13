@@ -624,17 +624,43 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <div id="installPrompt" class="install-prompt hidden">
-      <div class="install-content">
-        <strong>Add BlackMarket to your Home Screen</strong>
-        <p id="installMessage"></p>
+<div id="installPrompt" class="install-prompt hidden">
+  <div class="install-content">
 
-        <div class="install-actions">
-          <button id="installButton" type="button">Add App</button>
-          <button id="dismissInstall" type="button">Maybe Later</button>
-        </div>
+    <strong id="installTitle">Install BlackMarket</strong>
+
+    <p id="installMessage">
+      Add BlackMarket to your Home Screen for the fastest ordering experience.
+    </p>
+
+    <div id="installTutorial" class="hidden">
+
+      <div class="install-progress">
+        Step <span id="installStepNumber">1</span> of 5
       </div>
+
+      <img
+        id="installStepImage"
+        src="/assets/install-step1.png"
+        alt="Install BlackMarket"
+      >
+
+      <p id="installStepText"></p>
+
     </div>
+
+    <div class="install-actions">
+      <button id="installButton" type="button">
+        Installation Guide
+      </button>
+
+      <button id="dismissInstall" type="button">
+        Maybe Later
+      </button>
+    </div>
+
+  </div>
+</div>
 
     <script type="module" src="/app.js?v=20260708-admin-delete-pdf-zoom"></script>
   </body>
