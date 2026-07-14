@@ -3370,9 +3370,15 @@ function showInstallStep(index) {
       index === installSteps.length - 1 ? "Done" : "Next";
   }
 
-  if (installBackButton) {
+    installBackButton.classList.toggle("hidden", index === 0);
+}
+if (installBackButton) {
     installBackButton.classList.toggle("hidden", index === 0);
   }
+
+if (dismissInstall) {
+  dismissInstall.classList.add("hidden");
+}
 }
 
 function showInstallPrompt() {
@@ -3389,6 +3395,7 @@ if (dismissed) {
 }
 
   installPrompt.classList.remove("hidden");
+dismissInstall?.classList.remove("hidden");
 
   if (isIosDevice()) {
     installMessage.textContent =
