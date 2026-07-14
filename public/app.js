@@ -3370,15 +3370,13 @@ function showInstallStep(index) {
       index === installSteps.length - 1 ? "Done" : "Next";
   }
 
-    installBackButton.classList.toggle("hidden", index === 0);
-}
-if (installBackButton) {
+  if (installBackButton) {
     installBackButton.classList.toggle("hidden", index === 0);
   }
 
-if (dismissInstall) {
-  dismissInstall.classList.add("hidden");
-}
+  if (dismissInstall) {
+    dismissInstall.classList.add("hidden");
+  }
 }
 
 function showInstallPrompt() {
