@@ -3411,6 +3411,7 @@ installButton?.addEventListener("click", async () => {
       return;
     }
 
+    localStorage.setItem("blackmarket-install-dismissed", "true");
     installPrompt.classList.add("hidden");
     return;
   }
