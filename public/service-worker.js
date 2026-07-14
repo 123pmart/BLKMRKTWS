@@ -83,29 +83,31 @@ self.addEventListener("fetch", (event) => {
 
 
   // CSS / JS: stale while revalidate
-  if (
-    request.destination === "style" ||
-    request.destination === "script"
-  ) {
-    event.respondWith(
-      caches.match(request)
-        .then((cached) => {
-          const networkFetch = fetch(request)
-            .then((response) => {
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(request, response.clone());
-                });
-
+if (
+  request.destination === "style" ||
+  request.destination === "script"
+) {
+  event.respondWith(
+    caches.match(request)
+      .then((cached) => {
+        const networkFetch = fetch(request)
+          .then(async (response) => {
+            if (!response || response.status !== 200) {
               return response;
-            });
+            }
 
-          return cached || networkFetch;
-        })
-    );
-    return;
-  }
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(request, response.clone());
 
+            return response;
+          })
+          .catch(() => cached);
+
+        return cached || networkFetch;
+      })
+  );
+  return;
+}
 
   // Everything else: network first
   event.respondWith(
