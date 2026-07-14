@@ -3740,15 +3740,34 @@ body.admin-news-editing .admin-news-side {
   border-radius: 16px;
   padding: 18px;
   box-shadow: 0 12px 30px rgba(0,0,0,.45);
+
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .35s ease, transform .35s ease;
 }
 
-  display: none;
-}.install-prompt.hidden {
+.install-prompt.hidden {
   display: none;
 }
 
 .hidden {
   display: none !important;
+}
+
+.install-prompt:not(.hidden) {
+  animation: installPopupIn .35s ease;
+}
+
+@keyframes installPopupIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .install-content strong {

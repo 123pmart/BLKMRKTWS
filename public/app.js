@@ -3298,6 +3298,7 @@ const installPrompt = document.querySelector("#installPrompt");
 const installButton = document.querySelector("#installButton");
 const dismissInstall = document.querySelector("#dismissInstall");
 const installMessage = document.querySelector("#installMessage");
+const installBackButton = document.querySelector("#installBackButton");
 
 const installTutorial = document.querySelector("#installTutorial");
 const installStepImage = document.querySelector("#installStepImage");
@@ -3362,16 +3363,30 @@ function showInstallStep(index) {
     installStepNumber.textContent = String(index + 1);
   }
 
+    installButton.textContent =
+    index === installSteps.length - 1 ? "Done" : "Next";
   if (installButton) {
     installButton.textContent =
       index === installSteps.length - 1 ? "Done" : "Next";
+  }
+
+  if (installBackButton) {
+    installBackButton.classList.toggle("hidden", index === 0);
   }
 }
 
 function showInstallPrompt() {
   if (!installPrompt || isStandaloneMode()) return;
 
-  if (localStorage.getItem("blackmarket-install-dismissed")) return;
+const dismissed = localStorage.getItem("blackmarket-install-dismissed");
+
+if (dismissed) {
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+
+  if (Date.now() - Number(dismissed) < sevenDays) {
+    return;
+  }
+}
 
   installPrompt.classList.remove("hidden");
 
@@ -3426,7 +3441,17 @@ installButton?.addEventListener("click", async () => {
   installPrompt.classList.add("hidden");
 });
 
+installBackButton?.addEventListener("click", () => {
+  if (currentInstallStep > 0) {
+    showInstallStep(currentInstallStep - 1);
+  }
+});
+
 dismissInstall?.addEventListener("click", () => {
   installPrompt.classList.add("hidden");
-  localStorage.setItem("blackmarket-install-dismissed", "true");
+
+  localStorage.setItem(
+    "blackmarket-install-dismissed",
+    Date.now().toString()
+  );
 });
