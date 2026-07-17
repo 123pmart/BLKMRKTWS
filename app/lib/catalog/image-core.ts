@@ -41,6 +41,20 @@ export function isTrustedCatalogImageSource(value: unknown): boolean {
   }
 }
 
+export function trustedCatalogImageUrl(source: unknown, assetOrigin?: string): string | null {
+  const value = String(source ?? "").trim();
+  if (!isTrustedCatalogImageSource(value)) return null;
+  if (/^https:\/\//i.test(value)) return value;
+  if (!assetOrigin) return null;
+  try {
+    const origin = new URL(assetOrigin);
+    if (!["http:", "https:"].includes(origin.protocol) || origin.username || origin.password) return null;
+    return new URL(value, origin.origin).toString();
+  } catch {
+    return null;
+  }
+}
+
 export function resolveCatalogProductImage(candidate: CatalogImageCandidate): string | null {
   const source = [candidate.variantOverrideImage, candidate.variantImage, candidate.productImage, candidate.fallbackImage]
     .map((value) => String(value ?? "").trim())

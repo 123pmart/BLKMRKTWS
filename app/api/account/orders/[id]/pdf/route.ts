@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const savedOrder = await getOrderForVerifiedStore(identity, decodeURIComponent((await params).id));
   if (!savedOrder) return Response.json({ ok: false, message: "Order not found" }, { status: 404, headers: { "Cache-Control": "no-store" } });
   const order = await withResolvedOrderImages(savedOrder);
-  const bytes = await generateOrderConfirmationPdf(order);
+  const bytes = await generateOrderConfirmationPdf(order, { assetOrigin: new URL(request.url).origin });
   return new Response(Buffer.from(bytes), { headers: {
     "Content-Type": "application/pdf",
     "Content-Disposition": `attachment; filename="blackmarket-order-${order.id.replace(/[^a-z0-9_-]+/gi, "-")}.pdf"`,

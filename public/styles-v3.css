@@ -4064,7 +4064,6 @@ body.admin-news-editing .admin-news-side {
     -webkit-backdrop-filter: blur(14px) saturate(125%);
     backdrop-filter: blur(14px) saturate(125%);
     transform: translateX(50%);
-    transition: opacity 180ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1);
     isolation: isolate;
   }
 
@@ -4083,7 +4082,7 @@ body.admin-news-editing .admin-news-side {
     font: inherit;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 150ms ease, background-color 150ms ease, transform 110ms ease;
+    transition: color 100ms ease, background-color 100ms ease, transform 80ms ease;
   }
 
   .portal-bottom-nav svg {
@@ -4098,7 +4097,7 @@ body.admin-news-editing .admin-news-side {
 
   .portal-bottom-nav a:active,
   .portal-bottom-nav button:active {
-    transform: scale(.88);
+    transform: scale(.94);
     background: rgba(255, 255, 255, 0.12);
   }
 
@@ -4118,14 +4117,12 @@ body.admin-news-editing .admin-news-side {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   }
 
-  body[data-view="landing"] .portal-bottom-nav [data-portal-home],
-  body[data-view="products"] .portal-bottom-nav [data-portal-home] {
+  body[data-view="landing"] .portal-bottom-nav [data-portal-home] {
     color: var(--accent);
     background: rgba(255, 255, 255, 0.05);
   }
 
-  body[data-view="landing"] .portal-bottom-nav [data-portal-home]::after,
-  body[data-view="products"] .portal-bottom-nav [data-portal-home]::after {
+  body[data-view="landing"] .portal-bottom-nav [data-portal-home]::after {
     position: absolute;
     bottom: 4px;
     width: 12px;
@@ -4139,11 +4136,10 @@ body.admin-news-editing .admin-news-side {
     display: none !important;
   }
 
-  .portal-bottom-nav[data-scroll-hidden="true"],
   .portal-bottom-nav[data-overlay="true"] {
     pointer-events: none;
     opacity: 0;
-    transform: translate(50%, calc(100% + 22px));
+    visibility: hidden;
   }
 
   .install-prompt {

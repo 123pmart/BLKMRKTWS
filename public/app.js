@@ -6,7 +6,7 @@ import {
   PORTAL_HOME_CATEGORY,
   recordPortalNavigation,
   safePortalBack as safePortalHistoryBack,
-} from "/lib/portal-history.js?v=20260717-navigation-refine";
+} from "/lib/portal-history.js?v=20260717-home-final";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -47,6 +47,15 @@ const LANDING_OPTIONS = [
   { slug: "raws", label: "RAWS", match: (item) => item.productId === "creatine-monohydrate-raw" },
   { slug: "all", label: "ALL PRODUCTS", match: (item) => item.productId === "rule-hyper-focus" },
 ];
+
+const LANDING_THUMBNAILS = {
+  "cuts-thermogenic-pre-workout": "/assets/landing/cuts.webp",
+  "defy-hyper-stimulant": "/assets/landing/defy.webp",
+  "pump-hyper-pump-pre-workout": "/assets/landing/pump.webp",
+  "bulk-apex-strength-pre-workout": "/assets/landing/bulk.webp",
+  "creatine-monohydrate-raw": "/assets/landing/creatine.webp",
+  "rule-hyper-focus": "/assets/landing/rule.webp",
+};
 
 const PRODUCT_PANEL_OVERRIDES = {
   "bulk-apex-strength-pre-workout": "/assets/site-images/bulk-apex-strength-pre-workout-5-bulk-apex-sup-facts.jpg",
@@ -245,18 +254,10 @@ init();
 async function init() {
   const catalogPagesRequest = fetch(CATALOG_PAGES_URL).catch(() => null);
   const adminSessionRequest = fetch("/api/admin/session", { cache: "no-store" }).catch(() => null);
-  const [response, contentResponse, pricingResponse] = await Promise.all([
-    fetch(DATA_URL),
-    fetch(CONTENT_API_URL, { cache: "no-store" }).catch(() => null),
-    fetch(ACCOUNT_PRICING_URL, { cache: "no-store" }).catch(() => null),
-  ]);
+  const contentRequest = fetch(CONTENT_API_URL, { cache: "no-store" }).catch(() => null);
+  const pricingRequest = fetch(ACCOUNT_PRICING_URL, { cache: "no-store" }).catch(() => null);
+  const response = await fetch(DATA_URL);
   const data = await response.json();
-  const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
-  const pricingData = pricingResponse?.ok ? await pricingResponse.json().catch(() => null) : null;
-  state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
-  state.accountAuthenticated = Boolean(pricingData?.authenticated);
-  if (contentData?.content) applyServerContent(contentData.content);
-  if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.baseProducts = normalizeProducts(data.products);
   state.products = mergeProducts();
   state.items = buildItems(state.products);
@@ -280,7 +281,30 @@ async function init() {
   setCartStep(state.cartStep);
   setView(state.activeView, { history: false });
   applyPendingRoute();
+  void hydratePublicPortalData(contentRequest, pricingRequest);
   void hydrateDeferredPortalData(catalogPagesRequest, adminSessionRequest);
+}
+
+async function hydratePublicPortalData(contentRequest, pricingRequest) {
+  const [contentResponse, pricingResponse] = await Promise.all([contentRequest, pricingRequest]);
+  const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
+  const pricingData = pricingResponse?.ok ? await pricingResponse.json().catch(() => null) : null;
+  const previousSite = JSON.stringify(state.site);
+  const previousPricing = JSON.stringify(state.priceOverrides);
+
+  if (contentData?.content) applyServerContent(contentData.content);
+  if (contentData?.storage) state.contentStorageMode = contentData.storage;
+  state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
+  state.accountAuthenticated = Boolean(pricingData?.authenticated);
+  syncAccountDestinations();
+
+  const catalogChanged = previousSite !== JSON.stringify(state.site) || previousPricing !== JSON.stringify(state.priceOverrides);
+  if (catalogChanged) rebuildProductState();
+  if (previousSite !== JSON.stringify(state.site)) {
+    renderAnnouncements();
+    renderNews();
+    renderAdminNews();
+  }
 }
 
 async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionRequest) {
@@ -872,11 +896,12 @@ function displaySection(item) {
 }
 
 function renderProductEntrypoints() {
-  const cards = LANDING_OPTIONS.map((option) => {
+  const cards = LANDING_OPTIONS.map((option, index) => {
     const item = representativeItem(option);
+    const image = landingImage(item);
     return `
       <button class="landing-card" type="button" data-filter-jump="${escapeHtml(option.slug)}">
-        <span class="landing-card-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="480" height="480" decoding="async" />` : ""}</span>
+        <span class="landing-card-media">${image ? `<img src="${escapeHtml(image)}" alt="" width="480" height="480" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />` : ""}</span>
         <span class="landing-card-label">${escapeHtml(option.label)}</span>
       </button>
     `;
@@ -898,14 +923,20 @@ function representativeItem(option) {
   return state.items.find(option.match) || state.items.find((item) => item.section === option.slug) || state.items[0];
 }
 
+function landingImage(item) {
+  if (!item) return "";
+  if (variantOverrides()[item.id]?.bottle) return item.bottle;
+  return LANDING_THUMBNAILS[item.productId] || item.bottle;
+}
+
 function renderCategoryNav() {
   dom.categoryNav.innerHTML = LANDING_OPTIONS
-    .map((filter) => {
+    .map((filter, index) => {
       const item = representativeItem(filter);
       const active = state.activeFilter === filter.slug ? "active" : "";
       return `
         <button class="category-tile ${active}" type="button" data-filter="${escapeHtml(filter.slug)}" aria-pressed="${active ? "true" : "false"}">
-          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="320" height="320" decoding="async" />` : ""}</span>
+          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="320" height="320" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" />` : ""}</span>
           <span class="category-tile-label">${escapeHtml(filter.label)}</span>
         </button>
       `;
@@ -1162,10 +1193,11 @@ function preloadProductMedia() {
   }
   const landingItems = LANDING_OPTIONS
     .map((option) => state.items.find(option.match))
-    .filter(Boolean);
+    .filter(Boolean)
+    .slice(0, 2);
   const announcementUrls = state.site.announcements.length ? [announcementImage(state.site.announcements[0], 0)] : [];
   enqueueMediaPreloads(unique([
-    ...landingItems.map((item) => item.bottle),
+    ...landingItems.map(landingImage),
     ...announcementUrls,
   ]));
 }
@@ -3535,10 +3567,14 @@ function pathForView(view) {
 function syncAccountDestinations() {
   const destination = accountDestination(state.accountAuthenticated);
   document.querySelectorAll("[data-account-route]").forEach((link) => link.setAttribute("href", destination));
-  const preload = document.createElement("link");
-  preload.rel = "prefetch";
+  let preload = document.querySelector("link[data-account-prefetch]");
+  if (!preload) {
+    preload = document.createElement("link");
+    preload.rel = "prefetch";
+    preload.dataset.accountPrefetch = "true";
+    document.head.append(preload);
+  }
   preload.href = destination;
-  document.head.append(preload);
 }
 
 function goHome(options = {}) {
@@ -3553,7 +3589,7 @@ function goHome(options = {}) {
       if (dom.search) dom.search.value = "";
       renderCategoryNav();
       renderCatalog();
-      setView("products", { history: false });
+      setView("landing", { history: false });
       window.scrollTo({ top: 0, behavior: "auto" });
     },
     onNavigate: ({ path }) => {
@@ -3561,7 +3597,7 @@ function goHome(options = {}) {
       const method = options.replace || current === path ? "replaceState" : "pushState";
       window.history[method]({
         ...window.history.state,
-        blackmarketPortal: { view: "products", depth: options.replace ? 0 : Number(window.history.state?.blackmarketPortal?.depth || 0) + 1 },
+        blackmarketPortal: { view: "landing", depth: options.replace ? 0 : Number(window.history.state?.blackmarketPortal?.depth || 0) + 1 },
       }, "", path);
       initializePortalHistory(path);
       return true;
@@ -3643,11 +3679,6 @@ function safePortalBack() {
 function installLegacyMobileNavigation() {
   const nav = document.querySelector(".portal-bottom-nav");
   if (!nav) return;
-
-  let lastY = Math.max(0, window.scrollY);
-  let frame = 0;
-  let directionAnchorY = lastY;
-  let lastDirection = null;
   const overlayClasses = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
   const syncOverlay = () => {
@@ -3657,34 +3688,6 @@ function installLegacyMobileNavigation() {
     nav.setAttribute("aria-hidden", blocked ? "true" : "false");
   };
 
-  const onScroll = () => {
-    if (frame) return;
-    frame = window.requestAnimationFrame(() => {
-      frame = 0;
-      const currentY = Math.max(0, window.scrollY);
-      const delta = currentY - lastY;
-      const shortPage = document.documentElement.scrollHeight <= window.innerHeight + 8;
-      if (currentY <= 14 || shortPage) {
-        nav.dataset.scrollHidden = "false";
-        lastY = currentY;
-        directionAnchorY = currentY;
-        lastDirection = null;
-        return;
-      }
-      if (Math.abs(delta) < 2) return;
-      const direction = delta > 0 ? "down" : "up";
-      if (direction !== lastDirection) {
-        lastDirection = direction;
-        directionAnchorY = lastY;
-      }
-      lastY = currentY;
-      if (Math.abs(currentY - directionAnchorY) < 30) return;
-      nav.dataset.scrollHidden = direction === "down" ? "true" : "false";
-      directionAnchorY = currentY;
-    });
-  };
-
-  window.addEventListener("scroll", onScroll, { passive: true });
   const observer = new MutationObserver(syncOverlay);
   observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
   syncOverlay();

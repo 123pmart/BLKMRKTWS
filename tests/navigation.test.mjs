@@ -10,8 +10,8 @@ import {
 
 test("Home always resolves to the initial product state", () => {
   assert.deepEqual(portalHomeState(), {
-    path: "/products",
-    view: "products",
+    path: "/",
+    view: "landing",
     category: "thermogenics",
     query: "",
   });

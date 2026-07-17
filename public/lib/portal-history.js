@@ -1,10 +1,10 @@
 const HISTORY_KEY = "blackmarket-portal-route-history-v2";
 const INDEX_KEY = "blackmarket-portal-route-index-v2";
-export const PORTAL_HOME_PATH = "/products";
+export const PORTAL_HOME_PATH = "/";
 export const PORTAL_HOME_CATEGORY = "thermogenics";
 
 export function portalHomeState() {
-  return { path: PORTAL_HOME_PATH, view: "products", category: PORTAL_HOME_CATEGORY, query: "" };
+  return { path: PORTAL_HOME_PATH, view: "landing", category: PORTAL_HOME_CATEGORY, query: "" };
 }
 
 export function accountDestination(authenticated) {

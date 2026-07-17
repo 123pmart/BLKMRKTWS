@@ -5,6 +5,7 @@ import {
   isTrustedCatalogImageSource,
   resolveCatalogProductImage,
   resolveOrderLineImage,
+  trustedCatalogImageUrl,
 } from "../app/lib/catalog/image-core.ts";
 
 test("variant override image takes catalog precedence", () => {
@@ -32,4 +33,13 @@ test("trusted PDF image handling rejects arbitrary and traversal URLs", () => {
   assert.equal(isTrustedCatalogImageSource("https://example.com/bottle.png"), false);
   assert.equal(isTrustedCatalogImageSource("/assets/../secrets.txt"), false);
   assert.equal(isTrustedCatalogImageSource("data:image/png;base64,abc"), false);
+});
+
+test("trusted static images can use a validated deployment origin", () => {
+  assert.equal(
+    trustedCatalogImageUrl("/assets/products/example bottle.png", "https://wholesale.example.com/account/orders/1"),
+    "https://wholesale.example.com/assets/products/example%20bottle.png",
+  );
+  assert.equal(trustedCatalogImageUrl("/assets/products/example.png", "javascript:alert(1)"), null);
+  assert.equal(trustedCatalogImageUrl("https://evil.example.com/example.png", "https://wholesale.example.com"), null);
 });

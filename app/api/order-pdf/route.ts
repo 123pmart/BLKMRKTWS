@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       order = normalizeOrderPayload({ ...(await repriceOrderPayload(payload, storeAccount?.identity ?? null, storeAccount?.account)), id: payload.id, date: payload.date }) as Order;
     }
     order = await withResolvedOrderImages(order);
-    const bytes = await generateOrderConfirmationPdf(order);
+    const bytes = await generateOrderConfirmationPdf(order, { assetOrigin: new URL(request.url).origin });
     return pdfResponse(bytes, order);
   } catch (error) {
     console.error("Order PDF generation failed:", error);

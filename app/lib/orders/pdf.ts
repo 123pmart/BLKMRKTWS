@@ -4,22 +4,24 @@ import path from "node:path";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 import sharp from "sharp";
 
-import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
+import { isTrustedCatalogImageSource, trustedCatalogImageUrl } from "@/lib/catalog/image-core";
 import type { Order, OrderLine } from "@/types";
 
 const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
-const MARGIN = 38;
+const MARGIN = 42;
 const GOLD = rgb(0.965, 0.851, 0);
 const BLACK = rgb(0.025, 0.025, 0.03);
-const DARK = rgb(0.11, 0.11, 0.12);
+const DARK = rgb(0.12, 0.12, 0.13);
 const MID = rgb(0.42, 0.42, 0.45);
-const LIGHT = rgb(0.94, 0.94, 0.93);
+const LINE = rgb(0.86, 0.86, 0.85);
+const LIGHT = rgb(0.96, 0.96, 0.95);
 const WHITE = rgb(1, 1, 1);
 
 interface Fonts { regular: PDFFont; bold: PDFFont }
+interface PdfOptions { assetOrigin?: string }
 
-export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8Array> {
+export async function generateOrderConfirmationPdf(order: Order, options: PdfOptions = {}): Promise<Uint8Array> {
   const pdf = await PDFDocument.create();
   pdf.setTitle(`BLACKMARKET Wholesale Order ${order.id}`);
   pdf.setAuthor("BlackMarketLabs");
@@ -33,32 +35,31 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
 
   let page = addPage(pdf);
   pages.push(page);
-  let y = drawDocumentHeader(page, order, fonts);
-  y = drawStoreBlock(page, order, fonts, y);
-  y = drawTableHeader(page, fonts, y - 18);
+  let y = drawFirstPageHeader(page, order, fonts);
+  y = drawDetails(page, order, fonts, y);
+  y = drawProductHeading(page, fonts, y - 16);
 
   for (const line of order.lines) {
-    const titleLines = wrap(`${line.product || "Product"}`, fonts.bold, 10, 214, 2);
-    const flavorLines = wrap(`${line.flavor || ""}`, fonts.regular, 8.5, 214, 2);
-    const rowHeight = Math.max(66, 30 + (titleLines.length + flavorLines.length) * 10);
-    if (y - rowHeight < 142) {
+    const titleLines = wrap(line.product || "Product", fonts.bold, 9.5, 225, 2);
+    const flavorLines = wrap(line.flavor || "", fonts.regular, 8, 225, 1);
+    const rowHeight = Math.max(58, 24 + (titleLines.length + flavorLines.length) * 10);
+    if (y - rowHeight < 132) {
       page = addPage(pdf);
       pages.push(page);
       y = drawContinuationHeader(page, order, fonts);
-      y = drawTableHeader(page, fonts, y);
+      y = drawProductHeading(page, fonts, y - 14);
     }
-    const image = await loadThumbnail(pdf, line.image, thumbnails);
-    drawLineRow(page, line, image, fonts, y, rowHeight, titleLines, flavorLines);
+    const image = await loadThumbnail(pdf, line.image, thumbnails, options);
+    drawProductRow(page, line, image, fonts, y, rowHeight, titleLines, flavorLines);
     y -= rowHeight;
   }
 
-  if (y < 180) {
+  if (y < 178) {
     page = addPage(pdf);
     pages.push(page);
     y = drawContinuationHeader(page, order, fonts);
   }
-  drawTotals(page, order, fonts, y - 18);
-
+  drawTotals(page, order, fonts, y - 22);
   pages.forEach((current, index) => drawFooter(current, order, fonts, index + 1, pages.length));
   return pdf.save({ useObjectStreams: true });
 }
@@ -67,119 +68,140 @@ function addPage(pdf: PDFDocument): PDFPage {
   return pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 }
 
-function drawDocumentHeader(page: PDFPage, order: Order, fonts: Fonts): number {
-  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 124, width: PAGE_WIDTH, height: 124, color: BLACK });
-  drawWholesaleWordmark(page, fonts, MARGIN, PAGE_HEIGHT - 43, 19);
-  page.drawText("WHOLESALE ORDER", { x: MARGIN, y: PAGE_HEIGHT - 92, size: 20, font: fonts.bold, color: WHITE });
-  page.drawText("CONFIRMATION", { x: MARGIN, y: PAGE_HEIGHT - 109, size: 11, font: fonts.bold, color: GOLD });
+function drawFirstPageHeader(page: PDFPage, order: Order, fonts: Fonts): number {
+  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 84, width: PAGE_WIDTH, height: 84, color: BLACK });
+  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 48, 21, WHITE);
+  page.drawText("WHOLESALE ORDER", {
+    x: (PAGE_WIDTH - fonts.bold.widthOfTextAtSize("WHOLESALE ORDER", 7.5)) / 2,
+    y: PAGE_HEIGHT - 68,
+    size: 7.5,
+    font: fonts.bold,
+    color: MID,
+  });
 
-  const metaX = 383;
-  labelValue(page, fonts, metaX, PAGE_HEIGHT - 40, "ORDER NUMBER", order.id, true);
-  labelValue(page, fonts, metaX, PAGE_HEIGHT - 71, "ORDER DATE", dateLabel(order.date), true);
-  labelValue(page, fonts, metaX, PAGE_HEIGHT - 102, "STATUS", String(order.status || "Received").toUpperCase(), true);
-  return PAGE_HEIGHT - 144;
+  const labels = ["ORDER NUMBER", "ORDER DATE", "STATUS"];
+  const values = [order.id, dateLabel(order.date), String(order.status || "Received").toUpperCase()];
+  const columnWidth = (PAGE_WIDTH - MARGIN * 2) / 3;
+  labels.forEach((label, index) => {
+    const center = MARGIN + columnWidth * index + columnWidth / 2;
+    centeredText(page, fonts, label, center, PAGE_HEIGHT - 112, 6.5, MID, true);
+    centeredText(page, fonts, safeText(values[index]), center, PAGE_HEIGHT - 127, 8.7, DARK, true);
+  });
+  page.drawLine({ start: { x: MARGIN, y: PAGE_HEIGHT - 143 }, end: { x: PAGE_WIDTH - MARGIN, y: PAGE_HEIGHT - 143 }, thickness: .7, color: LINE });
+  return PAGE_HEIGHT - 164;
 }
 
 function drawContinuationHeader(page: PDFPage, order: Order, fonts: Fonts): number {
-  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 70, width: PAGE_WIDTH, height: 70, color: BLACK });
-  drawWholesaleWordmark(page, fonts, MARGIN, PAGE_HEIGHT - 34, 16);
-  page.drawText("ORDER CONFIRMATION", { x: MARGIN, y: PAGE_HEIGHT - 50, size: 8, font: fonts.bold, color: GOLD });
-  rightText(page, fonts, order.id, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 40, 9, WHITE, true);
-  return PAGE_HEIGHT - 92;
+  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 60, width: PAGE_WIDTH, height: 60, color: BLACK });
+  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 37, 16, WHITE);
+  rightText(page, fonts, order.id, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 51, 7, MID, true);
+  return PAGE_HEIGHT - 82;
 }
 
-function drawStoreBlock(page: PDFPage, order: Order, fonts: Fonts, y: number): number {
-  const store = order.store;
-  page.drawRectangle({ x: MARGIN, y: y - 93, width: PAGE_WIDTH - MARGIN * 2, height: 93, color: LIGHT, borderColor: rgb(.84, .84, .83), borderWidth: .6 });
-  page.drawText("SHIP TO", { x: MARGIN + 14, y: y - 18, size: 7.5, font: fonts.bold, color: MID });
-  page.drawText(store.storeName || "Store", { x: MARGIN + 14, y: y - 37, size: 13, font: fonts.bold, color: BLACK });
-  const address = [store.street, [store.city, store.state, store.zip].filter(Boolean).join(" ")].filter(Boolean);
-  address.forEach((line, index) => page.drawText(safeText(line), { x: MARGIN + 14, y: y - 53 - index * 12, size: 8.5, font: fonts.regular, color: DARK }));
-
-  const contactX = 326;
-  page.drawText("STORE CONTACT", { x: contactX, y: y - 18, size: 7.5, font: fonts.bold, color: MID });
-  [store.contactName, store.email, store.phone].filter(Boolean).forEach((line, index) => {
-    page.drawText(safeText(line), { x: contactX, y: y - 37 - index * 13, size: index === 0 ? 9.5 : 8.5, font: index === 0 ? fonts.bold : fonts.regular, color: DARK });
-  });
-  return y - 93;
+function drawDetails(page: PDFPage, order: Order, fonts: Fonts, y: number): number {
+  page.drawText("DETAILS", { x: MARGIN, y, size: 7.5, font: fonts.bold, color: GOLD });
+  page.drawLine({ start: { x: MARGIN + 46, y: y + 2 }, end: { x: PAGE_WIDTH - MARGIN, y: y + 2 }, thickness: .6, color: LINE });
+  const leftX = MARGIN;
+  const rightX = 326;
+  const startY = y - 22;
+  detailValue(page, fonts, leftX, startY, "STORE", order.store.storeName || "Store");
+  detailValue(page, fonts, rightX, startY, "CONTACT", order.store.contactName || "-");
+  detailValue(page, fonts, leftX, startY - 31, "SHIP TO", shippingLabel(order));
+  detailValue(page, fonts, rightX, startY - 31, "EMAIL / PHONE", [order.store.email, order.store.phone].filter(Boolean).join("  /  ") || "-");
+  return y - 79;
 }
 
-function drawTableHeader(page: PDFPage, fonts: Fonts, y: number): number {
-  page.drawRectangle({ x: MARGIN, y: y - 25, width: PAGE_WIDTH - MARGIN * 2, height: 25, color: DARK });
-  page.drawText("ITEM", { x: MARGIN + 10, y: y - 17, size: 7.5, font: fonts.bold, color: WHITE });
-  page.drawText("PRODUCT / FLAVOR", { x: MARGIN + 75, y: y - 17, size: 7.5, font: fonts.bold, color: WHITE });
-  rightText(page, fonts, "QTY", 432, y - 17, 7.5, WHITE);
-  rightText(page, fonts, "UNIT", 495, y - 17, 7.5, WHITE);
-  rightText(page, fonts, "TOTAL", PAGE_WIDTH - MARGIN - 9, y - 17, 7.5, WHITE);
-  return y - 25;
+function detailValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: string, value: string): void {
+  page.drawText(label, { x, y, size: 6.3, font: fonts.bold, color: MID });
+  const lines = wrap(value, fonts.regular, 8.5, 225, 2);
+  lines.forEach((line, index) => page.drawText(line, { x, y: y - 13 - index * 10, size: 8.5, font: index === 0 ? fonts.bold : fonts.regular, color: DARK }));
 }
 
-function drawLineRow(page: PDFPage, line: OrderLine, image: PDFImage | null, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
-  page.drawRectangle({ x: MARGIN, y: y - height, width: PAGE_WIDTH - MARGIN * 2, height, color: WHITE, borderColor: rgb(.88, .88, .87), borderWidth: .5 });
-  if (image) page.drawImage(image, { x: MARGIN + 8, y: y - height + 7, width: 52, height: 52 });
-  else {
-    page.drawRectangle({ x: MARGIN + 8, y: y - height + 7, width: 52, height: 52, color: LIGHT });
-    page.drawText("BLACKMARKET", { x: MARGIN + 12, y: y - height + 31, size: 5.1, font: fonts.bold, color: DARK });
-    page.drawText("WHOLESALE", { x: MARGIN + 17, y: y - height + 23, size: 3.8, font: fonts.bold, color: rgb(.56, .49, 0) });
-  }
-  let textY = y - 17;
-  titleLines.forEach((lineText) => { page.drawText(safeText(lineText), { x: MARGIN + 75, y: textY, size: 10, font: fonts.bold, color: BLACK }); textY -= 11; });
-  flavorLines.forEach((lineText) => { page.drawText(safeText(lineText), { x: MARGIN + 75, y: textY, size: 8.5, font: fonts.regular, color: MID }); textY -= 10; });
-  page.drawText(`SKU ${safeText(line.item || "—")}`, { x: MARGIN + 75, y: y - height + 11, size: 7.5, font: fonts.regular, color: MID });
+function drawProductHeading(page: PDFPage, fonts: Fonts, y: number): number {
+  page.drawText("PRODUCTS", { x: MARGIN, y, size: 7.5, font: fonts.bold, color: GOLD });
+  page.drawRectangle({ x: MARGIN, y: y - 31, width: PAGE_WIDTH - MARGIN * 2, height: 23, color: BLACK });
+  page.drawText("ITEM", { x: MARGIN + 10, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("PRODUCT", { x: MARGIN + 67, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  rightText(page, fonts, "QTY", 432, y - 23, 6.8, WHITE, true);
+  rightText(page, fonts, "UNIT", 495, y - 23, 6.8, WHITE, true);
+  rightText(page, fonts, "TOTAL", PAGE_WIDTH - MARGIN - 8, y - 23, 6.8, WHITE, true);
+  return y - 31;
+}
+
+function drawProductRow(page: PDFPage, line: OrderLine, image: PDFImage | null, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
+  page.drawRectangle({ x: MARGIN, y: y - height, width: PAGE_WIDTH - MARGIN * 2, height, color: WHITE, borderColor: LINE, borderWidth: .45 });
+  if (image) page.drawImage(image, { x: MARGIN + 8, y: y - height + 6, width: 46, height: 46 });
+  else drawImageFallback(page, fonts, MARGIN + 8, y - height + 6, 46);
+
+  let textY = y - 16;
+  titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 67, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
+  flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 67, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
+  page.drawText(`SKU ${safeText(line.item || "-")}`, { x: MARGIN + 67, y: y - height + 9, size: 6.8, font: fonts.regular, color: MID });
   const baseline = y - height / 2 - 3;
-  rightText(page, fonts, String(line.qty), 432, baseline, 9, DARK);
-  rightText(page, fonts, money(unitPrice(line)), 495, baseline, 9, DARK);
-  rightText(page, fonts, money(line.lineWholesale), PAGE_WIDTH - MARGIN - 9, baseline, 9.5, BLACK, true);
+  rightText(page, fonts, String(line.qty), 432, baseline, 8.7, DARK);
+  rightText(page, fonts, money(unitPrice(line)), 495, baseline, 8.7, DARK);
+  rightText(page, fonts, money(line.lineWholesale), PAGE_WIDTH - MARGIN - 8, baseline, 9, BLACK, true);
+}
+
+function drawImageFallback(page: PDFPage, fonts: Fonts, x: number, y: number, size: number): void {
+  page.drawRectangle({ x, y, width: size, height: size, color: LIGHT });
+  centeredText(page, fonts, "BLACKMARKET", x + size / 2, y + 25, 4.5, DARK, true);
+  centeredText(page, fonts, "WHOLESALE", x + size / 2, y + 17, 3.2, rgb(.56, .49, 0), true);
 }
 
 function drawTotals(page: PDFPage, order: Order, fonts: Fonts, y: number): void {
   const totals = order.totals;
-  const width = 242;
+  const width = 226;
   const x = PAGE_WIDTH - MARGIN - width;
   const rows: Array<[string, number, boolean]> = [
-    ["Subtotal", totals.subtotal ?? totals.wholesale, false],
+    ["Standard subtotal", totals.subtotal ?? totals.wholesale, false],
     ...(totals.discount ? [["Account savings", -totals.discount, false] as [string, number, boolean]] : []),
+    ["Final subtotal", totals.wholesale, false],
     ...(totals.shipping ? [["Shipping", totals.shipping, false] as [string, number, boolean]] : []),
     ...(totals.tax ? [["Tax", totals.tax, false] as [string, number, boolean]] : []),
     ["TOTAL", totals.grandTotal ?? totals.wholesale, true],
   ];
-  page.drawText("ORDER SUMMARY", { x, y, size: 8, font: fonts.bold, color: MID });
-  let rowY = y - 22;
+  page.drawText("TOTALS", { x, y, size: 7.5, font: fonts.bold, color: GOLD });
+  page.drawLine({ start: { x: x + 38, y: y + 2 }, end: { x: x + width, y: y + 2 }, thickness: .6, color: LINE });
+  let rowY = y - 21;
   rows.forEach(([label, value, emphasis]) => {
-    if (emphasis) page.drawRectangle({ x, y: rowY - 10, width, height: 28, color: BLACK });
-    page.drawText(label, { x: x + 12, y: rowY, size: emphasis ? 10 : 8.5, font: fonts.bold, color: emphasis ? WHITE : DARK });
-    rightText(page, fonts, `${value < 0 ? "-" : ""}${money(Math.abs(value))}`, x + width - 12, rowY, emphasis ? 11 : 8.5, emphasis ? GOLD : DARK, emphasis);
-    rowY -= emphasis ? 36 : 22;
+    if (emphasis) page.drawRectangle({ x, y: rowY - 9, width, height: 27, color: BLACK });
+    page.drawText(label, { x: x + 11, y: rowY, size: emphasis ? 9.5 : 8, font: fonts.bold, color: emphasis ? WHITE : MID });
+    rightText(page, fonts, `${value < 0 ? "-" : ""}${money(Math.abs(value))}`, x + width - 11, rowY, emphasis ? 10.5 : 8.3, emphasis ? GOLD : DARK, true);
+    rowY -= emphasis ? 34 : 20;
   });
-  page.drawText("Prices and quantities shown are those recorded with this order.", { x: MARGIN, y: Math.max(75, rowY), size: 7.5, font: fonts.regular, color: MID });
 }
 
 function drawFooter(page: PDFPage, order: Order, fonts: Fonts, number: number, total: number): void {
-  page.drawLine({ start: { x: MARGIN, y: 42 }, end: { x: PAGE_WIDTH - MARGIN, y: 42 }, thickness: .6, color: rgb(.82, .82, .81) });
-  page.drawText("BLACKMARKETLABS.COM", { x: MARGIN, y: 27, size: 7, font: fonts.bold, color: MID });
-  rightText(page, fonts, `${order.id}  ·  PAGE ${number} OF ${total}`, PAGE_WIDTH - MARGIN, 27, 7, MID);
+  page.drawLine({ start: { x: MARGIN, y: 39 }, end: { x: PAGE_WIDTH - MARGIN, y: 39 }, thickness: .5, color: LINE });
+  page.drawText("BLACKMARKETLABS.COM", { x: MARGIN, y: 25, size: 6.5, font: fonts.bold, color: MID });
+  rightText(page, fonts, `${order.id}  PAGE ${number} OF ${total}`, PAGE_WIDTH - MARGIN, 25, 6.5, MID);
 }
 
-async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache: Map<string, PDFImage | null>): Promise<PDFImage | null> {
+async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache: Map<string, PDFImage | null>, options: PdfOptions): Promise<PDFImage | null> {
   if (!source || !isTrustedCatalogImageSource(source)) return null;
   if (cache.has(source)) return cache.get(source) ?? null;
   try {
     let original: Buffer;
     if (source.startsWith("/")) {
-      const local = path.resolve(process.cwd(), "public", source.replace(/^\/+/, ""));
-      const publicRoot = path.resolve(process.cwd(), "public");
-      if (!local.startsWith(`${publicRoot}${path.sep}`)) throw new Error("Invalid image path");
-      original = await readFile(local);
-    } else if (/^https:\/\//i.test(source)) {
-      const response = await fetch(source, { signal: AbortSignal.timeout(4000) });
-      if (!response.ok) throw new Error("Image unavailable");
-      if (!String(response.headers.get("content-type") || "").toLowerCase().startsWith("image/")) throw new Error("Unexpected media type");
-      const declaredSize = Number(response.headers.get("content-length") || 0);
-      if (declaredSize > 8 * 1024 * 1024) throw new Error("Image is too large");
-      original = Buffer.from(await response.arrayBuffer());
-    } else return null;
+      try {
+        original = await readLocalPublicImage(source);
+      } catch {
+        const deployedUrl = trustedCatalogImageUrl(source, options.assetOrigin);
+        if (!deployedUrl) throw new Error("Static image is unavailable");
+        original = await fetchImage(deployedUrl);
+      }
+    } else {
+      const remoteUrl = trustedCatalogImageUrl(source, options.assetOrigin);
+      if (!remoteUrl) throw new Error("Image source is not trusted");
+      original = await fetchImage(remoteUrl);
+    }
     if (original.byteLength > 8 * 1024 * 1024) throw new Error("Image is too large");
-    const thumbnail = await sharp(original).resize(112, 112, { fit: "contain", background: "#f3f3f1" }).flatten({ background: "#f3f3f1" }).jpeg({ quality: 68, mozjpeg: true }).toBuffer();
+    const thumbnail = await sharp(original)
+      .resize(104, 104, { fit: "contain", background: "#f5f5f3" })
+      .flatten({ background: "#f5f5f3" })
+      .jpeg({ quality: 70, mozjpeg: true })
+      .toBuffer();
     const embedded = await pdf.embedJpg(thumbnail);
     cache.set(source, embedded);
     return embedded;
@@ -189,20 +211,38 @@ async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache
   }
 }
 
-function drawWholesaleWordmark(page: PDFPage, fonts: Fonts, x: number, y: number, size: number): void {
-  const brand = "BLACKMARKET";
-  page.drawText(brand, { x, y, size, font: fonts.bold, color: WHITE });
-  const wholesaleX = x + fonts.bold.widthOfTextAtSize(brand, size) + 7;
-  page.drawText("WHOLESALE", { x: wholesaleX, y: y + 1, size: size * .43, font: fonts.bold, color: GOLD });
+async function readLocalPublicImage(source: string): Promise<Buffer> {
+  const pathname = decodeURIComponent(new URL(source, "http://local").pathname);
+  const publicRoot = path.resolve(process.cwd(), "public");
+  const local = path.resolve(publicRoot, pathname.replace(/^\/+/, ""));
+  if (!local.startsWith(`${publicRoot}${path.sep}`)) throw new Error("Invalid image path");
+  return readFile(local);
 }
 
-function labelValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: string, value: string, right = false): void {
-  const end = PAGE_WIDTH - MARGIN;
-  const targetX = right ? end : x;
-  if (right) {
-    rightText(page, fonts, label, targetX, y, 6.5, MID, true);
-    rightText(page, fonts, safeText(value), targetX, y - 12, 8.5, WHITE, true);
-  }
+async function fetchImage(url: string): Promise<Buffer> {
+  const response = await fetch(url, { signal: AbortSignal.timeout(5000), cache: "force-cache" });
+  if (!response.ok) throw new Error("Image unavailable");
+  if (!String(response.headers.get("content-type") || "").toLowerCase().startsWith("image/")) throw new Error("Unexpected media type");
+  const declaredSize = Number(response.headers.get("content-length") || 0);
+  if (declaredSize > 8 * 1024 * 1024) throw new Error("Image is too large");
+  return Buffer.from(await response.arrayBuffer());
+}
+
+function drawCenteredWordmark(page: PDFPage, fonts: Fonts, y: number, size: number, brandColor: ReturnType<typeof rgb>): void {
+  const brand = "BLACKMARKET";
+  const suffix = "WHOLESALE";
+  const suffixSize = size * .39;
+  const gap = 7;
+  const total = fonts.bold.widthOfTextAtSize(brand, size) + gap + fonts.bold.widthOfTextAtSize(suffix, suffixSize);
+  const x = (PAGE_WIDTH - total) / 2;
+  page.drawText(brand, { x, y, size, font: fonts.bold, color: brandColor });
+  page.drawText(suffix, { x: x + fonts.bold.widthOfTextAtSize(brand, size) + gap, y: y + 1, size: suffixSize, font: fonts.bold, color: GOLD });
+}
+
+function centeredText(page: PDFPage, fonts: Fonts, text: string, center: number, y: number, size: number, color: ReturnType<typeof rgb>, bold = false): void {
+  const font = bold ? fonts.bold : fonts.regular;
+  const safe = safeText(text);
+  page.drawText(safe, { x: center - font.widthOfTextAtSize(safe, size) / 2, y, size, font, color });
 }
 
 function rightText(page: PDFPage, fonts: Fonts, text: string, x: number, y: number, size: number, color: ReturnType<typeof rgb>, bold = false): void {
@@ -227,10 +267,16 @@ function wrap(text: string, font: PDFFont, size: number, width: number, maximum:
   return lines.length ? lines : [""];
 }
 
+function shippingLabel(order: Order): string {
+  const store = order.store;
+  return [store.street, [store.city, store.state, store.zip].filter(Boolean).join(" ")].filter(Boolean).join(", ") || "-";
+}
+
 function unitPrice(line: OrderLine): number {
   const parsed = Number(String(line.wholesale || "").replace(/[^0-9.-]/g, ""));
   return Number.isFinite(parsed) ? parsed : Number(line.lineWholesale || 0) / Math.max(1, Number(line.qty || 1));
 }
+
 function money(value: number): string { return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(value || 0)); }
-function dateLabel(value: string): string { const date = new Date(value); return Number.isFinite(date.getTime()) ? date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—"; }
+function dateLabel(value: string): string { const date = new Date(value); return Number.isFinite(date.getTime()) ? date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "-"; }
 function safeText(value: unknown): string { return String(value ?? "").replace(/[^\x20-\x7E]/g, " ").replace(/\s+/g, " ").trim(); }

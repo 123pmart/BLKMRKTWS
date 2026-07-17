@@ -21,19 +21,24 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
     <main className="account-shell">
       <AccountPageHeader />
       <article className="account-order-detail order-document mx-auto w-full max-w-5xl">
-        <Link href="/account/orders" className="order-history-back" prefetch>← Order history</Link>
+        <div className="order-document-toolbar">
+          <Link href="/account/orders" className="order-history-back" prefetch>← Order history</Link>
+          <Link href={`/api/account/orders/${encodeURIComponent(order.id)}/pdf`} className="account-pdf-link">Download PDF</Link>
+        </div>
         <header className="order-document-header">
           <WholesaleWordmark />
-          <div className="order-document-meta">
-            <span><small>Order number</small><strong>{order.id}</strong></span>
-            <span><small>Order date</small><strong>{new Date(order.date).toLocaleDateString()}</strong></span>
-            <span><small>Status</small><strong>{order.status}</strong></span>
-          </div>
-          <Link href={`/api/account/orders/${encodeURIComponent(order.id)}/pdf`} className="account-pdf-link">Download PDF</Link>
+          <p>Wholesale order</p>
         </header>
-        <section className="account-glass account-order-store" aria-labelledby="store-information-heading">
-          <p className="account-kicker" id="store-information-heading">Store information</p>
-          <div>
+        <section className="order-document-meta" aria-label="Order summary">
+          <span><small>Order number</small><strong>{order.id}</strong></span>
+          <span><small>Order date</small><strong>{new Date(order.date).toLocaleDateString()}</strong></span>
+          <span><small>Status</small><strong>{order.status}</strong></span>
+        </section>
+        <section className="order-document-section account-order-store" aria-labelledby="store-information-heading">
+          <div className="order-document-section-title">
+            <h2 id="store-information-heading">Details</h2>
+          </div>
+          <div className="order-detail-grid">
             <span><small>Store</small><strong>{order.store.storeName}</strong></span>
             <span><small>Contact</small><strong>{order.store.contactName}</strong></span>
             <span><small>Email</small><strong>{order.store.email}</strong></span>
@@ -41,7 +46,10 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
             <span className="order-store-address"><small>Ship to</small><strong>{order.store.street}, {order.store.city}, {order.store.state} {order.store.zip}</strong></span>
           </div>
         </section>
-        <section className="account-glass account-order-lines" aria-label="Ordered products">
+        <section className="order-document-section account-order-lines" aria-labelledby="ordered-products-heading">
+          <div className="order-document-section-title">
+            <h2 id="ordered-products-heading">Products</h2>
+          </div>
           <div className="account-order-line account-order-line--head" aria-hidden="true">
             <span>Item</span><span>Product</span><span>Quantity</span><span>Unit price</span><span>Total</span>
           </div>
@@ -55,7 +63,7 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
             </div>
           ))}
         </section>
-        <section className="account-glass account-order-totals">
+        <section className="order-document-section account-order-totals" aria-label="Order totals">
           <span>Standard subtotal <strong>{formatMoney(order.totals.subtotal ?? order.totals.wholesale)}</strong></span>
           {order.totals.discount ? <span>Account savings <strong>-{formatMoney(order.totals.discount)}</strong></span> : null}
           <span>Final subtotal <strong>{formatMoney(order.totals.wholesale)}</strong></span>
