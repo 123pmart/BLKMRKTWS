@@ -1,31 +1,19 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { AuthPanel } from "@/components/account/auth-panel";
+import { getVerifiedStoreIdentity } from "@/lib/account/auth";
 
-export default function SignInPage() {
+export default async function SignInPage() {
+  if (await getVerifiedStoreIdentity()) redirect("/account");
   return (
     <main className="account-shell">
       <div className="mx-auto grid min-h-[70dvh] w-full max-w-md place-items-center">
-        <Card className="w-full border-[#303035] bg-[#101012]">
-          <CardHeader>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">BLACKMARKET Wholesale</p>
-            <CardTitle>Store sign in</CardTitle>
-            <CardDescription>
-              Secure store authentication is being prepared. Sign-in is disabled until an identity provider and verified store mapping are connected.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <label className="grid gap-2 text-sm font-bold text-muted-foreground">
-              Store email
-              <Input type="email" autoComplete="email" disabled placeholder="buyer@store.com" />
-            </label>
-            <button className={cn(buttonVariants(), "w-full")} type="button" disabled>Continue securely</button>
-            <Link className={cn(buttonVariants({ variant: "secondary" }), "w-full")} href="/products">Continue without an account</Link>
-          </CardContent>
-        </Card>
+        <div className="account-glass w-full p-6 sm:p-8">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">BLACKMARKET Wholesale</p>
+          <h1 className="mt-2 text-3xl font-black tracking-tight">Store account</h1>
+          <p className="mt-2 mb-6 text-sm leading-6 text-muted-foreground">Sign in to view approved store pricing and order history.</p>
+          <AuthPanel />
+        </div>
       </div>
     </main>
   );

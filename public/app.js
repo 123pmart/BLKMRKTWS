@@ -1,4 +1,9 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
+import {
+  initializePortalHistory,
+  recordPortalNavigation,
+  safePortalBack as safePortalHistoryBack,
+} from "/lib/portal-history.js?v=20260717-liquid-nav";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -6,20 +11,17 @@ const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
 const ORDER_SUBMIT_URL = "/api/send-order";
 const ASSET_UPLOAD_URL = "/api/upload-asset";
+const ACCOUNT_PRICING_URL = "/api/account/pricing";
 const CART_KEY = "blackmarket-wholesale-cart-v4";
 const STORE_KEY = "blackmarket-wholesale-store-v3";
 const SITE_KEY = "blackmarket-wholesale-site-v1";
-const ADMIN_KEY = "blackmarket-wholesale-admin-v1";
 const ORDERS_KEY = "blackmarket-wholesale-orders-v1";
 const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 
-const ADMIN_USER = "pmart";
-const ADMIN_PASS = "123pmart";
 const MEDIA_PRELOAD_CONCURRENCY = 3;
-const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
+const ADMIN_SECTIONS = new Set(["orders", "news", "products", "stores", "settings"]);
 const CATALOG_TRANSITION_OUT_MS = 90;
 const CATALOG_TRANSITION_IN_MS = 260;
-const PORTAL_ENTRY_HISTORY_KEY = "blackmarket-portal-entry-history-length";
 let catalogTransitionToken = 0;
 let catalogTransitionTimer = 0;
 let lastProductTrigger = null;
@@ -86,15 +88,22 @@ const state = {
   activeView: "landing",
   activeFilter: "thermogenics",
   query: "",
-  adminAuthed: loadJson(ADMIN_KEY, false),
+  adminAuthed: false,
   activeAdminSection: "orders",
   adminProductMode: "flavor",
   adminProductQuery: "",
   adminProductCategory: "all",
+  adminAccounts: [],
+  adminAccountOrders: [],
+  adminPricingCatalog: [],
+  adminAccountQuery: "",
+  adminAccountStatus: "all",
   cartStep: "items",
   orderStorageMode: "local fallback",
   contentStorageMode: "local fallback",
   pendingRoute: null,
+  priceOverrides: [],
+  accountAuthenticated: false,
 };
 
 const mediaPreload = {
@@ -206,6 +215,11 @@ const dom = {
   adminCatalogVariantCount: document.querySelector("#adminCatalogVariantCount"),
   adminRefreshContent: document.querySelector("#adminRefreshContent"),
   adminExportContent: document.querySelector("#adminExportContent"),
+  adminRefreshAccounts: document.querySelector("#adminRefreshAccounts"),
+  adminAccountSearch: document.querySelector("#adminAccountSearch"),
+  adminAccountFilter: document.querySelector("#adminAccountFilter"),
+  adminCreateAccountForm: document.querySelector("#adminCreateAccountForm"),
+  adminStoreAccounts: document.querySelector("#adminStoreAccounts"),
   productModal: document.querySelector("#productModal"),
   modalContent: document.querySelector("#modalContent"),
   closeProductModal: document.querySelector("#closeProductModal"),
@@ -226,14 +240,21 @@ const dom = {
 init();
 
 async function init() {
-  const [response, catalogResponse, contentResponse] = await Promise.all([
+  const [response, catalogResponse, contentResponse, pricingResponse, adminSessionResponse] = await Promise.all([
     fetch(DATA_URL),
     fetch(CATALOG_PAGES_URL).catch(() => null),
     fetch(CONTENT_API_URL, { cache: "no-store" }).catch(() => null),
+    fetch(ACCOUNT_PRICING_URL, { cache: "no-store" }).catch(() => null),
+    fetch("/api/admin/session", { cache: "no-store" }).catch(() => null),
   ]);
   const data = await response.json();
   const catalogData = catalogResponse?.ok ? await catalogResponse.json() : { pages: [] };
   const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
+  const pricingData = pricingResponse?.ok ? await pricingResponse.json().catch(() => null) : null;
+  state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
+  state.accountAuthenticated = Boolean(pricingData?.authenticated);
+  const adminSession = adminSessionResponse?.ok ? await adminSessionResponse.json().catch(() => null) : null;
+  state.adminAuthed = Boolean(adminSession?.authenticated);
   if (contentData?.content) applyServerContent(contentData.content);
   if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.baseProducts = normalizeProducts(data.products);
@@ -269,6 +290,10 @@ function bindEvents() {
     event.preventDefault();
     setView("products");
   });
+  document.querySelectorAll("[data-portal-route]").forEach((link) => {
+    link.addEventListener("click", () => recordPortalNavigation(link.getAttribute("href") || "/products"));
+  });
+  installLegacyMobileNavigation();
   dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
   dom.brandHome.addEventListener("click", () => setView("landing"));
   dom.headerCartButton.addEventListener("click", (event) => openCartDrawer(event.currentTarget));
@@ -375,13 +400,18 @@ function bindEvents() {
 
   dom.sendOrder.addEventListener("click", sendOrder);
 
-  dom.adminLoginForm.addEventListener("submit", (event) => {
+  dom.adminLoginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const username = document.querySelector("#adminUsername").value.trim();
     const password = document.querySelector("#adminPassword").value;
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
+    const response = await fetch("/api/admin/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (response.ok && result.ok) {
       state.adminAuthed = true;
-      saveJson(ADMIN_KEY, true);
       renderAdmin();
       Promise.all([
         loadServerOrders({ silent: true }),
@@ -389,7 +419,7 @@ function bindEvents() {
       ]);
       showToast("Admin unlocked");
     } else {
-      showToast("Invalid admin login");
+      showToast(result.message || "Invalid admin login");
     }
   });
 
@@ -481,11 +511,23 @@ function bindEvents() {
     }
   });
 
-  dom.adminLogout.addEventListener("click", () => {
+  dom.adminLogout.addEventListener("click", async () => {
+    await fetch("/api/admin/session", { method: "DELETE" }).catch(() => null);
     state.adminAuthed = false;
-    saveJson(ADMIN_KEY, false);
     renderAdmin();
   });
+
+  dom.adminRefreshAccounts?.addEventListener("click", () => loadAdminAccounts());
+  dom.adminAccountSearch?.addEventListener("input", (event) => {
+    state.adminAccountQuery = event.target.value.trim().toLowerCase();
+    renderAdminStoreAccounts();
+  });
+  dom.adminAccountFilter?.addEventListener("change", (event) => {
+    state.adminAccountStatus = event.target.value;
+    renderAdminStoreAccounts();
+  });
+  dom.adminCreateAccountForm?.addEventListener("submit", createAdminStoreAccount);
+  dom.adminStoreAccounts?.addEventListener("click", handleAdminStoreAction);
 
   dom.customProductForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -692,6 +734,7 @@ function rebuildProductState() {
   renderCatalog();
   renderCart();
   renderAdminProducts();
+  renderAdminStoreAccounts();
 }
 
 function buildItems(products) {
@@ -713,9 +756,26 @@ function buildItems(products) {
       item.section = displaySection(item);
       item.fullTitle = `${item.productTitle} ${item.flavor}`.replace(/\s+/g, " ").trim();
       item.aliases = catalogFlavorAliases(item.flavor);
+      const standardWholesaleValue = Number(item.wholesaleValue || parseMoney(item.wholesale));
+      const accountPrice = effectiveAccountPrice(item, standardWholesaleValue);
+      item.standardWholesaleValue = standardWholesaleValue;
+      item.wholesaleValue = accountPrice.value;
+      item.wholesale = money(accountPrice.value);
+      item.customPriceApplied = accountPrice.custom;
       return item;
     }),
   );
+}
+
+function effectiveAccountPrice(item, standardValue) {
+  const variant = state.priceOverrides.find((entry) => entry.variantId === item.id);
+  const product = state.priceOverrides.find((entry) => !entry.variantId && entry.productId === item.productId);
+  const selected = variant || product;
+  const value = Number(selected?.wholesalePrice);
+  return {
+    value: selected && Number.isFinite(value) && value >= 0 ? value : standardValue,
+    custom: Boolean(selected),
+  };
 }
 
 function hiddenVariantIds() {
@@ -1072,6 +1132,7 @@ function renderSkuCard(item, index = 99) {
         <div class="sku-price-line">
           <strong>${escapeHtml(item.wholesale)}</strong>
           ${item.runningLow ? `<em class="sku-low-stock">RUNNING LOW</em>` : ""}
+          ${item.customPriceApplied ? `<em class="sku-account-price">ACCOUNT PRICE</em>` : ""}
         </div>
         <span>MAP ${escapeHtml(item.map)}</span>
       </div>
@@ -1651,7 +1712,13 @@ async function sendOrder() {
     return;
   }
   const lines = cartLines();
-  const order = buildClientOrder(lines);
+  let order;
+  try {
+    order = await previewOrder(buildClientOrder(lines));
+  } catch (error) {
+    showToast(error?.message || "Order pricing could not be verified");
+    return;
+  }
   const shouldSend = await askDownloadBeforeSend(order);
   if (!shouldSend) return;
 
@@ -1683,6 +1750,18 @@ async function sendOrder() {
   }
 }
 
+async function previewOrder(order) {
+  const response = await fetch("/api/order-preview", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify(order),
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || !result.ok || !result.order) throw new Error(result.message || "Order pricing could not be verified");
+  return result.order;
+}
+
 function buildClientOrder(lines = cartLines()) {
   return {
     id: `${Date.now()}`,
@@ -1694,9 +1773,19 @@ function buildClientOrder(lines = cartLines()) {
 }
 
 async function askDownloadBeforeSend(order) {
+  const previewLines = (order.lines || []).slice(0, 4).map((line) => `
+    <div class="order-confirmation-line">
+      <span class="order-confirmation-thumb">${line.image ? `<img src="${escapeHtml(line.image)}" alt="" width="52" height="52" loading="lazy" />` : "BM"}</span>
+      <span><strong>${escapeHtml(line.product)}</strong><small>${escapeHtml(line.flavor)} · SKU ${escapeHtml(line.item)}</small></span>
+      <span>${line.qty} × ${escapeHtml(line.wholesale)}</span>
+      <strong>${money(line.lineWholesale)}</strong>
+    </div>
+  `).join("");
   dom.orderDownloadSummary.innerHTML = `
-    <strong>${escapeHtml(order.store.storeName || "Store order")}</strong>
-    <span>${order.totals.units} unit${order.totals.units === 1 ? "" : "s"} / ${money(order.totals.wholesale)}</span>
+    <header class="order-confirmation-head"><span>BLACKMARKET <em>Wholesale</em></span><strong>Order Confirmation</strong></header>
+    <div class="order-confirmation-meta"><span><small>Store</small><strong>${escapeHtml(order.store.storeName || "Store order")}</strong></span><span><small>Order</small><strong>${escapeHtml(order.id)}</strong></span><span><small>Units</small><strong>${order.totals.units}</strong></span></div>
+    <div class="order-confirmation-lines">${previewLines}${order.lines.length > 4 ? `<p>+ ${order.lines.length - 4} more item${order.lines.length - 4 === 1 ? "" : "s"}</p>` : ""}</div>
+    <div class="order-confirmation-total"><span>${order.totals.discount ? `Account savings ${money(order.totals.discount)}` : "Verified wholesale pricing"}</span><strong>${money(order.totals.grandTotal ?? order.totals.wholesale)}</strong></div>
   `;
 
   return new Promise((resolve) => {
@@ -1740,16 +1829,30 @@ async function sendOrderToServer(order) {
   return body;
 }
 
-function downloadOrder(order) {
-  const blob = new Blob([generateOrderPdf(order)], { type: "application/pdf" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `blackmarket-order-${safeFilePart(order.store.storeName)}-${today()}.pdf`;
-  document.body.append(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+async function downloadOrder(order) {
+  try {
+    const response = await fetch("/api/order-pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
+      body: JSON.stringify(order),
+    });
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({}));
+      throw new Error(result.message || "PDF download failed");
+    }
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `blackmarket-order-${safeFilePart(order.store.storeName)}-${today()}.pdf`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (error) {
+    showToast(error?.message || "PDF download failed");
+  }
 }
 
 function generateOrderPdf(order) {
@@ -2164,12 +2267,17 @@ function formatCustomerEmailDraft(order) {
 
 function publicLine({ item, qty, lineWholesale, lineMap }) {
   return {
+    variantId: item.id,
+    productId: item.productId,
     product: item.productTitle,
     flavor: item.flavor,
     item: item.item,
     upc: item.upc,
+    image: item.bottle,
     wholesale: item.wholesale,
     map: item.map,
+    standardWholesale: item.standardWholesaleValue,
+    customPriceApplied: Boolean(item.customPriceApplied),
     qty,
     lineWholesale,
     lineMap,
@@ -2311,7 +2419,7 @@ async function persistAdminContent(options = {}) {
 }
 
 function adminHeaders() {
-  return { "x-admin-pass": ADMIN_PASS };
+  return {};
 }
 
 function openNewsEditor(options = {}) {
@@ -2377,6 +2485,159 @@ function setAdminSection(section) {
   state.activeAdminSection = ADMIN_SECTIONS.has(section) ? section : "orders";
   renderAdminPages();
   if (state.activeAdminSection === "orders") loadServerOrders({ silent: true });
+  if (state.activeAdminSection === "stores") loadAdminAccounts({ silent: true });
+}
+
+async function loadAdminAccounts(options = {}) {
+  if (!state.adminAuthed) return false;
+  try {
+    const response = await fetch("/api/admin/accounts", { cache: "no-store" });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.message || "Unable to load store accounts");
+    state.adminAccounts = Array.isArray(result.accounts) ? result.accounts : [];
+    state.adminAccountOrders = Array.isArray(result.orders) ? result.orders : [];
+    state.adminPricingCatalog = Array.isArray(result.catalog) ? result.catalog : [];
+    renderAdminStoreAccounts();
+    if (!options.silent) showToast("Store accounts refreshed");
+    return true;
+  } catch (error) {
+    if (!options.silent) showToast(error?.message || "Unable to load store accounts");
+    return false;
+  }
+}
+
+async function createAdminStoreAccount(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submit = form.querySelector("button[type='submit']");
+  submit.disabled = true;
+  try {
+    const response = await fetch("/api/admin/accounts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.message || "Unable to create store account");
+    form.reset();
+    await loadAdminAccounts({ silent: true });
+    showToast("Store account created");
+  } catch (error) {
+    showToast(error?.message || "Unable to create store account");
+  } finally {
+    submit.disabled = false;
+  }
+}
+
+async function handleAdminStoreAction(event) {
+  const button = event.target.closest("[data-store-action]");
+  if (!button) return;
+  const card = button.closest("[data-account-id]");
+  const accountId = card?.dataset.accountId;
+  const account = state.adminAccounts.find((entry) => entry.id === accountId);
+  if (!account) return;
+  const action = button.dataset.storeAction;
+  const payload = { accountId, action };
+
+  if (action === "status") payload.status = button.dataset.status;
+  if (action === "reset-password") {
+    const password = window.prompt(`Set a new temporary password for @${account.username}. The old password cannot be recovered.`);
+    if (!password) return;
+    payload.password = password;
+  }
+  if (action === "username") {
+    const username = window.prompt("New username", account.username);
+    if (!username || username === account.username) return;
+    payload.username = username;
+  }
+  if (action === "store") {
+    const storeName = window.prompt("Store name", account.store?.storeName || "");
+    if (!storeName) return;
+    const contactName = window.prompt("Contact name", account.store?.contactName || "") ?? account.store?.contactName;
+    const email = window.prompt("Email", account.email || "") ?? account.email;
+    Object.assign(payload, { storeName, contactName, email, phone: account.store?.phone || "", street: account.store?.street || "", city: account.store?.city || "", state: account.store?.state || "", zip: account.store?.zip || "" });
+  }
+  if (action === "add-price") {
+    const select = card.querySelector("[data-price-target]");
+    const input = card.querySelector("[data-price-value]");
+    const [scope, id] = String(select?.value || "").split(":");
+    if (!id) return showToast("Select a product or variant");
+    if (scope === "variant") payload.variantId = id;
+    else payload.productId = id;
+    payload.wholesalePrice = Number(input?.value);
+  }
+  if (action === "remove-price") payload.overrideId = button.dataset.overrideId;
+  if (action === "link-order") {
+    const select = card.querySelector("[data-order-target]");
+    if (!select?.value) return showToast("Select an order");
+    payload.orderId = select.value;
+  }
+
+  button.disabled = true;
+  try {
+    const response = await fetch("/api/admin/accounts", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.message || "Account update failed");
+    await loadAdminAccounts({ silent: true });
+    if (action === "link-order") await loadServerOrders({ silent: true });
+    showToast("Store account updated");
+  } catch (error) {
+    showToast(error?.message || "Account update failed");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function renderAdminStoreAccounts() {
+  if (!dom.adminStoreAccounts || !state.adminAuthed) return;
+  const query = state.adminAccountQuery;
+  const accounts = state.adminAccounts.filter((account) => {
+    const matchesStatus = state.adminAccountStatus === "all" || account.status === state.adminAccountStatus;
+    const haystack = `${account.store?.storeName || ""} ${account.username || ""} ${account.email || ""}`.toLowerCase();
+    return matchesStatus && (!query || haystack.includes(query));
+  });
+  if (!accounts.length) {
+    dom.adminStoreAccounts.innerHTML = `<div class="empty-state">No matching store accounts.</div>`;
+    return;
+  }
+
+  const productOptions = unique(state.adminPricingCatalog.map((item) => item.productId)).map((productId) => {
+    const item = state.adminPricingCatalog.find((entry) => entry.productId === productId);
+    return `<option value="product:${escapeHtml(productId)}">${escapeHtml(item?.product || productId)} — all variants</option>`;
+  }).join("");
+  const variantOptions = state.adminPricingCatalog.map((item) => `<option value="variant:${escapeHtml(item.variantId)}">${escapeHtml(item.product)} / ${escapeHtml(item.flavor)} / #${escapeHtml(item.item)} (${money(item.wholesalePrice)})</option>`).join("");
+
+  dom.adminStoreAccounts.innerHTML = accounts.map((account) => {
+    const unlinkedOrders = state.adminAccountOrders.filter((order) => !order.storeId || order.storeId === account.storeId);
+    const orderOptions = unlinkedOrders.map((order) => `<option value="${escapeHtml(order.id)}">${escapeHtml(order.storeName || order.id)} · ${escapeHtml(order.id)}</option>`).join("");
+    const overrides = (account.priceOverrides || []).map((override) => {
+      const item = state.adminPricingCatalog.find((entry) => override.variantId ? entry.variantId === override.variantId : entry.productId === override.productId);
+      return `<li><span>${escapeHtml(item ? `${item.product}${override.variantId ? ` / ${item.flavor}` : ""}` : override.variantId || override.productId)} <strong>${money(override.wholesalePrice)}</strong></span><button type="button" data-store-action="remove-price" data-override-id="${escapeHtml(override.id)}">Remove</button></li>`;
+    }).join("");
+    return `
+      <article class="admin-card admin-store-account" data-account-id="${escapeHtml(account.id)}">
+        <div class="admin-store-account-head">
+          <div><span class="admin-kicker">@${escapeHtml(account.username)}</span><h3>${escapeHtml(account.store?.storeName || "Store")}</h3><p>${escapeHtml(account.email || "")} · Created ${escapeHtml(shortDate(account.createdAt))}</p></div>
+          <span class="admin-account-status is-${escapeHtml(account.status)}">${escapeHtml(account.status)}</span>
+        </div>
+        <div class="admin-actions admin-store-actions">
+          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Approve / Enable</button>` : ""}
+          ${account.status !== "disabled" ? `<button class="admin-button admin-secondary" type="button" data-store-action="status" data-status="disabled">Disable</button>` : ""}
+          <button class="admin-button admin-secondary" type="button" data-store-action="store">Edit Store</button>
+          <button class="admin-button admin-secondary" type="button" data-store-action="username">Change Username</button>
+          <button class="admin-button admin-secondary" type="button" data-store-action="reset-password">Reset Password</button>
+        </div>
+        <div class="admin-store-meta"><span>Last login <strong>${account.lastLoginAt ? escapeHtml(shortDate(account.lastLoginAt)) : "Never"}</strong></span><span>Pricing <strong>${account.priceOverrides?.length || 0} override${account.priceOverrides?.length === 1 ? "" : "s"}</strong></span></div>
+        <div class="admin-store-control"><label><span>Catalog item</span><select data-price-target><option value="">Select product or variant</option><optgroup label="Products">${productOptions}</optgroup><optgroup label="Variants">${variantOptions}</optgroup></select></label><label><span>Custom wholesale</span><input data-price-value type="number" min="0" step="0.01" placeholder="0.00" /></label><button class="admin-button admin-primary" type="button" data-store-action="add-price">Set Price</button></div>
+        <ul class="admin-price-overrides">${overrides || "<li><span>No custom prices.</span></li>"}</ul>
+        <div class="admin-store-control admin-order-link"><label><span>Historical order</span><select data-order-target><option value="">Select order</option>${orderOptions}</select></label><button class="admin-button admin-secondary" type="button" data-store-action="link-order">Link Order</button></div>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderAdminPages() {
@@ -3263,9 +3524,7 @@ function prepareRouteState() {
     "",
     `${window.location.pathname}${window.location.search}`,
   );
-  if (!sessionStorage.getItem(PORTAL_ENTRY_HISTORY_KEY)) {
-    sessionStorage.setItem(PORTAL_ENTRY_HISTORY_KEY, String(window.history.length));
-  }
+  initializePortalHistory();
 }
 
 function applyPendingRoute() {
@@ -3306,17 +3565,80 @@ function routeFromLocation() {
 function pushPortalRoute(path, detail = {}) {
   const current = `${window.location.pathname}${window.location.search}`;
   if (current === path) return;
+  const portalHistory = recordPortalNavigation(path);
   const depth = Number(window.history.state?.blackmarketPortal?.depth || 0) + 1;
-  window.history.pushState({ blackmarketPortal: { ...detail, depth } }, "", path);
+  window.history.pushState({
+    blackmarketPortal: { ...detail, depth },
+    blackmarketPortalIndex: portalHistory.index,
+  }, "", path);
 }
 
 function safePortalBack() {
-  const depth = Number(window.history.state?.blackmarketPortal?.depth || 0);
-  if (depth > 0) {
-    window.history.back();
+  if (dom.productModal?.open) {
+    closeProductModal();
     return;
   }
-  window.location.assign("/products");
+  if (dom.cartView?.classList.contains("active")) {
+    closeCartDrawer();
+    return;
+  }
+  safePortalHistoryBack(() => window.location.assign("/products"));
+}
+
+function installLegacyMobileNavigation() {
+  const nav = document.querySelector(".portal-bottom-nav");
+  if (!nav) return;
+
+  let lastY = Math.max(0, window.scrollY);
+  let touchY = null;
+  let frame = 0;
+  const overlayClasses = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
+
+  const syncOverlay = () => {
+    const blocked = overlayClasses.some((name) => document.body.classList.contains(name))
+      || Boolean(document.querySelector("dialog[open], [aria-modal='true']:not([aria-hidden='true'])"));
+    nav.dataset.overlay = blocked ? "true" : "false";
+    nav.setAttribute("aria-hidden", blocked ? "true" : "false");
+  };
+
+  const onScroll = () => {
+    if (frame) return;
+    frame = window.requestAnimationFrame(() => {
+      frame = 0;
+      const currentY = Math.max(0, window.scrollY);
+      const delta = currentY - lastY;
+      const shortPage = document.documentElement.scrollHeight <= window.innerHeight + 8;
+      if (currentY <= 18 || shortPage) {
+        nav.dataset.scrollHidden = "false";
+        lastY = currentY;
+      } else if (Math.abs(delta) >= 12) {
+        nav.dataset.scrollHidden = delta > 0 ? "true" : "false";
+        lastY = currentY;
+      }
+    });
+  };
+
+  const applyDirection = (delta) => {
+    if (Math.abs(delta) < 12 || window.scrollY <= 18) return;
+    nav.dataset.scrollHidden = delta > 0 ? "true" : "false";
+  };
+
+  const onWheel = (event) => applyDirection(event.deltaY);
+  const onTouchStart = (event) => { touchY = event.touches[0]?.clientY ?? null; };
+  const onTouchMove = (event) => {
+    const currentTouchY = event.touches[0]?.clientY;
+    if (touchY === null || currentTouchY === undefined) return;
+    applyDirection(touchY - currentTouchY);
+    if (Math.abs(touchY - currentTouchY) >= 12) touchY = currentTouchY;
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("wheel", onWheel, { passive: true });
+  window.addEventListener("touchstart", onTouchStart, { passive: true });
+  window.addEventListener("touchmove", onTouchMove, { passive: true });
+  const observer = new MutationObserver(syncOverlay);
+  observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  syncOverlay();
 }
 
 function pruneCart() {
@@ -3411,6 +3733,11 @@ async function copyText(text) {
 
 function today() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function shortDate(value) {
+  const date = new Date(value);
+  return Number.isFinite(date.getTime()) ? date.toLocaleDateString() : "Unknown";
 }
 
 function escapeHtml(value) {

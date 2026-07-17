@@ -34,6 +34,13 @@
           <button type="button" data-view="news">News</button>
           <button type="button" data-view="catalog">Catalog</button>
         </nav>
+        <a class="desktop-account-link" href="/account" data-portal-route aria-label="Open store account">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.5" />
+            <path d="M5.5 20c.7-4.1 3-6.1 6.5-6.1s5.8 2 6.5 6.1" />
+          </svg>
+          <span>Account</span>
+        </a>
         <button class="cart-icon" id="headerCartButton" type="button" aria-label="Open cart">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 6h15l-2 8H8L6 3H3" />
@@ -208,6 +215,7 @@
                 <button class="active" type="button" data-admin-section="orders"><strong>Orders</strong><span>Requests and PDFs</span></button>
                 <button type="button" data-admin-section="news"><strong>News</strong><span>Buyer announcements</span></button>
                 <button type="button" data-admin-section="products"><strong>Products</strong><span>Catalog and flavors</span></button>
+                <button type="button" data-admin-section="stores"><strong>Stores</strong><span>Accounts and pricing</span></button>
                 <button type="button" data-admin-section="settings"><strong>Settings</strong><span>Storage and access</span></button>
               </nav>
               <div class="admin-overview" aria-label="Portal metrics">
@@ -515,6 +523,34 @@
               </div>
             </section>
 
+            <section class="admin-section admin-page" id="adminStoresSection" data-admin-page="stores">
+              <div class="admin-section-head">
+                <div>
+                  <p class="eyebrow">Store Accounts</p>
+                  <h2>Accounts &amp; Pricing</h2>
+                  <p>Approve store access, link orders, reset credentials, and assign exclusive wholesale pricing.</p>
+                </div>
+                <button class="admin-button admin-secondary" id="adminRefreshAccounts" type="button">Refresh</button>
+              </div>
+              <div class="admin-product-toolbar admin-store-toolbar">
+                <label class="admin-search-field"><span>Search accounts</span><input id="adminAccountSearch" type="search" placeholder="Store, username, or email" /></label>
+                <label><span>Status</span><select id="adminAccountFilter"><option value="all">All accounts</option><option value="pending">Pending</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+              </div>
+              <div class="admin-store-grid">
+                <form class="admin-card" id="adminCreateAccountForm">
+                  <div class="admin-card-heading"><div><span class="admin-kicker">New store</span><h3>Create Account</h3></div></div>
+                  <label><span>Store Name</span><input name="storeName" required /></label>
+                  <label><span>Contact Name</span><input name="contactName" required /></label>
+                  <label><span>Email</span><input name="email" type="email" required /></label>
+                  <label><span>Username</span><input name="username" autocomplete="off" required /></label>
+                  <label><span>Temporary Password</span><input name="password" type="password" autocomplete="new-password" minlength="10" required /></label>
+                  <label><span>Initial Status</span><select name="status"><option value="active">Active</option><option value="pending">Pending</option></select></label>
+                  <button class="admin-button admin-primary" type="submit">Create Store Account</button>
+                </form>
+                <div class="admin-store-list" id="adminStoreAccounts"><div class="empty-state">Open this section to load store accounts.</div></div>
+              </div>
+            </section>
+
             <section class="admin-section admin-page" id="adminSettingsSection" data-admin-page="settings">
               <div class="admin-section-head">
                 <div>
@@ -581,10 +617,17 @@
       <button class="admin-sheet-backdrop" id="adminSheetBackdrop" type="button" aria-label="Close editor"></button>
     </div>
 
-    <nav class="portal-bottom-nav" aria-label="Mobile portal navigation">
-      <button type="button" data-portal-back aria-label="Go back"><span aria-hidden="true">&#8592;</span><strong>Back</strong></button>
-      <a href="/products" data-portal-home><span aria-hidden="true">&#8962;</span><strong>Home</strong></a>
-      <a href="/sign-in"><span aria-hidden="true">&#9675;</span><strong>Sign In</strong></a>
+    <nav class="portal-bottom-nav" aria-label="Mobile portal navigation" data-scroll-hidden="false" data-overlay="false">
+      <span class="portal-bottom-nav-refraction" aria-hidden="true"></span>
+      <button type="button" data-portal-back aria-label="Go back" title="Back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+      </button>
+      <a href="/products" data-portal-home title="Home" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 8-7 8 7" /><path d="M6.5 10v10h11V10" /><path d="M10 20v-6h4v6" /></svg>
+      </a>
+      <a href="/account" data-portal-route title="Account" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5.5 20c.7-4.1 3-6.1 6.5-6.1s5.8 2 6.5 6.1" /></svg>
+      </a>
     </nav>
 
     <dialog class="product-modal" id="productModal" aria-labelledby="productModalLabel">

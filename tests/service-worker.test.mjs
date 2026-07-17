@@ -12,7 +12,7 @@ test("service worker exits before handling non-GET requests", () => {
 });
 
 test("service worker explicitly keeps private and mutable routes network-only", () => {
-  for (const route of ["/api/", "/account", "/sign-in", "/admin", "upload", "auth", "order"]) {
+  for (const route of ["/api/", "/api/account/", "/api/admin/", "/api/order-preview", "/api/order-pdf", "/account", "/sign-in", "/admin", "upload", "auth", "order"]) {
     assert.ok(source.includes(route), `missing network-only exclusion for ${route}`);
   }
   assert.match(source, /request\.mode === "navigate"/);

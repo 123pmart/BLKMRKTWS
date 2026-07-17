@@ -1,45 +1,122 @@
 "use client";
 
-import { ArrowLeft, Home, LogIn, UserRound } from "lucide-react";
+import { ArrowLeft, Home, UserRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const PORTAL_ENTRY_KEY = "blackmarket-portal-entry-history-length";
+import { initializePortalHistory, recordPortalNavigation, safePortalBack } from "@/lib/navigation/internal-history";
+
+const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
 export function MobileBottomNavigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const accountRoute = pathname.startsWith("/account");
+  const [hiddenByScroll, setHiddenByScroll] = useState(false);
+  const [overlayOpen, setOverlayOpen] = useState(false);
+  const lastScrollY = useRef(0);
+  const frame = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!sessionStorage.getItem(PORTAL_ENTRY_KEY)) {
-      sessionStorage.setItem(PORTAL_ENTRY_KEY, String(window.history.length));
-    }
+    initializePortalHistory();
+  }, [pathname]);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    let touchY: number | null = null;
+    const applyDirection = (delta: number) => {
+      if (Math.abs(delta) < 12 || window.scrollY <= 18) return;
+      setHiddenByScroll(delta > 0);
+    };
+    const onScroll = () => {
+      if (frame.current !== null) return;
+      frame.current = window.requestAnimationFrame(() => {
+        frame.current = null;
+        const currentY = Math.max(0, window.scrollY);
+        const delta = currentY - lastScrollY.current;
+        if (currentY <= 18 || document.documentElement.scrollHeight <= window.innerHeight + 8) {
+          setHiddenByScroll(false);
+          lastScrollY.current = currentY;
+        } else if (Math.abs(delta) >= 12) {
+          setHiddenByScroll(delta > 0);
+          lastScrollY.current = currentY;
+        }
+      });
+    };
+    const onWheel = (event: WheelEvent) => applyDirection(event.deltaY);
+    const onTouchStart = (event: TouchEvent) => { touchY = event.touches[0]?.clientY ?? null; };
+    const onTouchMove = (event: TouchEvent) => {
+      const currentY = event.touches[0]?.clientY;
+      if (touchY === null || currentY === undefined) return;
+      applyDirection(touchY - currentY);
+      if (Math.abs(touchY - currentY) >= 12) touchY = currentY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      if (frame.current !== null) window.cancelAnimationFrame(frame.current);
+    };
   }, []);
 
+  useEffect(() => {
+    const syncOverlayState = () => {
+      const classOverlay = OVERLAY_CLASSES.some((name) => document.body.classList.contains(name));
+      const dialogOverlay = Boolean(document.querySelector("dialog[open], [aria-modal='true']:not([aria-hidden='true'])"));
+      setOverlayOpen(classOverlay || dialogOverlay);
+    };
+    syncOverlayState();
+    const observer = new MutationObserver(syncOverlayState);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"], childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+
+  if (pathname.startsWith("/admin")) return null;
+
   function goBack() {
-    const initialLength = Number(sessionStorage.getItem(PORTAL_ENTRY_KEY) || window.history.length);
-    if (window.history.length > initialLength) {
-      router.back();
-      return;
-    }
-    router.replace("/products");
+    safePortalBack(() => router.replace("/products"));
+  }
+
+  function navigate(path: string) {
+    recordPortalNavigation(path);
+    router.push(path);
   }
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-3 border-t border-border bg-[#09090b]/95 px-3 pt-2 pb-[max(.5rem,env(safe-area-inset-bottom))] backdrop-blur md:hidden" aria-label="Mobile portal navigation">
-      <button className="flex min-h-12 flex-col items-center justify-center gap-1 text-xs font-bold text-muted-foreground" type="button" onClick={goBack}>
-        <ArrowLeft className="size-5" /> Back
+    <nav
+      className="liquid-mobile-nav"
+      data-hidden={hiddenByScroll || overlayOpen ? "true" : "false"}
+      aria-label="Mobile portal navigation"
+      aria-hidden={overlayOpen}
+    >
+      <span className="liquid-mobile-nav__refraction" aria-hidden="true" />
+      <button className="liquid-mobile-nav__control" type="button" onClick={goBack} aria-label="Go back" title="Back">
+        <ArrowLeft aria-hidden="true" />
       </button>
-      {/* The catalog is a full-document compatibility route during migration. */}
-      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-      <a className="flex min-h-12 flex-col items-center justify-center gap-1 text-xs font-bold text-foreground" href="/products">
-        <Home className="size-5" /> Home
-      </a>
-      <a className="flex min-h-12 flex-col items-center justify-center gap-1 text-xs font-bold text-foreground" href={accountRoute ? "/account" : "/sign-in"}>
-        {accountRoute ? <UserRound className="size-5" /> : <LogIn className="size-5" />}
-        {accountRoute ? "Account" : "Sign In"}
-      </a>
+      <button
+        className="liquid-mobile-nav__control"
+        data-active={pathname === "/" || pathname.startsWith("/products") ? "true" : "false"}
+        type="button"
+        onClick={() => navigate("/products")}
+        aria-label="Home"
+        title="Home"
+      >
+        <Home aria-hidden="true" />
+      </button>
+      <button
+        className="liquid-mobile-nav__control"
+        data-active={pathname.startsWith("/account") || pathname === "/sign-in" ? "true" : "false"}
+        type="button"
+        onClick={() => navigate("/account")}
+        aria-label="Account"
+        title="Account"
+      >
+        <UserRound aria-hidden="true" />
+      </button>
     </nav>
   );
 }

@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-17-v3";
+const CACHE_VERSION = "2026-07-17-v4-accounts";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";
@@ -82,6 +82,10 @@ self.addEventListener("fetch", (event) => {
 function isNetworkOnlyPath(pathname) {
   return (
     pathname.startsWith("/api/") ||
+    pathname.startsWith("/api/account/") ||
+    pathname.startsWith("/api/admin/") ||
+    pathname.startsWith("/api/order-preview") ||
+    pathname.startsWith("/api/order-pdf") ||
     pathname.startsWith("/account") ||
     pathname.startsWith("/sign-in") ||
     pathname.startsWith("/admin") ||

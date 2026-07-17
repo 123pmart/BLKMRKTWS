@@ -1,33 +1,40 @@
-import { AccountStatusCard } from "@/components/account/account-status-card";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
 import { getVerifiedStoreIdentity } from "@/lib/account/auth";
 import { getOrdersForVerifiedStore } from "@/lib/orders/store-order-history";
 
 export default async function AccountOrdersPage() {
   const identity = await getVerifiedStoreIdentity();
 
-  if (!identity) {
-    return (
-      <main className="account-shell">
-        <div className="mx-auto w-full max-w-3xl">
-          <h1 className="mb-6 text-3xl font-black tracking-tight">Order history</h1>
-          <AccountStatusCard
-            title="Sign-in required"
-            description="Order history stays unavailable until the server can verify a store identity. Buyer-entered IDs, email addresses, URL values, and local storage are never accepted as authorization."
-          />
-        </div>
-      </main>
-    );
-  }
+  if (!identity) redirect("/sign-in?next=/account/orders");
 
   const orders = await getOrdersForVerifiedStore(identity);
   return (
     <main className="account-shell">
       <div className="mx-auto w-full max-w-4xl">
-        <h1 className="mb-6 text-3xl font-black tracking-tight">Order history</h1>
+        <p className="account-kicker">Store account</p>
+        <h1 className="mt-2 mb-6 text-3xl font-black tracking-tight">Order history</h1>
+        {identity.status !== "active" ? <div className="account-notice">Order history is available after account approval.</div> : null}
         {orders.length === 0 ? (
-          <AccountStatusCard title="No orders yet" description="Orders placed by this verified store will appear here." />
-        ) : null}
+          <div className="account-glass p-6"><p className="account-empty">No linked orders yet.</p></div>
+        ) : (
+          <div className="account-glass account-orders-table">
+            {orders.map((order) => (
+              <Link key={order.id} href={`/account/orders/${encodeURIComponent(order.id)}`} className="account-order-row">
+                <span><strong>{order.id}</strong><small>{new Date(order.date).toLocaleString()}</small></span>
+                <span>{order.lines.reduce((sum, line) => sum + line.qty, 0)} items</span>
+                <span className="account-order-preview">{order.lines.slice(0, 2).map((line) => `${line.product} ${line.flavor}`).join(", ")}</span>
+                <span>{formatMoney(order.totals.grandTotal ?? order.totals.wholesale)}</span>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   );
+}
+
+function formatMoney(value: number) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(value || 0));
 }
