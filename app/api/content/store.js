@@ -51,9 +51,10 @@ export async function readContent() {
 
 export async function writeContent(payload) {
   const content = normalizeContentPayload(payload);
-  memory.content = content;
 
-  if (canAttemptBlobStore() && memory.blobAvailable !== false) {
+  // Writes always retry Blob. A previous transient read/write failure must not
+  // permanently demote a warm server instance to temporary storage.
+  if (canAttemptBlobStore()) {
     try {
       const { put } = await import("@vercel/blob");
       await put(BLOB_PATH, `${JSON.stringify(content, null, 2)}\n`, {
@@ -63,10 +64,14 @@ export async function writeContent(payload) {
         cacheControlMaxAge: 60,
       });
       memory.blobAvailable = true;
+      memory.content = content;
       return content;
     } catch (error) {
       memory.blobAvailable = false;
-      console.warn("Unable to write Vercel Blob content store; using a temporary fallback:", error?.message || error);
+      console.error("Unable to write Vercel Blob content store:", error?.message || error);
+      if (isVercelRuntime()) {
+        throw new Error("Durable content storage is unavailable. No production fallback was written.", { cause: error });
+      }
     }
   }
 
@@ -76,13 +81,14 @@ export async function writeContent(payload) {
       await mkdir(path.dirname(filePath), { recursive: true });
       await writeFile(filePath, `${JSON.stringify(content, null, 2)}\n`, "utf8");
       memory.storagePath = filePath;
+      memory.content = content;
       return content;
     } catch (error) {
       console.warn(`Unable to write content store at ${filePath}:`, error?.message || error);
     }
   }
 
-  return content;
+  throw new Error("Unable to persist portal content.");
 }
 
 export function normalizeContentPayload(payload = {}) {
@@ -99,7 +105,11 @@ export function publicContent(content) {
   if (!content) return null;
   return {
     ...content,
-    customProducts: content.customProducts.map(({ adminNotes: _adminNotes, ...product }) => product),
+    customProducts: content.customProducts.map((entry) => {
+      const product = { ...entry };
+      delete product.adminNotes;
+      return product;
+    }),
   };
 }
 

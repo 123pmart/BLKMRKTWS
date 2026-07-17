@@ -25,8 +25,19 @@ export async function PUT(request) {
     return Response.json({ ok: false, message: "Invalid content payload." }, { status: 400 });
   }
 
-  const content = await writeContent(payload);
-  return Response.json({ ok: true, content, storage: contentStorageMode() });
+  try {
+    const content = await writeContent(payload);
+    return Response.json(
+      { ok: true, content, storage: contentStorageMode() },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch (error) {
+    console.error("Content persistence failed:", error);
+    return Response.json(
+      { ok: false, message: "Portal content could not be saved to durable storage." },
+      { status: 503, headers: { "Cache-Control": "no-store" } },
+    );
+  }
 }
 
 function isAdmin(request) {

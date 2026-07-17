@@ -1,3 +1,4 @@
+import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -18,6 +19,7 @@ const MEDIA_PRELOAD_CONCURRENCY = 3;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "settings"]);
 const CATALOG_TRANSITION_OUT_MS = 90;
 const CATALOG_TRANSITION_IN_MS = 260;
+const PORTAL_ENTRY_HISTORY_KEY = "blackmarket-portal-entry-history-length";
 let catalogTransitionToken = 0;
 let catalogTransitionTimer = 0;
 let lastProductTrigger = null;
@@ -92,6 +94,7 @@ const state = {
   cartStep: "items",
   orderStorageMode: "local fallback",
   contentStorageMode: "local fallback",
+  pendingRoute: null,
 };
 
 const mediaPreload = {
@@ -236,6 +239,7 @@ async function init() {
   state.baseProducts = normalizeProducts(data.products);
   state.products = mergeProducts();
   state.items = buildItems(state.products);
+  prepareRouteState();
   state.catalogPages = catalogData.pages || [];
   preloadProductMedia();
   scheduleNutritionPanelPreload();
@@ -254,10 +258,17 @@ async function init() {
   bindEvents();
   closeAdminEditors();
   setCartStep(state.cartStep);
-  document.body.dataset.view = state.activeView;
+  setView(state.activeView, { history: false });
+  applyPendingRoute();
 }
 
 function bindEvents() {
+  window.addEventListener("popstate", applyLocationRoute);
+  document.querySelector("[data-portal-back]")?.addEventListener("click", safePortalBack);
+  document.querySelector("[data-portal-home]")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    setView("products");
+  });
   dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
   dom.brandHome.addEventListener("click", () => setView("landing"));
   dom.headerCartButton.addEventListener("click", (event) => openCartDrawer(event.currentTarget));
@@ -401,13 +412,13 @@ function bindEvents() {
   });
   dom.announcementForm.addEventListener("input", renderAdminNewsPreview);
 
-  dom.adminNewsList.addEventListener("click", (event) => {
+  dom.adminNewsList.addEventListener("click", async (event) => {
     const remove = event.target.closest("[data-remove-announcement]");
     if (remove) {
-      state.site.announcements = state.site.announcements.filter((item) => item.id !== remove.dataset.removeAnnouncement);
-      if (dom.announcementId.value === remove.dataset.removeAnnouncement) clearAnnouncementEditor();
-      saveSite();
-      renderAdminMetrics();
+      const next = state.site.announcements.filter((item) => item.id !== remove.dataset.removeAnnouncement);
+      const saved = await commitAnnouncements(next);
+      if (saved && dom.announcementId.value === remove.dataset.removeAnnouncement) clearAnnouncementEditor();
+      if (saved) showToast("News update deleted");
       return;
     }
 
@@ -701,9 +712,7 @@ function buildItems(products) {
       };
       item.section = displaySection(item);
       item.fullTitle = `${item.productTitle} ${item.flavor}`.replace(/\s+/g, " ").trim();
-      item.searchText = [item.productTitle, item.flavor, item.item, item.upc, item.wholesale, item.map, item.section]
-        .join(" ")
-        .toLowerCase();
+      item.aliases = catalogFlavorAliases(item.flavor);
       return item;
     }),
   );
@@ -841,7 +850,12 @@ function setProductFilter(filter, options = {}) {
   preloadFilterMedia(filter);
   renderCategoryNav();
   renderCatalog({ animate: options.keepView });
-  if (!options.keepView) setView("products");
+  const path = filter && filter !== "all" ? `/products?category=${encodeURIComponent(filter)}` : "/products";
+  if (!options.keepView) {
+    setView("products", { path });
+  } else {
+    pushPortalRoute(path, { view: "products", filter });
+  }
 }
 
 function renderAnnouncements() {
@@ -1002,7 +1016,7 @@ function renderCatalog(options = {}) {
 function renderUnifiedSkuGrid(items) {
   return `
     <div class="sku-row unified-grid">
-      ${items.map(renderSkuCard).join("")}
+      ${items.map((item, index) => renderSkuCard(item, index)).join("")}
     </div>
   `;
 }
@@ -1021,7 +1035,7 @@ function renderProductLines(items) {
             </div>
           </div>
           <div class="sku-row" id="row-${rowId}">
-            ${productItems.map(renderSkuCard).join("")}
+            ${productItems.map((item, index) => renderSkuCard(item, index)).join("")}
           </div>
         </section>
       `;
@@ -1035,11 +1049,12 @@ function lineCountLabel(items) {
 }
 
 function activeFilterLabel() {
+  if (state.query) return "SEARCH RESULTS";
   if (state.activeFilter === "all") return "ALL PRODUCTS";
   return SECTION_META.find((section) => section.slug === state.activeFilter)?.label || "PRODUCTS";
 }
 
-function renderSkuCard(item) {
+function renderSkuCard(item, index = 99) {
   const orderable = isOrderable(item);
   const statusPrefix = item.limitedEdition ? "Limited" : "";
   const flavorLabel = statusPrefix ? `${statusPrefix} / ${item.flavor}` : item.flavor;
@@ -1050,7 +1065,7 @@ function renderSkuCard(item) {
         <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""} ${!orderable ? "sku-coming" : ""}">${escapeHtml(flavorLabel)}</span>
       </div>
       <div class="bottle-stage">
-        <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="lazy" decoding="async" />
+        <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="${index < 4 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />
       </div>
       <h4>${escapeHtml(item.fullTitle)}</h4>
       <div class="sku-price">
@@ -1069,15 +1084,18 @@ function preloadProductMedia() {
   const landingItems = LANDING_OPTIONS
     .map((option) => state.items.find(option.match))
     .filter(Boolean);
-  const announcementUrls = unique(state.site.announcements.map((item, index) => announcementImage(item, index)));
+  const announcementUrls = state.site.announcements.length ? [announcementImage(state.site.announcements[0], 0)] : [];
   enqueueMediaPreloads(unique([
-    ...landingItems.flatMap((item) => [item.bottle, item.panel]),
+    ...landingItems.map((item) => item.bottle),
     ...announcementUrls,
   ]));
 }
 
 function scheduleNutritionPanelPreload() {
-  const preloadPanels = () => enqueueMediaPreloads(unique(state.items.map((item) => item.panel)));
+  const preloadPanels = () => {
+    const firstVisible = state.items.find((item) => item.section === state.activeFilter) || state.items[0];
+    if (firstVisible?.panel) enqueueMediaPreloads([firstVisible.panel]);
+  };
   if ("requestIdleCallback" in window) {
     window.requestIdleCallback(preloadPanels, { timeout: 2500 });
   } else {
@@ -1087,7 +1105,7 @@ function scheduleNutritionPanelPreload() {
 
 function preloadFilterMedia(filter) {
   const items = state.items.filter((item) => filter === "all" || item.section === filter);
-  enqueueMediaPreloads(unique(items.flatMap((item) => [item.panel, item.bottle])));
+  enqueueMediaPreloads(unique(items.slice(0, 12).map((item) => item.bottle)));
 }
 
 function enqueueMediaPreloads(urls) {
@@ -1139,10 +1157,13 @@ function renderMiniQty(id) {
 }
 
 function filteredItems() {
-  return state.items
-    .filter((item) => state.activeFilter === "all" || item.section === state.activeFilter)
-    .filter((item) => !state.query || item.searchText.includes(state.query))
-    .sort((a, b) => sectionIndex(a.section) - sectionIndex(b.section) || productRank(a) - productRank(b) || a.sort - b.sort);
+  const source = state.query
+    ? searchCatalogItems(state.items, state.query)
+    : state.items.filter((item) => state.activeFilter === "all" || item.section === state.activeFilter);
+  return source.sort((a, b) => {
+    if (state.query) return 0;
+    return sectionIndex(a.section) - sectionIndex(b.section) || productRank(a) - productRank(b) || a.sort - b.sort;
+  });
 }
 
 function sectionIndex(slug) {
@@ -1166,7 +1187,7 @@ function productRank(item) {
   return 99;
 }
 
-function openProductModal(itemId, trigger = document.activeElement) {
+function openProductModal(itemId, trigger = document.activeElement, options = {}) {
   const item = state.items.find((entry) => entry.id === itemId);
   if (!item) return;
   const product = state.products.find((entry) => entry.id === item.productId);
@@ -1223,6 +1244,13 @@ function openProductModal(itemId, trigger = document.activeElement) {
   const modalLabel = document.querySelector("#productModalLabel");
   if (modalLabel) modalLabel.textContent = item.flavor || "Product Details";
   showDialog(dom.productModal);
+  if (options.history !== false) {
+    pushPortalRoute(`/products/${encodeURIComponent(item.id)}`, {
+      modal: "product",
+      itemId: item.id,
+      parent: `${window.location.pathname}${window.location.search}`,
+    });
+  }
 }
 
 function showDialog(dialog) {
@@ -1398,11 +1426,19 @@ function handleModalQuantityClick(event) {
   if (changed && Number(adjust.dataset.adjust) > 0) pulseCart();
 }
 
-function closeProductModal() {
+function closeProductModal(options = {}) {
   const wasOpen = dom.productModal.open;
   if (wasOpen) dom.productModal.close();
   if (!dom.newsModal.open && !dom.orderDownloadModal.open) document.body.classList.remove("modal-open");
   if (wasOpen) restoreFocus(lastProductTrigger);
+  if (wasOpen && options.history !== false && window.location.pathname.startsWith("/products/")) {
+    if (window.history.state?.blackmarketPortal?.parent) {
+      window.history.back();
+    } else {
+      window.history.replaceState({ blackmarketPortal: { view: "products" } }, "", "/products");
+      setView("products", { history: false });
+    }
+  }
 }
 
 function openImageZoom(src, alt) {
@@ -1540,7 +1576,7 @@ function setCartStep(step) {
   });
 }
 
-function openCartDrawer(trigger = document.activeElement) {
+function openCartDrawer(trigger = document.activeElement, options = {}) {
   renderCart();
   setCartStep("items");
   lastCartTrigger = trigger instanceof HTMLElement ? trigger : null;
@@ -1549,14 +1585,28 @@ function openCartDrawer(trigger = document.activeElement) {
   document.body.classList.add("cart-open");
   document.body.classList.remove("nav-open");
   window.setTimeout(() => dom.closeCartDrawer.focus({ preventScroll: true }), 30);
+  if (options.history !== false) {
+    pushPortalRoute("/cart", {
+      modal: "cart",
+      parent: `${window.location.pathname}${window.location.search}`,
+    });
+  }
 }
 
-function closeCartDrawer() {
+function closeCartDrawer(options = {}) {
   const wasOpen = document.body.classList.contains("cart-open");
   document.body.classList.remove("cart-open");
   dom.cartView.setAttribute("aria-hidden", "true");
   dom.cartView.inert = true;
   if (wasOpen) restoreFocus(lastCartTrigger);
+  if (wasOpen && options.history !== false && window.location.pathname === "/cart") {
+    if (window.history.state?.blackmarketPortal?.parent) {
+      window.history.back();
+    } else {
+      window.history.replaceState({ blackmarketPortal: { view: "products" } }, "", "/products");
+      setView("products", { history: false });
+    }
+  }
 }
 
 function trapCartFocus(event) {
@@ -2388,12 +2438,11 @@ async function publishAnnouncement() {
     return;
   }
 
-  if (id) {
-    state.site.announcements = state.site.announcements.map((item) =>
+  const next = id
+    ? state.site.announcements.map((item) =>
       item.id === id ? { ...item, label, title, body, image, date, audience, ctaLabel, ctaUrl } : item,
-    );
-  } else {
-    state.site.announcements.unshift({
+    )
+    : [{
       id: `${Date.now()}`,
       label,
       title,
@@ -2403,14 +2452,35 @@ async function publishAnnouncement() {
       audience,
       ctaLabel,
       ctaUrl,
-    });
-  }
+    }, ...state.site.announcements];
 
+  const saved = await commitAnnouncements(next);
+  if (!saved) return;
   clearAnnouncementEditor();
-  await saveSite({ silent: true });
-  renderAdminMetrics();
   closeNewsEditor();
   showToast(id ? "Update saved" : "Announcement published");
+}
+
+async function commitAnnouncements(nextAnnouncements) {
+  const previousAnnouncements = state.site.announcements;
+  state.site = { ...state.site, announcements: nextAnnouncements };
+  renderAdminNews();
+  renderAdminMetrics();
+  const persisted = await persistAdminContent({ silent: true });
+  if (!persisted) {
+    state.site = { ...state.site, announcements: previousAnnouncements };
+    renderAdminNews();
+    renderAdminMetrics();
+    showToast("News was not saved. Check content storage and try again.");
+    return false;
+  }
+
+  saveJson(SITE_KEY, state.site);
+  renderAnnouncements();
+  renderNews();
+  renderAdminNews();
+  renderAdminMetrics();
+  return true;
 }
 
 function renderAdminNews() {
@@ -2446,10 +2516,7 @@ async function moveAnnouncement(id, direction) {
   const next = [...state.site.announcements];
   const [item] = next.splice(from, 1);
   next.splice(to, 0, item);
-  state.site.announcements = next;
-  await saveSite({ silent: true });
-  renderAdminMetrics();
-  showToast("News order updated");
+  if (await commitAnnouncements(next)) showToast("News order updated");
 }
 
 function renderAdminNewsPreview() {
@@ -3148,13 +3215,13 @@ async function saveSite(options = {}) {
   return persistAdminContent(options);
 }
 
-function setView(view) {
+function setView(view, options = {}) {
   if (view === "cart") {
-    openCartDrawer();
+    openCartDrawer(document.activeElement, options);
     return;
   }
-  closeCartDrawer();
-  closeProductModal();
+  closeCartDrawer({ history: false });
+  closeProductModal({ history: false });
   closeNewsModal();
   state.activeView = view;
   dom.views.forEach((section) => section.classList.toggle("active", section.id === `${view}View`));
@@ -3171,7 +3238,85 @@ function setView(view) {
       loadServerContent({ silent: true }),
     ]);
   }
+  if (options.history !== false) pushPortalRoute(options.path || pathForView(view), { view });
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function pathForView(view) {
+  return {
+    landing: "/",
+    products: "/products",
+    news: "/news",
+    catalog: "/catalog",
+    cart: "/cart",
+    admin: "/admin",
+  }[view] || "/products";
+}
+
+function prepareRouteState() {
+  const route = routeFromLocation();
+  state.activeView = route.view;
+  state.pendingRoute = route;
+  if (route.filter) state.activeFilter = route.filter;
+  window.history.replaceState(
+    { ...window.history.state, blackmarketPortal: { ...(window.history.state?.blackmarketPortal || {}), view: route.view, depth: Number(window.history.state?.blackmarketPortal?.depth || 0) } },
+    "",
+    `${window.location.pathname}${window.location.search}`,
+  );
+  if (!sessionStorage.getItem(PORTAL_ENTRY_HISTORY_KEY)) {
+    sessionStorage.setItem(PORTAL_ENTRY_HISTORY_KEY, String(window.history.length));
+  }
+}
+
+function applyPendingRoute() {
+  const route = state.pendingRoute;
+  state.pendingRoute = null;
+  if (!route) return;
+  if (route.itemId) openProductModal(route.itemId, document.activeElement, { history: false });
+  if (route.cart) openCartDrawer(document.activeElement, { history: false });
+}
+
+function applyLocationRoute() {
+  const route = routeFromLocation();
+  if (route.filter) state.activeFilter = route.filter;
+  setView(route.view, { history: false });
+  renderCategoryNav();
+  renderCatalog();
+  if (route.itemId) openProductModal(route.itemId, document.activeElement, { history: false });
+  if (route.cart) openCartDrawer(document.activeElement, { history: false });
+}
+
+function routeFromLocation() {
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
+  const filter = new URLSearchParams(window.location.search).get("category");
+  const validFilter = LANDING_OPTIONS.some((entry) => entry.slug === filter) ? filter : "";
+  if (path.startsWith("/products/")) {
+    const itemId = decodeURIComponent(path.slice("/products/".length));
+    const item = state.items.find((entry) => entry.id === itemId || entry.productId === itemId);
+    return { view: "products", itemId: item?.id || "", filter: item?.section || validFilter };
+  }
+  if (path === "/products") return { view: "products", filter: validFilter };
+  if (path === "/news") return { view: "news" };
+  if (path === "/catalog") return { view: "catalog" };
+  if (path === "/cart") return { view: "products", cart: true };
+  if (path === "/admin") return { view: "admin" };
+  return { view: "landing" };
+}
+
+function pushPortalRoute(path, detail = {}) {
+  const current = `${window.location.pathname}${window.location.search}`;
+  if (current === path) return;
+  const depth = Number(window.history.state?.blackmarketPortal?.depth || 0) + 1;
+  window.history.pushState({ blackmarketPortal: { ...detail, depth } }, "", path);
+}
+
+function safePortalBack() {
+  const depth = Number(window.history.state?.blackmarketPortal?.depth || 0);
+  if (depth > 0) {
+    window.history.back();
+    return;
+  }
+  window.location.assign("/products");
 }
 
 function pruneCart() {
@@ -3353,6 +3498,13 @@ function showInstallStep(index) {
 
   if (installStepImage) {
     installStepImage.src = step.image;
+  }
+
+  const nextStep = installSteps[index + 1];
+  if (nextStep) {
+    const preload = new Image();
+    preload.decoding = "async";
+    preload.src = nextStep.image;
   }
 
   if (installStepText) {
