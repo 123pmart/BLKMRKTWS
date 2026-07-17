@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { readContent } from "@/api/content/store.js";
+import { resolveCatalogProductImage } from "@/lib/catalog/image-core";
 
 export interface ServerCatalogItem {
   productId: string;
@@ -51,7 +52,11 @@ export async function loadServerCatalog(): Promise<ServerCatalogItem[]> {
       upc: clean(variant.upc),
       wholesalePrice: moneyValue(variant.wholesaleValue, variant.wholesale),
       mapPrice: moneyValue(variant.mapValue, variant.map),
-      image: clean(override.bottle || variant.bottle || product.bottle),
+      image: resolveCatalogProductImage({
+        variantOverrideImage: override.bottle,
+        variantImage: variant.bottle,
+        productImage: product.bottle,
+      }) || "",
       status,
       hidden: hidden.has(variantId),
     } satisfies ServerCatalogItem;

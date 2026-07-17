@@ -4,6 +4,7 @@ import path from "node:path";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 import sharp from "sharp";
 
+import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
 import type { Order, OrderLine } from "@/types";
 
 const PAGE_WIDTH = 612;
@@ -68,9 +69,7 @@ function addPage(pdf: PDFDocument): PDFPage {
 
 function drawDocumentHeader(page: PDFPage, order: Order, fonts: Fonts): number {
   page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 124, width: PAGE_WIDTH, height: 124, color: BLACK });
-  page.drawRectangle({ x: MARGIN, y: PAGE_HEIGHT - 53, width: 5, height: 27, color: GOLD });
-  page.drawText("BLACKMARKET", { x: MARGIN + 15, y: PAGE_HEIGHT - 43, size: 19, font: fonts.bold, color: WHITE });
-  page.drawText("LABS  /  WHOLESALE", { x: MARGIN + 16, y: PAGE_HEIGHT - 58, size: 7.5, font: fonts.bold, color: GOLD });
+  drawWholesaleWordmark(page, fonts, MARGIN, PAGE_HEIGHT - 43, 19);
   page.drawText("WHOLESALE ORDER", { x: MARGIN, y: PAGE_HEIGHT - 92, size: 20, font: fonts.bold, color: WHITE });
   page.drawText("CONFIRMATION", { x: MARGIN, y: PAGE_HEIGHT - 109, size: 11, font: fonts.bold, color: GOLD });
 
@@ -83,8 +82,8 @@ function drawDocumentHeader(page: PDFPage, order: Order, fonts: Fonts): number {
 
 function drawContinuationHeader(page: PDFPage, order: Order, fonts: Fonts): number {
   page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 70, width: PAGE_WIDTH, height: 70, color: BLACK });
-  page.drawText("BLACKMARKET", { x: MARGIN, y: PAGE_HEIGHT - 34, size: 16, font: fonts.bold, color: WHITE });
-  page.drawText("WHOLESALE ORDER CONFIRMATION", { x: MARGIN, y: PAGE_HEIGHT - 50, size: 8, font: fonts.bold, color: GOLD });
+  drawWholesaleWordmark(page, fonts, MARGIN, PAGE_HEIGHT - 34, 16);
+  page.drawText("ORDER CONFIRMATION", { x: MARGIN, y: PAGE_HEIGHT - 50, size: 8, font: fonts.bold, color: GOLD });
   rightText(page, fonts, order.id, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 40, 9, WHITE, true);
   return PAGE_HEIGHT - 92;
 }
@@ -120,7 +119,8 @@ function drawLineRow(page: PDFPage, line: OrderLine, image: PDFImage | null, fon
   if (image) page.drawImage(image, { x: MARGIN + 8, y: y - height + 7, width: 52, height: 52 });
   else {
     page.drawRectangle({ x: MARGIN + 8, y: y - height + 7, width: 52, height: 52, color: LIGHT });
-    page.drawText("BM", { x: MARGIN + 24, y: y - height + 28, size: 9, font: fonts.bold, color: MID });
+    page.drawText("BLACKMARKET", { x: MARGIN + 12, y: y - height + 31, size: 5.1, font: fonts.bold, color: DARK });
+    page.drawText("WHOLESALE", { x: MARGIN + 17, y: y - height + 23, size: 3.8, font: fonts.bold, color: rgb(.56, .49, 0) });
   }
   let textY = y - 17;
   titleLines.forEach((lineText) => { page.drawText(safeText(lineText), { x: MARGIN + 75, y: textY, size: 10, font: fonts.bold, color: BLACK }); textY -= 11; });
@@ -161,7 +161,7 @@ function drawFooter(page: PDFPage, order: Order, fonts: Fonts, number: number, t
 }
 
 async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache: Map<string, PDFImage | null>): Promise<PDFImage | null> {
-  if (!source) return null;
+  if (!source || !isTrustedCatalogImageSource(source)) return null;
   if (cache.has(source)) return cache.get(source) ?? null;
   try {
     let original: Buffer;
@@ -173,8 +173,12 @@ async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache
     } else if (/^https:\/\//i.test(source)) {
       const response = await fetch(source, { signal: AbortSignal.timeout(4000) });
       if (!response.ok) throw new Error("Image unavailable");
+      if (!String(response.headers.get("content-type") || "").toLowerCase().startsWith("image/")) throw new Error("Unexpected media type");
+      const declaredSize = Number(response.headers.get("content-length") || 0);
+      if (declaredSize > 8 * 1024 * 1024) throw new Error("Image is too large");
       original = Buffer.from(await response.arrayBuffer());
     } else return null;
+    if (original.byteLength > 8 * 1024 * 1024) throw new Error("Image is too large");
     const thumbnail = await sharp(original).resize(112, 112, { fit: "contain", background: "#f3f3f1" }).flatten({ background: "#f3f3f1" }).jpeg({ quality: 68, mozjpeg: true }).toBuffer();
     const embedded = await pdf.embedJpg(thumbnail);
     cache.set(source, embedded);
@@ -183,6 +187,13 @@ async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache
     cache.set(source, null);
     return null;
   }
+}
+
+function drawWholesaleWordmark(page: PDFPage, fonts: Fonts, x: number, y: number, size: number): void {
+  const brand = "BLACKMARKET";
+  page.drawText(brand, { x, y, size, font: fonts.bold, color: WHITE });
+  const wholesaleX = x + fonts.bold.widthOfTextAtSize(brand, size) + 7;
+  page.drawText("WHOLESALE", { x: wholesaleX, y: y + 1, size: size * .43, font: fonts.bold, color: GOLD });
 }
 
 function labelValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: string, value: string, right = false): void {
