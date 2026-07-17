@@ -1,14 +1,12 @@
-import { getVerifiedStoreIdentity } from "@/lib/account/auth";
-import { effectivePricingForIdentity } from "@/lib/catalog/pricing";
+import { getVerifiedStoreAccount } from "@/lib/account/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  const identity = await getVerifiedStoreIdentity(request);
-  if (!identity || identity.status !== "active") {
+  const verified = await getVerifiedStoreAccount(request);
+  if (!verified || verified.identity.status !== "active") {
     return Response.json({ ok: true, authenticated: false, overrides: [] }, { headers: { "Cache-Control": "private, no-store" } });
   }
-  const pricing = await effectivePricingForIdentity(identity);
-  return Response.json({ ok: true, authenticated: true, ...pricing }, { headers: { "Cache-Control": "private, no-store" } });
+  return Response.json({ ok: true, authenticated: true, overrides: verified.account.priceOverrides }, { headers: { "Cache-Control": "private, no-store" } });
 }

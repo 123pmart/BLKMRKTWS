@@ -2,9 +2,14 @@ import "server-only";
 
 import { getAccountByUsername } from "@/lib/account/account-store";
 import { getValidSession, readSessionToken } from "@/lib/account/session";
-import type { StoreIdentity } from "@/types";
+import type { StoreAccount, StoreIdentity } from "@/types";
 
-export async function getVerifiedStoreIdentity(request?: Request): Promise<StoreIdentity | null> {
+export interface VerifiedStoreAccount {
+  account: StoreAccount;
+  identity: StoreIdentity;
+}
+
+export async function getVerifiedStoreAccount(request?: Request): Promise<VerifiedStoreAccount | null> {
   const token = await readSessionToken(request);
   if (!token) return null;
   const session = await getValidSession(token);
@@ -12,10 +17,17 @@ export async function getVerifiedStoreIdentity(request?: Request): Promise<Store
   const account = await getAccountByUsername(session.username);
   if (!account || account.id !== session.accountId || account.status === "disabled") return null;
   return {
-    accountId: account.id,
-    storeId: account.storeId,
-    email: account.email,
-    username: account.username,
-    status: account.status,
+    account,
+    identity: {
+      accountId: account.id,
+      storeId: account.storeId,
+      email: account.email,
+      username: account.username,
+      status: account.status,
+    },
   };
+}
+
+export async function getVerifiedStoreIdentity(request?: Request): Promise<StoreIdentity | null> {
+  return (await getVerifiedStoreAccount(request))?.identity ?? null;
 }

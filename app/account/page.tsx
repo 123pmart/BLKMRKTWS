@@ -1,23 +1,23 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
+import { AccountPageHeader } from "@/components/account/account-page-header";
 import { LogoutButton } from "@/components/account/logout-button";
+import { RecentOrders, RecentOrdersFallback } from "@/components/account/recent-orders";
+import { PortalHomeLink } from "@/components/navigation/portal-home-link";
 import { buttonVariants } from "@/components/ui/button";
-import { getAccountById } from "@/lib/account/account-store";
-import { getVerifiedStoreIdentity } from "@/lib/account/auth";
-import { getOrdersForVerifiedStore } from "@/lib/orders/store-order-history";
+import { getVerifiedStoreAccount } from "@/lib/account/auth";
 import { cn } from "@/lib/utils";
 
 export default async function AccountPage() {
-  const identity = await getVerifiedStoreIdentity();
-  if (!identity) redirect("/sign-in?next=/account");
-  const account = await getAccountById(identity.accountId);
-  if (!account) redirect("/sign-in?next=/account");
-  const orders = identity.status === "active" ? await getOrdersForVerifiedStore(identity) : [];
+  const verified = await getVerifiedStoreAccount();
+  if (!verified) redirect("/sign-in?next=/account");
+  const { account, identity } = verified;
   const activeOverrides = account.priceOverrides.length;
 
   return (
     <main className="account-shell">
+      <AccountPageHeader />
       <div className="mx-auto w-full max-w-4xl">
         <header className="account-glass account-dashboard-head">
           <div>
@@ -38,30 +38,18 @@ export default async function AccountPage() {
         <div className="account-dashboard-grid">
           <section className="account-glass p-6">
             <p className="account-kicker">Recent orders</p>
-            {orders.length ? (
-              <div className="account-order-list">
-                {orders.slice(0, 4).map((order) => (
-                  <Link key={order.id} href={`/account/orders/${encodeURIComponent(order.id)}`}>
-                    <span><strong>{order.id}</strong><small>{new Date(order.date).toLocaleDateString()}</small></span>
-                    <span>{formatMoney(order.totals.grandTotal ?? order.totals.wholesale)}</span>
-                  </Link>
-                ))}
-              </div>
-            ) : <p className="account-empty">{account.status === "active" ? "No linked orders yet." : "Available after approval."}</p>}
-            {account.status === "active" ? <Link className={cn(buttonVariants({ variant: "secondary" }), "mt-5")} href="/account/orders">View all orders</Link> : null}
+            <Suspense fallback={<RecentOrdersFallback />}>
+              <RecentOrders identity={identity} />
+            </Suspense>
           </section>
           <section className="account-glass p-6">
             <p className="account-kicker">Account pricing</p>
             <strong className="mt-3 block text-2xl">{activeOverrides ? `${activeOverrides} active override${activeOverrides === 1 ? "" : "s"}` : "Standard wholesale"}</strong>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">Approved prices are applied automatically in the catalog, cart, and order verification.</p>
-            <Link className={cn(buttonVariants(), "mt-5")} href="/products">Shop catalog</Link>
+            <PortalHomeLink className={cn(buttonVariants(), "mt-5")}>Shop catalog</PortalHomeLink>
           </section>
         </div>
       </div>
     </main>
   );
-}
-
-function formatMoney(value: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(value || 0));
 }

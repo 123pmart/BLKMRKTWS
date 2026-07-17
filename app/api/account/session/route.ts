@@ -1,18 +1,14 @@
-import { getAccountById } from "@/lib/account/account-store";
-import { getVerifiedStoreIdentity } from "@/lib/account/auth";
+import { getVerifiedStoreAccount } from "@/lib/account/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  const identity = await getVerifiedStoreIdentity(request);
-  if (!identity) {
+  const verified = await getVerifiedStoreAccount(request);
+  if (!verified) {
     return Response.json({ ok: true, authenticated: false }, { headers: { "Cache-Control": "private, no-store" } });
   }
-  const account = await getAccountById(identity.accountId);
-  if (!account) {
-    return Response.json({ ok: true, authenticated: false }, { headers: { "Cache-Control": "private, no-store" } });
-  }
+  const { account } = verified;
   return Response.json({
     ok: true,
     authenticated: true,

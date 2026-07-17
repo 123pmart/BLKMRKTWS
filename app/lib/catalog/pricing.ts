@@ -3,7 +3,7 @@ import "server-only";
 import { getAccountById } from "@/lib/account/account-store";
 import { resolveEffectivePrice } from "@/lib/catalog/pricing-core";
 import { loadServerCatalog } from "@/lib/catalog/server-catalog";
-import type { StoreIdentity, StorePriceOverride } from "@/types";
+import type { StoreAccount, StoreIdentity, StorePriceOverride } from "@/types";
 
 export interface RepricedOrderPayload {
   storeId?: string;
@@ -26,9 +26,9 @@ export class InvalidOrderPricingError extends Error {
   }
 }
 
-export async function repriceOrderPayload(payload: Record<string, unknown>, identity: StoreIdentity | null): Promise<RepricedOrderPayload> {
+export async function repriceOrderPayload(payload: Record<string, unknown>, identity: StoreIdentity | null, verifiedAccount?: StoreAccount | null): Promise<RepricedOrderPayload> {
   const catalog = await loadServerCatalog();
-  const account = identity?.status === "active" ? await getAccountById(identity.accountId) : null;
+  const account = identity?.status === "active" ? verifiedAccount || await getAccountById(identity.accountId) : null;
   const overrides = account?.priceOverrides || [];
   const requested = Array.isArray(payload.lines) ? payload.lines : [];
   if (!requested.length) throw new InvalidOrderPricingError("Order must include at least one item.");

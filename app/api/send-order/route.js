@@ -1,5 +1,5 @@
 import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
-import { getVerifiedStoreIdentity } from "../../lib/account/auth.ts";
+import { getVerifiedStoreAccount } from "../../lib/account/auth.ts";
 import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
 
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
@@ -11,8 +11,8 @@ export async function POST(request) {
   const payload = await request.json().catch(() => ({}));
   let verifiedPayload;
   try {
-    const identity = await getVerifiedStoreIdentity(request);
-    verifiedPayload = await repriceOrderPayload(payload, identity);
+    const storeAccount = await getVerifiedStoreAccount(request);
+    verifiedPayload = await repriceOrderPayload(payload, storeAccount?.identity || null, storeAccount?.account);
   } catch (error) {
     if (error instanceof InvalidOrderPricingError) {
       return Response.json({ ok: false, message: error.message }, { status: 400, headers: { "Cache-Control": "no-store" } });
