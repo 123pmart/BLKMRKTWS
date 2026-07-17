@@ -1,10 +1,4 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
-
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
-import sharp from "sharp";
-
-import { isTrustedCatalogImageSource, trustedCatalogImageUrl } from "@/lib/catalog/image-core";
+import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import type { Order, OrderLine } from "@/types";
 
 const PAGE_WIDTH = 612;
@@ -15,13 +9,11 @@ const BLACK = rgb(0.025, 0.025, 0.03);
 const DARK = rgb(0.12, 0.12, 0.13);
 const MID = rgb(0.42, 0.42, 0.45);
 const LINE = rgb(0.86, 0.86, 0.85);
-const LIGHT = rgb(0.96, 0.96, 0.95);
 const WHITE = rgb(1, 1, 1);
 
 interface Fonts { regular: PDFFont; bold: PDFFont }
-interface PdfOptions { assetOrigin?: string }
 
-export async function generateOrderConfirmationPdf(order: Order, options: PdfOptions = {}): Promise<Uint8Array> {
+export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8Array> {
   const pdf = await PDFDocument.create();
   pdf.setTitle(`BLACKMARKET Wholesale Order ${order.id}`);
   pdf.setAuthor("BlackMarketLabs");
@@ -30,7 +22,6 @@ export async function generateOrderConfirmationPdf(order: Order, options: PdfOpt
     regular: await pdf.embedFont(StandardFonts.Helvetica),
     bold: await pdf.embedFont(StandardFonts.HelveticaBold),
   };
-  const thumbnails = new Map<string, PDFImage | null>();
   const pages: PDFPage[] = [];
 
   let page = addPage(pdf);
@@ -42,19 +33,18 @@ export async function generateOrderConfirmationPdf(order: Order, options: PdfOpt
   for (const line of order.lines) {
     const titleLines = wrap(line.product || "Product", fonts.bold, 9.5, 225, 2);
     const flavorLines = wrap(line.flavor || "", fonts.regular, 8, 225, 1);
-    const rowHeight = Math.max(58, 24 + (titleLines.length + flavorLines.length) * 10);
+    const rowHeight = Math.max(50, 20 + (titleLines.length + flavorLines.length) * 10);
     if (y - rowHeight < 132) {
       page = addPage(pdf);
       pages.push(page);
       y = drawContinuationHeader(page, order, fonts);
       y = drawProductHeading(page, fonts, y - 14);
     }
-    const image = await loadThumbnail(pdf, line.image, thumbnails, options);
-    drawProductRow(page, line, image, fonts, y, rowHeight, titleLines, flavorLines);
+    drawProductRow(page, line, fonts, y, rowHeight, titleLines, flavorLines);
     y -= rowHeight;
   }
 
-  if (y < 178) {
+  if (y < minimumTotalsStart(order)) {
     page = addPage(pdf);
     pages.push(page);
     y = drawContinuationHeader(page, order, fonts);
@@ -69,26 +59,19 @@ function addPage(pdf: PDFDocument): PDFPage {
 }
 
 function drawFirstPageHeader(page: PDFPage, order: Order, fonts: Fonts): number {
-  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 84, width: PAGE_WIDTH, height: 84, color: BLACK });
-  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 48, 21, WHITE);
-  page.drawText("WHOLESALE ORDER", {
-    x: (PAGE_WIDTH - fonts.bold.widthOfTextAtSize("WHOLESALE ORDER", 7.5)) / 2,
-    y: PAGE_HEIGHT - 68,
-    size: 7.5,
-    font: fonts.bold,
-    color: MID,
-  });
+  page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 74, width: PAGE_WIDTH, height: 74, color: BLACK });
+  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 49, 21, WHITE);
 
   const labels = ["ORDER NUMBER", "ORDER DATE", "STATUS"];
   const values = [order.id, dateLabel(order.date), String(order.status || "Received").toUpperCase()];
   const columnWidth = (PAGE_WIDTH - MARGIN * 2) / 3;
   labels.forEach((label, index) => {
     const center = MARGIN + columnWidth * index + columnWidth / 2;
-    centeredText(page, fonts, label, center, PAGE_HEIGHT - 112, 6.5, MID, true);
-    centeredText(page, fonts, safeText(values[index]), center, PAGE_HEIGHT - 127, 8.7, DARK, true);
+    centeredText(page, fonts, label, center, PAGE_HEIGHT - 102, 6.5, MID, true);
+    centeredText(page, fonts, safeText(values[index]), center, PAGE_HEIGHT - 117, 8.7, DARK, true);
   });
-  page.drawLine({ start: { x: MARGIN, y: PAGE_HEIGHT - 143 }, end: { x: PAGE_WIDTH - MARGIN, y: PAGE_HEIGHT - 143 }, thickness: .7, color: LINE });
-  return PAGE_HEIGHT - 164;
+  page.drawLine({ start: { x: MARGIN, y: PAGE_HEIGHT - 133 }, end: { x: PAGE_WIDTH - MARGIN, y: PAGE_HEIGHT - 133 }, thickness: .7, color: LINE });
+  return PAGE_HEIGHT - 154;
 }
 
 function drawContinuationHeader(page: PDFPage, order: Order, fonts: Fonts): number {
@@ -120,33 +103,25 @@ function detailValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: s
 function drawProductHeading(page: PDFPage, fonts: Fonts, y: number): number {
   page.drawText("PRODUCTS", { x: MARGIN, y, size: 7.5, font: fonts.bold, color: GOLD });
   page.drawRectangle({ x: MARGIN, y: y - 31, width: PAGE_WIDTH - MARGIN * 2, height: 23, color: BLACK });
-  page.drawText("ITEM", { x: MARGIN + 10, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
-  page.drawText("PRODUCT", { x: MARGIN + 67, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("ITEM", { x: MARGIN + 12, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("PRODUCT", { x: MARGIN + 92, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
   rightText(page, fonts, "QTY", 432, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "UNIT", 495, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "TOTAL", PAGE_WIDTH - MARGIN - 8, y - 23, 6.8, WHITE, true);
   return y - 31;
 }
 
-function drawProductRow(page: PDFPage, line: OrderLine, image: PDFImage | null, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
+function drawProductRow(page: PDFPage, line: OrderLine, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
   page.drawRectangle({ x: MARGIN, y: y - height, width: PAGE_WIDTH - MARGIN * 2, height, color: WHITE, borderColor: LINE, borderWidth: .45 });
-  if (image) page.drawImage(image, { x: MARGIN + 8, y: y - height + 6, width: 46, height: 46 });
-  else drawImageFallback(page, fonts, MARGIN + 8, y - height + 6, 46);
+  page.drawText(safeText(line.item || "-"), { x: MARGIN + 12, y: y - height / 2 - 3, size: 8, font: fonts.bold, color: MID });
 
   let textY = y - 16;
-  titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 67, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
-  flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 67, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
-  page.drawText(`SKU ${safeText(line.item || "-")}`, { x: MARGIN + 67, y: y - height + 9, size: 6.8, font: fonts.regular, color: MID });
+  titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 92, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
+  flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 92, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
   const baseline = y - height / 2 - 3;
   rightText(page, fonts, String(line.qty), 432, baseline, 8.7, DARK);
   rightText(page, fonts, money(unitPrice(line)), 495, baseline, 8.7, DARK);
   rightText(page, fonts, money(line.lineWholesale), PAGE_WIDTH - MARGIN - 8, baseline, 9, BLACK, true);
-}
-
-function drawImageFallback(page: PDFPage, fonts: Fonts, x: number, y: number, size: number): void {
-  page.drawRectangle({ x, y, width: size, height: size, color: LIGHT });
-  centeredText(page, fonts, "BLACKMARKET", x + size / 2, y + 25, 4.5, DARK, true);
-  centeredText(page, fonts, "WHOLESALE", x + size / 2, y + 17, 3.2, rgb(.56, .49, 0), true);
 }
 
 function drawTotals(page: PDFPage, order: Order, fonts: Fonts, y: number): void {
@@ -154,9 +129,11 @@ function drawTotals(page: PDFPage, order: Order, fonts: Fonts, y: number): void 
   const width = 226;
   const x = PAGE_WIDTH - MARGIN - width;
   const rows: Array<[string, number, boolean]> = [
-    ["Standard subtotal", totals.subtotal ?? totals.wholesale, false],
-    ...(totals.discount ? [["Account savings", -totals.discount, false] as [string, number, boolean]] : []),
-    ["Final subtotal", totals.wholesale, false],
+    ...(totals.discount ? [
+      ["Standard subtotal", totals.subtotal ?? totals.wholesale, false] as [string, number, boolean],
+      ["Account savings", -totals.discount, false] as [string, number, boolean],
+    ] : []),
+    [totals.discount ? "Final subtotal" : "Subtotal", totals.wholesale, false],
     ...(totals.shipping ? [["Shipping", totals.shipping, false] as [string, number, boolean]] : []),
     ...(totals.tax ? [["Tax", totals.tax, false] as [string, number, boolean]] : []),
     ["TOTAL", totals.grandTotal ?? totals.wholesale, true],
@@ -172,60 +149,18 @@ function drawTotals(page: PDFPage, order: Order, fonts: Fonts, y: number): void 
   });
 }
 
+function minimumTotalsStart(order: Order): number {
+  const optionalRows = Number(Boolean(order.totals.discount)) * 2
+    + Number(Boolean(order.totals.shipping))
+    + Number(Boolean(order.totals.tax));
+  const nonTotalRows = 1 + optionalRows;
+  return 105 + nonTotalRows * 20;
+}
+
 function drawFooter(page: PDFPage, order: Order, fonts: Fonts, number: number, total: number): void {
   page.drawLine({ start: { x: MARGIN, y: 39 }, end: { x: PAGE_WIDTH - MARGIN, y: 39 }, thickness: .5, color: LINE });
   page.drawText("BLACKMARKETLABS.COM", { x: MARGIN, y: 25, size: 6.5, font: fonts.bold, color: MID });
   rightText(page, fonts, `${order.id}  PAGE ${number} OF ${total}`, PAGE_WIDTH - MARGIN, 25, 6.5, MID);
-}
-
-async function loadThumbnail(pdf: PDFDocument, source: string | undefined, cache: Map<string, PDFImage | null>, options: PdfOptions): Promise<PDFImage | null> {
-  if (!source || !isTrustedCatalogImageSource(source)) return null;
-  if (cache.has(source)) return cache.get(source) ?? null;
-  try {
-    let original: Buffer;
-    if (source.startsWith("/")) {
-      try {
-        original = await readLocalPublicImage(source);
-      } catch {
-        const deployedUrl = trustedCatalogImageUrl(source, options.assetOrigin);
-        if (!deployedUrl) throw new Error("Static image is unavailable");
-        original = await fetchImage(deployedUrl);
-      }
-    } else {
-      const remoteUrl = trustedCatalogImageUrl(source, options.assetOrigin);
-      if (!remoteUrl) throw new Error("Image source is not trusted");
-      original = await fetchImage(remoteUrl);
-    }
-    if (original.byteLength > 8 * 1024 * 1024) throw new Error("Image is too large");
-    const thumbnail = await sharp(original)
-      .resize(104, 104, { fit: "contain", background: "#f5f5f3" })
-      .flatten({ background: "#f5f5f3" })
-      .jpeg({ quality: 70, mozjpeg: true })
-      .toBuffer();
-    const embedded = await pdf.embedJpg(thumbnail);
-    cache.set(source, embedded);
-    return embedded;
-  } catch {
-    cache.set(source, null);
-    return null;
-  }
-}
-
-async function readLocalPublicImage(source: string): Promise<Buffer> {
-  const pathname = decodeURIComponent(new URL(source, "http://local").pathname);
-  const publicRoot = path.resolve(process.cwd(), "public");
-  const local = path.resolve(publicRoot, pathname.replace(/^\/+/, ""));
-  if (!local.startsWith(`${publicRoot}${path.sep}`)) throw new Error("Invalid image path");
-  return readFile(local);
-}
-
-async function fetchImage(url: string): Promise<Buffer> {
-  const response = await fetch(url, { signal: AbortSignal.timeout(5000), cache: "force-cache" });
-  if (!response.ok) throw new Error("Image unavailable");
-  if (!String(response.headers.get("content-type") || "").toLowerCase().startsWith("image/")) throw new Error("Unexpected media type");
-  const declaredSize = Number(response.headers.get("content-length") || 0);
-  if (declaredSize > 8 * 1024 * 1024) throw new Error("Image is too large");
-  return Buffer.from(await response.arrayBuffer());
 }
 
 function drawCenteredWordmark(page: PDFPage, fonts: Fonts, y: number, size: number, brandColor: ReturnType<typeof rgb>): void {

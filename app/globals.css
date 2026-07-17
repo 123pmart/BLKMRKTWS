@@ -36,7 +36,7 @@
     position: fixed;
     z-index: 1400;
     right: 50%;
-    bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: calc(12px + env(safe-area-inset-bottom));
     display: grid;
     grid-template-columns: repeat(3, 48px);
     gap: 1px;

@@ -4044,7 +4044,7 @@ body.admin-news-editing .admin-news-side {
   .portal-bottom-nav {
     position: fixed;
     right: 50%;
-    bottom: calc(8px + env(safe-area-inset-bottom));
+    bottom: calc(12px + env(safe-area-inset-bottom));
     z-index: 1400;
     display: grid;
     grid-template-columns: repeat(3, 48px);
@@ -4169,7 +4169,11 @@ body.admin-news-editing .admin-news-side {
 
 @media (max-width: 720px) {
   #productsView .search {
-    margin-block: 0 14px;
+    margin-block: 0 18px;
+  }
+
+  #productsView .category-tile.active .category-tile-media {
+    transform: none;
   }
 
   #productsView .chip-row {
