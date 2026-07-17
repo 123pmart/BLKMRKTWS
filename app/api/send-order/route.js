@@ -1,4 +1,6 @@
 import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
+import { getVerifiedStoreIdentity } from "../../lib/account/auth.ts";
+import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
 
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
 const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "pmart@blackmarketlabs.com";
@@ -7,7 +9,18 @@ export const runtime = "nodejs";
 
 export async function POST(request) {
   const payload = await request.json().catch(() => ({}));
-  const order = normalizeOrderPayload(payload);
+  let verifiedPayload;
+  try {
+    const identity = await getVerifiedStoreIdentity(request);
+    verifiedPayload = await repriceOrderPayload(payload, identity);
+  } catch (error) {
+    if (error instanceof InvalidOrderPricingError) {
+      return Response.json({ ok: false, message: error.message }, { status: 400, headers: { "Cache-Control": "no-store" } });
+    }
+    console.error("Server-side order pricing failed:", error);
+    return Response.json({ ok: false, message: "Order pricing is temporarily unavailable." }, { status: 503, headers: { "Cache-Control": "no-store" } });
+  }
+  const order = normalizeOrderPayload({ ...verifiedPayload, id: payload.id, date: payload.date });
   const validationError = validateOrder(order);
   if (validationError) {
     return Response.json({ ok: false, message: validationError }, { status: 400 });

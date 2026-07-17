@@ -9,6 +9,10 @@ export async function GET() {
     return Response.json({ ok: false, code: "AUTH_REQUIRED", message: "Verified store sign-in is required." }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
 
+  if (identity.status !== "active") {
+    return Response.json({ ok: false, code: "ACCOUNT_PENDING", message: "Order history is available after account approval." }, { status: 403, headers: { "Cache-Control": "no-store" } });
+  }
+
   try {
     const orders = await getOrdersForVerifiedStore(identity);
     return Response.json({ ok: true, orders }, { headers: { "Cache-Control": "private, no-store" } });

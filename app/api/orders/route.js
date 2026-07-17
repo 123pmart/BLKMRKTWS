@@ -1,9 +1,10 @@
 import { clearOrders, deleteOrder, orderStorageMode, readOrders } from "./store.js";
+import { isAdminRequest } from "../../lib/admin/auth.ts";
 
 export const runtime = "nodejs";
 
 export async function GET(request) {
-  if (!isAdmin(request)) {
+  if (!(await isAdminRequest(request))) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
@@ -16,7 +17,7 @@ export async function GET(request) {
 }
 
 export async function DELETE(request) {
-  if (!isAdmin(request)) {
+  if (!(await isAdminRequest(request))) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
@@ -28,9 +29,4 @@ export async function DELETE(request) {
 
   await clearOrders();
   return Response.json({ ok: true });
-}
-
-function isAdmin(request) {
-  const password = process.env.ADMIN_PASS || "123pmart";
-  return request.headers.get("x-admin-pass") === password;
 }

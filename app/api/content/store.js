@@ -201,8 +201,8 @@ function isBlobNotFound(error) {
 }
 
 function candidatePaths() {
+  if (process.env.CONTENT_STORE_FILE) return [process.env.CONTENT_STORE_FILE];
   return unique([
-    process.env.CONTENT_STORE_FILE,
     path.join(process.cwd(), ".blackmarket", "content.json"),
     path.join(os.tmpdir(), "blackmarket-wholesale-content.json"),
   ]);

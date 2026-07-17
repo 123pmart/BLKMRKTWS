@@ -1,0 +1,37 @@
+import { normalizeOrderPayload, readOrders } from "@/api/orders/store.js";
+import { getVerifiedStoreIdentity } from "@/lib/account/auth";
+import { isAdminRequest } from "@/lib/admin/auth";
+import { repriceOrderPayload } from "@/lib/catalog/pricing";
+import { generateOrderConfirmationPdf } from "@/lib/orders/pdf";
+import type { Order } from "@/types";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function POST(request: Request) {
+  const payload = await request.json().catch(() => ({})) as Record<string, unknown>;
+  try {
+    let order: Order;
+    if (await isAdminRequest(request)) {
+      const saved = (await readOrders() as Order[]).find((entry) => entry.id === String(payload.id || ""));
+      order = saved || normalizeOrderPayload(await repriceOrderPayload(payload, null)) as Order;
+    } else {
+      const identity = await getVerifiedStoreIdentity(request);
+      order = normalizeOrderPayload({ ...(await repriceOrderPayload(payload, identity)), id: payload.id, date: payload.date }) as Order;
+    }
+    const bytes = await generateOrderConfirmationPdf(order);
+    return pdfResponse(bytes, order);
+  } catch (error) {
+    console.error("Order PDF generation failed:", error);
+    return Response.json({ ok: false, message: "The order PDF could not be generated." }, { status: 500, headers: { "Cache-Control": "no-store" } });
+  }
+}
+
+function pdfResponse(bytes: Uint8Array, order: Order): Response {
+  const name = `blackmarket-order-${order.id.replace(/[^a-z0-9_-]+/gi, "-")}.pdf`;
+  return new Response(Buffer.from(bytes), { headers: {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": `attachment; filename="${name}"`,
+    "Cache-Control": "private, no-store",
+  } });
+}

@@ -1,9 +1,11 @@
+import { isAdminRequest } from "../../lib/admin/auth.ts";
+
 export const runtime = "nodejs";
 
 const MAX_FILE_SIZE = 8 * 1024 * 1024;
 
 export async function POST(request) {
-  if (!isAdmin(request)) {
+  if (!(await isAdminRequest(request))) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
@@ -45,11 +47,6 @@ export async function POST(request) {
     url: blob.url,
     pathname: blob.pathname,
   });
-}
-
-function isAdmin(request) {
-  const password = process.env.ADMIN_PASS || "123pmart";
-  return request.headers.get("x-admin-pass") === password;
 }
 
 function safePart(value) {

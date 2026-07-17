@@ -1,14 +1,16 @@
 import { contentStorageMode, publicContent, readContent, writeContent } from "./store.js";
+import { isAdminRequest } from "../../lib/admin/auth.ts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request) {
   const content = await readContent();
+  const admin = await isAdminRequest(request);
   return Response.json(
     {
       ok: true,
-      content: isAdmin(request) ? content : publicContent(content),
+      content: admin ? content : publicContent(content),
       storage: contentStorageMode(),
     },
     { headers: { "Cache-Control": "no-store" } },
@@ -16,7 +18,7 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
-  if (!isAdmin(request)) {
+  if (!(await isAdminRequest(request))) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
@@ -38,9 +40,4 @@ export async function PUT(request) {
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
   }
-}
-
-function isAdmin(request) {
-  const password = process.env.ADMIN_PASS || "123pmart";
-  return request.headers.get("x-admin-pass") === password;
 }

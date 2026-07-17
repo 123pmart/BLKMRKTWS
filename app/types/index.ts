@@ -62,6 +62,7 @@ export interface CartItem {
 }
 
 export interface Store {
+  id?: string;
   storeName: string;
   contactName: string;
   phone: string;
@@ -71,9 +72,14 @@ export interface Store {
   state: string;
   zip: string;
   notes?: string;
+  status?: "active" | "disabled";
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface OrderLine {
+  variantId?: string;
+  productId?: string;
   product: string;
   flavor: string;
   item: string;
@@ -83,15 +89,28 @@ export interface OrderLine {
   qty: number;
   lineWholesale: number;
   lineMap: number;
+  image?: string;
+  standardWholesale?: number;
+  customPriceApplied?: boolean;
 }
 
 export interface Order {
   id: string;
+  storeId?: string;
   date: string;
   status: string;
   store: Store;
   lines: OrderLine[];
-  totals: { units: number; wholesale: number; map: number };
+  totals: {
+    units: number;
+    wholesale: number;
+    map: number;
+    subtotal?: number;
+    discount?: number;
+    shipping?: number;
+    tax?: number;
+    grandTotal?: number;
+  };
   delivery?: Record<string, unknown>;
 }
 
@@ -116,6 +135,43 @@ export interface StoreIdentity {
   accountId: string;
   storeId: string;
   email: string;
+  username: string;
+  status: StoreAccountStatus;
+}
+
+export type StoreAccountStatus = "pending" | "active" | "disabled";
+
+export interface StorePriceOverride {
+  id: string;
+  storeId: string;
+  productId?: string;
+  variantId?: string;
+  wholesalePrice: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StoreAccount {
+  id: string;
+  storeId: string;
+  username: string;
+  email: string;
+  passwordHash: string;
+  status: StoreAccountStatus;
+  store: Store;
+  priceOverrides: StorePriceOverride[];
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string;
+}
+
+export interface AccountSession {
+  id: string;
+  tokenHash: string;
+  accountId: string;
+  username: string;
+  createdAt: string;
+  expiresAt: string;
 }
 
 export type AccountState =

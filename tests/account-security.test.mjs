@@ -1,0 +1,40 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import { hashPassword, verifyPassword } from "../app/lib/account/password.ts";
+import { isSessionExpired } from "../app/lib/account/session-policy.ts";
+import { validateRegistration } from "../app/lib/account/validation.ts";
+import { canAccessStoreOrder } from "../app/lib/orders/authorization.ts";
+
+test("passwords are salted, hashed, and verified without plaintext storage", async () => {
+  const first = await hashPassword("StrongPassword42");
+  const second = await hashPassword("StrongPassword42");
+  assert.notEqual(first, second);
+  assert.equal(first.includes("StrongPassword42"), false);
+  assert.equal(await verifyPassword("StrongPassword42", first), true);
+  assert.equal(await verifyPassword("wrong-password", first), false);
+});
+
+test("session expiration rejects expired and malformed timestamps", () => {
+  assert.equal(isSessionExpired({ expiresAt: "2026-01-01T00:00:00.000Z" }, Date.parse("2026-01-02T00:00:00.000Z")), true);
+  assert.equal(isSessionExpired({ expiresAt: "2026-01-03T00:00:00.000Z" }, Date.parse("2026-01-02T00:00:00.000Z")), false);
+  assert.equal(isSessionExpired({ expiresAt: "invalid" }), true);
+});
+
+test("registration validation normalizes usernames and rejects weak input", () => {
+  const valid = validateRegistration({ storeName: "Test Store", contactName: "Buyer Name", email: "BUYER@EXAMPLE.COM", username: " Buyer.Name ", password: "SecurePass123", confirmPassword: "SecurePass123" });
+  assert.equal(valid.ok, true);
+  assert.equal(valid.value?.username, "buyer.name");
+  assert.equal(valid.value?.email, "buyer@example.com");
+  const invalid = validateRegistration({ storeName: "", contactName: "", email: "bad", username: "x", password: "short", confirmPassword: "different" });
+  assert.equal(invalid.ok, false);
+  assert.ok(Object.keys(invalid.errors).length >= 5);
+});
+
+test("order authorization denies signed-out, pending, unassigned, and cross-store access", () => {
+  const identity = { accountId: "a", storeId: "store-a", email: "a@example.com", username: "a", status: "active" };
+  assert.equal(canAccessStoreOrder(identity, { storeId: "store-a" }), true);
+  assert.equal(canAccessStoreOrder(identity, { storeId: "store-b" }), false);
+  assert.equal(canAccessStoreOrder(identity, {}), false);
+  assert.equal(canAccessStoreOrder({ ...identity, status: "pending" }, { storeId: "store-a" }), false);
+});

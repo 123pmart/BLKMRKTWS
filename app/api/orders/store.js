@@ -69,6 +69,18 @@ export async function deleteOrder(id) {
   return true;
 }
 
+export async function linkOrderToStore(id, storeId) {
+  const targetId = cleanString(id);
+  const targetStoreId = cleanString(storeId);
+  if (!targetId || !targetStoreId) return null;
+  const orders = await readOrders();
+  const current = orders.find((order) => order.id === targetId);
+  if (!current) return null;
+  const nextOrder = { ...current, storeId: targetStoreId };
+  await writeOrders([nextOrder, ...orders.filter((order) => order.id !== targetId)].slice(0, MAX_ORDERS));
+  return nextOrder;
+}
+
 export function normalizeOrderPayload(payload = {}) {
   const now = new Date().toISOString();
   const lines = Array.isArray(payload.lines) ? payload.lines.map(normalizeLine).filter(Boolean) : [];
@@ -76,6 +88,7 @@ export function normalizeOrderPayload(payload = {}) {
 
   return {
     id: cleanString(payload.id) || `bmw-${Date.now().toString(36)}-${randomUUID().slice(0, 8)}`,
+    ...(cleanString(payload.storeId) ? { storeId: cleanString(payload.storeId) } : {}),
     date: cleanString(payload.date) || now,
     status: cleanString(payload.status) || "new",
     store: normalizeStore(payload.store || {}),
@@ -183,8 +196,8 @@ function isBlobNotFound(error) {
 }
 
 function candidatePaths() {
+  if (process.env.ORDER_STORE_FILE) return [process.env.ORDER_STORE_FILE];
   return unique([
-    process.env.ORDER_STORE_FILE,
     path.join(process.cwd(), ".blackmarket", "orders.json"),
     path.join(os.tmpdir(), "blackmarket-wholesale-orders.json"),
   ]);
@@ -212,12 +225,17 @@ function normalizeLine(line) {
   const lineWholesale = Number(line.lineWholesale || parseMoney(line.wholesale) * qty || 0);
   const lineMap = Number(line.lineMap || parseMoney(line.map) * qty || 0);
   return {
+    variantId: cleanString(line.variantId),
+    productId: cleanString(line.productId),
     product: cleanString(line.product),
     flavor: cleanString(line.flavor),
     item: cleanString(line.item),
     upc: cleanString(line.upc),
     wholesale: cleanString(line.wholesale),
     map: cleanString(line.map),
+    image: cleanString(line.image, 1200),
+    standardWholesale: Number(line.standardWholesale || parseMoney(line.wholesale) || 0),
+    customPriceApplied: Boolean(line.customPriceApplied),
     qty,
     lineWholesale,
     lineMap,
@@ -239,6 +257,11 @@ function normalizeTotals(totals = {}, lines = []) {
     units: Number(totals.units || calculated.units || 0),
     wholesale: Number(totals.wholesale || calculated.wholesale || 0),
     map: Number(totals.map || calculated.map || 0),
+    subtotal: Number(totals.subtotal || calculated.wholesale || 0),
+    discount: Number(totals.discount || 0),
+    shipping: Number(totals.shipping || 0),
+    tax: Number(totals.tax || 0),
+    grandTotal: Number(totals.grandTotal || totals.wholesale || calculated.wholesale || 0),
   };
 }
 
