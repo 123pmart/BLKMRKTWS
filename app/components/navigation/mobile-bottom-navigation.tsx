@@ -4,7 +4,7 @@ import { ArrowLeft, Home, UserRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { initializePortalHistory, recordPortalNavigation, safePortalBack } from "@/lib/navigation/internal-history";
+import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack, signInBackGoesHome } from "@/lib/navigation/internal-history";
 
 const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
@@ -14,6 +14,9 @@ export function MobileBottomNavigation() {
   const [hiddenByScroll, setHiddenByScroll] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const lastScrollY = useRef(0);
+  const directionAnchorY = useRef(0);
+  const lastDirection = useRef<"up" | "down" | null>(null);
+  const hiddenRef = useRef(false);
   const frame = useRef<number | null>(null);
 
   useEffect(() => {
@@ -21,11 +24,13 @@ export function MobileBottomNavigation() {
   }, [pathname]);
 
   useEffect(() => {
-    lastScrollY.current = window.scrollY;
-    let touchY: number | null = null;
-    const applyDirection = (delta: number) => {
-      if (Math.abs(delta) < 12 || window.scrollY <= 18) return;
-      setHiddenByScroll(delta > 0);
+    const initialY = Math.max(0, window.scrollY);
+    lastScrollY.current = initialY;
+    directionAnchorY.current = initialY;
+    const updateHidden = (next: boolean) => {
+      if (hiddenRef.current === next) return;
+      hiddenRef.current = next;
+      setHiddenByScroll(next);
     };
     const onScroll = () => {
       if (frame.current !== null) return;
@@ -33,32 +38,29 @@ export function MobileBottomNavigation() {
         frame.current = null;
         const currentY = Math.max(0, window.scrollY);
         const delta = currentY - lastScrollY.current;
-        if (currentY <= 18 || document.documentElement.scrollHeight <= window.innerHeight + 8) {
-          setHiddenByScroll(false);
+        const shortPage = document.documentElement.scrollHeight <= window.innerHeight + 8;
+        if (currentY <= 14 || shortPage) {
+          updateHidden(false);
           lastScrollY.current = currentY;
-        } else if (Math.abs(delta) >= 12) {
-          setHiddenByScroll(delta > 0);
-          lastScrollY.current = currentY;
+          directionAnchorY.current = currentY;
+          lastDirection.current = null;
+          return;
         }
+        if (Math.abs(delta) < 2) return;
+        const direction = delta > 0 ? "down" : "up";
+        if (direction !== lastDirection.current) {
+          lastDirection.current = direction;
+          directionAnchorY.current = lastScrollY.current;
+        }
+        lastScrollY.current = currentY;
+        if (Math.abs(currentY - directionAnchorY.current) < 30) return;
+        updateHidden(direction === "down");
+        directionAnchorY.current = currentY;
       });
     };
-    const onWheel = (event: WheelEvent) => applyDirection(event.deltaY);
-    const onTouchStart = (event: TouchEvent) => { touchY = event.touches[0]?.clientY ?? null; };
-    const onTouchMove = (event: TouchEvent) => {
-      const currentY = event.touches[0]?.clientY;
-      if (touchY === null || currentY === undefined) return;
-      applyDirection(touchY - currentY);
-      if (Math.abs(touchY - currentY) >= 12) touchY = currentY;
-    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
       if (frame.current !== null) window.cancelAnimationFrame(frame.current);
     };
   }, []);
@@ -78,7 +80,11 @@ export function MobileBottomNavigation() {
   if (pathname.startsWith("/admin")) return null;
 
   function goBack() {
-    safePortalBack(() => router.replace("/products"));
+    if (signInBackGoesHome(pathname)) {
+      goHome({ replace: true });
+      return;
+    }
+    safePortalBack(() => goHome({ replace: true }));
   }
 
   function navigate(path: string) {
@@ -101,7 +107,7 @@ export function MobileBottomNavigation() {
         className="liquid-mobile-nav__control"
         data-active={pathname === "/" || pathname.startsWith("/products") ? "true" : "false"}
         type="button"
-        onClick={() => navigate("/products")}
+        onClick={() => goHome()}
         aria-label="Home"
         title="Home"
       >
@@ -111,8 +117,9 @@ export function MobileBottomNavigation() {
         className="liquid-mobile-nav__control"
         data-active={pathname.startsWith("/account") || pathname === "/sign-in" ? "true" : "false"}
         type="button"
-        onClick={() => navigate("/account")}
+        onClick={() => { if (pathname !== "/sign-in") navigate("/account"); }}
         aria-label="Account"
+        aria-current={pathname.startsWith("/account") || pathname === "/sign-in" ? "page" : undefined}
         title="Account"
       >
         <UserRound aria-hidden="true" />

@@ -50,7 +50,6 @@ export function AuthPanel() {
       }
       const next = search.get("next");
       router.replace(next?.startsWith("/") ? next : "/account");
-      router.refresh();
     } catch {
       setMessage("The account service is temporarily unavailable.");
     } finally {

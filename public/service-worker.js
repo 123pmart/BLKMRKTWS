@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-17-v4-accounts";
+const CACHE_VERSION = "2026-07-17-v5-ux-refine";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";

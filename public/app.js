@@ -1,9 +1,12 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import {
+  accountDestination,
+  goHome as goPortalHome,
   initializePortalHistory,
+  PORTAL_HOME_CATEGORY,
   recordPortalNavigation,
   safePortalBack as safePortalHistoryBack,
-} from "/lib/portal-history.js?v=20260717-liquid-nav";
+} from "/lib/portal-history.js?v=20260717-navigation-refine";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -240,33 +243,29 @@ const dom = {
 init();
 
 async function init() {
-  const [response, catalogResponse, contentResponse, pricingResponse, adminSessionResponse] = await Promise.all([
+  const catalogPagesRequest = fetch(CATALOG_PAGES_URL).catch(() => null);
+  const adminSessionRequest = fetch("/api/admin/session", { cache: "no-store" }).catch(() => null);
+  const [response, contentResponse, pricingResponse] = await Promise.all([
     fetch(DATA_URL),
-    fetch(CATALOG_PAGES_URL).catch(() => null),
     fetch(CONTENT_API_URL, { cache: "no-store" }).catch(() => null),
     fetch(ACCOUNT_PRICING_URL, { cache: "no-store" }).catch(() => null),
-    fetch("/api/admin/session", { cache: "no-store" }).catch(() => null),
   ]);
   const data = await response.json();
-  const catalogData = catalogResponse?.ok ? await catalogResponse.json() : { pages: [] };
   const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
   const pricingData = pricingResponse?.ok ? await pricingResponse.json().catch(() => null) : null;
   state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
   state.accountAuthenticated = Boolean(pricingData?.authenticated);
-  const adminSession = adminSessionResponse?.ok ? await adminSessionResponse.json().catch(() => null) : null;
-  state.adminAuthed = Boolean(adminSession?.authenticated);
   if (contentData?.content) applyServerContent(contentData.content);
   if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.baseProducts = normalizeProducts(data.products);
   state.products = mergeProducts();
   state.items = buildItems(state.products);
   prepareRouteState();
-  state.catalogPages = catalogData.pages || [];
   preloadProductMedia();
   scheduleNutritionPanelPreload();
   pruneCart();
-  if (state.adminAuthed) await loadServerOrders({ silent: true });
   hydrateStoreForm();
+  syncAccountDestinations();
   if (dom.announcementDate && !dom.announcementDate.value) dom.announcementDate.value = today();
   renderProductEntrypoints();
   renderCategoryNav();
@@ -281,6 +280,20 @@ async function init() {
   setCartStep(state.cartStep);
   setView(state.activeView, { history: false });
   applyPendingRoute();
+  void hydrateDeferredPortalData(catalogPagesRequest, adminSessionRequest);
+}
+
+async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionRequest) {
+  const [catalogResponse, adminSessionResponse] = await Promise.all([catalogPagesRequest, adminSessionRequest]);
+  if (catalogResponse?.ok) {
+    const catalogData = await catalogResponse.json().catch(() => ({ pages: [] }));
+    state.catalogPages = catalogData.pages || [];
+    renderCatalogPages();
+  }
+  const adminSession = adminSessionResponse?.ok ? await adminSessionResponse.json().catch(() => null) : null;
+  state.adminAuthed = Boolean(adminSession?.authenticated);
+  if (state.adminAuthed) await loadServerOrders({ silent: true });
+  renderAdmin();
 }
 
 function bindEvents() {
@@ -288,14 +301,14 @@ function bindEvents() {
   document.querySelector("[data-portal-back]")?.addEventListener("click", safePortalBack);
   document.querySelector("[data-portal-home]")?.addEventListener("click", (event) => {
     event.preventDefault();
-    setView("products");
+    goHome();
   });
-  document.querySelectorAll("[data-portal-route]").forEach((link) => {
+  document.querySelectorAll("[data-portal-route], [data-account-route]").forEach((link) => {
     link.addEventListener("click", () => recordPortalNavigation(link.getAttribute("href") || "/products"));
   });
   installLegacyMobileNavigation();
   dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
-  dom.brandHome.addEventListener("click", () => setView("landing"));
+  dom.brandHome.addEventListener("click", () => goHome());
   dom.headerCartButton.addEventListener("click", (event) => openCartDrawer(event.currentTarget));
   dom.cartBackdrop.addEventListener("click", closeCartDrawer);
   dom.closeCartDrawer.addEventListener("click", closeCartDrawer);
@@ -1142,6 +1155,11 @@ function renderSkuCard(item, index = 99) {
 }
 
 function preloadProductMedia() {
+  if (state.activeView === "products") {
+    const firstProduct = state.items.find((item) => item.section === state.activeFilter) || state.items[0];
+    enqueueMediaPreloads(firstProduct?.bottle ? [firstProduct.bottle] : []);
+    return;
+  }
   const landingItems = LANDING_OPTIONS
     .map((option) => state.items.find(option.match))
     .filter(Boolean);
@@ -1166,7 +1184,7 @@ function scheduleNutritionPanelPreload() {
 
 function preloadFilterMedia(filter) {
   const items = state.items.filter((item) => filter === "all" || item.section === filter);
-  enqueueMediaPreloads(unique(items.slice(0, 12).map((item) => item.bottle)));
+  enqueueMediaPreloads(unique(items.slice(0, 4).map((item) => item.bottle)));
 }
 
 function enqueueMediaPreloads(urls) {
@@ -3514,6 +3532,43 @@ function pathForView(view) {
   }[view] || "/products";
 }
 
+function syncAccountDestinations() {
+  const destination = accountDestination(state.accountAuthenticated);
+  document.querySelectorAll("[data-account-route]").forEach((link) => link.setAttribute("href", destination));
+  const preload = document.createElement("link");
+  preload.rel = "prefetch";
+  preload.href = destination;
+  document.head.append(preload);
+}
+
+function goHome(options = {}) {
+  goPortalHome({
+    replace: Boolean(options.replace),
+    onBeforeNavigate: () => {
+      closeCartDrawer({ history: false });
+      closeProductModal({ history: false });
+      closeNewsModal();
+      state.query = "";
+      state.activeFilter = PORTAL_HOME_CATEGORY;
+      if (dom.search) dom.search.value = "";
+      renderCategoryNav();
+      renderCatalog();
+      setView("products", { history: false });
+      window.scrollTo({ top: 0, behavior: "auto" });
+    },
+    onNavigate: ({ path }) => {
+      const current = `${window.location.pathname}${window.location.search}`;
+      const method = options.replace || current === path ? "replaceState" : "pushState";
+      window.history[method]({
+        ...window.history.state,
+        blackmarketPortal: { view: "products", depth: options.replace ? 0 : Number(window.history.state?.blackmarketPortal?.depth || 0) + 1 },
+      }, "", path);
+      initializePortalHistory(path);
+      return true;
+    },
+  });
+}
+
 function prepareRouteState() {
   const route = routeFromLocation();
   state.activeView = route.view;
@@ -3582,7 +3637,7 @@ function safePortalBack() {
     closeCartDrawer();
     return;
   }
-  safePortalHistoryBack(() => window.location.assign("/products"));
+  safePortalHistoryBack(() => goHome({ replace: true }));
 }
 
 function installLegacyMobileNavigation() {
@@ -3590,8 +3645,9 @@ function installLegacyMobileNavigation() {
   if (!nav) return;
 
   let lastY = Math.max(0, window.scrollY);
-  let touchY = null;
   let frame = 0;
+  let directionAnchorY = lastY;
+  let lastDirection = null;
   const overlayClasses = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
   const syncOverlay = () => {
@@ -3608,34 +3664,27 @@ function installLegacyMobileNavigation() {
       const currentY = Math.max(0, window.scrollY);
       const delta = currentY - lastY;
       const shortPage = document.documentElement.scrollHeight <= window.innerHeight + 8;
-      if (currentY <= 18 || shortPage) {
+      if (currentY <= 14 || shortPage) {
         nav.dataset.scrollHidden = "false";
         lastY = currentY;
-      } else if (Math.abs(delta) >= 12) {
-        nav.dataset.scrollHidden = delta > 0 ? "true" : "false";
-        lastY = currentY;
+        directionAnchorY = currentY;
+        lastDirection = null;
+        return;
       }
+      if (Math.abs(delta) < 2) return;
+      const direction = delta > 0 ? "down" : "up";
+      if (direction !== lastDirection) {
+        lastDirection = direction;
+        directionAnchorY = lastY;
+      }
+      lastY = currentY;
+      if (Math.abs(currentY - directionAnchorY) < 30) return;
+      nav.dataset.scrollHidden = direction === "down" ? "true" : "false";
+      directionAnchorY = currentY;
     });
   };
 
-  const applyDirection = (delta) => {
-    if (Math.abs(delta) < 12 || window.scrollY <= 18) return;
-    nav.dataset.scrollHidden = delta > 0 ? "true" : "false";
-  };
-
-  const onWheel = (event) => applyDirection(event.deltaY);
-  const onTouchStart = (event) => { touchY = event.touches[0]?.clientY ?? null; };
-  const onTouchMove = (event) => {
-    const currentTouchY = event.touches[0]?.clientY;
-    if (touchY === null || currentTouchY === undefined) return;
-    applyDirection(touchY - currentTouchY);
-    if (Math.abs(touchY - currentTouchY) >= 12) touchY = currentTouchY;
-  };
-
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("wheel", onWheel, { passive: true });
-  window.addEventListener("touchstart", onTouchStart, { passive: true });
-  window.addEventListener("touchmove", onTouchMove, { passive: true });
   const observer = new MutationObserver(syncOverlay);
   observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
   syncOverlay();

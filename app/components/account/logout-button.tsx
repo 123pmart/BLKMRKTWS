@@ -1,12 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { goHome } from "@/lib/navigation/internal-history";
 
 export function LogoutButton() {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   return (
     <Button
@@ -16,8 +15,7 @@ export function LogoutButton() {
       onClick={async () => {
         setPending(true);
         await fetch("/api/account/logout", { method: "POST", cache: "no-store" }).catch(() => undefined);
-        router.replace("/products");
-        router.refresh();
+        goHome({ replace: true });
       }}
     >
       {pending ? "Signing out…" : "Log out"}

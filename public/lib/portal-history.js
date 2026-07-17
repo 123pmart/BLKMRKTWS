@@ -1,5 +1,19 @@
 const HISTORY_KEY = "blackmarket-portal-route-history-v2";
 const INDEX_KEY = "blackmarket-portal-route-index-v2";
+export const PORTAL_HOME_PATH = "/products";
+export const PORTAL_HOME_CATEGORY = "thermogenics";
+
+export function portalHomeState() {
+  return { path: PORTAL_HOME_PATH, view: "products", category: PORTAL_HOME_CATEGORY, query: "" };
+}
+
+export function accountDestination(authenticated) {
+  return authenticated ? "/account" : "/sign-in?next=/account";
+}
+
+export function signInBackGoesHome(pathname) {
+  return pathname === "/sign-in" || pathname.startsWith("/sign-in?");
+}
 
 export function normalizePortalPath(value) {
   try {
@@ -65,6 +79,19 @@ export function safePortalBack(fallback) {
     return;
   }
   fallback();
+}
+
+export function goHome({ replace = false, onBeforeNavigate, onNavigate } = {}) {
+  onBeforeNavigate?.(portalHomeState());
+  if (replace) {
+    writePortalHistory({ stack: [PORTAL_HOME_PATH], index: 0 });
+  } else {
+    recordPortalNavigation(PORTAL_HOME_PATH);
+  }
+
+  if (onNavigate?.(portalHomeState()) === true) return;
+  if (replace) window.location.replace(PORTAL_HOME_PATH);
+  else window.location.assign(PORTAL_HOME_PATH);
 }
 
 export function currentPortalPath() {
