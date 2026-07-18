@@ -25,6 +25,7 @@
   --glass-border: rgb(255 255 255 / 14%);
   --glass-highlight: rgb(255 255 255 / 9%);
   --glass-shadow: 0 9px 24px rgb(0 0 0 / 34%);
+  --ease-ios: cubic-bezier(.32, .72, 0, 1);
 }
 
 .liquid-mobile-nav {
@@ -84,7 +85,7 @@
     color: rgb(246 246 244 / 80%);
     background: transparent;
     -webkit-tap-highlight-color: transparent;
-    transition: color 100ms ease, background-color 100ms ease, transform 80ms ease;
+    transition: color 160ms ease, background-color 160ms ease, transform 260ms var(--ease-ios);
   }
 
   .liquid-mobile-nav__control svg {
@@ -162,6 +163,25 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  transition-timing-function: var(--ease-ios);
+}
+
+button:active,
+a:active {
+  transform: scale(.975);
 }
 
 .wholesale-wordmark {

@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-18-v10-persistent-sessions";
+const CACHE_VERSION = "2026-07-18-v11-web-push-motion";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";
@@ -79,32 +79,33 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-// The app can display live notifications while an installed admin session is
-// open. This handler is also ready for provider-delivered Web Push once VAPID
-// subscriptions are configured on the server.
+// Push messages always display a user-visible notification. Customer payloads
+// target News; scoped admin payloads target the order inbox.
 self.addEventListener("push", (event) => {
   event.waitUntil((async () => {
     let payload = {};
     try { payload = event.data ? event.data.json() : {}; } catch { payload = { body: event.data?.text?.() || "" }; }
-    await self.registration.showNotification(payload.title || "New wholesale order", {
-      body: payload.body || "Open the admin inbox to review it.",
+    await self.registration.showNotification(payload.title || "BlackMarket", {
+      body: payload.body || "Open BlackMarket to view the update.",
       icon: "/icon-192.png",
       badge: "/favicon.png",
-      tag: "blackmarket-new-orders",
-      data: { url: "/admin" },
+      tag: payload.tag || "blackmarket-update",
+      renotify: true,
+      data: { url: payload.url === "/admin" ? "/admin" : "/news" },
     });
   })());
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
+  const destination = event.notification.data?.url === "/admin" ? "/admin" : "/news";
   event.waitUntil(clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
     const existing = windows.find((client) => new URL(client.url).origin === self.location.origin);
     if (existing) {
-      existing.navigate("/admin");
+      existing.navigate(destination);
       return existing.focus();
     }
-    return clients.openWindow("/admin");
+    return clients.openWindow(destination);
   }));
 });
 

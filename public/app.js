@@ -123,6 +123,7 @@ const state = {
   priceOverrides: [],
   accountAuthenticated: false,
   accountResolved: false,
+  adminResolved: false,
 };
 
 const mediaPreload = {
@@ -244,6 +245,8 @@ const dom = {
   adminIdentityLabel: document.querySelector("#adminIdentityLabel"),
   adminNotificationBell: document.querySelector("#adminNotificationBell"),
   adminNotificationCount: document.querySelector("#adminNotificationCount"),
+  adminPushNotifications: document.querySelector("#adminPushNotifications"),
+  adminPushStatus: document.querySelector("#adminPushStatus"),
   productModal: document.querySelector("#productModal"),
   modalContent: document.querySelector("#modalContent"),
   closeProductModal: document.querySelector("#closeProductModal"),
@@ -259,6 +262,11 @@ const dom = {
   sendWithoutDownload: document.querySelector("#sendWithoutDownload"),
   cancelOrderSend: document.querySelector("#cancelOrderSend"),
   toast: document.querySelector("#toast"),
+  pushPrompt: document.querySelector("#pushPrompt"),
+  pushPromptTitle: document.querySelector("#pushPromptTitle"),
+  pushPromptMessage: document.querySelector("#pushPromptMessage"),
+  pushEnableButton: document.querySelector("#pushEnableButton"),
+  pushDismissButton: document.querySelector("#pushDismissButton"),
 };
 
 init();
@@ -330,11 +338,13 @@ async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionReques
   const adminSession = adminSessionResponse?.ok ? await adminSessionResponse.json().catch(() => null) : null;
   state.adminAuthed = Boolean(adminSession?.authenticated);
   state.adminIdentity = adminSession?.identity || null;
+  state.adminResolved = true;
   if (state.adminAuthed) {
     await loadServerOrders({ silent: true, initial: true });
     startAdminOrderPolling();
   }
   renderAdmin();
+  void syncPushSubscription({ showPrompt: true });
 }
 
 function bindEvents() {
@@ -473,6 +483,7 @@ function bindEvents() {
         loadServerContent({ silent: true }),
       ]);
       startAdminOrderPolling();
+      void syncPushSubscription({ showPrompt: true });
       showToast("Admin unlocked");
     } else {
       showToast(result.message || "Invalid admin login");
@@ -575,16 +586,23 @@ function bindEvents() {
     state.adminNotifiedThrough = 0;
     stopAdminOrderPolling();
     renderAdmin();
+    void syncPushSubscription({ audience: "customer" });
   });
 
   dom.adminNotificationBell?.addEventListener("click", async () => {
     markAdminOrdersRead();
+    if (isInstalledApp() && "Notification" in window && Notification.permission !== "granted") {
+      await enablePushNotifications();
+    }
     if (state.activeView !== "admin") setView("admin");
     setAdminSection("orders");
-    if (isInstalledApp() && "Notification" in window && Notification.permission === "default") {
-      const permission = await Notification.requestPermission();
-      showToast(permission === "granted" ? "Order notifications enabled" : "Notifications were not enabled");
-    }
+  });
+
+  dom.adminPushNotifications?.addEventListener("click", enablePushNotifications);
+  dom.pushEnableButton?.addEventListener("click", enablePushNotifications);
+  dom.pushDismissButton?.addEventListener("click", () => {
+    localStorage.setItem("blackmarket-push-dismissed", String(Date.now()));
+    hidePushPrompt();
   });
 
   dom.adminRefreshAccounts?.addEventListener("click", () => loadAdminAccounts());
@@ -2410,7 +2428,6 @@ function updateAdminOrderNotifications(orders, options = {}) {
   const unnotified = unread.filter((order) => (Date.parse(order.date) || 0) > state.adminNotifiedThrough);
   if (unnotified.length && options.notify) {
     state.adminNotifiedThrough = Math.max(state.adminNotifiedThrough, ...unnotified.map((order) => Date.parse(order.date) || 0));
-    notifyAdminOfOrders(unnotified);
   }
 }
 
@@ -2558,6 +2575,9 @@ async function persistAdminContent(options = {}) {
         hiddenVariants: hiddenVariantIds(),
         variantOverrides: variantOverrides(),
         customProducts: state.customProducts,
+        ...(options.notificationAnnouncementId
+          ? { notificationAnnouncementId: options.notificationAnnouncementId }
+          : {}),
       }),
     });
     const body = await response.json().catch(() => ({}));
@@ -2868,12 +2888,13 @@ async function publishAnnouncement() {
     return;
   }
 
+  const notificationAnnouncementId = id ? "" : `${Date.now()}`;
   const next = id
     ? state.site.announcements.map((item) =>
       item.id === id ? { ...item, label, title, body, image, date, audience, ctaLabel, ctaUrl } : item,
     )
     : [{
-      id: `${Date.now()}`,
+      id: notificationAnnouncementId,
       label,
       title,
       body,
@@ -2884,19 +2905,22 @@ async function publishAnnouncement() {
       ctaUrl,
     }, ...state.site.announcements];
 
-  const saved = await commitAnnouncements(next);
+  const saved = await commitAnnouncements(next, { notificationAnnouncementId });
   if (!saved) return;
   clearAnnouncementEditor();
   closeNewsEditor();
   showToast(id ? "Update saved" : "Announcement published");
 }
 
-async function commitAnnouncements(nextAnnouncements) {
+async function commitAnnouncements(nextAnnouncements, options = {}) {
   const previousAnnouncements = state.site.announcements;
   state.site = { ...state.site, announcements: nextAnnouncements };
   renderAdminNews();
   renderAdminMetrics();
-  const persisted = await persistAdminContent({ silent: true });
+  const persisted = await persistAdminContent({
+    silent: true,
+    notificationAnnouncementId: options.notificationAnnouncementId || "",
+  });
   if (!persisted) {
     state.site = { ...state.site, announcements: previousAnnouncements };
     renderAdminNews();
@@ -3940,8 +3964,142 @@ function showToast(message) {
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js");
+    navigator.serviceWorker.register("/service-worker.js").then(() => {
+      if (state.adminResolved) void syncPushSubscription({ showPrompt: true });
+    }).catch((error) => console.warn("Service worker registration failed:", error));
   });
+}
+
+const PUSH_CONFIG_URL = "/api/push/config";
+const PUSH_SUBSCRIPTION_URL = "/api/push/subscription";
+
+async function enablePushNotifications() {
+  if (!isInstalledApp()) {
+    showToast("Install BlackMarket first to enable notifications");
+    updatePushStatus();
+    return false;
+  }
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+    showToast("Notifications are not supported on this device");
+    updatePushStatus();
+    return false;
+  }
+
+  try {
+    const permission = Notification.permission === "default"
+      ? await Notification.requestPermission()
+      : Notification.permission;
+    if (permission !== "granted") {
+      hidePushPrompt();
+      updatePushStatus();
+      showToast(permission === "denied" ? "Notifications are blocked in device settings" : "Notifications were not enabled");
+      return false;
+    }
+    const synced = await syncPushSubscription({ manual: true });
+    if (synced) showToast(state.adminAuthed ? "Order notifications enabled" : "News notifications enabled");
+    return synced;
+  } catch (error) {
+    console.error("Notification setup failed:", error);
+    showToast(error?.message || "Notifications could not be enabled");
+    updatePushStatus("Setup failed. Tap to try again.");
+    return false;
+  }
+}
+
+async function syncPushSubscription(options = {}) {
+  if (!state.adminResolved || !isInstalledApp() || !("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+    updatePushStatus();
+    return false;
+  }
+
+  if (Notification.permission === "default") {
+    updatePushStatus();
+    if (options.showPrompt && pushPromptCanAppear()) showPushPrompt();
+    return false;
+  }
+  if (Notification.permission !== "granted") {
+    hidePushPrompt();
+    updatePushStatus();
+    return false;
+  }
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    const configResponse = await fetch(PUSH_CONFIG_URL, { cache: "no-store" });
+    const config = await configResponse.json().catch(() => ({}));
+    if (!configResponse.ok || !config.ok || !config.configured || !config.publicKey) {
+      throw new Error("Notification delivery is not configured yet.");
+    }
+    let subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: base64UrlToUint8Array(config.publicKey),
+      });
+    }
+    const audience = options.audience || (state.adminAuthed ? "admin" : "customer");
+    const response = await fetch(PUSH_SUBSCRIPTION_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ audience, subscription: subscription.toJSON() }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.message || "Notification subscription failed.");
+    localStorage.setItem("blackmarket-push-audience", audience);
+    localStorage.removeItem("blackmarket-push-dismissed");
+    hidePushPrompt();
+    updatePushStatus();
+    return true;
+  } catch (error) {
+    if (options.manual) throw error;
+    console.warn("Notification subscription sync failed:", error);
+    updatePushStatus("Not connected. Tap to retry.");
+    return false;
+  }
+}
+
+function showPushPrompt() {
+  if (!dom.pushPrompt) return;
+  const admin = state.adminAuthed;
+  if (dom.pushPromptTitle) dom.pushPromptTitle.textContent = admin ? "Never miss a new order" : "Get BlackMarket news";
+  if (dom.pushPromptMessage) {
+    dom.pushPromptMessage.textContent = admin
+      ? "Turn on alerts for new orders assigned to your admin account."
+      : "Turn on alerts when BlackMarket publishes a news update.";
+  }
+  dom.pushPrompt.classList.remove("hidden");
+}
+
+function hidePushPrompt() {
+  dom.pushPrompt?.classList.add("hidden");
+}
+
+function pushPromptCanAppear() {
+  const dismissedAt = Number(localStorage.getItem("blackmarket-push-dismissed") || 0);
+  return !dismissedAt || Date.now() - dismissedAt > 7 * 24 * 60 * 60_000;
+}
+
+function updatePushStatus(message = "") {
+  if (!dom.adminPushStatus || !dom.adminPushNotifications) return;
+  let status = message;
+  let button = "Enable Alerts";
+  if (!status && !isInstalledApp()) status = "Install the app to receive order alerts.";
+  else if (!status && (!("Notification" in window) || !("PushManager" in window))) status = "Notifications are not supported on this device.";
+  else if (!status && Notification.permission === "granted") {
+    status = "Order alerts are enabled on this device.";
+    button = "Reconnect";
+  } else if (!status && Notification.permission === "denied") status = "Blocked in this device's notification settings.";
+  else if (!status) status = "Receive order alerts while the app is closed.";
+  dom.adminPushStatus.textContent = status;
+  dom.adminPushNotifications.textContent = button;
+  dom.adminPushNotifications.disabled = !isInstalledApp() || !("Notification" in window) || Notification.permission === "denied";
+}
+
+function base64UrlToUint8Array(value) {
+  const padding = "=".repeat((4 - value.length % 4) % 4);
+  const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = window.atob(base64);
+  return Uint8Array.from(raw, (character) => character.charCodeAt(0));
 }
 
 /* PWA install prompt */

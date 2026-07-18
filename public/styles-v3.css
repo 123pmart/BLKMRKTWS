@@ -18,6 +18,8 @@
   --content: 1180px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+  --press-scale: 0.975;
   color-scheme: dark;
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -290,6 +292,7 @@ img {
 
 .view.active {
   display: block;
+  animation: portalViewIn 340ms var(--ease-ios) both;
 }
 
 .view-head {
@@ -328,6 +331,7 @@ img {
   align-content: center;
   justify-items: center;
   gap: 34px;
+  animation: portalViewIn 380ms var(--ease-ios) both;
 }
 
 .landing-brand {
@@ -510,7 +514,7 @@ img {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--panel-gradient);
-  transition: border-color 180ms ease, background 180ms ease, transform 200ms var(--ease);
+  transition: border-color 180ms ease, background 180ms ease, transform 320ms var(--ease-ios), box-shadow 320ms var(--ease-ios);
 }
 
 .sku-card:hover,
@@ -518,6 +522,12 @@ img {
   border-color: #47474f;
   background: var(--surface-2);
   transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.sku-card:active {
+  transform: scale(var(--press-scale));
+  transition-duration: 90ms;
 }
 
 .sku-card.is-coming-soon {
@@ -1041,13 +1051,20 @@ input:disabled {
   background: var(--accent);
   font-size: 0.72rem;
   font-weight: 850;
-  transition: background 160ms ease, border-color 160ms ease, transform 180ms var(--ease);
+  transition: background 160ms ease, border-color 160ms ease, transform 280ms var(--ease-ios), box-shadow 280ms var(--ease-ios);
 }
 
 .order-actions button:hover,
 .admin-button:hover,
 .order-download-actions button:hover {
   transform: translateY(-1px);
+}
+
+.order-actions button:active,
+.admin-button:active,
+.order-download-actions button:active {
+  transform: scale(.97);
+  transition-duration: 80ms;
 }
 
 .secondary-action,
@@ -1216,6 +1233,7 @@ dialog {
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(4px);
+  animation: portalBackdropIn 240ms ease-out both;
 }
 
 .modal-frame,
@@ -1228,7 +1246,7 @@ dialog::backdrop {
   border-radius: var(--radius);
   background: var(--panel-gradient);
   box-shadow: 0 30px 100px rgba(0, 0, 0, 0.7);
-  animation: modalIn 260ms var(--ease) both;
+  animation: modalIn 420ms var(--ease-ios) both;
 }
 
 .order-download-frame {
@@ -2537,15 +2555,18 @@ body.admin-news-editing .admin-news-side {
   max-width: min(420px, calc(100vw - 24px));
   padding: 11px 14px;
   border: 1px solid #34343b;
-  border-radius: 6px;
+  border-radius: 12px;
   visibility: hidden;
   opacity: 0;
   color: var(--text);
-  background: #151518;
+  background: rgba(24, 24, 27, 0.9);
   font-size: 0.75rem;
   font-weight: 700;
   transform: translate(-50%, 12px);
-  transition: opacity 180ms ease, transform 220ms var(--ease), visibility 220ms ease;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .38), inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  backdrop-filter: blur(18px) saturate(130%);
+  transition: opacity 180ms ease, transform 360ms var(--ease-ios), visibility 360ms ease;
 }
 
 .toast.show {
@@ -2557,8 +2578,19 @@ body.admin-news-editing .admin-news-side {
 @keyframes modalIn {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.99);
+    transform: translateY(24px) scale(0.965);
   }
+}
+
+@keyframes portalViewIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(.995);
+  }
+}
+
+@keyframes portalBackdropIn {
+  from { opacity: 0; }
 }
 
 @keyframes catalogOut {
@@ -3969,6 +4001,56 @@ body.admin-news-editing .admin-news-side {
 
 /* PWA install prompt */
 
+.push-prompt {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  z-index: 10000;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  width: min(440px, calc(100vw - 32px));
+  margin-inline: auto;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 20px;
+  background: rgba(11, 11, 13, .88);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .58), inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+  animation: pushPromptIn 480ms var(--ease-ios) both;
+}
+
+.push-prompt-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 13px;
+  color: #080808;
+  background: var(--accent);
+}
+
+.push-prompt-icon svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.push-prompt-copy { min-width: 0; align-self: center; }
+.push-prompt-copy strong { display: block; margin-bottom: 3px; font-size: .92rem; }
+.push-prompt-copy p { margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.4; }
+.push-prompt-actions { display: grid; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 8px; }
+.push-prompt-actions button { min-height: 44px; border: 1px solid var(--line); border-radius: 12px; color: var(--text); background: rgba(255,255,255,.035); font-size: .74rem; font-weight: 850; transition: transform 260ms var(--ease-ios), background 160ms ease; }
+.push-prompt-actions button:first-child { border-color: transparent; color: #080808; background: var(--accent); }
+.push-prompt-actions button:active { transform: scale(.97); transition-duration: 80ms; }
+
+@keyframes pushPromptIn {
+  from { opacity: 0; transform: translateY(28px) scale(.97); }
+}
+
+.admin-notification-setting { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.025); }
+.admin-notification-setting > div { display: grid; min-width: 0; gap: 4px; }
+.admin-notification-setting strong { font-size: .78rem; }
+.admin-notification-setting span { color: var(--muted); font-size: .66rem; line-height: 1.35; }
+.admin-notification-setting button { flex: 0 0 auto; }
+
 .install-prompt {
   position: fixed;
   left: 16px;
@@ -3979,13 +4061,15 @@ body.admin-news-editing .admin-news-side {
   z-index: 9999;
   background: #070707;
   border: 1px solid #333;
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 18px;
   box-shadow: 0 12px 30px rgba(0,0,0,.45);
 
   opacity: 1;
   transform: translateY(0);
-  transition: opacity .35s ease, transform .35s ease;
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  backdrop-filter: blur(22px) saturate(130%);
+  transition: opacity .35s ease, transform .45s var(--ease-ios);
 }
 
 .install-prompt.hidden {
@@ -3997,7 +4081,7 @@ body.admin-news-editing .admin-news-side {
 }
 
 .install-prompt:not(.hidden) {
-  animation: installPopupIn .35s ease;
+  animation: installPopupIn .45s var(--ease-ios);
 }
 
 @keyframes installPopupIn {
@@ -4142,7 +4226,7 @@ body.admin-news-editing .admin-news-side {
     font: inherit;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    transition: color 100ms ease, background-color 100ms ease, transform 80ms ease;
+    transition: color 160ms ease, background-color 160ms ease, transform 260ms var(--ease-ios);
   }
 
   .portal-bottom-nav svg {
@@ -4211,7 +4295,7 @@ body.admin-news-editing .admin-news-side {
   }
 
   .install-prompt {
-    bottom: calc(var(--mobile-bottom-nav-height) + 12px + env(safe-area-inset-bottom));
+    bottom: calc(18px + env(safe-area-inset-bottom));
   }
 
   #productsView {
@@ -4231,6 +4315,13 @@ body.admin-news-editing .admin-news-side {
   .portal-bottom-nav a,
   .portal-bottom-nav button {
     transition-duration: 1ms;
+  }
+
+  .view.active,
+  .landing-view.active,
+  .push-prompt,
+  dialog::backdrop {
+    animation: none !important;
   }
 
 }

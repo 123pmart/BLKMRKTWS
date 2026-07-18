@@ -1,5 +1,7 @@
 import { contentStorageMode, publicContent, readContent, writeContent } from "./store.js";
 import { isAdminRequest } from "../../lib/admin/auth.ts";
+import { sendPushNotification } from "../../lib/push/send.ts";
+import { cleanPushText } from "../../lib/push/validation.ts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,6 +31,22 @@ export async function PUT(request) {
 
   try {
     const content = await writeContent(payload);
+    const notificationId = cleanPushText(payload.notificationAnnouncementId, 120);
+    const announcement = notificationId
+      ? content.announcements.find((entry) => String(entry.id) === notificationId)
+      : null;
+    if (announcement) {
+      await sendPushNotification({
+        eventId: `news:${notificationId}`,
+        audience: "customer",
+        message: {
+          title: cleanPushText(announcement.title, 90) || "New BlackMarket update",
+          body: cleanPushText(announcement.body, 160) || "Open News to see the latest update.",
+          url: "/news",
+          tag: `blackmarket-news-${notificationId}`,
+        },
+      }).catch((error) => console.error("News push notification failed:", error));
+    }
     return Response.json(
       { ok: true, content, storage: contentStorageMode() },
       { headers: { "Cache-Control": "no-store" } },

@@ -2,6 +2,7 @@ import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } f
 import { getVerifiedStoreAccount } from "../../lib/account/auth.ts";
 import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
 import { formatOrderLineMargin } from "../../../public/lib/margin-metrics.js";
+import { sendPushNotification } from "../../lib/push/send.ts";
 
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
 const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "pmart@blackmarketlabs.com";
@@ -33,6 +34,20 @@ export async function POST(request) {
   };
   await upsertOrder(order);
   order.delivery.storage = orderStorageMode();
+
+  // The order is durable before any alert is dispatched. Push delivery is
+  // best-effort and can never turn a successfully stored order into a failure.
+  await sendPushNotification({
+    eventId: `order:${order.id}`,
+    audience: "admin",
+    salesperson: order.salesperson,
+    message: {
+      title: "New wholesale order",
+      body: "A new order is ready in your BlackMarket inbox.",
+      url: "/admin",
+      tag: `blackmarket-order-${order.id}`,
+    },
+  }).catch((error) => console.error("Order push notification failed:", error));
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
