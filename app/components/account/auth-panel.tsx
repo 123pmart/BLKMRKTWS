@@ -60,8 +60,8 @@ export function AuthPanel() {
   return (
     <section className="account-auth-panel">
       <div className="account-auth-tabs" role="tablist" aria-label="Account access">
-        <button type="button" role="tab" aria-selected={mode === "sign-in"} onClick={() => { setMode("sign-in"); setMessage(""); }}>Sign in</button>
-        <button type="button" role="tab" aria-selected={mode === "register"} onClick={() => { setMode("register"); setMessage(""); }}>Create account</button>
+        <Button variant="ghost" type="button" role="tab" aria-selected={mode === "sign-in"} onClick={() => { setMode("sign-in"); setMessage(""); }}>Sign in</Button>
+        <Button variant="ghost" type="button" role="tab" aria-selected={mode === "register"} onClick={() => { setMode("register"); setMessage(""); }}>Create account</Button>
       </div>
       <form className="grid gap-4" onSubmit={submit}>
         {mode === "register" ? (

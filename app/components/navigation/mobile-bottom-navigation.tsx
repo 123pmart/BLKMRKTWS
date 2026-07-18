@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft, Home, UserRound } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -58,7 +57,7 @@ export function MobileBottomNavigation() {
     >
       <span className="liquid-mobile-nav__refraction" aria-hidden="true" />
       <button className="liquid-mobile-nav__control" type="button" onClick={goBack} aria-label="Go back" title="Back">
-        <ArrowLeft aria-hidden="true" />
+        <NavGlyph name="back" />
       </button>
       <button
         className="liquid-mobile-nav__control"
@@ -68,7 +67,7 @@ export function MobileBottomNavigation() {
         aria-label="Home"
         title="Home"
       >
-        <Home aria-hidden="true" />
+        <NavGlyph name="home" />
       </button>
       <button
         className="liquid-mobile-nav__control"
@@ -79,8 +78,18 @@ export function MobileBottomNavigation() {
         aria-current={pathname.startsWith("/account") || pathname === "/sign-in" ? "page" : undefined}
         title="Account"
       >
-        <UserRound aria-hidden="true" />
+        <NavGlyph name="account" />
       </button>
     </nav>
+  );
+}
+
+function NavGlyph({ name }: { name: "back" | "home" | "account" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {name === "back" ? <path d="m15 18-6-6 6-6" /> : null}
+      {name === "home" ? <><path d="m4.5 11.5 7.5-6 7.5 6" /><path d="M6.5 10.5V19h11v-8.5" /></> : null}
+      {name === "account" ? <><circle cx="12" cy="8.5" r="3" /><path d="M6.5 19c.6-3.3 2.4-4.9 5.5-4.9s4.9 1.6 5.5 4.9" /></> : null}
+    </svg>
   );
 }
