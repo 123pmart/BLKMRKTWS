@@ -143,6 +143,16 @@
   }
 }
 
+@media (max-width: 767px) and (display-mode: standalone) {
+  .liquid-mobile-nav {
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .account-shell {
+    padding-bottom: calc(111px + env(safe-area-inset-bottom));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .liquid-mobile-nav,
   .liquid-mobile-nav__control {
