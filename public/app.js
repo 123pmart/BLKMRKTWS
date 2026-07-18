@@ -120,6 +120,7 @@ const state = {
   pendingRoute: null,
   priceOverrides: [],
   accountAuthenticated: false,
+  accountResolved: false,
 };
 
 const mediaPreload = {
@@ -160,6 +161,8 @@ const dom = {
   orderHint: document.querySelector("#orderHint"),
   sendOrder: document.querySelector("#sendOrder"),
   storeForm: document.querySelector("#storeForm"),
+  checkoutSalespersonField: document.querySelector("#checkoutSalespersonField"),
+  checkoutSalesperson: document.querySelector("#salesperson"),
   newsList: document.querySelector("#newsList"),
   adminLoginForm: document.querySelector("#adminLoginForm"),
   adminPanel: document.querySelector("#adminPanel"),
@@ -303,6 +306,7 @@ async function hydratePublicPortalData(contentRequest, pricingRequest) {
   if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
   state.accountAuthenticated = Boolean(pricingData?.authenticated);
+  state.accountResolved = true;
   syncAccountDestinations();
 
   const catalogChanged = previousSite !== JSON.stringify(state.site) || previousPricing !== JSON.stringify(state.priceOverrides);
@@ -1695,11 +1699,13 @@ function renderCartLine({ item, qty, lineWholesale }) {
 
 function updateOrderState() {
   const hasItems = cartLines().length > 0;
-  const ready = hasItems && dom.storeForm.checkValidity();
+  const ready = state.accountResolved && hasItems && dom.storeForm.checkValidity();
   dom.cartNextStep.disabled = !hasItems;
   dom.sendOrder.disabled = !ready;
   dom.orderHint.textContent = ready
     ? "Ready for final review"
+    : !state.accountResolved
+      ? "Checking store account"
     : hasItems
       ? "Complete buyer and shipping details"
       : "Add products to begin your order";
@@ -3686,6 +3692,16 @@ function syncAccountDestinations() {
     document.head.append(preload);
   }
   preload.href = destination;
+  syncCheckoutSalesperson();
+}
+
+function syncCheckoutSalesperson() {
+  if (!dom.checkoutSalespersonField || !dom.checkoutSalesperson) return;
+  const guestSelectionRequired = state.accountResolved && !state.accountAuthenticated;
+  dom.checkoutSalespersonField.hidden = !guestSelectionRequired;
+  dom.checkoutSalesperson.disabled = !guestSelectionRequired;
+  dom.checkoutSalesperson.required = guestSelectionRequired;
+  updateOrderState();
 }
 
 function goHome(options = {}) {

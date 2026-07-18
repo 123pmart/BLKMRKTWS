@@ -41,13 +41,18 @@ test("order authorization auto-activates legacy pending accounts but denies disa
   assert.equal(canAccessStoreOrder({ ...identity, status: "disabled" }, { storeId: "store-a" }), false);
 });
 
-test("salesperson scopes default historical records to Parker and isolate staff admins", () => {
+test("Parker sees every salesperson while Matt and Beau are isolated to their own orders", () => {
   const parker = { username: "pmart", displayName: "Parker", salesperson: "parker", scope: "all" };
   const matt = { username: "matt", displayName: "Matt", salesperson: "matt", scope: "own" };
+  const beau = { username: "beau", displayName: "Beau", salesperson: "beau", scope: "own" };
   assert.equal(normalizeSalesperson(undefined), "parker");
   assert.equal(orderSalesperson({ store: {} }), "parker");
   assert.equal(orderSalesperson({ salesperson: "beau", store: {} }), "beau");
   assert.equal(adminCanAccessSalesperson(parker, "beau"), true);
+  assert.equal(adminCanAccessSalesperson(parker, "matt"), true);
+  assert.equal(adminCanAccessSalesperson(parker, "parker"), true);
   assert.equal(adminCanAccessSalesperson(matt, "matt"), true);
   assert.equal(adminCanAccessSalesperson(matt, "beau"), false);
+  assert.equal(adminCanAccessSalesperson(beau, "beau"), true);
+  assert.equal(adminCanAccessSalesperson(beau, "matt"), false);
 });

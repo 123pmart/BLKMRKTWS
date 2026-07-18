@@ -81,7 +81,7 @@ export async function repriceOrderPayload(payload: Record<string, unknown>, iden
   return {
     ...(account ? { storeId: account.storeId } : {}),
     salesperson,
-    store: { ...submittedStore, ...(account ? { salesperson: account.store.salesperson } : { salesperson }) },
+    store: { ...submittedStore, salesperson },
     lines,
     totals: {
       units: totals.units,
