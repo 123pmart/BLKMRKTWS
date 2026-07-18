@@ -11,6 +11,7 @@ export interface Variant {
   map: string;
   mapValue?: number;
   bottle?: string;
+  cardImage?: string;
   panel?: string;
   available?: boolean;
   status?: CatalogStatus;

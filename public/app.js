@@ -787,6 +787,9 @@ function buildItems(products) {
         productDescription: product.description,
         accent: product.accent,
         bottle: variant.bottle || product.bottle,
+        cardImage: variantOverrides()[variant.id]?.bottle
+          ? variant.bottle || product.bottle
+          : variant.cardImage || variant.bottle || product.bottle,
         panel: variant.panel || product.panel,
         sort: productIndex * 100 + variantIndex,
       };
@@ -912,7 +915,7 @@ function renderProductEntrypoints() {
     const item = representativeItem(option);
     return `
       <button type="button" data-filter-jump="${escapeHtml(option.slug)}">
-        ${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="160" height="160" loading="lazy" decoding="async" />` : ""}
+        ${item ? `<img src="${escapeHtml(item.cardImage || item.bottle)}" alt="" width="160" height="160" loading="lazy" decoding="async" />` : ""}
         <span>${escapeHtml(option.label)}</span>
       </button>
     `;
@@ -936,7 +939,7 @@ function renderCategoryNav() {
       const active = state.activeFilter === filter.slug ? "active" : "";
       return `
         <button class="category-tile ${active}" type="button" data-filter="${escapeHtml(filter.slug)}" aria-pressed="${active ? "true" : "false"}">
-          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.bottle)}" alt="" width="320" height="320" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" />` : ""}</span>
+          <span class="category-tile-media">${item ? `<img src="${escapeHtml(item.cardImage || item.bottle)}" alt="" width="320" height="320" loading="${index < 2 ? "eager" : "lazy"}" decoding="async" />` : ""}</span>
           <span class="category-tile-label">${escapeHtml(filter.label)}</span>
         </button>
       `;
@@ -1169,7 +1172,7 @@ function renderSkuCard(item, index = 99) {
         <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""} ${!orderable ? "sku-coming" : ""}">${escapeHtml(flavorLabel)}</span>
       </div>
       <div class="bottle-stage">
-        <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="${index < 4 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />
+        <img src="${escapeHtml(item.cardImage || item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="${index < 4 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />
       </div>
       <h4>${escapeHtml(item.fullTitle)}</h4>
       <div class="sku-price">
@@ -1188,7 +1191,7 @@ function renderSkuCard(item, index = 99) {
 function preloadProductMedia() {
   if (state.activeView === "products") {
     const firstProduct = state.items.find((item) => item.section === state.activeFilter) || state.items[0];
-    enqueueMediaPreloads(firstProduct?.bottle ? [firstProduct.bottle] : []);
+    enqueueMediaPreloads(firstProduct ? [firstProduct.cardImage || firstProduct.bottle] : []);
     return;
   }
   const landingItems = LANDING_OPTIONS
@@ -1216,7 +1219,7 @@ function scheduleNutritionPanelPreload() {
 
 function preloadFilterMedia(filter) {
   const items = state.items.filter((item) => filter === "all" || item.section === filter);
-  enqueueMediaPreloads(unique(items.slice(0, 4).map((item) => item.bottle)));
+  enqueueMediaPreloads(unique(items.slice(0, 4).map((item) => item.cardImage || item.bottle)));
 }
 
 function enqueueMediaPreloads(urls) {

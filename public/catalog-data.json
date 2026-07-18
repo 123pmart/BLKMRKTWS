@@ -59,7 +59,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-blue-razz-56232-cuts-bluerazz-final-camera-ddb3e140-e6d5-45db-98d8-61c29c96d049.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-blue-razz-56232-ce1d4f1fe46c.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-fruit-punch-56234",
@@ -72,7 +73,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-fruit-punch-56234-cuts-fruitpunch-final-35830f14-197b-424a-bf77-e5ccb06409ec.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-fruit-punch-56234-4a9bc36546fb.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-peach-ring-56260",
@@ -85,7 +87,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-peach-ring-56260-cuts-peach-final-0c11449c-2079-4002-9349-57b78e19ea46.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-peach-ring-56260-d0a2af52ff76.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-sour-gummy-56237",
@@ -98,7 +101,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-sour-gummy-56237-cuts-sourgum-final-4d49f525-59ae-4e13-a9af-f9efec6b5a9a.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-sour-gummy-56237-c5b5f582b031.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-watermelon-56233",
@@ -111,7 +115,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-watermelon-56233-cuts-watermel-final-1840ea7a-1623-4589-b35d-c037392ed0b3.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-watermelon-56233-a7104ba032bb.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-strawberry-lemonade-56235",
@@ -124,7 +129,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-strawberry-lemonade-56235-cuts-strawlem-final-2380b303-8396-4679-9b7c-8c0b99afce16.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-strawberry-lemonade-56235-aa8c2e6285ff.webp"
         },
         {
           "id": "cuts-thermogenic-pre-workout-blue-slushy-bomb-56323",
@@ -137,7 +143,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-thermogenic-pre-workout-cuts-thermogenic-pre-workout-blue-slushy-bomb-56323-cuts-blue-slush-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-thermogenic-pre-workout-blue-slushy-bomb-56323-f8cc2fa16057.webp"
         }
       ],
       "siteVariants": [
@@ -186,7 +193,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-natural-thermogenic-pre-workout-cuts-natural-thermogenic-pre-workout-sour-gummy-56325-cuts-natural-sourgum.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-natural-thermogenic-pre-workout-sour-gummy-56325-619e5e736740.webp"
         },
         {
           "id": "cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326",
@@ -199,7 +207,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-natural-thermogenic-pre-workout-cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326-cuts-natural-strawlem-b395b73b-c5a1-463d-bea4-33741aca1ebe.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326-59e4cf3e7f19.webp"
         }
       ],
       "siteVariants": [
@@ -238,7 +247,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-fruit-punch-56292-diamond-fruitpunch-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-diamond-ultra-thermogenic-fruit-punch-56292-80ddc07b6154.webp"
         },
         {
           "id": "cuts-diamond-ultra-thermogenic-blue-razz-56293",
@@ -251,7 +261,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-blue-razz-56293-diamond-bluerazz-final-c2a68878-f709-4a98-af4d-623ceaadd04d.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-diamond-ultra-thermogenic-blue-razz-56293-7fa92b6a79f6.webp"
         },
         {
           "id": "cuts-diamond-ultra-thermogenic-watermelon-56294",
@@ -264,7 +275,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-watermelon-56294-diamond-watermelon-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-diamond-ultra-thermogenic-watermelon-56294-015ff1dec9f0.webp"
         },
         {
           "id": "cuts-diamond-ultra-thermogenic-grape-limeade-56316",
@@ -278,7 +290,8 @@
           "mapValue": 59.99,
           "bottle": "/assets/site-images/cuts-diamond-ultra-thermogenic-cuts-diamond-ultra-thermogenic-grape-limeade-56316-diamondglrfront-1bca6efa-95b7-43b7-b4f5-0abf7487c56b.png",
           "available": true,
-          "panel": "/assets/site-images/cuts-diamond-ultra-thermogenic-grape-limeade-panel-suppfacts.jpg"
+          "panel": "/assets/site-images/cuts-diamond-ultra-thermogenic-grape-limeade-panel-suppfacts.jpg",
+          "cardImage": "/assets/catalog-cards/cuts-diamond-ultra-thermogenic-grape-limeade-56316-320e1a870733.webp"
         }
       ],
       "siteVariants": [
@@ -325,7 +338,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-sour-gummy-56310-cutsliquidsourgum-front-ea2df2c3-4a26-4ca6-9ad7-a7ec800175db.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-pump-thermogenic-liquid-glycerol-sour-gummy-56310-14be9c6dd6a1.webp"
         },
         {
           "id": "cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311",
@@ -338,7 +352,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311-cutsliquidstrawlem-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311-41fff324b01c.webp"
         },
         {
           "id": "cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324",
@@ -351,7 +366,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-pump-thermogenic-liquid-glycerol-cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324-gum-cuts-pump-1-f7ed92d0-157d-494b-a1f4-c5ee61cfcc26.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324-24c2e92cce2e.webp"
         }
       ],
       "siteVariants": [
@@ -393,7 +409,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/cuts-pills-thermogenic-capsules-cuts-pills-thermogenic-capsules-capsules-56314-cuts-pills-front-1cb8ad70-9bf6-423c-b2aa-40c987b21b82.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-pills-thermogenic-capsules-capsules-56314-d857f69f145e.webp"
         }
       ],
       "siteVariants": [
@@ -430,7 +447,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-watermelon-56320-cuts-heat-wm-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-heat-stim-free-thermogenic-watermelon-56320-2d9d0886ea85.webp"
         },
         {
           "id": "cuts-heat-stim-free-thermogenic-blue-razz-56321",
@@ -443,7 +461,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-blue-razz-56321-cuts-heatblue-razz-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-heat-stim-free-thermogenic-blue-razz-56321-73d530d0c14b.webp"
         },
         {
           "id": "cuts-heat-stim-free-thermogenic-fruit-punch-56322",
@@ -456,7 +475,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/cuts-heat-stim-free-thermogenic-cuts-heat-stim-free-thermogenic-fruit-punch-56322-cuts-heat-fp-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/cuts-heat-stim-free-thermogenic-fruit-punch-56322-da18f5db5973.webp"
         }
       ],
       "siteVariants": [
@@ -497,7 +517,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/scorch-ultra-thermogenic-scorch-ultra-thermogenic-hawaiian-kill-shot-56312-scorch-killshot-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/scorch-ultra-thermogenic-hawaiian-kill-shot-56312-929c170f312f.webp"
         },
         {
           "id": "scorch-ultra-thermogenic-cherry-slush-bomb-56313",
@@ -510,7 +531,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/scorch-ultra-thermogenic-scorch-ultra-thermogenic-cherry-slush-bomb-56313-scorch-cherry-sidefront.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/scorch-ultra-thermogenic-cherry-slush-bomb-56313-84f2802d676e.webp"
         }
       ],
       "siteVariants": [
@@ -550,7 +572,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/tone-weight-loss-pre-workout-tone-weight-loss-pre-workout-raspberry-lemonade-52061-tonerasplemfront.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/tone-weight-loss-pre-workout-raspberry-lemonade-52061-87097c781548.webp"
         },
         {
           "id": "tone-weight-loss-pre-workout-strawberry-kiwi-52059",
@@ -563,7 +586,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/tone-weight-loss-pre-workout-tone-weight-loss-pre-workout-strawberry-kiwi-52059-tonestrwkiwifront.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/tone-weight-loss-pre-workout-strawberry-kiwi-52059-82daf9abb7dc.webp"
         }
       ],
       "siteVariants": [
@@ -602,7 +626,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-fruit-punch-51114-bulk-fruitpunch-final-fb798d5e-d4f4-4f03-89d1-34d1db71bfb5.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-fruit-punch-51114-f76ca15c4904.webp"
         },
         {
           "id": "bulk-testosterone-pre-workout-watermelon-51115",
@@ -615,7 +640,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-watermelon-51115-bulk-watermel-final-f75c5b23-17a9-4b10-94f8-4d1e64318140.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-watermelon-51115-1956ac347a08.webp"
         },
         {
           "id": "bulk-testosterone-pre-workout-blue-razz-51116",
@@ -628,7 +654,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-blue-razz-51116-bulk-bluerazz-final-1e2f65f5-2b46-4f3a-b759-253953df1127.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-blue-razz-51116-2b5b40c4412c.webp"
         }
       ],
       "siteVariants": [
@@ -668,7 +695,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-sour-gummy-56317-bulkapex-frontsour-d002e3c5-66aa-4a5b-b9c5-5f0961927c48.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-apex-strength-pre-workout-sour-gummy-56317-cfd5e8208853.webp"
         },
         {
           "id": "bulk-apex-strength-pre-workout-strawberry-lemonade-56318",
@@ -681,7 +709,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-strawberry-lemonade-56318-bulkapex-frontstrawlem-fa6445a5-640f-43c3-b854-6f45a9df9c49.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-apex-strength-pre-workout-strawberry-lemonade-56318-31abcf80d86f.webp"
         },
         {
           "id": "bulk-apex-strength-pre-workout-grape-limeade-56319",
@@ -694,7 +723,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/bulk-apex-strength-pre-workout-bulk-apex-strength-pre-workout-grape-limeade-56319-bulkapex-frontgrape-b3e946fb-a12d-441f-9703-e655fdef66b7.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-apex-strength-pre-workout-grape-limeade-56319-9e5264dc6922.webp"
         }
       ],
       "siteVariants": [
@@ -736,7 +766,8 @@
           "map": "$69.99",
           "mapValue": 69.99,
           "bottle": "/assets/site-images/bulk-pills-testosterone-capsules-bulk-pills-testosterone-capsules-capsules-56315-bulk-pills-front-60d22c81-4aff-4b29-96eb-fe4ed60ce37d.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-pills-testosterone-capsules-capsules-56315-3bebebde7fb9.webp"
         }
       ],
       "siteVariants": [
@@ -773,7 +804,8 @@
           "map": "$24.99",
           "mapValue": 24.99,
           "bottle": "/assets/site-images/beta-alanine-raw-beta-alanine-raw-unflavored-53002-beta-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/beta-alanine-raw-unflavored-53002-1ddfeae527b0.webp"
         }
       ],
       "siteVariants": [
@@ -810,7 +842,8 @@
           "map": "$34.99",
           "mapValue": 34.99,
           "bottle": "/assets/site-images/creatine-monohydrate-raw-creatine-monohydrate-raw-unflavored-53003-creatine-front-377a03ff-f450-49f0-bacc-51618c087085.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/creatine-monohydrate-raw-unflavored-53003-7d7ddeebbbe4.webp"
         }
       ],
       "siteVariants": [
@@ -847,7 +880,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-candy-dust-56055-nootrop-candydust-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nootropic-high-focus-pre-workout-candy-dust-56055-edaf5a8b374f.webp"
         },
         {
           "id": "nootropic-high-focus-pre-workout-peach-ring-56262",
@@ -860,7 +894,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-peach-ring-56262-nootrop-peach-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nootropic-high-focus-pre-workout-peach-ring-56262-8f5c89b19b14.webp"
         },
         {
           "id": "nootropic-high-focus-pre-workout-strawberry-lemonade-56070",
@@ -873,7 +908,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-strawberry-lemonade-56070-nootrop-strawlem-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nootropic-high-focus-pre-workout-strawberry-lemonade-56070-ab8dcb804805.webp"
         },
         {
           "id": "nootropic-high-focus-pre-workout-candy-road-56303",
@@ -886,7 +922,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nootropic-high-focus-pre-workout-nootropic-high-focus-pre-workout-candy-road-56303-candyroad-bottle-1-221b08b6-8e8e-421b-8d22-eed64109fc77.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nootropic-high-focus-pre-workout-candy-road-56303-0decfa5f9806.webp"
         }
       ],
       "siteVariants": [
@@ -929,7 +966,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-strawberry-lemonade-56063-under-strawlem-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/underground-high-stimulant-strawberry-lemonade-56063-ce11d6f9a653.webp"
         },
         {
           "id": "underground-high-stimulant-candy-dust-56126",
@@ -942,7 +980,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-candy-dust-56126-under-candy-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/underground-high-stimulant-candy-dust-56126-e5a5cdc8d0be.webp"
         },
         {
           "id": "underground-high-stimulant-peach-ring-56263",
@@ -955,7 +994,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/underground-high-stimulant-underground-high-stimulant-peach-ring-56263-under-peach-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/underground-high-stimulant-peach-ring-56263-4c94d3fa5da3.webp"
         }
       ],
       "siteVariants": [
@@ -996,7 +1036,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-peach-rings-56277-defy-peach-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/defy-hyper-stimulant-peach-rings-56277-6b6a64595525.webp"
         },
         {
           "id": "defy-hyper-stimulant-watermelon-lemonade-56278",
@@ -1009,7 +1050,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-watermelon-lemonade-56278-defy-waterlem-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/defy-hyper-stimulant-watermelon-lemonade-56278-b0a85fd959c8.webp"
         },
         {
           "id": "defy-hyper-stimulant-razz-mango-sherbert-56182",
@@ -1022,7 +1064,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-razz-mango-sherbert-56182-defy-razzmango-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/defy-hyper-stimulant-razz-mango-sherbert-56182-871b462ad761.webp"
         },
         {
           "id": "defy-hyper-stimulant-white-gummy-bear-56298",
@@ -1035,7 +1078,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/defy-hyper-stimulant-defy-hyper-stimulant-white-gummy-bear-56298-whitegummy-6e99b69b-0639-4291-bbbf-2bbc18775cca.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/defy-hyper-stimulant-white-gummy-bear-56298-3ae8089522ef.webp"
         },
         {
           "id": "defy-hyper-stimulant-streettarts-56329",
@@ -1050,7 +1094,8 @@
           "bottle": "/assets/site-images/defy-hyper-stimulant-streettarts-front.png",
           "panel": "/assets/site-images/defy-hyper-stimulant-streettarts-supplement-facts.jpg",
           "limitedEdition": true,
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/defy-hyper-stimulant-streettarts-56329-6471399d39ab.webp"
         }
       ],
       "siteVariants": [
@@ -1099,7 +1144,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-peach-rings-56277-rule-peach-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/rule-hyper-focus-peach-rings-56277-39fb99adc43f.webp"
         },
         {
           "id": "rule-hyper-focus-watermelon-lemonade-56278",
@@ -1112,7 +1158,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-watermelon-lemonade-56278-rule-waterlem-final-508e9cf9-46d7-4c76-8428-3ce618c8e550.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/rule-hyper-focus-watermelon-lemonade-56278-97a251763438.webp"
         },
         {
           "id": "rule-hyper-focus-razz-mango-sherbert-56182",
@@ -1125,7 +1172,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-razz-mango-sherbert-56182-rule-razzmango-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/rule-hyper-focus-razz-mango-sherbert-56182-d21a9db65c3a.webp"
         },
         {
           "id": "rule-hyper-focus-purge-pop-56299",
@@ -1138,7 +1186,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/rule-hyper-focus-rule-hyper-focus-purge-pop-56299-purgepop-webbottle-361bd1e4-9b53-4bde-9cd6-3c2a9924455f.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/rule-hyper-focus-purge-pop-56299-14cffc6bd7d1.webp"
         }
       ],
       "siteVariants": [
@@ -1181,7 +1230,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bump-laser-focus-nootropic-bump-laser-focus-nootropic-razz-mango-sherbet-56305-bump-razz-mango-front-d103294b-52f5-4a19-a558-8b6c76a0a51c.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bump-laser-focus-nootropic-razz-mango-sherbet-56305-bbe1581ce5ad.webp"
         },
         {
           "id": "bump-laser-focus-nootropic-watermelon-lemonade-56307",
@@ -1194,7 +1244,8 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bump-laser-focus-nootropic-bump-laser-focus-nootropic-watermelon-lemonade-56307-bump-watlem-front-882840ec-1158-4481-b039-bcabee6ac2d7.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bump-laser-focus-nootropic-watermelon-lemonade-56307-29aaf44b653e.webp"
         }
       ],
       "siteVariants": [
@@ -1233,7 +1284,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nitricoxide-stim-free-pre-workout-nitricoxide-stim-free-pre-workout-strawberry-lemonade-56157-nitric-strawlem-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nitricoxide-stim-free-pre-workout-strawberry-lemonade-56157-1603b513788a.webp"
         },
         {
           "id": "nitricoxide-stim-free-pre-workout-candy-dust-56155",
@@ -1246,7 +1298,8 @@
           "map": "$54.99",
           "mapValue": 54.99,
           "bottle": "/assets/site-images/nitricoxide-stim-free-pre-workout-nitricoxide-stim-free-pre-workout-candy-dust-56155-nitric-candy-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/nitricoxide-stim-free-pre-workout-candy-dust-56155-52291081623f.webp"
         }
       ],
       "siteVariants": [
@@ -1285,7 +1338,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/pump-hyper-pump-pre-workout-pump-hyper-pump-pre-workout-watermelon-lemonade-56302-pump-watlem-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/pump-hyper-pump-pre-workout-watermelon-lemonade-56302-522642dfa384.webp"
         },
         {
           "id": "pump-hyper-pump-pre-workout-razz-mango-sherbet-56300",
@@ -1298,7 +1352,8 @@
           "map": "$59.99",
           "mapValue": 59.99,
           "bottle": "/assets/site-images/pump-hyper-pump-pre-workout-pump-hyper-pump-pre-workout-razz-mango-sherbet-56300-pump-razzman-final.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/pump-hyper-pump-pre-workout-razz-mango-sherbet-56300-258321b26168.webp"
         }
       ],
       "siteVariants": [
@@ -1337,7 +1392,8 @@
           "map": "$36.99",
           "mapValue": 36.99,
           "bottle": "/assets/site-images/l-citrulline-raw-l-citrulline-raw-unflavored-53006-citrulline-front.png",
-          "available": true
+          "available": true,
+          "cardImage": "/assets/catalog-cards/l-citrulline-raw-unflavored-53006-808328593fb5.webp"
         }
       ],
       "siteVariants": [
