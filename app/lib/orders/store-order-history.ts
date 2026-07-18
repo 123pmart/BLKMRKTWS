@@ -16,7 +16,7 @@ export class AccountProviderUnavailableError extends Error {
  * a server-assigned storeId and authentication supplies a verified identity.
  */
 export async function getOrdersForVerifiedStore(identity: StoreIdentity): Promise<Order[]> {
-  if (identity.status === "disabled") return [];
+  if (identity.status !== "active") return [];
   const orders = await readOrders() as Order[];
   return orders
     .filter((order) => canAccessStoreOrder(identity, order))
@@ -24,7 +24,7 @@ export async function getOrdersForVerifiedStore(identity: StoreIdentity): Promis
 }
 
 export async function getOrderForVerifiedStore(identity: StoreIdentity, orderId: string): Promise<Order | null> {
-  if (identity.status === "disabled") return null;
+  if (identity.status !== "active") return null;
   const orders = await readOrders() as Order[];
   return orders.find((order) => canAccessStoreOrder(identity, order) && order.id === orderId) ?? null;
 }

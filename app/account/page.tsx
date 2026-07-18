@@ -3,10 +3,12 @@ import { Suspense } from "react";
 
 import { AccountPageHeader } from "@/components/account/account-page-header";
 import { LogoutButton } from "@/components/account/logout-button";
+import { ProfileEditor } from "@/components/account/profile-editor";
 import { RecentOrders, RecentOrdersFallback } from "@/components/account/recent-orders";
 import { PortalHomeLink } from "@/components/navigation/portal-home-link";
 import { buttonVariants } from "@/components/ui/button";
 import { getVerifiedStoreAccount } from "@/lib/account/auth";
+import { publicStoreProfile } from "@/lib/account/profile";
 import { cn } from "@/lib/utils";
 
 export default async function AccountPage() {
@@ -44,6 +46,12 @@ export default async function AccountPage() {
             <PortalHomeLink className={cn(buttonVariants(), "mt-5")}>Shop catalog</PortalHomeLink>
           </section>
         </div>
+        <section className="account-glass mt-4 p-6" aria-labelledby="account-profile-heading">
+          <p className="account-kicker">Checkout profile</p>
+          <h2 id="account-profile-heading" className="mt-2 text-2xl font-black">Store and shipping details</h2>
+          <p className="mt-2 mb-5 text-sm text-muted-foreground">These verified details prefill checkout. Your salesperson remains managed by BLACKMARKET.</p>
+          <ProfileEditor profile={publicStoreProfile(account.store)} />
+        </section>
       </div>
     </main>
   );

@@ -2,6 +2,10 @@
 
 Store accounts are intentionally separate from the existing administrator login. New registrations remain `pending` until an administrator approves them, and no registration is automatically matched to an historical order or store name.
 
+Pending registration creates no customer session. Valid credentials for a pending account return the awaiting-approval state and never promote the account. Only an authorized admin status action can activate it. Disabled or newly pending accounts are rechecked against the durable account record on every verified request, so an older cookie cannot retain protected pricing or order access.
+
+Verified stores can read and update only their own checkout profile through `/api/account/profile`. Ownership always comes from the HttpOnly session; the profile API accepts no client-supplied store ID or salesperson assignment. Responses are private and non-cacheable, and profile mutations enforce same-origin requests.
+
 ## Required production configuration
 
 - `BLOB_READ_WRITE_TOKEN`: required on Vercel for private account and session records. Production requests fail closed if Blob storage is unavailable.

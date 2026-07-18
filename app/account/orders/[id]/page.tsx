@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { AccountPageHeader } from "@/components/account/account-page-header";
 import { OrderProductImage } from "@/components/account/order-product-image";
+import { ReorderButton } from "@/components/orders/reorder-button";
 import { WholesaleWordmark } from "@/components/branding/wholesale-wordmark";
 import { getVerifiedStoreIdentity } from "@/lib/account/auth";
 import { formatOrderLineMargin } from "@/lib/orders/margin";
@@ -24,7 +25,7 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
       <article className="account-order-detail order-document mx-auto w-full max-w-5xl">
         <div className="order-document-toolbar">
           <Link href="/account/orders" className="order-history-back" prefetch>← Order history</Link>
-          <Link href={`/api/account/orders/${encodeURIComponent(order.id)}/pdf`} className="account-pdf-link">Download PDF</Link>
+          <div><ReorderButton orderId={order.id} /><Link href={`/api/account/orders/${encodeURIComponent(order.id)}/pdf`} className="account-pdf-link">Download PDF</Link></div>
         </div>
         <header className="order-document-header">
           <WholesaleWordmark />

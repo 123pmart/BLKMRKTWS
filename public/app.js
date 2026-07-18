@@ -2814,7 +2814,7 @@ function renderAdminStoreAccounts() {
           <span class="admin-account-status is-${escapeHtml(account.status)}">${escapeHtml(account.status)}</span>
         </div>
         <div class="admin-actions admin-store-actions">
-          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Enable</button>` : ""}
+          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">${account.status === "pending" ? "Approve" : "Enable"}</button>` : ""}
           ${account.status !== "disabled" ? `<button class="admin-button admin-secondary" type="button" data-store-action="status" data-status="disabled">Disable</button>` : ""}
           <button class="admin-button admin-secondary" type="button" data-store-action="store">Edit Store</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="username">Change Username</button>

@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { useCart } from "@/components/cart/cart-provider";
 import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack, signInBackGoesHome } from "@/lib/navigation/internal-history";
 
 const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
@@ -11,9 +12,12 @@ export function MobileBottomNavigation() {
   const pathname = usePathname();
   const router = useRouter();
   const [overlayOpen, setOverlayOpen] = useState(false);
+  const [accountDestination, setAccountDestination] = useState("/sign-in");
+  const { units } = useCart();
 
   useEffect(() => {
     initializePortalHistory();
+    fetch("/api/account/session", { cache: "no-store" }).then((response) => response.json()).then((result) => setAccountDestination(result.authenticated ? "/account" : "/sign-in")).catch(() => undefined);
   }, [pathname]);
 
   useEffect(() => {
@@ -73,23 +77,36 @@ export function MobileBottomNavigation() {
         className="liquid-mobile-nav__control"
         data-active={pathname.startsWith("/account") || pathname === "/sign-in" ? "true" : "false"}
         type="button"
-        onClick={() => { if (pathname !== "/sign-in") navigate("/account"); }}
+        onClick={() => { if (pathname !== accountDestination) navigate(accountDestination); }}
         aria-label="Account"
         aria-current={pathname.startsWith("/account") || pathname === "/sign-in" ? "page" : undefined}
         title="Account"
       >
         <NavGlyph name="account" />
       </button>
+      <button
+        className="liquid-mobile-nav__control"
+        data-active={pathname === "/cart" ? "true" : "false"}
+        type="button"
+        onClick={() => navigate("/cart")}
+        aria-label={`Cart, ${units} item${units === 1 ? "" : "s"}`}
+        aria-current={pathname === "/cart" ? "page" : undefined}
+        title="Cart"
+      >
+        <NavGlyph name="cart" />
+        {units ? <span className="liquid-mobile-nav__badge">{units > 99 ? "99+" : units}</span> : null}
+      </button>
     </nav>
   );
 }
 
-function NavGlyph({ name }: { name: "back" | "home" | "account" }) {
+function NavGlyph({ name }: { name: "back" | "home" | "account" | "cart" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       {name === "back" ? <path d="m15 18-6-6 6-6" /> : null}
       {name === "home" ? <><path d="m4.5 11.5 7.5-6 7.5 6" /><path d="M6.5 10.5V19h11v-8.5" /></> : null}
       {name === "account" ? <><circle cx="12" cy="8.5" r="3" /><path d="M6.5 19c.6-3.3 2.4-4.9 5.5-4.9s4.9 1.6 5.5 4.9" /></> : null}
+      {name === "cart" ? <><path d="M6 6h14l-2 8H8L6 3H3" /><circle cx="9" cy="19" r="1.25" /><circle cx="17" cy="19" r="1.25" /></> : null}
     </svg>
   );
 }

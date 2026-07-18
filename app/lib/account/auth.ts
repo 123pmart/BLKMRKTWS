@@ -1,7 +1,7 @@
 import "server-only";
 
 import { getAccountByUsername } from "@/lib/account/account-store";
-import { getValidSession, readSessionToken } from "@/lib/account/session";
+import { clearAccountSession, getValidSession, readSessionToken } from "@/lib/account/session";
 import type { AccountSession, StoreAccount, StoreIdentity } from "@/types";
 
 export interface VerifiedStoreAccount {
@@ -16,7 +16,10 @@ export async function getVerifiedStoreAccount(request?: Request): Promise<Verifi
   const session = await getValidSession(token);
   if (!session) return null;
   const account = await getAccountByUsername(session.username);
-  if (!account || account.id !== session.accountId || account.status === "disabled") return null;
+  if (!account || account.id !== session.accountId || account.status !== "active") {
+    await clearAccountSession(token).catch(() => undefined);
+    return null;
+  }
   return {
     account,
     session,

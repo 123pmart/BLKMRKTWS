@@ -13,6 +13,7 @@ interface ApiResult {
   ok?: boolean;
   message?: string;
   errors?: Record<string, string>;
+  status?: "pending" | "active";
 }
 
 export function AuthPanel() {
@@ -44,7 +45,8 @@ export function AuthPanel() {
         return;
       }
       if (mode === "register") {
-        router.replace("/account");
+        setMessage(result.message || "Your request was received and is awaiting approval.");
+        event.currentTarget.reset();
         return;
       }
       const next = search.get("next");

@@ -79,8 +79,8 @@ export async function PATCH(request: Request) {
   let updated = account;
   if (action === "status") {
     const status = String(body.status) as StoreAccountStatus;
-    if (!["active", "disabled"].includes(status)) return badRequest("Invalid account status.");
-    updated = await updateAccount(account.username, (record) => ({ ...record, status }));
+    if (!["pending", "active", "disabled"].includes(status)) return badRequest("Invalid account status.");
+    updated = await updateAccount(account.username, (record) => ({ ...record, status, store: { ...record.store, status, updatedAt: new Date().toISOString() } }));
   } else if (action === "reset-password") {
     const password = String(body.password || "");
     if (password.length < 10 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) return badRequest("Use at least 10 characters with a letter and number.");
