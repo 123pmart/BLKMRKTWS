@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { MobileBottomNavigation } from "@/components/navigation/mobile-bottom-navigation";
-import { PortalClientRoot } from "@/components/portal/portal-client-root";
 
 export const metadata: Metadata = {
   title: "BLACKMARKET Wholesale",
@@ -18,10 +17,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <PortalClientRoot>
-          {children}
-          <MobileBottomNavigation />
-        </PortalClientRoot>
+        {children}
+        <MobileBottomNavigation />
       </body>
     </html>
   );

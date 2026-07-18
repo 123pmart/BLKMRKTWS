@@ -38,7 +38,6 @@ export interface Product {
 }
 
 export interface FlattenedCatalogItem extends Variant {
-  variantId: string;
   productId: string;
   productTitle: string;
   category: string;
@@ -47,9 +46,6 @@ export interface FlattenedCatalogItem extends Variant {
   fullTitle: string;
   productDescription: string;
   sort: number;
-  aliases: string[];
-  gallery: Array<{ src: string; label: string; kind: "product" | "facts" | "gallery" }>;
-  orderable: boolean;
 }
 
 export interface CategorySection {
@@ -87,23 +83,9 @@ export interface Store {
   zip: string;
   salesperson?: SalespersonId;
   notes?: string;
-  status?: StoreAccountStatus;
+  status?: "active" | "disabled";
   createdAt?: string;
   updatedAt?: string;
-}
-
-export type StoreProfile = Pick<Store, "storeName" | "contactName" | "phone" | "email" | "street" | "city" | "state" | "zip">;
-
-export interface CatalogContract {
-  categories: CategorySection[];
-  items: FlattenedCatalogItem[];
-  authenticated: boolean;
-}
-
-export interface CartState {
-  version: 5;
-  quantities: Record<string, number>;
-  updatedAt: string;
 }
 
 export interface OrderLine {

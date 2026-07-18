@@ -144,6 +144,7 @@ const dom = {
   cartView: document.querySelector("#cartView"),
   cartBackdrop: document.querySelector("#cartBackdrop"),
   cartBadge: document.querySelector("#cartBadge"),
+  portalBottomCartBadge: document.querySelector("#portalBottomCartBadge"),
   sideCartCount: document.querySelector("#sideCartCount"),
   catalog: document.querySelector("#catalog"),
   catalogCount: document.querySelector("#catalogCount"),
@@ -1677,6 +1678,11 @@ function renderCart() {
   const lines = cartLines();
   const totals = cartTotals(lines);
   dom.cartBadge.textContent = String(totals.units);
+  if (dom.portalBottomCartBadge) {
+    dom.portalBottomCartBadge.textContent = totals.units > 99 ? "99+" : String(totals.units);
+    dom.portalBottomCartBadge.hidden = totals.units === 0;
+    dom.portalBottomCartBadge.parentElement?.setAttribute("aria-label", `Cart, ${totals.units} item${totals.units === 1 ? "" : "s"}`);
+  }
   if (dom.sideCartCount) dom.sideCartCount.textContent = String(totals.units);
   dom.cartTitleCount.textContent = String(totals.units);
   dom.orderUnits.textContent = `${totals.units} item${totals.units === 1 ? "" : "s"}`;
@@ -2814,7 +2820,7 @@ function renderAdminStoreAccounts() {
           <span class="admin-account-status is-${escapeHtml(account.status)}">${escapeHtml(account.status)}</span>
         </div>
         <div class="admin-actions admin-store-actions">
-          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">${account.status === "pending" ? "Approve" : "Enable"}</button>` : ""}
+          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Enable</button>` : ""}
           ${account.status !== "disabled" ? `<button class="admin-button admin-secondary" type="button" data-store-action="status" data-status="disabled">Disable</button>` : ""}
           <button class="admin-button admin-secondary" type="button" data-store-action="store">Edit Store</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="username">Change Username</button>

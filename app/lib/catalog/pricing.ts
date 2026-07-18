@@ -30,7 +30,7 @@ export class InvalidOrderPricingError extends Error {
 
 export async function repriceOrderPayload(payload: Record<string, unknown>, identity: StoreIdentity | null, verifiedAccount?: StoreAccount | null): Promise<RepricedOrderPayload> {
   const catalog = await loadServerCatalog();
-  const account = identity?.status === "active" ? verifiedAccount || await getAccountById(identity.accountId) : null;
+  const account = identity && identity.status !== "disabled" ? verifiedAccount || await getAccountById(identity.accountId) : null;
   const overrides = account?.priceOverrides || [];
   const requested = Array.isArray(payload.lines) ? payload.lines : [];
   if (!requested.length) throw new InvalidOrderPricingError("Order must include at least one item.");
@@ -95,7 +95,7 @@ export async function repriceOrderPayload(payload: Record<string, unknown>, iden
 }
 
 export async function effectivePricingForIdentity(identity: StoreIdentity): Promise<{ overrides: StorePriceOverride[] }> {
-  if (identity.status !== "active") return { overrides: [] };
+  if (identity.status === "disabled") return { overrides: [] };
   const account = await getAccountById(identity.accountId);
   return { overrides: account?.priceOverrides || [] };
 }

@@ -1,6 +1,7 @@
 import { createAccount, newAccountId, newStoreId, UsernameConflictError } from "@/lib/account/account-store";
 import { hashPassword } from "@/lib/account/password";
 import { consumeRateLimit, requestRateKey } from "@/lib/account/rate-limit";
+import { createAccountSession, setAccountSessionCookie } from "@/lib/account/session";
 import { validateRegistration } from "@/lib/account/validation";
 import type { StoreAccount } from "@/types";
 
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     username: value.username,
     email: value.email,
     passwordHash: await hashPassword(value.password),
-    status: "pending",
+    status: "active",
     store: {
       id: storeId,
       storeName: value.storeName,
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
       state: "",
       zip: "",
       salesperson: value.salesperson,
-      status: "pending",
+      status: "active",
       createdAt: now,
       updatedAt: now,
     },
@@ -56,11 +57,13 @@ export async function POST(request: Request) {
 
   try {
     await createAccount(account);
+    const token = await createAccountSession(account.id, account.username);
+    await setAccountSessionCookie(token);
     return Response.json({
       ok: true,
-      status: "pending",
+      status: "active",
       account: { username: account.username, storeName: account.store.storeName, status: account.status },
-      message: "Your access request was received and is awaiting approval.",
+      message: "Your account is ready.",
     }, { status: 201, headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     if (error instanceof UsernameConflictError) {

@@ -49,12 +49,12 @@ test("registration validation normalizes usernames and rejects weak input", () =
   assert.ok(Object.keys(invalid.errors).length >= 5);
 });
 
-test("order authorization requires active approval and denies pending, disabled, and cross-store access", () => {
+test("order authorization auto-activates legacy pending accounts but denies disabled and cross-store access", () => {
   const identity = { accountId: "a", storeId: "store-a", email: "a@example.com", username: "a", status: "active" };
   assert.equal(canAccessStoreOrder(identity, { storeId: "store-a" }), true);
   assert.equal(canAccessStoreOrder(identity, { storeId: "store-b" }), false);
   assert.equal(canAccessStoreOrder(identity, {}), false);
-  assert.equal(canAccessStoreOrder({ ...identity, status: "pending" }, { storeId: "store-a" }), false);
+  assert.equal(canAccessStoreOrder({ ...identity, status: "pending" }, { storeId: "store-a" }), true);
   assert.equal(canAccessStoreOrder({ ...identity, status: "disabled" }, { storeId: "store-a" }), false);
 });
 

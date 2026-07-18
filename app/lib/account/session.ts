@@ -1,7 +1,7 @@
 import "server-only";
 
 import { randomBytes, randomUUID } from "node:crypto";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 import { createSessionRecord, deleteSessionRecord, getSessionRecord, hashSessionToken } from "@/lib/account/account-store";
 import { isSessionExpired, shouldRefreshSession, STORE_SESSION_MAX_AGE_SECONDS } from "@/lib/account/session-policy";
@@ -50,7 +50,7 @@ export async function clearAccountSession(token?: string | null): Promise<void> 
 
 export async function readSessionToken(request?: Request): Promise<string | null> {
   if (request) return parseCookie(request.headers.get("cookie") || "", STORE_SESSION_COOKIE);
-  return parseCookie((await headers()).get("cookie") || "", STORE_SESSION_COOKIE);
+  return (await cookies()).get(STORE_SESSION_COOKIE)?.value ?? null;
 }
 
 export async function getValidSession(token: string): Promise<AccountSession | null> {

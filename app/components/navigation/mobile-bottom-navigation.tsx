@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { useCart } from "@/components/cart/cart-provider";
 import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack, signInBackGoesHome } from "@/lib/navigation/internal-history";
 
 const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
@@ -13,11 +12,22 @@ export function MobileBottomNavigation() {
   const router = useRouter();
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [accountDestination, setAccountDestination] = useState("/sign-in");
-  const { units } = useCart();
+  const [cartUnits, setCartUnits] = useState(0);
 
   useEffect(() => {
     initializePortalHistory();
-    fetch("/api/account/session", { cache: "no-store" }).then((response) => response.json()).then((result) => setAccountDestination(result.authenticated ? "/account" : "/sign-in")).catch(() => undefined);
+    fetch("/api/account/session", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((result) => setAccountDestination(result.authenticated ? "/account" : "/sign-in"))
+      .catch(() => undefined);
+    const syncCart = () => setCartUnits(readLegacyCartUnits());
+    syncCart();
+    window.addEventListener("storage", syncCart);
+    window.addEventListener("blackmarket:cart-updated", syncCart);
+    return () => {
+      window.removeEventListener("storage", syncCart);
+      window.removeEventListener("blackmarket:cart-updated", syncCart);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -89,12 +99,12 @@ export function MobileBottomNavigation() {
         data-active={pathname === "/cart" ? "true" : "false"}
         type="button"
         onClick={() => navigate("/cart")}
-        aria-label={`Cart, ${units} item${units === 1 ? "" : "s"}`}
+        aria-label={`Cart, ${cartUnits} item${cartUnits === 1 ? "" : "s"}`}
         aria-current={pathname === "/cart" ? "page" : undefined}
         title="Cart"
       >
         <NavGlyph name="cart" />
-        {units ? <span className="liquid-mobile-nav__badge">{units > 99 ? "99+" : units}</span> : null}
+        {cartUnits ? <span className="liquid-mobile-nav__badge">{cartUnits > 99 ? "99+" : cartUnits}</span> : null}
       </button>
     </nav>
   );
@@ -109,4 +119,13 @@ function NavGlyph({ name }: { name: "back" | "home" | "account" | "cart" }) {
       {name === "cart" ? <><path d="M6 6h14l-2 8H8L6 3H3" /><circle cx="9" cy="19" r="1.25" /><circle cx="17" cy="19" r="1.25" /></> : null}
     </svg>
   );
+}
+
+function readLegacyCartUnits(): number {
+  try {
+    const cart = JSON.parse(window.localStorage.getItem("blackmarket-wholesale-cart-v4") || "{}") as Record<string, unknown>;
+    return Object.values(cart).reduce<number>((total, value) => total + Math.max(0, Math.floor(Number(value) || 0)), 0);
+  } catch {
+    return 0;
+  }
 }

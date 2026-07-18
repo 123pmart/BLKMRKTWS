@@ -552,7 +552,7 @@
               </div>
               <div class="admin-product-toolbar admin-store-toolbar">
                 <label class="admin-search-field"><span>Search accounts</span><input id="adminAccountSearch" type="search" placeholder="Store, username, or email" /></label>
-                <label><span>Status</span><select id="adminAccountFilter"><option value="all">All accounts</option><option value="pending">Pending approval</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+                <label><span>Status</span><select id="adminAccountFilter"><option value="all">All accounts</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
               </div>
               <div class="admin-store-grid">
                 <form class="admin-card" id="adminCreateAccountForm">
@@ -652,6 +652,10 @@
       </a>
       <a href="/sign-in?next=/account" data-account-route title="Account" aria-label="Account">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3" /><path d="M6.5 19c.6-3.3 2.4-4.9 5.5-4.9s4.9 1.6 5.5 4.9" /></svg>
+      </a>
+      <a href="/cart" data-portal-cart title="Cart" aria-label="Cart, 0 items">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h14l-2 8H8L6 3H3" /><circle cx="9" cy="19" r="1.25" /><circle cx="17" cy="19" r="1.25" /></svg>
+        <span class="portal-bottom-nav-badge" id="portalBottomCartBadge" hidden>0</span>
       </a>
     </nav>
 
