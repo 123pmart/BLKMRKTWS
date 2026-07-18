@@ -12,11 +12,14 @@ export async function GET(request) {
 
   const allOrders = await readOrders();
   const orders = identity.scope === "all" ? allOrders : allOrders.filter((order) => orderSalesperson(order) === identity.salesperson);
-  return Response.json({
-    ok: true,
-    orders,
-    storage: orderStorageMode(),
-  });
+  return Response.json(
+    {
+      ok: true,
+      orders,
+      storage: orderStorageMode(),
+    },
+    { headers: { "Cache-Control": "private, no-store" } },
+  );
 }
 
 export async function DELETE(request) {

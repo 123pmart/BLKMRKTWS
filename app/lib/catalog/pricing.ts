@@ -77,7 +77,7 @@ export async function repriceOrderPayload(payload: Record<string, unknown>, iden
 
   const submittedStore = payload.store && typeof payload.store === "object" ? payload.store as Record<string, unknown> : {};
   const salesperson = account ? normalizeSalesperson(account.store.salesperson) : submittedStore.salesperson;
-  if (!isSalespersonId(salesperson)) throw new InvalidOrderPricingError("Select Parker, Matt, or Beau as your salesperson.");
+  if (!isSalespersonId(salesperson)) throw new InvalidOrderPricingError("Select a salesperson.");
   return {
     ...(account ? { storeId: account.storeId } : {}),
     salesperson,

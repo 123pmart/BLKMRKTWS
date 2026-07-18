@@ -2424,9 +2424,13 @@ body.admin-news-editing .admin-news-side {
 
 .admin-order-lines > div {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "product margin quantity"
+    "meta margin quantity";
   gap: 10px;
   padding: 9px 10px;
+  align-items: center;
 }
 
 .admin-order-lines > div + div {
@@ -2441,7 +2445,32 @@ body.admin-news-editing .admin-news-side {
 }
 
 .admin-order-lines strong {
+  grid-area: product;
   font-size: 0.72rem;
+}
+
+.admin-order-lines em { grid-area: meta; }
+
+.admin-order-line-margin,
+.admin-order-line-quantity {
+  display: grid;
+  min-width: 58px;
+  gap: 2px;
+  justify-items: end;
+  color: var(--text) !important;
+  font-size: .7rem !important;
+  font-weight: 800;
+}
+
+.admin-order-line-margin { grid-area: margin; }
+.admin-order-line-quantity { grid-area: quantity; }
+.admin-order-line-margin small,
+.admin-order-line-quantity small {
+  color: var(--muted);
+  font-size: .52rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
 .admin-settings-grid {
@@ -3241,11 +3270,11 @@ body.admin-news-editing .admin-news-side {
   }
 
   .admin-order-lines > div {
-    grid-template-columns: 32px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto auto;
   }
 
   .admin-order-lines em {
-    grid-column: 2;
+    grid-column: auto;
   }
 }
 
@@ -3446,33 +3475,37 @@ body.admin-news-editing .admin-news-side {
 
 .admin-notification-bell {
   position: relative;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   justify-content: center;
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--surface);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--muted);
+  transition: color 160ms ease, transform 120ms ease;
 }
 
 .admin-notification-bell:hover,
-.admin-notification-bell.has-unread { border-color: var(--accent); color: var(--accent); }
-.admin-notification-bell svg { width: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.admin-notification-bell.has-unread { color: var(--accent); }
+.admin-notification-bell:active { transform: scale(.94); }
+.admin-notification-bell svg { width: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
 .admin-notification-bell span {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 4px;
+  top: -1px;
+  right: -1px;
+  display: grid;
+  min-width: 20px;
+  height: 20px;
+  place-items: center;
+  padding: 0 5px;
   border: 2px solid var(--bg);
   border-radius: 10px;
   background: var(--accent);
   color: #050505;
-  font-size: .61rem;
+  font-size: .64rem;
   font-weight: 900;
-  line-height: 14px;
+  line-height: 16px;
   text-align: center;
 }
 

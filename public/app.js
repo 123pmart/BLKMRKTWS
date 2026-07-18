@@ -7,6 +7,7 @@ import {
   recordPortalNavigation,
   safePortalBack as safePortalHistoryBack,
 } from "/lib/portal-history.js?v=20260717-home-final";
+import { orderLineMargin } from "/lib/margin-metrics.js?v=20260718-margin";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -30,6 +31,7 @@ let catalogTransitionTimer = 0;
 let lastProductTrigger = null;
 let lastNewsTrigger = null;
 let lastCartTrigger = null;
+let toastTimer = 0;
 
 const SECTION_META = [
   { slug: "thermogenics", label: "THERMOGENICS" },
@@ -467,7 +469,7 @@ function bindEvents() {
       state.adminIdentity = result.identity || null;
       renderAdmin();
       Promise.all([
-        loadServerOrders({ silent: true }),
+        loadServerOrders({ silent: true, initial: true }),
         loadServerContent({ silent: true }),
       ]);
       startAdminOrderPolling();
@@ -577,6 +579,7 @@ function bindEvents() {
 
   dom.adminNotificationBell?.addEventListener("click", async () => {
     markAdminOrdersRead();
+    if (state.activeView !== "admin") setView("admin");
     setAdminSection("orders");
     if (isInstalledApp() && "Notification" in window && Notification.permission === "default") {
       const permission = await Notification.requestPermission();
@@ -2371,7 +2374,7 @@ function publicLine({ item, qty, lineWholesale, lineMap }) {
 async function loadServerOrders(options = {}) {
   if (!state.adminAuthed) return;
   try {
-    const response = await fetch(ORDERS_API_URL, { headers: adminHeaders() });
+    const response = await fetch(ORDERS_API_URL, { cache: "no-store", headers: adminHeaders() });
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.ok) throw new Error(body.message || "Unable to load orders");
     const nextOrders = Array.isArray(body.orders) ? body.orders : [];
@@ -2396,16 +2399,13 @@ function adminLastSeenKey() {
 function updateAdminOrderNotifications(orders, options = {}) {
   const newest = orders.reduce((latest, order) => Math.max(latest, Date.parse(order.date) || 0), 0);
   const stored = Number(localStorage.getItem(adminLastSeenKey()) || 0);
-  if (!stored || options.initial) {
-    if (newest) localStorage.setItem(adminLastSeenKey(), String(newest));
-    state.adminUnreadOrders = 0;
-    state.adminNotifiedThrough = newest;
-    renderAdminNotificationBell();
-    return;
-  }
   const unread = orders.filter((order) => (Date.parse(order.date) || 0) > stored);
   state.adminUnreadOrders = unread.length;
   renderAdminNotificationBell();
+  if (options.initial) {
+    state.adminNotifiedThrough = newest;
+    return;
+  }
   const unnotified = unread.filter((order) => (Date.parse(order.date) || 0) > state.adminNotifiedThrough);
   if (unnotified.length && options.notify) {
     state.adminNotifiedThrough = Math.max(state.adminNotifiedThrough, ...unnotified.map((order) => Date.parse(order.date) || 0));
@@ -2465,6 +2465,7 @@ async function clearServerOrders() {
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.ok) throw new Error(body.message || "Unable to clear orders");
     state.orders = [];
+    updateAdminOrderNotifications(state.orders, { initial: true });
     saveJson(ORDERS_KEY, state.orders);
     renderAdminOrders();
     renderAdminMetrics();
@@ -2487,6 +2488,7 @@ async function deleteServerOrder(id) {
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.ok) throw new Error(body.message || "Unable to delete order");
     state.orders = state.orders.filter((entry) => entry.id !== id);
+    updateAdminOrderNotifications(state.orders, { initial: true });
     saveJson(ORDERS_KEY, state.orders);
     renderAdminOrders();
     renderAdminMetrics();
@@ -3027,9 +3029,10 @@ function renderAdminOrder(order) {
       <div class="admin-order-lines">
         ${lines.map((line) => `
           <div>
-            <span>${escapeHtml(String(line.qty))}x</span>
             <strong>${escapeHtml(line.product)} ${escapeHtml(line.flavor)}</strong>
             <em>#${escapeHtml(line.item)}${line.upc ? ` / UPC ${escapeHtml(line.upc)}` : ""} / ${escapeHtml(line.wholesale)} / line ${money(line.lineWholesale)}</em>
+            <span class="admin-order-line-margin"><small>Margin</small>${escapeHtml(orderLineMargin(line))}</span>
+            <span class="admin-order-line-quantity"><small>Qty</small>${escapeHtml(String(line.qty))}</span>
           </div>
         `).join("")}
       </div>

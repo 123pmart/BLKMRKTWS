@@ -5,7 +5,9 @@ import path from "node:path";
 
 const STORE_STATE = Symbol.for("blackmarket.wholesale.orders");
 const MAX_ORDERS = 500;
-const BLOB_PATH = "blackmarket/orders.json";
+const LEGACY_BLOB_PATH = "blackmarket/orders.json";
+const BLOB_SNAPSHOT_PREFIX = "blackmarket/order-snapshots/";
+const BLOB_SNAPSHOT_RETENTION = 25;
 
 if (!globalThis[STORE_STATE]) {
   globalThis[STORE_STATE] = {
@@ -153,8 +155,10 @@ async function writeOrders(orders) {
 
 async function readBlobOrders() {
   try {
-    const { get } = await import("@vercel/blob");
-    const result = await get(BLOB_PATH, { access: "private" });
+    const { get, list } = await import("@vercel/blob");
+    const snapshots = await list({ prefix: BLOB_SNAPSHOT_PREFIX, limit: 1000 });
+    const latest = [...snapshots.blobs].sort((left, right) => right.uploadedAt.getTime() - left.uploadedAt.getTime())[0];
+    const result = await get(latest?.pathname || LEGACY_BLOB_PATH, { access: "private" });
     if (result?.statusCode !== 200 || !result.stream) {
       memory.orders = [];
       return memory.orders;
@@ -174,13 +178,25 @@ async function readBlobOrders() {
 }
 
 async function writeBlobOrders(orders) {
-  const { put } = await import("@vercel/blob");
-  await put(BLOB_PATH, `${JSON.stringify({ orders }, null, 2)}\n`, {
+  const { del, list, put } = await import("@vercel/blob");
+  const pathname = `${BLOB_SNAPSHOT_PREFIX}${Date.now()}-${randomUUID()}.json`;
+  await put(pathname, `${JSON.stringify({ orders }, null, 2)}\n`, {
     access: "private",
-    allowOverwrite: true,
+    allowOverwrite: false,
     contentType: "application/json",
-    cacheControlMaxAge: 60,
+    cacheControlMaxAge: 31_536_000,
   });
+
+  try {
+    const snapshots = await list({ prefix: BLOB_SNAPSHOT_PREFIX, limit: 1000 });
+    const obsolete = [...snapshots.blobs]
+      .sort((left, right) => right.uploadedAt.getTime() - left.uploadedAt.getTime())
+      .slice(BLOB_SNAPSHOT_RETENTION)
+      .map((blob) => blob.pathname);
+    if (obsolete.length) await del(obsolete);
+  } catch (error) {
+    console.warn("Unable to prune old order snapshots:", error?.message || error);
+  }
 }
 
 function canAttemptBlobStore() {

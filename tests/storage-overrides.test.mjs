@@ -28,6 +28,9 @@ test("explicit local content and order paths are authoritative", async () => {
 
     assert.equal(JSON.parse(await readFile(process.env.CONTENT_STORE_FILE, "utf8")).announcements[0].id, "isolated");
     assert.equal(JSON.parse(await readFile(process.env.ORDER_STORE_FILE, "utf8")).orders[0].id, "isolated-order");
+    assert.equal(await orderStore.deleteOrder("isolated-order"), true);
+    assert.deepEqual(await orderStore.readOrders(), []);
+    assert.deepEqual(JSON.parse(await readFile(process.env.ORDER_STORE_FILE, "utf8")).orders, []);
   } finally {
     if (previousContentPath === undefined) delete process.env.CONTENT_STORE_FILE;
     else process.env.CONTENT_STORE_FILE = previousContentPath;

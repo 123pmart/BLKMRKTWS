@@ -8,7 +8,7 @@
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260717-order-nav-final2" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260718-global-order-bell" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -42,6 +42,10 @@
             </svg>
             <span>Account</span>
           </a>
+          <button id="adminNotificationBell" class="admin-notification-bell" type="button" aria-label="Open new orders" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 21h4"/></svg>
+            <span id="adminNotificationCount" hidden>0</span>
+          </button>
           <button class="cart-icon" id="headerCartButton" type="button" aria-label="Open cart">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M6 6h15l-2 8H8L6 3H3" />
@@ -139,7 +143,7 @@
               <label id="checkoutSalespersonField" hidden>
                 <span>Salesperson *</span>
                 <select id="salesperson" name="salesperson" required>
-                  <option value="" selected disabled>Select Parker, Matt, or Beau</option>
+                  <option value="" selected disabled>Select salesperson</option>
                   <option value="parker">Parker</option>
                   <option value="matt">Matt</option>
                   <option value="beau">Beau</option>
@@ -199,10 +203,6 @@
             </div>
             <div class="admin-masthead-actions">
               <span id="adminIdentityLabel" class="admin-identity-label" hidden></span>
-              <button id="adminNotificationBell" class="admin-notification-bell" type="button" aria-label="Order notifications" hidden>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 21h4"/></svg>
-                <span id="adminNotificationCount" hidden>0</span>
-              </button>
               <span class="admin-live-status"><i aria-hidden="true"></i> Portal live</span>
             </div>
           </div>
@@ -733,6 +733,6 @@
   </div>
 </div>
 
-    <script type="module" src="/app.js?v=20260717-order-nav-final2"></script>
+    <script type="module" src="/app.js?v=20260718-global-order-bell"></script>
   </body>
 </html>
