@@ -5,6 +5,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFP
 import sharp from "sharp";
 
 import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
+import { formatOrderLineMargin } from "@/lib/orders/margin";
 import { bundledPdfBrandLogo } from "@/lib/orders/pdf-brand-logo";
 import { bundledPdfProductThumbnail } from "@/lib/orders/pdf-product-thumbnails";
 import type { Order, OrderLine } from "@/types";
@@ -42,8 +43,8 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
   y = drawProductHeading(page, fonts, y - 16);
 
   for (const line of order.lines) {
-    const titleLines = wrap(line.product || "Product", fonts.bold, 9.5, 225, 2);
-    const flavorLines = wrap(line.flavor || "", fonts.regular, 8, 225, 1);
+    const titleLines = wrap(line.product || "Product", fonts.bold, 9.5, 170, 2);
+    const flavorLines = wrap(line.flavor || "", fonts.regular, 8, 170, 1);
     const rowHeight = Math.max(58, 24 + (titleLines.length + flavorLines.length) * 10);
     if (y - rowHeight < 132) {
       page = addPage(pdf);
@@ -118,7 +119,8 @@ function drawProductHeading(page: PDFPage, fonts: Fonts, y: number): number {
   page.drawText("IMAGE", { x: MARGIN + 8, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
   page.drawText("ITEM", { x: MARGIN + 62, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
   page.drawText("PRODUCT", { x: MARGIN + 116, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
-  rightText(page, fonts, "QTY", 432, y - 23, 6.8, WHITE, true);
+  rightText(page, fonts, "MARGIN", 395, y - 23, 6.8, WHITE, true);
+  rightText(page, fonts, "QTY", 438, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "UNIT", 495, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "TOTAL", PAGE_WIDTH - MARGIN - 8, y - 23, 6.8, WHITE, true);
   return y - 31;
@@ -133,7 +135,8 @@ function drawProductRow(page: PDFPage, line: OrderLine, image: PDFImage | null, 
   titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 116, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
   flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 116, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
   const baseline = y - height / 2 - 3;
-  rightText(page, fonts, String(line.qty), 432, baseline, 8.7, DARK);
+  rightText(page, fonts, formatOrderLineMargin(line), 395, baseline, 8, DARK);
+  rightText(page, fonts, String(line.qty), 438, baseline, 8.7, DARK);
   rightText(page, fonts, money(unitPrice(line)), 495, baseline, 8.7, DARK);
   rightText(page, fonts, money(line.lineWholesale), PAGE_WIDTH - MARGIN - 8, baseline, 9, BLACK, true);
 }

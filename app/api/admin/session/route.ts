@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const identity = await getAdminIdentity(request);
+  if (identity) await setAdminSession(identity);
   return Response.json({ ok: true, authenticated: Boolean(identity), identity, configured: adminAuthConfigured() }, { headers: { "Cache-Control": "private, no-store" } });
 }
 

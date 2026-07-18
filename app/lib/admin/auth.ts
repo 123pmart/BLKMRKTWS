@@ -2,10 +2,10 @@ import "server-only";
 
 import { createHmac, scryptSync, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { ADMIN_SESSION_MAX_AGE_SECONDS } from "@/lib/admin/session-policy";
 import type { AdminIdentity } from "@/types";
 
 const ADMIN_COOKIE = "bm_admin_session";
-const ADMIN_MAX_AGE = 60 * 60 * 8;
 
 export function adminAuthConfigured(): boolean {
   return Boolean(process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASS);
@@ -24,7 +24,7 @@ export function verifyAdminCredentials(username: string, password: string): Admi
 }
 
 export async function setAdminSession(identity: AdminIdentity): Promise<void> {
-  const expiresAt = Date.now() + ADMIN_MAX_AGE * 1000;
+  const expiresAt = Date.now() + ADMIN_SESSION_MAX_AGE_SECONDS * 1000;
   const payload = Buffer.from(JSON.stringify({ role: "admin", exp: expiresAt, identity })).toString("base64url");
   const signature = sign(payload);
   (await cookies()).set(ADMIN_COOKIE, `${payload}.${signature}`, {
@@ -32,7 +32,8 @@ export async function setAdminSession(identity: AdminIdentity): Promise<void> {
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: ADMIN_MAX_AGE,
+    maxAge: ADMIN_SESSION_MAX_AGE_SECONDS,
+    priority: "high",
   });
 }
 

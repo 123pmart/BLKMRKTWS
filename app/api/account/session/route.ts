@@ -1,4 +1,5 @@
 import { getVerifiedStoreAccount } from "@/lib/account/auth";
+import { refreshAccountSessionIfNeeded } from "@/lib/account/session";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -8,7 +9,8 @@ export async function GET(request: Request) {
   if (!verified) {
     return Response.json({ ok: true, authenticated: false }, { headers: { "Cache-Control": "private, no-store" } });
   }
-  const { account } = verified;
+  const { account, session } = verified;
+  await refreshAccountSessionIfNeeded(session);
   return Response.json({
     ok: true,
     authenticated: true,

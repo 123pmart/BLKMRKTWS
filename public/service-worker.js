@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-18-v9-order-inbox";
+const CACHE_VERSION = "2026-07-18-v10-persistent-sessions";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";

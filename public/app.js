@@ -7,7 +7,7 @@ import {
   recordPortalNavigation,
   safePortalBack as safePortalHistoryBack,
 } from "/lib/portal-history.js?v=20260717-home-final";
-import { orderLineMargin } from "/lib/margin-metrics.js?v=20260718-margin";
+import { formatOrderLineMargin } from "/lib/margin-metrics.js?v=20260718-customer-margin";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -1864,7 +1864,8 @@ async function showSubmittedOrderOptions(order) {
     <div class="order-confirmation-line">
       <span class="order-confirmation-thumb">${line.image ? `<img src="${escapeHtml(line.image)}" alt="" width="52" height="52" loading="lazy" />` : "BM"}</span>
       <span><strong>${escapeHtml(line.product)}</strong><small>${escapeHtml(line.flavor)} · SKU ${escapeHtml(line.item)}</small></span>
-      <span>${line.qty} × ${escapeHtml(line.wholesale)}</span>
+      <span class="order-confirmation-margin"><small>Margin</small><strong>${escapeHtml(formatOrderLineMargin(line))}</strong></span>
+      <span class="order-confirmation-quantity"><small>Qty</small><strong>${escapeHtml(String(line.qty))}</strong></span>
       <strong>${money(line.lineWholesale)}</strong>
     </div>
   `).join("");
@@ -3029,10 +3030,9 @@ function renderAdminOrder(order) {
       <div class="admin-order-lines">
         ${lines.map((line) => `
           <div>
+            <span>${escapeHtml(String(line.qty))}x</span>
             <strong>${escapeHtml(line.product)} ${escapeHtml(line.flavor)}</strong>
             <em>#${escapeHtml(line.item)}${line.upc ? ` / UPC ${escapeHtml(line.upc)}` : ""} / ${escapeHtml(line.wholesale)} / line ${money(line.lineWholesale)}</em>
-            <span class="admin-order-line-margin"><small>Margin</small>${escapeHtml(orderLineMargin(line))}</span>
-            <span class="admin-order-line-quantity"><small>Qty</small>${escapeHtml(String(line.qty))}</span>
           </div>
         `).join("")}
       </div>

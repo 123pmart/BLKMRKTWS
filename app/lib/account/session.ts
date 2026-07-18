@@ -4,11 +4,10 @@ import { randomBytes, randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 
 import { createSessionRecord, deleteSessionRecord, getSessionRecord, hashSessionToken } from "@/lib/account/account-store";
-import { isSessionExpired } from "@/lib/account/session-policy";
+import { isSessionExpired, shouldRefreshSession, STORE_SESSION_MAX_AGE_SECONDS } from "@/lib/account/session-policy";
 import type { AccountSession } from "@/types";
 
 export const STORE_SESSION_COOKIE = "bm_store_session";
-export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 14;
 
 export async function createAccountSession(accountId: string, username: string): Promise<string> {
   const token = randomBytes(32).toString("base64url");
@@ -19,7 +18,7 @@ export async function createAccountSession(accountId: string, username: string):
     accountId,
     username,
     createdAt: new Date(now).toISOString(),
-    expiresAt: new Date(now + SESSION_MAX_AGE_SECONDS * 1000).toISOString(),
+    expiresAt: new Date(now + STORE_SESSION_MAX_AGE_SECONDS * 1000).toISOString(),
   };
   await createSessionRecord(session);
   return token;
@@ -32,7 +31,8 @@ export async function setAccountSessionCookie(token: string): Promise<void> {
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
     path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
+    maxAge: STORE_SESSION_MAX_AGE_SECONDS,
+    priority: "high",
   });
 }
 
@@ -61,6 +61,14 @@ export async function getValidSession(token: string): Promise<AccountSession | n
     return null;
   }
   return session;
+}
+
+export async function refreshAccountSessionIfNeeded(session: AccountSession): Promise<boolean> {
+  if (!shouldRefreshSession(session)) return false;
+  const token = await createAccountSession(session.accountId, session.username);
+  await setAccountSessionCookie(token);
+  await deleteSessionRecord(session.tokenHash).catch(() => undefined);
+  return true;
 }
 
 function parseCookie(header: string, name: string): string | null {

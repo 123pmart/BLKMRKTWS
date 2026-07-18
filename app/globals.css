@@ -408,7 +408,7 @@ body {
 .account-order-lines { overflow: hidden; }
 .account-order-line {
   display: grid;
-  grid-template-columns: 64px minmax(220px, 1fr) 76px 96px 96px;
+  grid-template-columns: 64px minmax(190px, 1fr) 76px 76px 96px 96px;
   gap: 16px;
   min-height: 88px;
   padding: 12px 18px;

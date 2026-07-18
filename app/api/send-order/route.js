@@ -1,6 +1,7 @@
 import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
 import { getVerifiedStoreAccount } from "../../lib/account/auth.ts";
 import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
+import { formatOrderLineMargin } from "../../../public/lib/margin-metrics.js";
 
 const ORDER_TO_EMAIL = process.env.ORDER_TO_EMAIL || "pmart@blackmarketlabs.com";
 const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "pmart@blackmarketlabs.com";
@@ -170,7 +171,7 @@ function orderText(order, title) {
     store.notes ? `Notes: ${store.notes}` : "",
     "",
     "Items",
-    ...lines.map((line) => `${line.qty} x ${line.product} / ${line.flavor} / #${line.item} / ${line.wholesale} each = ${money(line.lineWholesale)}`),
+    ...lines.map((line) => `${line.product} / ${line.flavor} / #${line.item} / Margin ${formatOrderLineMargin(line)} / Qty ${line.qty} / ${line.wholesale} each = ${money(line.lineWholesale)}`),
     "",
     `Units: ${totals.units || 0}`,
     `Wholesale total: ${money(totals.wholesale)}`,
@@ -182,11 +183,12 @@ function orderHtml(order, { title, eyebrow, intro }) {
   const { store, lines, totals = {} } = order;
   const rows = lines.map((line) => `
     <tr>
-      <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;font-weight:700;">${escapeHtml(String(line.qty))}</td>
       <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;">
         <strong style="display:block;font-size:14px;">${escapeHtml(line.product)}</strong>
         <span style="display:block;margin-top:3px;color:#666;font-size:12px;">${escapeHtml(line.flavor)} / Item #${escapeHtml(line.item || "")}${line.upc ? ` / UPC ${escapeHtml(line.upc)}` : ""}</span>
       </td>
+      <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;text-align:right;">${escapeHtml(formatOrderLineMargin(line))}</td>
+      <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;text-align:right;font-weight:700;">${escapeHtml(String(line.qty))}</td>
       <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;text-align:right;">${escapeHtml(line.wholesale)}</td>
       <td style="padding:14px 12px;border-bottom:1px solid #e8e8e8;color:#111;text-align:right;font-weight:700;">${money(line.lineWholesale)}</td>
     </tr>
@@ -232,8 +234,9 @@ function orderHtml(order, { title, eyebrow, intro }) {
             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border:1px solid #e8e8e8;border-radius:16px;overflow:hidden;">
               <thead>
                 <tr style="background:#fafafa;">
-                  <th align="left" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Units</th>
                   <th align="left" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Flavor / Product</th>
+                  <th align="right" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Margin</th>
+                  <th align="right" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Qty</th>
                   <th align="right" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Each</th>
                   <th align="right" style="padding:11px 12px;color:#777;font-size:11px;text-transform:uppercase;">Line</th>
                 </tr>

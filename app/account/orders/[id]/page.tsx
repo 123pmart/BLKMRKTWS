@@ -5,6 +5,7 @@ import { AccountPageHeader } from "@/components/account/account-page-header";
 import { OrderProductImage } from "@/components/account/order-product-image";
 import { WholesaleWordmark } from "@/components/branding/wholesale-wordmark";
 import { getVerifiedStoreIdentity } from "@/lib/account/auth";
+import { formatOrderLineMargin } from "@/lib/orders/margin";
 import { withResolvedOrderImages } from "@/lib/orders/order-images";
 import { getOrderForVerifiedStore } from "@/lib/orders/store-order-history";
 
@@ -51,12 +52,13 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
             <h2 id="ordered-products-heading">Products</h2>
           </div>
           <div className="account-order-line account-order-line--head" aria-hidden="true">
-            <span>Item</span><span>Product</span><span>Quantity</span><span>Unit price</span><span>Total</span>
+            <span>Item</span><span>Product</span><span>Margin</span><span>Quantity</span><span>Unit price</span><span>Total</span>
           </div>
           {order.lines.map((line, index) => (
             <div className="account-order-line" key={`${line.variantId || line.item}-${index}`}>
               <OrderProductImage src={line.image} alt={`${line.product} ${line.flavor}`} priority={index === 0} />
               <div className="account-order-product"><strong>{line.product}</strong><span>{line.flavor}</span><small>SKU {line.item}</small></div>
+              <span data-label="Margin">{formatOrderLineMargin(line)}</span>
               <span data-label="Quantity">{line.qty}</span>
               <span data-label="Unit price">{formatMoney(unitPrice(line.lineWholesale, line.qty))}</span>
               <strong data-label="Line total">{formatMoney(line.lineWholesale)}</strong>

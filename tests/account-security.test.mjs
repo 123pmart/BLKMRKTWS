@@ -2,10 +2,15 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { hashPassword, verifyPassword } from "../app/lib/account/password.ts";
-import { isSessionExpired } from "../app/lib/account/session-policy.ts";
+import {
+  isSessionExpired,
+  shouldRefreshSession,
+  STORE_SESSION_MAX_AGE_SECONDS,
+} from "../app/lib/account/session-policy.ts";
 import { validateRegistration } from "../app/lib/account/validation.ts";
 import { canAccessStoreOrder } from "../app/lib/orders/authorization.ts";
 import { adminCanAccessSalesperson, normalizeSalesperson, orderSalesperson } from "../app/lib/salespeople.ts";
+import { ADMIN_SESSION_MAX_AGE_SECONDS } from "../app/lib/admin/session-policy.ts";
 
 test("passwords are salted, hashed, and verified without plaintext storage", async () => {
   const first = await hashPassword("StrongPassword42");
@@ -20,6 +25,18 @@ test("session expiration rejects expired and malformed timestamps", () => {
   assert.equal(isSessionExpired({ expiresAt: "2026-01-01T00:00:00.000Z" }, Date.parse("2026-01-02T00:00:00.000Z")), true);
   assert.equal(isSessionExpired({ expiresAt: "2026-01-03T00:00:00.000Z" }, Date.parse("2026-01-02T00:00:00.000Z")), false);
   assert.equal(isSessionExpired({ expiresAt: "invalid" }), true);
+});
+
+test("store sessions persist for six months and refresh before expiration", () => {
+  assert.equal(STORE_SESSION_MAX_AGE_SECONDS, 60 * 60 * 24 * 180);
+  const now = Date.parse("2026-01-01T00:00:00.000Z");
+  assert.equal(shouldRefreshSession({ expiresAt: "2026-01-20T00:00:00.000Z" }, now), true);
+  assert.equal(shouldRefreshSession({ expiresAt: "2026-05-01T00:00:00.000Z" }, now), false);
+  assert.equal(shouldRefreshSession({ expiresAt: "2025-12-31T00:00:00.000Z" }, now), false);
+});
+
+test("admin sessions persist for thirty days", () => {
+  assert.equal(ADMIN_SESSION_MAX_AGE_SECONDS, 60 * 60 * 24 * 30);
 });
 
 test("registration validation normalizes usernames and rejects weak input", () => {
