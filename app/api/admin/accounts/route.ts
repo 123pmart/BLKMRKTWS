@@ -1,7 +1,8 @@
 import { createAccount, getAccountById, listAccounts, newAccountId, newStoreId, renameAccountUsername, updateAccount, UsernameConflictError } from "@/lib/account/account-store";
 import { hashPassword } from "@/lib/account/password";
 import { normalizeUsername, validateRegistration } from "@/lib/account/validation";
-import { isAdminRequest } from "@/lib/admin/auth";
+import { getAdminIdentity } from "@/lib/admin/auth";
+import { accountSalesperson, adminCanAccessSalesperson, isSalespersonId, normalizeSalesperson, orderSalesperson } from "@/lib/salespeople";
 import { loadServerCatalog } from "@/lib/catalog/server-catalog";
 import { normalizePriceOverride } from "@/lib/catalog/pricing";
 import { linkOrderToStore, readOrders } from "@/api/orders/store.js";
@@ -11,12 +12,16 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  if (!(await isAdminRequest(request))) return unauthorized();
-  const [accounts, orders, catalog] = await Promise.all([listAccounts(), readOrders(), loadServerCatalog()]);
+  const identity = await getAdminIdentity(request);
+  if (!identity) return unauthorized();
+  const accounts = await listAccounts();
+  const [orders, catalog] = await Promise.all([readOrders(), loadServerCatalog()]);
+  const visibleAccounts = accounts.filter((account) => adminCanAccessSalesperson(identity, accountSalesperson(account)));
+  const visibleOrders = (orders as Array<{ id: string; storeId?: string; salesperson?: "parker" | "matt" | "beau"; store: { storeName?: string; salesperson?: "parker" | "matt" | "beau" }; date?: string }>).filter((order) => adminCanAccessSalesperson(identity, orderSalesperson(order)));
   return Response.json({
     ok: true,
-    accounts: accounts.map(publicAdminAccount),
-    orders: (orders as Array<{ id: string; storeId?: string; store?: { storeName?: string }; date?: string }>).map((order) => ({
+    accounts: visibleAccounts.map(publicAdminAccount),
+    orders: visibleOrders.map((order) => ({
       id: order.id, storeId: order.storeId || "", storeName: order.store?.storeName || "", date: order.date || "",
     })),
     catalog: catalog.map((item: { productId: string; variantId: string; product: string; flavor: string; item: string; wholesalePrice: number }) => ({
@@ -27,12 +32,14 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!(await isAdminRequest(request))) return unauthorized();
+  const identity = await getAdminIdentity(request);
+  if (!identity) return unauthorized();
   const body = await request.json().catch(() => ({})) as Record<string, unknown>;
   const password = String(body.password || "");
   const validation = validateRegistration({
     storeName: String(body.storeName || ""), contactName: String(body.contactName || ""),
     email: String(body.email || ""), username: String(body.username || ""), password, confirmPassword: password,
+    salesperson: identity.scope === "own" ? identity.salesperson : normalizeSalesperson(body.salesperson),
   });
   if (!validation.ok || !validation.value) {
     return Response.json({ ok: false, message: "Review the account fields.", errors: validation.errors }, { status: 400, headers: { "Cache-Control": "no-store" } });
@@ -41,10 +48,11 @@ export async function POST(request: Request) {
   const storeId = newStoreId();
   const account: StoreAccount = {
     id: newAccountId(), storeId, username: validation.value.username, email: validation.value.email,
-    passwordHash: await hashPassword(password), status: body.status === "pending" ? "pending" : "active",
+    passwordHash: await hashPassword(password), status: "active",
     store: {
       id: storeId, storeName: validation.value.storeName, contactName: validation.value.contactName,
       email: validation.value.email, phone: "", street: "", city: "", state: "", zip: "",
+      salesperson: validation.value.salesperson,
       status: "active", createdAt: now, updatedAt: now,
     },
     priceOverrides: [], createdAt: now, updatedAt: now,
@@ -59,17 +67,19 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  if (!(await isAdminRequest(request))) return unauthorized();
+  const identity = await getAdminIdentity(request);
+  if (!identity) return unauthorized();
   const body = await request.json().catch(() => ({})) as Record<string, unknown>;
   const accountId = String(body.accountId || "");
   const action = String(body.action || "");
   const account = await getAccountById(accountId);
   if (!account) return Response.json({ ok: false, message: "Store account not found." }, { status: 404, headers: { "Cache-Control": "no-store" } });
+  if (!adminCanAccessSalesperson(identity, accountSalesperson(account))) return Response.json({ ok: false, message: "Store account not found." }, { status: 404, headers: { "Cache-Control": "no-store" } });
 
   let updated = account;
   if (action === "status") {
     const status = String(body.status) as StoreAccountStatus;
-    if (!["pending", "active", "disabled"].includes(status)) return badRequest("Invalid account status.");
+    if (!["active", "disabled"].includes(status)) return badRequest("Invalid account status.");
     updated = await updateAccount(account.username, (record) => ({ ...record, status }));
   } else if (action === "reset-password") {
     const password = String(body.password || "");
@@ -91,6 +101,7 @@ export async function PATCH(request: Request) {
         email: clean(body.email, 180).toLowerCase() || record.store.email,
         phone: clean(body.phone, 40), street: clean(body.street, 180), city: clean(body.city, 90),
         state: clean(body.state, 30).toUpperCase(), zip: clean(body.zip, 20), updatedAt: new Date().toISOString(),
+        salesperson: identity.scope === "own" ? identity.salesperson : (isSalespersonId(body.salesperson) ? body.salesperson : normalizeSalesperson(record.store.salesperson)),
       },
     }));
   } else if (action === "add-price") {
@@ -108,7 +119,10 @@ export async function PATCH(request: Request) {
     const overrideId = String(body.overrideId || "");
     updated = await updateAccount(account.username, (record) => ({ ...record, priceOverrides: record.priceOverrides.filter((entry) => entry.id !== overrideId) }));
   } else if (action === "link-order") {
-    const linked = await linkOrderToStore(String(body.orderId || ""), account.storeId);
+    const orders = await readOrders();
+    const targetOrder = (orders as Array<{ id: string; salesperson?: "parker" | "matt" | "beau"; store: { salesperson?: "parker" | "matt" | "beau" } }>).find((order) => order.id === String(body.orderId || ""));
+    if (!targetOrder || !adminCanAccessSalesperson(identity, orderSalesperson(targetOrder)) || orderSalesperson(targetOrder) !== accountSalesperson(account)) return badRequest("Order not found for this salesperson.");
+    const linked = await linkOrderToStore(targetOrder.id, account.storeId);
     if (!linked) return badRequest("Order not found.");
   } else {
     return badRequest("Unknown account action.");

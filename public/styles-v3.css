@@ -10,7 +10,7 @@
   --muted: #92929c;
   --quiet: #666670;
   --accent: #f5a900;
-  --accent-strong: #ffc33d;
+  --accent-strong: #f5a900;
   --danger: #ff7168;
   --success: #62d39b;
   --header: 68px;
@@ -610,10 +610,10 @@ img {
   min-height: 20px;
   padding: 0 7px;
   align-items: center;
-  border: 1px solid rgba(246, 217, 0, 0.28);
+  border: 1px solid rgba(245, 169, 0, 0.28);
   border-radius: 999px;
   color: var(--accent);
-  background: rgba(246, 217, 0, 0.07);
+  background: rgba(245, 169, 0, 0.07);
   font-size: 0.54rem;
   font-style: normal;
   font-weight: 900;
@@ -2642,7 +2642,7 @@ body.admin-news-editing .admin-news-side {
   letter-spacing: .07em;
   text-transform: uppercase;
 }
-.admin-account-status.is-active { color: var(--accent); border-color: rgba(246, 217, 0, .28); }
+.admin-account-status.is-active { color: var(--accent); border-color: rgba(245, 169, 0, .28); }
 .admin-account-status.is-disabled { color: #fda4af; border-color: rgba(253, 164, 175, .25); }
 
 .admin-store-actions { margin-top: 14px; }
@@ -3428,6 +3428,54 @@ body.admin-news-editing .admin-news-side {
   background: var(--accent);
 }
 
+.admin-masthead-actions,
+.admin-notification-bell {
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-masthead-actions { gap: 12px; }
+
+.admin-identity-label {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.admin-notification-bell {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.admin-notification-bell:hover,
+.admin-notification-bell.has-unread { border-color: var(--accent); color: var(--accent); }
+.admin-notification-bell svg { width: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.admin-notification-bell span {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 2px solid var(--bg);
+  border-radius: 10px;
+  background: var(--accent);
+  color: #050505;
+  font-size: .61rem;
+  font-weight: 900;
+  line-height: 14px;
+  text-align: center;
+}
+
 .admin-shell {
   display: grid;
   min-height: 690px;
@@ -3823,6 +3871,9 @@ body.admin-news-editing .admin-news-side {
     min-height: 28px;
     font-size: 0.58rem;
   }
+
+  .admin-masthead-actions { gap: 8px; }
+  .admin-identity-label { display: none; }
 
   .admin-shell {
     margin-inline: -4px;

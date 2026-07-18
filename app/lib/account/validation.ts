@@ -5,6 +5,7 @@ export interface RegistrationInput {
   username: string;
   password: string;
   confirmPassword: string;
+  salesperson: "parker" | "matt" | "beau";
 }
 
 export interface ValidationResult<T> {
@@ -25,6 +26,7 @@ export function validateRegistration(input: Partial<RegistrationInput>): Validat
     username: normalizeUsername(input.username).slice(0, 40),
     password: String(input.password ?? ""),
     confirmPassword: String(input.confirmPassword ?? ""),
+    salesperson: String(input.salesperson ?? "").trim().toLowerCase() as RegistrationInput["salesperson"],
   };
   const errors: Record<string, string> = {};
 
@@ -38,6 +40,7 @@ export function validateRegistration(input: Partial<RegistrationInput>): Validat
     errors.password = "Use at least 10 characters with a letter and number.";
   }
   if (value.password !== value.confirmPassword) errors.confirmPassword = "Passwords do not match.";
+  if (!["parker", "matt", "beau"].includes(value.salesperson)) errors.salesperson = "Select your salesperson.";
   return { ok: Object.keys(errors).length === 0, value, errors };
 }
 

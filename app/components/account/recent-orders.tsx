@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import type { StoreIdentity } from "@/types";
 
 export async function RecentOrders({ identity }: { identity: StoreIdentity }) {
-  const orders = identity.status === "active" ? await getOrdersForVerifiedStore(identity) : [];
+  const orders = await getOrdersForVerifiedStore(identity);
   return (
     <>
       {orders.length ? (
@@ -18,8 +18,8 @@ export async function RecentOrders({ identity }: { identity: StoreIdentity }) {
             </Link>
           ))}
         </div>
-      ) : <p className="account-empty">{identity.status === "active" ? "No linked orders yet." : "Available after approval."}</p>}
-      {identity.status === "active" ? <Link className={cn(buttonVariants({ variant: "secondary" }), "mt-5")} href="/account/orders" prefetch>View all orders</Link> : null}
+      ) : <p className="account-empty">No orders yet.</p>}
+      <Link className={cn(buttonVariants({ variant: "secondary" }), "mt-5")} href="/account/orders" prefetch>View all orders</Link>
     </>
   );
 }

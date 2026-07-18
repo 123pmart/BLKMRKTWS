@@ -162,6 +162,7 @@ function orderText(order, title) {
     "",
     "Store Information",
     `Store: ${store.storeName}`,
+    `Salesperson: ${String(order.salesperson || store.salesperson || "parker").replace(/^./, (letter) => letter.toUpperCase())}`,
     `Contact: ${store.contactName || ""}`,
     `Phone: ${store.phone}`,
     `Email: ${store.email}`,
@@ -196,7 +197,7 @@ function orderHtml(order, { title, eyebrow, intro }) {
       <div style="max-width:720px;margin:0 auto;padding:28px 14px;">
         <div style="overflow:hidden;border-radius:24px;background:#ffffff;border:1px solid #e5e5e7;box-shadow:0 24px 70px rgba(0,0,0,0.12);">
           <div style="padding:26px 28px;background:#050506;color:#fff;">
-            <div style="color:#f6a700;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">${escapeHtml(eyebrow)}</div>
+            <div style="color:#f5a900;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;">${escapeHtml(eyebrow)}</div>
             <h1 style="margin:8px 0 8px;font-size:30px;line-height:1;letter-spacing:-.02em;">${escapeHtml(title)}</h1>
             <p style="margin:0;color:#c8c8ce;font-size:14px;line-height:1.5;">${escapeHtml(intro)}</p>
           </div>
@@ -222,7 +223,7 @@ function orderHtml(order, { title, eyebrow, intro }) {
                   <strong style="display:block;margin-top:4px;font-size:22px;">${escapeHtml(String(totals.units || 0))}</strong>
                 </td>
                 <td width="10"></td>
-                <td style="padding:14px;border-radius:16px;background:#f6a700;color:#060606;">
+                <td style="padding:14px;border-radius:16px;background:#f5a900;color:#060606;">
                   <span style="display:block;font-size:11px;font-weight:900;text-transform:uppercase;">Wholesale Total</span>
                   <strong style="display:block;margin-top:4px;font-size:22px;">${money(totals.wholesale)}</strong>
                 </td>
@@ -243,7 +244,7 @@ function orderHtml(order, { title, eyebrow, intro }) {
               <span style="color:#666;font-size:13px;">Projected MAP value</span>
               <strong style="font-size:18px;">${money(totals.map)}</strong>
             </div>
-            ${store.notes ? `<p style="margin:18px 0 0;padding:13px 14px;border-radius:14px;background:#fff8e6;color:#453001;font-size:13px;line-height:1.45;"><strong>Notes:</strong> ${escapeHtml(store.notes)}</p>` : ""}
+            ${store.notes ? `<p style="margin:18px 0 0;padding:13px 14px;border-radius:14px;background:#f4f4f5;color:#202024;font-size:13px;line-height:1.45;"><strong>Notes:</strong> ${escapeHtml(store.notes)}</p>` : ""}
           </div>
         </div>
       </div>

@@ -31,15 +31,15 @@ export async function POST(request: Request) {
       return Response.json({ ok: false, message: GENERIC_ERROR }, { status: 401, headers: { "Cache-Control": "no-store" } });
     }
 
-    await updateAccount(account.username, (record) => ({ ...record, lastLoginAt: new Date().toISOString() }));
-    const token = await createAccountSession(account.id, account.username);
+    const updated = await updateAccount(account.username, (record) => ({ ...record, status: record.status === "pending" ? "active" : record.status, lastLoginAt: new Date().toISOString() }));
+    const token = await createAccountSession(updated.id, updated.username);
     await setAccountSessionCookie(token);
     return Response.json({
       ok: true,
       account: {
-        username: account.username,
-        storeName: account.store.storeName,
-        status: account.status,
+        username: updated.username,
+        storeName: updated.store.storeName,
+        status: updated.status,
       },
     }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (error) {

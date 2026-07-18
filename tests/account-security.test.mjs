@@ -5,6 +5,7 @@ import { hashPassword, verifyPassword } from "../app/lib/account/password.ts";
 import { isSessionExpired } from "../app/lib/account/session-policy.ts";
 import { validateRegistration } from "../app/lib/account/validation.ts";
 import { canAccessStoreOrder } from "../app/lib/orders/authorization.ts";
+import { adminCanAccessSalesperson, normalizeSalesperson, orderSalesperson } from "../app/lib/salespeople.ts";
 
 test("passwords are salted, hashed, and verified without plaintext storage", async () => {
   const first = await hashPassword("StrongPassword42");
@@ -22,7 +23,7 @@ test("session expiration rejects expired and malformed timestamps", () => {
 });
 
 test("registration validation normalizes usernames and rejects weak input", () => {
-  const valid = validateRegistration({ storeName: "Test Store", contactName: "Buyer Name", email: "BUYER@EXAMPLE.COM", username: " Buyer.Name ", password: "SecurePass123", confirmPassword: "SecurePass123" });
+  const valid = validateRegistration({ storeName: "Test Store", contactName: "Buyer Name", email: "BUYER@EXAMPLE.COM", username: " Buyer.Name ", password: "SecurePass123", confirmPassword: "SecurePass123", salesperson: "matt" });
   assert.equal(valid.ok, true);
   assert.equal(valid.value?.username, "buyer.name");
   assert.equal(valid.value?.email, "buyer@example.com");
@@ -31,10 +32,22 @@ test("registration validation normalizes usernames and rejects weak input", () =
   assert.ok(Object.keys(invalid.errors).length >= 5);
 });
 
-test("order authorization denies signed-out, pending, unassigned, and cross-store access", () => {
+test("order authorization auto-activates legacy pending accounts but denies disabled and cross-store access", () => {
   const identity = { accountId: "a", storeId: "store-a", email: "a@example.com", username: "a", status: "active" };
   assert.equal(canAccessStoreOrder(identity, { storeId: "store-a" }), true);
   assert.equal(canAccessStoreOrder(identity, { storeId: "store-b" }), false);
   assert.equal(canAccessStoreOrder(identity, {}), false);
-  assert.equal(canAccessStoreOrder({ ...identity, status: "pending" }, { storeId: "store-a" }), false);
+  assert.equal(canAccessStoreOrder({ ...identity, status: "pending" }, { storeId: "store-a" }), true);
+  assert.equal(canAccessStoreOrder({ ...identity, status: "disabled" }, { storeId: "store-a" }), false);
+});
+
+test("salesperson scopes default historical records to Parker and isolate staff admins", () => {
+  const parker = { username: "pmart", displayName: "Parker", salesperson: "parker", scope: "all" };
+  const matt = { username: "matt", displayName: "Matt", salesperson: "matt", scope: "own" };
+  assert.equal(normalizeSalesperson(undefined), "parker");
+  assert.equal(orderSalesperson({ store: {} }), "parker");
+  assert.equal(orderSalesperson({ salesperson: "beau", store: {} }), "beau");
+  assert.equal(adminCanAccessSalesperson(parker, "beau"), true);
+  assert.equal(adminCanAccessSalesperson(matt, "matt"), true);
+  assert.equal(adminCanAccessSalesperson(matt, "beau"), false);
 });

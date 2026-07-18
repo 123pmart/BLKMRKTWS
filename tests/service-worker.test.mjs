@@ -24,3 +24,10 @@ test("cache writes are limited to successful same-origin basic responses and iso
   assert.match(source, /const cacheCopy = response\.clone\(\)/);
   assert.match(source, /catch \(error\)/);
 });
+
+test("installed admins have notification display and click-through handlers", () => {
+  assert.match(source, /addEventListener\("push"/);
+  assert.match(source, /showNotification/);
+  assert.match(source, /addEventListener\("notificationclick"/);
+  assert.match(source, /clients\.openWindow\("\/admin"\)/);
+});

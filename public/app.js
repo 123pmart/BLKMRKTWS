@@ -101,6 +101,10 @@ const state = {
   activeFilter: "thermogenics",
   query: "",
   adminAuthed: false,
+  adminIdentity: null,
+  adminUnreadOrders: 0,
+  adminNotifiedThrough: 0,
+  adminPollTimer: null,
   activeAdminSection: "orders",
   adminProductMode: "flavor",
   adminProductQuery: "",
@@ -232,6 +236,9 @@ const dom = {
   adminAccountFilter: document.querySelector("#adminAccountFilter"),
   adminCreateAccountForm: document.querySelector("#adminCreateAccountForm"),
   adminStoreAccounts: document.querySelector("#adminStoreAccounts"),
+  adminIdentityLabel: document.querySelector("#adminIdentityLabel"),
+  adminNotificationBell: document.querySelector("#adminNotificationBell"),
+  adminNotificationCount: document.querySelector("#adminNotificationCount"),
   productModal: document.querySelector("#productModal"),
   modalContent: document.querySelector("#modalContent"),
   closeProductModal: document.querySelector("#closeProductModal"),
@@ -316,7 +323,11 @@ async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionReques
   }
   const adminSession = adminSessionResponse?.ok ? await adminSessionResponse.json().catch(() => null) : null;
   state.adminAuthed = Boolean(adminSession?.authenticated);
-  if (state.adminAuthed) await loadServerOrders({ silent: true });
+  state.adminIdentity = adminSession?.identity || null;
+  if (state.adminAuthed) {
+    await loadServerOrders({ silent: true, initial: true });
+    startAdminOrderPolling();
+  }
   renderAdmin();
 }
 
@@ -449,11 +460,13 @@ function bindEvents() {
     const result = await response.json().catch(() => ({}));
     if (response.ok && result.ok) {
       state.adminAuthed = true;
+      state.adminIdentity = result.identity || null;
       renderAdmin();
       Promise.all([
         loadServerOrders({ silent: true }),
         loadServerContent({ silent: true }),
       ]);
+      startAdminOrderPolling();
       showToast("Admin unlocked");
     } else {
       showToast(result.message || "Invalid admin login");
@@ -551,7 +564,20 @@ function bindEvents() {
   dom.adminLogout.addEventListener("click", async () => {
     await fetch("/api/admin/session", { method: "DELETE" }).catch(() => null);
     state.adminAuthed = false;
+    state.adminIdentity = null;
+    state.adminUnreadOrders = 0;
+    state.adminNotifiedThrough = 0;
+    stopAdminOrderPolling();
     renderAdmin();
+  });
+
+  dom.adminNotificationBell?.addEventListener("click", async () => {
+    markAdminOrdersRead();
+    setAdminSection("orders");
+    if (isInstalledApp() && "Notification" in window && Notification.permission === "default") {
+      const permission = await Notification.requestPermission();
+      showToast(permission === "granted" ? "Order notifications enabled" : "Notifications were not enabled");
+    }
   });
 
   dom.adminRefreshAccounts?.addEventListener("click", () => loadAdminAccounts());
@@ -1179,7 +1205,6 @@ function renderSkuCard(item, index = 99) {
         <div class="sku-price-line">
           <strong>${escapeHtml(item.wholesale)}</strong>
           ${item.runningLow ? `<em class="sku-low-stock">RUNNING LOW</em>` : ""}
-          ${item.customPriceApplied ? `<em class="sku-account-price">ACCOUNT PRICE</em>` : ""}
         </div>
         <span>MAP ${escapeHtml(item.map)}</span>
       </div>
@@ -1764,20 +1789,19 @@ async function sendOrder() {
     showToast("Complete the cart and store information");
     return;
   }
+  const previous = dom.sendOrder.textContent;
+  dom.sendOrder.disabled = true;
+  dom.sendOrder.textContent = "Submitting...";
   const lines = cartLines();
   let order;
   try {
     order = await previewOrder(buildClientOrder(lines));
   } catch (error) {
     showToast(error?.message || "Order pricing could not be verified");
+    dom.sendOrder.textContent = previous;
+    updateOrderState();
     return;
   }
-  const shouldSend = await askDownloadBeforeSend(order);
-  if (!shouldSend) return;
-
-  const previous = dom.sendOrder.textContent;
-  dom.sendOrder.disabled = true;
-  dom.sendOrder.textContent = "Sending...";
 
   try {
     const result = await sendOrderToServer(order);
@@ -1790,6 +1814,7 @@ async function sendOrder() {
     renderCart();
     renderAdminOrders();
     closeCartDrawer();
+    await showSubmittedOrderOptions(savedOrder);
     showToast(
       result.storage === "vercel blob"
         ? "Order request received and cart cleared"
@@ -1825,7 +1850,7 @@ function buildClientOrder(lines = cartLines()) {
   };
 }
 
-async function askDownloadBeforeSend(order) {
+async function showSubmittedOrderOptions(order) {
   const previewLines = (order.lines || []).slice(0, 4).map((line) => `
     <div class="order-confirmation-line">
       <span class="order-confirmation-thumb">${line.image ? `<img src="${escapeHtml(line.image)}" alt="" width="52" height="52" loading="lazy" />` : "BM"}</span>
@@ -1838,25 +1863,25 @@ async function askDownloadBeforeSend(order) {
     <header class="order-confirmation-head"><span>BLACKMARKET <em>Wholesale</em></span><strong>Order Confirmation</strong></header>
     <div class="order-confirmation-meta"><span><small>Store</small><strong>${escapeHtml(order.store.storeName || "Store order")}</strong></span><span><small>Order</small><strong>${escapeHtml(order.id)}</strong></span><span><small>Units</small><strong>${order.totals.units}</strong></span></div>
     <div class="order-confirmation-lines">${previewLines}${order.lines.length > 4 ? `<p>+ ${order.lines.length - 4} more item${order.lines.length - 4 === 1 ? "" : "s"}</p>` : ""}</div>
-    <div class="order-confirmation-total"><span>${order.totals.discount ? `Account savings ${money(order.totals.discount)}` : "Verified wholesale pricing"}</span><strong>${money(order.totals.grandTotal ?? order.totals.wholesale)}</strong></div>
+    <div class="order-confirmation-total"><span>Total</span><strong>${money(order.totals.grandTotal ?? order.totals.wholesale)}</strong></div>
   `;
 
   return new Promise((resolve) => {
-    const finish = (send, download) => {
+    const finish = (download) => {
       dom.downloadOrderCopy.removeEventListener("click", onDownload);
       dom.sendWithoutDownload.removeEventListener("click", onSendOnly);
       dom.cancelOrderSend.removeEventListener("click", onCancel);
       dom.orderDownloadModal.removeEventListener("cancel", onDialogCancel);
       if (download) downloadOrder(order);
       closeOrderDownloadModal();
-      resolve(send);
+      resolve();
     };
-    const onDownload = () => finish(true, true);
-    const onSendOnly = () => finish(true, false);
-    const onCancel = () => finish(false, false);
+    const onDownload = () => finish(true);
+    const onSendOnly = () => finish(false);
+    const onCancel = () => finish(false);
     const onDialogCancel = (event) => {
       event.preventDefault();
-      finish(false, false);
+      finish(false);
     };
 
     dom.downloadOrderCopy.addEventListener("click", onDownload);
@@ -2343,7 +2368,9 @@ async function loadServerOrders(options = {}) {
     const response = await fetch(ORDERS_API_URL, { headers: adminHeaders() });
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.ok) throw new Error(body.message || "Unable to load orders");
-    state.orders = Array.isArray(body.orders) ? body.orders : [];
+    const nextOrders = Array.isArray(body.orders) ? body.orders : [];
+    updateAdminOrderNotifications(nextOrders, options);
+    state.orders = nextOrders;
     state.orderStorageMode = body.storage || "server";
     saveJson(ORDERS_KEY, state.orders);
     renderAdminOrders();
@@ -2354,6 +2381,73 @@ async function loadServerOrders(options = {}) {
     renderAdminMetrics();
     if (!options.silent) showToast(error?.message || "Unable to refresh orders");
   }
+}
+
+function adminLastSeenKey() {
+  return `bm_admin_last_order_${state.adminIdentity?.username || "admin"}`;
+}
+
+function updateAdminOrderNotifications(orders, options = {}) {
+  const newest = orders.reduce((latest, order) => Math.max(latest, Date.parse(order.date) || 0), 0);
+  const stored = Number(localStorage.getItem(adminLastSeenKey()) || 0);
+  if (!stored || options.initial) {
+    if (newest) localStorage.setItem(adminLastSeenKey(), String(newest));
+    state.adminUnreadOrders = 0;
+    state.adminNotifiedThrough = newest;
+    renderAdminNotificationBell();
+    return;
+  }
+  const unread = orders.filter((order) => (Date.parse(order.date) || 0) > stored);
+  state.adminUnreadOrders = unread.length;
+  renderAdminNotificationBell();
+  const unnotified = unread.filter((order) => (Date.parse(order.date) || 0) > state.adminNotifiedThrough);
+  if (unnotified.length && options.notify) {
+    state.adminNotifiedThrough = Math.max(state.adminNotifiedThrough, ...unnotified.map((order) => Date.parse(order.date) || 0));
+    notifyAdminOfOrders(unnotified);
+  }
+}
+
+function markAdminOrdersRead() {
+  const newest = state.orders.reduce((latest, order) => Math.max(latest, Date.parse(order.date) || 0), Date.now());
+  localStorage.setItem(adminLastSeenKey(), String(newest));
+  state.adminUnreadOrders = 0;
+  renderAdminNotificationBell();
+}
+
+function renderAdminNotificationBell() {
+  if (!dom.adminNotificationBell) return;
+  dom.adminNotificationBell.hidden = !state.adminAuthed;
+  dom.adminNotificationBell.classList.toggle("has-unread", state.adminUnreadOrders > 0);
+  if (dom.adminNotificationCount) {
+    dom.adminNotificationCount.hidden = state.adminUnreadOrders < 1;
+    dom.adminNotificationCount.textContent = state.adminUnreadOrders > 99 ? "99+" : String(state.adminUnreadOrders);
+  }
+}
+
+function startAdminOrderPolling() {
+  stopAdminOrderPolling();
+  if (!state.adminAuthed) return;
+  state.adminPollTimer = window.setInterval(() => {
+    if (document.visibilityState === "visible") loadServerOrders({ silent: true, notify: true });
+  }, 30_000);
+}
+
+function stopAdminOrderPolling() {
+  if (state.adminPollTimer) window.clearInterval(state.adminPollTimer);
+  state.adminPollTimer = null;
+}
+
+function isInstalledApp() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+async function notifyAdminOfOrders(orders) {
+  if (!isInstalledApp() || !("Notification" in window) || Notification.permission !== "granted") return;
+  const registration = await navigator.serviceWorker?.ready.catch(() => null);
+  const first = orders[0];
+  const title = orders.length === 1 ? "New wholesale order" : `${orders.length} new wholesale orders`;
+  const body = orders.length === 1 ? `${first.store?.storeName || "A store"} submitted an order.` : "Open the admin order inbox to review them.";
+  if (registration?.showNotification) await registration.showNotification(title, { body, icon: "/icon-192.png", badge: "/favicon.png", tag: "blackmarket-new-orders", data: { url: "/admin" } });
 }
 
 async function clearServerOrders() {
@@ -2524,6 +2618,16 @@ function renderAdmin() {
   dom.adminLoginForm.hidden = state.adminAuthed;
   dom.adminPanel.hidden = !state.adminAuthed;
   if (!state.adminAuthed) closeAdminEditors();
+  if (dom.adminIdentityLabel) {
+    dom.adminIdentityLabel.hidden = !state.adminAuthed;
+    dom.adminIdentityLabel.textContent = state.adminIdentity ? `${state.adminIdentity.displayName} · ${state.adminIdentity.scope === "all" ? "All orders" : "My orders"}` : "Admin";
+  }
+  const createSalesperson = dom.adminCreateAccountForm?.elements?.salesperson;
+  if (createSalesperson && state.adminIdentity) {
+    createSalesperson.disabled = state.adminIdentity.scope === "own";
+    if (state.adminIdentity.scope === "own") createSalesperson.value = state.adminIdentity.salesperson;
+  }
+  renderAdminNotificationBell();
   renderAdminPages();
   renderAdminMetrics();
   renderAdminNews();
@@ -2608,13 +2712,17 @@ async function handleAdminStoreAction(event) {
     if (!storeName) return;
     const contactName = window.prompt("Contact name", account.store?.contactName || "") ?? account.store?.contactName;
     const email = window.prompt("Email", account.email || "") ?? account.email;
-    Object.assign(payload, { storeName, contactName, email, phone: account.store?.phone || "", street: account.store?.street || "", city: account.store?.city || "", state: account.store?.state || "", zip: account.store?.zip || "" });
+    const salesperson = state.adminIdentity?.scope === "own"
+      ? state.adminIdentity.salesperson
+      : window.prompt("Salesperson: parker, matt, or beau", account.store?.salesperson || "parker")?.trim().toLowerCase();
+    if (!salesperson || !["parker", "matt", "beau"].includes(salesperson)) return showToast("Enter Parker, Matt, or Beau");
+    Object.assign(payload, { storeName, contactName, email, salesperson, phone: account.store?.phone || "", street: account.store?.street || "", city: account.store?.city || "", state: account.store?.state || "", zip: account.store?.zip || "" });
   }
   if (action === "add-price") {
     const select = card.querySelector("[data-price-target]");
     const input = card.querySelector("[data-price-value]");
     const [scope, id] = String(select?.value || "").split(":");
-    if (!id) return showToast("Select a product or variant");
+    if (!id) return showToast("Select a product");
     if (scope === "variant") payload.variantId = id;
     else payload.productId = id;
     payload.wholesalePrice = Number(input?.value);
@@ -2662,7 +2770,6 @@ function renderAdminStoreAccounts() {
     const item = state.adminPricingCatalog.find((entry) => entry.productId === productId);
     return `<option value="product:${escapeHtml(productId)}">${escapeHtml(item?.product || productId)} — all variants</option>`;
   }).join("");
-  const variantOptions = state.adminPricingCatalog.map((item) => `<option value="variant:${escapeHtml(item.variantId)}">${escapeHtml(item.product)} / ${escapeHtml(item.flavor)} / #${escapeHtml(item.item)} (${money(item.wholesalePrice)})</option>`).join("");
 
   dom.adminStoreAccounts.innerHTML = accounts.map((account) => {
     const unlinkedOrders = state.adminAccountOrders.filter((order) => !order.storeId || order.storeId === account.storeId);
@@ -2678,15 +2785,15 @@ function renderAdminStoreAccounts() {
           <span class="admin-account-status is-${escapeHtml(account.status)}">${escapeHtml(account.status)}</span>
         </div>
         <div class="admin-actions admin-store-actions">
-          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Approve / Enable</button>` : ""}
+          ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Enable</button>` : ""}
           ${account.status !== "disabled" ? `<button class="admin-button admin-secondary" type="button" data-store-action="status" data-status="disabled">Disable</button>` : ""}
           <button class="admin-button admin-secondary" type="button" data-store-action="store">Edit Store</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="username">Change Username</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="reset-password">Reset Password</button>
         </div>
-        <div class="admin-store-meta"><span>Last login <strong>${account.lastLoginAt ? escapeHtml(shortDate(account.lastLoginAt)) : "Never"}</strong></span><span>Pricing <strong>${account.priceOverrides?.length || 0} override${account.priceOverrides?.length === 1 ? "" : "s"}</strong></span></div>
-        <div class="admin-store-control"><label><span>Catalog item</span><select data-price-target><option value="">Select product or variant</option><optgroup label="Products">${productOptions}</optgroup><optgroup label="Variants">${variantOptions}</optgroup></select></label><label><span>Custom wholesale</span><input data-price-value type="number" min="0" step="0.01" placeholder="0.00" /></label><button class="admin-button admin-primary" type="button" data-store-action="add-price">Set Price</button></div>
-        <ul class="admin-price-overrides">${overrides || "<li><span>No custom prices.</span></li>"}</ul>
+        <div class="admin-store-meta"><span>Salesperson <strong>${escapeHtml((account.store?.salesperson || "parker").replace(/^./, (letter) => letter.toUpperCase()))}</strong></span><span>Last login <strong>${account.lastLoginAt ? escapeHtml(shortDate(account.lastLoginAt)) : "Never"}</strong></span><span>Product prices <strong>${account.priceOverrides?.length || 0}</strong></span></div>
+        <div class="admin-store-control"><label><span>Product</span><select data-price-target><option value="">Select a product</option>${productOptions}</select></label><label><span>Wholesale price</span><input data-price-value type="number" min="0" step="0.01" placeholder="0.00" /></label><button class="admin-button admin-primary" type="button" data-store-action="add-price">Set Product Price</button></div>
+        <ul class="admin-price-overrides">${overrides || "<li><span>No product prices set.</span></li>"}</ul>
         <div class="admin-store-control admin-order-link"><label><span>Historical order</span><select data-order-target><option value="">Select order</option>${orderOptions}</select></label><button class="admin-button admin-secondary" type="button" data-store-action="link-order">Link Order</button></div>
       </article>
     `;
@@ -2903,6 +3010,7 @@ function renderAdminOrder(order) {
       </div>
       <div class="admin-order-id">Order ID: ${escapeHtml(order.id || "")}</div>
       <div class="admin-order-contact">
+        ${renderAdminOrderField("Salesperson", String(order.salesperson || store.salesperson || "Parker").replace(/^./, (letter) => letter.toUpperCase()))}
         ${renderAdminOrderField("Contact", store.contactName)}
         ${renderAdminOrderField("Phone", store.phone)}
         ${renderAdminOrderField("Email", store.email)}

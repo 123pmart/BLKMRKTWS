@@ -64,12 +64,7 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
           ))}
         </section>
         <section className="order-document-section account-order-totals" aria-label="Order totals">
-          <span>Standard subtotal <strong>{formatMoney(order.totals.subtotal ?? order.totals.wholesale)}</strong></span>
-          {order.totals.discount ? <span>Account savings <strong>-{formatMoney(order.totals.discount)}</strong></span> : null}
-          <span>Final subtotal <strong>{formatMoney(order.totals.wholesale)}</strong></span>
-          {order.totals.shipping ? <span>Shipping <strong>{formatMoney(order.totals.shipping)}</strong></span> : null}
-          {order.totals.tax ? <span>Tax <strong>{formatMoney(order.totals.tax)}</strong></span> : null}
-          <span className="account-order-grand">Grand total <strong>{formatMoney(order.totals.grandTotal ?? order.totals.wholesale)}</strong></span>
+          <span className="account-order-grand">Total <strong>{formatMoney(order.totals.grandTotal ?? order.totals.wholesale)}</strong></span>
         </section>
       </article>
     </main>

@@ -12,7 +12,7 @@ import type { Order, OrderLine } from "@/types";
 const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 42;
-const GOLD = rgb(0.965, 0.851, 0);
+const GOLD = rgb(245 / 255, 169 / 255, 0);
 // Match the supplied logo's sampled #050505 background so its JPEG edge disappears into the header.
 const BLACK = rgb(5 / 255, 5 / 255, 5 / 255);
 const DARK = rgb(0.12, 0.12, 0.13);
@@ -56,7 +56,7 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
     y -= rowHeight;
   }
 
-  if (y < minimumTotalsStart(order)) {
+  if (y < minimumTotalsStart()) {
     page = addPage(pdf);
     pages.push(page);
     y = drawContinuationHeader(page, order, brandLogo, fonts);
@@ -142,33 +142,14 @@ function drawTotals(page: PDFPage, order: Order, fonts: Fonts, y: number): void 
   const totals = order.totals;
   const width = 226;
   const x = PAGE_WIDTH - MARGIN - width;
-  const rows: Array<[string, number, boolean]> = [
-    ...(totals.discount ? [
-      ["Standard subtotal", totals.subtotal ?? totals.wholesale, false] as [string, number, boolean],
-      ["Account savings", -totals.discount, false] as [string, number, boolean],
-    ] : []),
-    [totals.discount ? "Final subtotal" : "Subtotal", totals.wholesale, false],
-    ...(totals.shipping ? [["Shipping", totals.shipping, false] as [string, number, boolean]] : []),
-    ...(totals.tax ? [["Tax", totals.tax, false] as [string, number, boolean]] : []),
-    ["TOTAL", totals.grandTotal ?? totals.wholesale, true],
-  ];
-  page.drawText("TOTALS", { x, y, size: 7.5, font: fonts.bold, color: GOLD });
-  page.drawLine({ start: { x: x + 38, y: y + 2 }, end: { x: x + width, y: y + 2 }, thickness: .6, color: LINE });
-  let rowY = y - 21;
-  rows.forEach(([label, value, emphasis]) => {
-    if (emphasis) page.drawRectangle({ x, y: rowY - 9, width, height: 27, color: BLACK });
-    page.drawText(label, { x: x + 11, y: rowY, size: emphasis ? 9.5 : 8, font: fonts.bold, color: emphasis ? WHITE : MID });
-    rightText(page, fonts, `${value < 0 ? "-" : ""}${money(Math.abs(value))}`, x + width - 11, rowY, emphasis ? 10.5 : 8.3, emphasis ? GOLD : DARK, true);
-    rowY -= emphasis ? 34 : 20;
-  });
+  const rowY = y - 9;
+  page.drawRectangle({ x, y: rowY - 9, width, height: 30, color: BLACK });
+  page.drawText("TOTAL", { x: x + 11, y: rowY, size: 9.5, font: fonts.bold, color: WHITE });
+  rightText(page, fonts, money(totals.grandTotal ?? totals.wholesale), x + width - 11, rowY, 10.5, GOLD, true);
 }
 
-function minimumTotalsStart(order: Order): number {
-  const optionalRows = Number(Boolean(order.totals.discount)) * 2
-    + Number(Boolean(order.totals.shipping))
-    + Number(Boolean(order.totals.tax));
-  const nonTotalRows = 1 + optionalRows;
-  return 105 + nonTotalRows * 20;
+function minimumTotalsStart(): number {
+  return 105;
 }
 
 function drawFooter(page: PDFPage, order: Order, fonts: Fonts, number: number, total: number): void {

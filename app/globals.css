@@ -8,18 +8,18 @@
   --card-foreground: #f7f7f5;
   --popover: #101012;
   --popover-foreground: #f7f7f5;
-  --primary: #f6d900;
+  --primary: #f5a900;
   --primary-foreground: #070707;
   --secondary: #1a1a1d;
   --secondary-foreground: #f7f7f5;
   --muted: #18181b;
   --muted-foreground: #a1a1aa;
-  --accent: #f6d900;
+  --accent: #f5a900;
   --accent-foreground: #070707;
   --destructive: #dc2626;
   --border: #2a2a2f;
   --input: #2a2a2f;
-  --ring: #f6d900;
+  --ring: #f5a900;
   --radius: 0.625rem;
   --glass-background: rgb(10 10 12 / 72%);
   --glass-border: rgb(255 255 255 / 14%);
@@ -263,10 +263,10 @@ body {
 .account-form-message {
   margin: 0;
   padding: 11px 13px;
-  border: 1px solid rgb(246 217 0 / 20%);
+  border: 1px solid rgb(245 169 0 / 20%);
   border-radius: 12px;
-  color: #e9e4b2;
-  background: rgb(246 217 0 / 7%);
+  color: #f5a900;
+  background: rgb(245 169 0 / 7%);
   font-size: .82rem;
   line-height: 1.5;
 }
@@ -301,17 +301,17 @@ body {
   text-transform: uppercase;
 }
 
-.account-status--active { color: #f6d900; border-color: rgb(246 217 0 / 28%); background: rgb(246 217 0 / 7%); }
-.account-status--pending { color: #f0c986; border-color: rgb(240 201 134 / 25%); }
+.account-status--active { color: #f5a900; border-color: rgb(245 169 0 / 28%); background: rgb(245 169 0 / 7%); }
+.account-status--pending { color: #f5a900; border-color: rgb(245 169 0 / 25%); }
 .account-status--disabled { color: #fca5a5; border-color: rgb(252 165 165 / 25%); }
 
 .account-notice {
   margin-top: 16px;
   padding: 14px 16px;
-  border: 1px solid rgb(246 217 0 / 20%);
+  border: 1px solid rgb(245 169 0 / 20%);
   border-radius: 14px;
-  color: #e9e4b2;
-  background: rgb(246 217 0 / 6%);
+  color: #f5a900;
+  background: rgb(245 169 0 / 6%);
   font-size: .88rem;
   line-height: 1.5;
 }

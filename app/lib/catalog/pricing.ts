@@ -4,9 +4,11 @@ import { getAccountById } from "@/lib/account/account-store";
 import { resolveEffectivePrice } from "@/lib/catalog/pricing-core";
 import { loadServerCatalog } from "@/lib/catalog/server-catalog";
 import type { StoreAccount, StoreIdentity, StorePriceOverride } from "@/types";
+import { isSalespersonId, normalizeSalesperson } from "@/lib/salespeople";
 
 export interface RepricedOrderPayload {
   storeId?: string;
+  salesperson: "parker" | "matt" | "beau";
   store: Record<string, unknown>;
   lines: Array<Record<string, unknown>>;
   totals: {
@@ -28,7 +30,7 @@ export class InvalidOrderPricingError extends Error {
 
 export async function repriceOrderPayload(payload: Record<string, unknown>, identity: StoreIdentity | null, verifiedAccount?: StoreAccount | null): Promise<RepricedOrderPayload> {
   const catalog = await loadServerCatalog();
-  const account = identity?.status === "active" ? verifiedAccount || await getAccountById(identity.accountId) : null;
+  const account = identity && identity.status !== "disabled" ? verifiedAccount || await getAccountById(identity.accountId) : null;
   const overrides = account?.priceOverrides || [];
   const requested = Array.isArray(payload.lines) ? payload.lines : [];
   if (!requested.length) throw new InvalidOrderPricingError("Order must include at least one item.");
@@ -73,9 +75,13 @@ export async function repriceOrderPayload(payload: Record<string, unknown>, iden
   }, { units: 0, wholesale: 0, map: 0, subtotal: 0 });
   const discount = cents(Math.max(0, totals.subtotal - totals.wholesale));
 
+  const submittedStore = payload.store && typeof payload.store === "object" ? payload.store as Record<string, unknown> : {};
+  const salesperson = account ? normalizeSalesperson(account.store.salesperson) : submittedStore.salesperson;
+  if (!isSalespersonId(salesperson)) throw new InvalidOrderPricingError("Select Parker, Matt, or Beau as your salesperson.");
   return {
     ...(account ? { storeId: account.storeId } : {}),
-    store: payload.store && typeof payload.store === "object" ? payload.store as Record<string, unknown> : {},
+    salesperson,
+    store: { ...submittedStore, ...(account ? { salesperson: account.store.salesperson } : { salesperson }) },
     lines,
     totals: {
       units: totals.units,
@@ -89,7 +95,7 @@ export async function repriceOrderPayload(payload: Record<string, unknown>, iden
 }
 
 export async function effectivePricingForIdentity(identity: StoreIdentity): Promise<{ overrides: StorePriceOverride[] }> {
-  if (identity.status !== "active") return { overrides: [] };
+  if (identity.status === "disabled") return { overrides: [] };
   const account = await getAccountById(identity.accountId);
   return { overrides: account?.priceOverrides || [] };
 }

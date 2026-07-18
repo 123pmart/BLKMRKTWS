@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-17-v7-order-nav-final2";
+const CACHE_VERSION = "2026-07-18-v8-admin-sales";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";
@@ -77,6 +77,35 @@ self.addEventListener("fetch", (event) => {
   if (request.destination === "manifest" || url.pathname.endsWith(".json")) {
     event.respondWith(networkFirst(request, STATIC_CACHE));
   }
+});
+
+// The app can display live notifications while an installed admin session is
+// open. This handler is also ready for provider-delivered Web Push once VAPID
+// subscriptions are configured on the server.
+self.addEventListener("push", (event) => {
+  event.waitUntil((async () => {
+    let payload = {};
+    try { payload = event.data ? event.data.json() : {}; } catch { payload = { body: event.data?.text?.() || "" }; }
+    await self.registration.showNotification(payload.title || "New wholesale order", {
+      body: payload.body || "Open the admin inbox to review it.",
+      icon: "/icon-192.png",
+      badge: "/favicon.png",
+      tag: "blackmarket-new-orders",
+      data: { url: "/admin" },
+    });
+  })());
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
+    const existing = windows.find((client) => new URL(client.url).origin === self.location.origin);
+    if (existing) {
+      existing.navigate("/admin");
+      return existing.focus();
+    }
+    return clients.openWindow("/admin");
+  }));
 });
 
 function isNetworkOnlyPath(pathname) {

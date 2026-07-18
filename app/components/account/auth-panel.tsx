@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SALESPERSONS } from "@/lib/salespeople";
 
 type Mode = "sign-in" | "register";
 
@@ -43,9 +44,7 @@ export function AuthPanel() {
         return;
       }
       if (mode === "register") {
-        setMessage(result.message || "Account request received.");
-        setMode("sign-in");
-        event.currentTarget.reset();
+        router.replace("/account");
         return;
       }
       const next = search.get("next");
@@ -69,6 +68,14 @@ export function AuthPanel() {
             <AccountField label="Store name" name="storeName" autoComplete="organization" error={errors.storeName} />
             <AccountField label="Contact name" name="contactName" autoComplete="name" error={errors.contactName} />
             <AccountField label="Email" name="email" type="email" autoComplete="email" error={errors.email} />
+            <label className="grid gap-2 text-sm font-bold text-[#c8c8cd]">
+              Salesperson
+              <select name="salesperson" required defaultValue="" className="h-10 rounded-md border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                <option value="" disabled>Select a salesperson</option>
+                {SALESPERSONS.map((person) => <option key={person.id} value={person.id}>{person.label}</option>)}
+              </select>
+              {errors.salesperson ? <span className="text-xs text-red-300">{errors.salesperson}</span> : null}
+            </label>
           </>
         ) : null}
         <AccountField label="Username" name="username" autoComplete="username" error={errors.username} />
@@ -77,7 +84,7 @@ export function AuthPanel() {
           <AccountField label="Confirm password" name="confirmPassword" type="password" autoComplete="new-password" error={errors.confirmPassword} />
         ) : null}
         {message ? <p className="account-form-message" role="status">{message}</p> : null}
-        <Button type="submit" disabled={pending}>{pending ? "Please wait…" : mode === "register" ? "Request account" : "Sign in"}</Button>
+        <Button type="submit" disabled={pending}>{pending ? "Please wait…" : mode === "register" ? "Create account" : "Sign in"}</Button>
       </form>
     </section>
   );

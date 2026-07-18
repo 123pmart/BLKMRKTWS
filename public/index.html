@@ -137,6 +137,15 @@
                 </label>
               </div>
               <label>
+                <span>Salesperson *</span>
+                <select id="salesperson" name="salesperson" required>
+                  <option value="" selected disabled>Select Parker, Matt, or Beau</option>
+                  <option value="parker">Parker</option>
+                  <option value="matt">Matt</option>
+                  <option value="beau">Beau</option>
+                </select>
+              </label>
+              <label>
                 <span>Notes</span>
                 <textarea id="notes" name="notes" rows="3" placeholder="Delivery windows, PO number, or buyer notes"></textarea>
               </label>
@@ -152,7 +161,7 @@
             <div class="order-actions">
               <button class="secondary-action" id="cartBackStep" type="button">Back</button>
               <button id="cartNextStep" type="button">Continue</button>
-              <button id="sendOrder" type="button" disabled>Review Order</button>
+              <button id="sendOrder" type="button" disabled>Submit Order</button>
             </div>
             <p id="orderHint">Add products and fill required fields to send order</p>
           </div>
@@ -188,7 +197,14 @@
               <p class="eyebrow">BlackMarketLabs</p>
               <h1 id="adminTitle">Wholesale Operations</h1>
             </div>
-            <span class="admin-live-status"><i aria-hidden="true"></i> Portal live</span>
+            <div class="admin-masthead-actions">
+              <span id="adminIdentityLabel" class="admin-identity-label" hidden></span>
+              <button id="adminNotificationBell" class="admin-notification-bell" type="button" aria-label="Order notifications" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"/><path d="M10 21h4"/></svg>
+                <span id="adminNotificationCount" hidden>0</span>
+              </button>
+              <span class="admin-live-status"><i aria-hidden="true"></i> Portal live</span>
+            </div>
           </div>
 
           <form class="admin-login" id="adminLoginForm">
@@ -530,13 +546,13 @@
                 <div>
                   <p class="eyebrow">Store Accounts</p>
                   <h2>Accounts &amp; Pricing</h2>
-                  <p>Approve store access, link orders, reset credentials, and assign exclusive wholesale pricing.</p>
+                  <p>Manage store access, credentials, ownership, and product-level wholesale prices.</p>
                 </div>
                 <button class="admin-button admin-secondary" id="adminRefreshAccounts" type="button">Refresh</button>
               </div>
               <div class="admin-product-toolbar admin-store-toolbar">
                 <label class="admin-search-field"><span>Search accounts</span><input id="adminAccountSearch" type="search" placeholder="Store, username, or email" /></label>
-                <label><span>Status</span><select id="adminAccountFilter"><option value="all">All accounts</option><option value="pending">Pending</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+                <label><span>Status</span><select id="adminAccountFilter"><option value="all">All accounts</option><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
               </div>
               <div class="admin-store-grid">
                 <form class="admin-card" id="adminCreateAccountForm">
@@ -546,7 +562,7 @@
                   <label><span>Email</span><input name="email" type="email" required /></label>
                   <label><span>Username</span><input name="username" autocomplete="off" required /></label>
                   <label><span>Temporary Password</span><input name="password" type="password" autocomplete="new-password" minlength="10" required /></label>
-                  <label><span>Initial Status</span><select name="status"><option value="active">Active</option><option value="pending">Pending</option></select></label>
+                  <label><span>Salesperson</span><select name="salesperson" required><option value="parker">Parker</option><option value="matt">Matt</option><option value="beau">Beau</option></select></label>
                   <button class="admin-button admin-primary" type="submit">Create Store Account</button>
                 </form>
                 <div class="admin-store-list" id="adminStoreAccounts"><div class="empty-state">Open this section to load store accounts.</div></div>
@@ -662,13 +678,13 @@
     <dialog class="order-download-modal" id="orderDownloadModal">
       <div class="modal-frame order-download-frame">
         <p class="eyebrow">Order copy</p>
-        <h2>Download before sending?</h2>
-        <p>Save a local copy for your records before this order is submitted to BLACKMARKET Wholesale.</p>
+        <h2>Order submitted</h2>
+        <p>Your order was received. You can now download a copy for your records.</p>
         <div class="order-download-summary" id="orderDownloadSummary"></div>
         <div class="order-download-actions">
-          <button id="downloadOrderCopy" type="button">Download &amp; Send</button>
-          <button id="sendWithoutDownload" type="button">Send Only</button>
-          <button id="cancelOrderSend" type="button">Cancel</button>
+          <button id="downloadOrderCopy" type="button">Download Order</button>
+          <button id="sendWithoutDownload" type="button">Done</button>
+          <button id="cancelOrderSend" type="button" hidden>Close</button>
         </div>
       </div>
     </dialog>

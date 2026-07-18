@@ -62,6 +62,15 @@ export interface CartItem {
   quantity: number;
 }
 
+export type SalespersonId = "parker" | "matt" | "beau";
+
+export interface AdminIdentity {
+  username: string;
+  displayName: string;
+  salesperson: SalespersonId;
+  scope: "all" | "own";
+}
+
 export interface Store {
   id?: string;
   storeName: string;
@@ -72,6 +81,7 @@ export interface Store {
   city: string;
   state: string;
   zip: string;
+  salesperson?: SalespersonId;
   notes?: string;
   status?: "active" | "disabled";
   createdAt?: string;
@@ -98,6 +108,7 @@ export interface OrderLine {
 export interface Order {
   id: string;
   storeId?: string;
+  salesperson?: SalespersonId;
   date: string;
   status: string;
   store: Store;

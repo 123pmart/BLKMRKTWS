@@ -1,6 +1,7 @@
 import { normalizeOrderPayload, readOrders } from "@/api/orders/store.js";
 import { getVerifiedStoreAccount } from "@/lib/account/auth";
-import { isAdminRequest } from "@/lib/admin/auth";
+import { getAdminIdentity } from "@/lib/admin/auth";
+import { adminCanAccessSalesperson, orderSalesperson } from "@/lib/salespeople";
 import { repriceOrderPayload } from "@/lib/catalog/pricing";
 import { withResolvedOrderImages } from "@/lib/orders/order-images";
 import { generateOrderConfirmationPdf } from "@/lib/orders/pdf";
@@ -13,8 +14,12 @@ export async function POST(request: Request) {
   const payload = await request.json().catch(() => ({})) as Record<string, unknown>;
   try {
     let order: Order;
-    if (await isAdminRequest(request)) {
+    const adminIdentity = await getAdminIdentity(request);
+    if (adminIdentity) {
       const saved = (await readOrders() as Order[]).find((entry) => entry.id === String(payload.id || ""));
+      if (saved && !adminCanAccessSalesperson(adminIdentity, orderSalesperson(saved))) {
+        return Response.json({ ok: false, message: "Order not found." }, { status: 404, headers: { "Cache-Control": "no-store" } });
+      }
       order = saved || normalizeOrderPayload(await repriceOrderPayload(payload, null)) as Order;
     } else {
       const storeAccount = await getVerifiedStoreAccount(request);

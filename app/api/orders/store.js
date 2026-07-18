@@ -59,6 +59,10 @@ export async function clearOrders() {
   await writeOrders([]);
 }
 
+export async function replaceOrders(orders) {
+  await writeOrders(Array.isArray(orders) ? orders.slice(0, MAX_ORDERS) : []);
+}
+
 export async function deleteOrder(id) {
   const targetId = cleanString(id);
   if (!targetId) return false;
@@ -86,12 +90,14 @@ export function normalizeOrderPayload(payload = {}) {
   const lines = Array.isArray(payload.lines) ? payload.lines.map(normalizeLine).filter(Boolean) : [];
   const totals = normalizeTotals(payload.totals, lines);
 
+  const salesperson = normalizeSalesperson(payload.salesperson || payload.store?.salesperson);
   return {
     id: cleanString(payload.id) || `bmw-${Date.now().toString(36)}-${randomUUID().slice(0, 8)}`,
     ...(cleanString(payload.storeId) ? { storeId: cleanString(payload.storeId) } : {}),
+    salesperson,
     date: cleanString(payload.date) || now,
     status: cleanString(payload.status) || "new",
-    store: normalizeStore(payload.store || {}),
+    store: normalizeStore({ ...(payload.store || {}), salesperson }),
     lines,
     totals,
     delivery: payload.delivery && typeof payload.delivery === "object" ? payload.delivery : {},
@@ -213,8 +219,14 @@ function normalizeStore(store) {
     city: cleanString(store.city),
     state: cleanString(store.state).toUpperCase(),
     zip: cleanString(store.zip),
+    salesperson: normalizeSalesperson(store.salesperson),
     notes: cleanString(store.notes, 1200),
   };
+}
+
+function normalizeSalesperson(value) {
+  const normalized = cleanString(value).toLowerCase();
+  return ["parker", "matt", "beau"].includes(normalized) ? normalized : "parker";
 }
 
 function normalizeLine(line) {
