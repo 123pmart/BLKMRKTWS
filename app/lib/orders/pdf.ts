@@ -1,4 +1,11 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+
+import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
+import sharp from "sharp";
+
+import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
+import { bundledPdfProductThumbnail } from "@/lib/orders/pdf-product-thumbnails";
 import type { Order, OrderLine } from "@/types";
 
 const PAGE_WIDTH = 612;
@@ -22,6 +29,7 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
     regular: await pdf.embedFont(StandardFonts.Helvetica),
     bold: await pdf.embedFont(StandardFonts.HelveticaBold),
   };
+  const thumbnails = new Map<string, PDFImage | null>();
   const pages: PDFPage[] = [];
 
   let page = addPage(pdf);
@@ -33,14 +41,15 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
   for (const line of order.lines) {
     const titleLines = wrap(line.product || "Product", fonts.bold, 9.5, 225, 2);
     const flavorLines = wrap(line.flavor || "", fonts.regular, 8, 225, 1);
-    const rowHeight = Math.max(50, 20 + (titleLines.length + flavorLines.length) * 10);
+    const rowHeight = Math.max(58, 24 + (titleLines.length + flavorLines.length) * 10);
     if (y - rowHeight < 132) {
       page = addPage(pdf);
       pages.push(page);
       y = drawContinuationHeader(page, order, fonts);
       y = drawProductHeading(page, fonts, y - 14);
     }
-    drawProductRow(page, line, fonts, y, rowHeight, titleLines, flavorLines);
+    const image = await loadThumbnail(pdf, line, thumbnails);
+    drawProductRow(page, line, image, fonts, y, rowHeight, titleLines, flavorLines);
     y -= rowHeight;
   }
 
@@ -103,21 +112,23 @@ function detailValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: s
 function drawProductHeading(page: PDFPage, fonts: Fonts, y: number): number {
   page.drawText("PRODUCTS", { x: MARGIN, y, size: 7.5, font: fonts.bold, color: GOLD });
   page.drawRectangle({ x: MARGIN, y: y - 31, width: PAGE_WIDTH - MARGIN * 2, height: 23, color: BLACK });
-  page.drawText("ITEM", { x: MARGIN + 12, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
-  page.drawText("PRODUCT", { x: MARGIN + 92, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("IMAGE", { x: MARGIN + 8, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("ITEM", { x: MARGIN + 62, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
+  page.drawText("PRODUCT", { x: MARGIN + 116, y: y - 23, size: 6.8, font: fonts.bold, color: WHITE });
   rightText(page, fonts, "QTY", 432, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "UNIT", 495, y - 23, 6.8, WHITE, true);
   rightText(page, fonts, "TOTAL", PAGE_WIDTH - MARGIN - 8, y - 23, 6.8, WHITE, true);
   return y - 31;
 }
 
-function drawProductRow(page: PDFPage, line: OrderLine, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
+function drawProductRow(page: PDFPage, line: OrderLine, image: PDFImage | null, fonts: Fonts, y: number, height: number, titleLines: string[], flavorLines: string[]): void {
   page.drawRectangle({ x: MARGIN, y: y - height, width: PAGE_WIDTH - MARGIN * 2, height, color: WHITE, borderColor: LINE, borderWidth: .45 });
-  page.drawText(safeText(line.item || "-"), { x: MARGIN + 12, y: y - height / 2 - 3, size: 8, font: fonts.bold, color: MID });
+  if (image) page.drawImage(image, { x: MARGIN + 8, y: y - height + 6, width: 46, height: 46 });
+  page.drawText(safeText(line.item || "-"), { x: MARGIN + 62, y: y - height / 2 - 3, size: 8, font: fonts.bold, color: MID });
 
   let textY = y - 16;
-  titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 92, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
-  flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 92, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
+  titleLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 116, y: textY, size: 9.5, font: fonts.bold, color: BLACK }); textY -= 10.5; });
+  flavorLines.forEach((lineText) => { page.drawText(lineText, { x: MARGIN + 116, y: textY, size: 8, font: fonts.regular, color: MID }); textY -= 9; });
   const baseline = y - height / 2 - 3;
   rightText(page, fonts, String(line.qty), 432, baseline, 8.7, DARK);
   rightText(page, fonts, money(unitPrice(line)), 495, baseline, 8.7, DARK);
@@ -161,6 +172,70 @@ function drawFooter(page: PDFPage, order: Order, fonts: Fonts, number: number, t
   page.drawLine({ start: { x: MARGIN, y: 39 }, end: { x: PAGE_WIDTH - MARGIN, y: 39 }, thickness: .5, color: LINE });
   page.drawText("BLACKMARKETLABS.COM", { x: MARGIN, y: 25, size: 6.5, font: fonts.bold, color: MID });
   rightText(page, fonts, `${order.id}  PAGE ${number} OF ${total}`, PAGE_WIDTH - MARGIN, 25, 6.5, MID);
+}
+
+async function loadThumbnail(pdf: PDFDocument, line: OrderLine, cache: Map<string, PDFImage | null>): Promise<PDFImage | null> {
+  const source = String(line.image || "").trim();
+  const key = `${line.variantId || ""}|${line.item || ""}|${source}`;
+  if (cache.has(key)) return cache.get(key) ?? null;
+  if (/^https:\/\//i.test(source) && isTrustedCatalogImageSource(source)) {
+    const remote = await remoteThumbnail(source).catch(() => null);
+    if (remote) {
+      const embedded = await pdf.embedJpg(Uint8Array.from(remote)).catch(() => null);
+      if (embedded) {
+        cache.set(key, embedded);
+        return embedded;
+      }
+    }
+  }
+  const bundled = bundledPdfProductThumbnail(line);
+  if (bundled) {
+    const embedded = await pdf.embedJpg(bundled);
+    cache.set(key, embedded);
+    return embedded;
+  }
+  try {
+    const jpeg = source.startsWith("/") && isTrustedCatalogImageSource(source)
+      ? await localThumbnail(source).catch(() => null)
+      : null;
+    if (!jpeg) {
+      cache.set(key, null);
+      return null;
+    }
+    const embedded = await pdf.embedJpg(Uint8Array.from(jpeg));
+    cache.set(key, embedded);
+    return embedded;
+  } catch {
+    cache.set(key, null);
+    return null;
+  }
+}
+
+async function localThumbnail(source: string): Promise<Buffer> {
+  const pathname = decodeURIComponent(new URL(source, "http://local").pathname);
+  const publicRoot = path.resolve(process.cwd(), "public");
+  const local = path.resolve(publicRoot, pathname.replace(/^\/+/, ""));
+  if (!local.startsWith(`${publicRoot}${path.sep}`)) throw new Error("Invalid image path");
+  return makeThumbnail(await readFile(local));
+}
+
+async function remoteThumbnail(url: string): Promise<Buffer> {
+  const response = await fetch(url, { signal: AbortSignal.timeout(4000), cache: "force-cache" });
+  if (!response.ok) throw new Error("Image unavailable");
+  if (!String(response.headers.get("content-type") || "").toLowerCase().startsWith("image/")) throw new Error("Unexpected media type");
+  const declaredSize = Number(response.headers.get("content-length") || 0);
+  if (declaredSize > 8 * 1024 * 1024) throw new Error("Image is too large");
+  const bytes = Buffer.from(await response.arrayBuffer());
+  if (bytes.byteLength > 8 * 1024 * 1024) throw new Error("Image is too large");
+  return makeThumbnail(bytes);
+}
+
+async function makeThumbnail(source: Buffer): Promise<Buffer> {
+  return sharp(source)
+    .resize(104, 104, { fit: "contain", background: "#f5f5f3" })
+    .flatten({ background: "#f5f5f3" })
+    .jpeg({ quality: 76, mozjpeg: true })
+    .toBuffer();
 }
 
 function drawCenteredWordmark(page: PDFPage, fonts: Fonts, y: number, size: number, brandColor: ReturnType<typeof rgb>): void {

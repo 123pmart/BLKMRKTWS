@@ -2,6 +2,7 @@ import { normalizeOrderPayload, readOrders } from "@/api/orders/store.js";
 import { getVerifiedStoreAccount } from "@/lib/account/auth";
 import { isAdminRequest } from "@/lib/admin/auth";
 import { repriceOrderPayload } from "@/lib/catalog/pricing";
+import { withResolvedOrderImages } from "@/lib/orders/order-images";
 import { generateOrderConfirmationPdf } from "@/lib/orders/pdf";
 import type { Order } from "@/types";
 
@@ -19,6 +20,7 @@ export async function POST(request: Request) {
       const storeAccount = await getVerifiedStoreAccount(request);
       order = normalizeOrderPayload({ ...(await repriceOrderPayload(payload, storeAccount?.identity ?? null, storeAccount?.account)), id: payload.id, date: payload.date }) as Order;
     }
+    order = await withResolvedOrderImages(order);
     const bytes = await generateOrderConfirmationPdf(order);
     return pdfResponse(bytes, order);
   } catch (error) {
