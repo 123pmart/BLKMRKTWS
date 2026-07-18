@@ -5,6 +5,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFP
 import sharp from "sharp";
 
 import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
+import { bundledPdfBrandLogo } from "@/lib/orders/pdf-brand-logo";
 import { bundledPdfProductThumbnail } from "@/lib/orders/pdf-product-thumbnails";
 import type { Order, OrderLine } from "@/types";
 
@@ -12,7 +13,8 @@ const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 42;
 const GOLD = rgb(0.965, 0.851, 0);
-const BLACK = rgb(0.025, 0.025, 0.03);
+// Match the supplied logo's sampled #050505 background so its JPEG edge disappears into the header.
+const BLACK = rgb(5 / 255, 5 / 255, 5 / 255);
 const DARK = rgb(0.12, 0.12, 0.13);
 const MID = rgb(0.42, 0.42, 0.45);
 const LINE = rgb(0.86, 0.86, 0.85);
@@ -29,12 +31,13 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
     regular: await pdf.embedFont(StandardFonts.Helvetica),
     bold: await pdf.embedFont(StandardFonts.HelveticaBold),
   };
+  const brandLogo = await pdf.embedJpg(bundledPdfBrandLogo());
   const thumbnails = new Map<string, PDFImage | null>();
   const pages: PDFPage[] = [];
 
   let page = addPage(pdf);
   pages.push(page);
-  let y = drawFirstPageHeader(page, order, fonts);
+  let y = drawFirstPageHeader(page, order, brandLogo, fonts);
   y = drawDetails(page, order, fonts, y);
   y = drawProductHeading(page, fonts, y - 16);
 
@@ -45,7 +48,7 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
     if (y - rowHeight < 132) {
       page = addPage(pdf);
       pages.push(page);
-      y = drawContinuationHeader(page, order, fonts);
+      y = drawContinuationHeader(page, order, brandLogo, fonts);
       y = drawProductHeading(page, fonts, y - 14);
     }
     const image = await loadThumbnail(pdf, line, thumbnails);
@@ -56,7 +59,7 @@ export async function generateOrderConfirmationPdf(order: Order): Promise<Uint8A
   if (y < minimumTotalsStart(order)) {
     page = addPage(pdf);
     pages.push(page);
-    y = drawContinuationHeader(page, order, fonts);
+    y = drawContinuationHeader(page, order, brandLogo, fonts);
   }
   drawTotals(page, order, fonts, y - 22);
   pages.forEach((current, index) => drawFooter(current, order, fonts, index + 1, pages.length));
@@ -67,9 +70,9 @@ function addPage(pdf: PDFDocument): PDFPage {
   return pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 }
 
-function drawFirstPageHeader(page: PDFPage, order: Order, fonts: Fonts): number {
+function drawFirstPageHeader(page: PDFPage, order: Order, brandLogo: PDFImage, fonts: Fonts): number {
   page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 74, width: PAGE_WIDTH, height: 74, color: BLACK });
-  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 49, 21, WHITE);
+  drawBrandLogo(page, brandLogo, 74);
 
   const labels = ["ORDER NUMBER", "ORDER DATE", "STATUS"];
   const values = [order.id, dateLabel(order.date), String(order.status || "Received").toUpperCase()];
@@ -83,9 +86,9 @@ function drawFirstPageHeader(page: PDFPage, order: Order, fonts: Fonts): number 
   return PAGE_HEIGHT - 154;
 }
 
-function drawContinuationHeader(page: PDFPage, order: Order, fonts: Fonts): number {
+function drawContinuationHeader(page: PDFPage, order: Order, brandLogo: PDFImage, fonts: Fonts): number {
   page.drawRectangle({ x: 0, y: PAGE_HEIGHT - 60, width: PAGE_WIDTH, height: 60, color: BLACK });
-  drawCenteredWordmark(page, fonts, PAGE_HEIGHT - 37, 16, WHITE);
+  drawBrandLogo(page, brandLogo, 60);
   rightText(page, fonts, order.id, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 51, 7, MID, true);
   return PAGE_HEIGHT - 82;
 }
@@ -238,15 +241,15 @@ async function makeThumbnail(source: Buffer): Promise<Buffer> {
     .toBuffer();
 }
 
-function drawCenteredWordmark(page: PDFPage, fonts: Fonts, y: number, size: number, brandColor: ReturnType<typeof rgb>): void {
-  const brand = "BLACKMARKET";
-  const suffix = "WHOLESALE";
-  const suffixSize = size * .39;
-  const gap = 7;
-  const total = fonts.bold.widthOfTextAtSize(brand, size) + gap + fonts.bold.widthOfTextAtSize(suffix, suffixSize);
-  const x = (PAGE_WIDTH - total) / 2;
-  page.drawText(brand, { x, y, size, font: fonts.bold, color: brandColor });
-  page.drawText(suffix, { x: x + fonts.bold.widthOfTextAtSize(brand, size) + gap, y: y + 1, size: suffixSize, font: fonts.bold, color: GOLD });
+function drawBrandLogo(page: PDFPage, brandLogo: PDFImage, headerHeight: number): void {
+  const width = headerHeight === 74 ? 356 : 289;
+  const height = width * brandLogo.height / brandLogo.width;
+  page.drawImage(brandLogo, {
+    x: (PAGE_WIDTH - width) / 2,
+    y: PAGE_HEIGHT - headerHeight + (headerHeight - height) / 2,
+    width,
+    height,
+  });
 }
 
 function centeredText(page: PDFPage, fonts: Fonts, text: string, center: number, y: number, size: number, color: ReturnType<typeof rgb>, bold = false): void {
