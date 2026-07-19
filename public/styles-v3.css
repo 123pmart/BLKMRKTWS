@@ -4335,11 +4335,11 @@ body.admin-news-editing .admin-news-side {
 
 @media (max-width: 767px) and (display-mode: standalone) {
   .content {
-    padding-bottom: calc(var(--mobile-bottom-nav-height) + 40px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--mobile-bottom-nav-height) + 46px + env(safe-area-inset-bottom));
   }
 
   .portal-bottom-nav {
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(22px + env(safe-area-inset-bottom));
   }
 }
 

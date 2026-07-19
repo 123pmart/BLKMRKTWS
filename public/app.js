@@ -52,7 +52,7 @@ const LANDING_OPTIONS = [
 
 const LANDING_THUMBNAILS = {
   "cuts-thermogenic-pre-workout": "/assets/landing/cuts.webp",
-  "defy-hyper-stimulant": "/assets/landing/defy.webp",
+  "defy-hyper-stimulant": "/assets/catalog-cards/defy-hyper-stimulant-streettarts-56329-6471399d39ab.webp",
   "pump-hyper-pump-pre-workout": "/assets/landing/pump.webp",
   "bulk-apex-strength-pre-workout": "/assets/landing/bulk.webp",
   "creatine-monohydrate-raw": "/assets/landing/creatine.webp",

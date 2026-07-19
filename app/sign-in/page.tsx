@@ -15,7 +15,7 @@ export default async function SignInPage() {
           <CardContent className="p-6 sm:p-8">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-primary">BLACKMARKET Wholesale</p>
             <h1 className="mt-2 text-3xl font-black tracking-tight">Store Account</h1>
-            <p className="mt-2 mb-6 text-sm text-muted-foreground">Sign in or request access.</p>
+            <p className="mt-2 mb-6 text-sm text-muted-foreground">Sign in or create your store account.</p>
             <AuthPanel />
           </CardContent>
         </Card>

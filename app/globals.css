@@ -145,11 +145,11 @@
 
 @media (max-width: 767px) and (display-mode: standalone) {
   .liquid-mobile-nav {
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(22px + env(safe-area-inset-bottom));
   }
 
   .account-shell {
-    padding-bottom: calc(111px + env(safe-area-inset-bottom));
+    padding-bottom: calc(117px + env(safe-area-inset-bottom));
   }
 }
 
