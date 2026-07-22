@@ -742,6 +742,17 @@ body.admin-product-editing .admin-sheet-backdrop {
   opacity: 1;
 }
 
+/*
+ * The active-view entrance animation retains a transform and creates a
+ * stacking context. Release it while an admin editor is open so the fixed
+ * editor (z-index: 90) stays above its root-level backdrop (z-index: 70).
+ */
+body.admin-news-editing #adminView,
+body.admin-product-editing #adminView {
+  animation: none;
+  transform: none;
+}
+
 #cartView.view {
   position: fixed;
   top: 12px;
