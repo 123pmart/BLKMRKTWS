@@ -31,6 +31,7 @@ let catalogTransitionTimer = 0;
 let lastProductTrigger = null;
 let lastNewsTrigger = null;
 let lastCartTrigger = null;
+let lastPricingTrigger = null;
 let toastTimer = 0;
 
 const SECTION_META = [
@@ -114,6 +115,12 @@ const state = {
   adminAccounts: [],
   adminAccountOrders: [],
   adminPricingCatalog: [],
+  adminPricingAccountId: "",
+  adminPricingQuery: "",
+  adminPricingDraft: {},
+  adminPricingOriginal: {},
+  adminPricingBaseline: {},
+  adminPricingDirty: new Set(),
   adminAccountQuery: "",
   adminAccountStatus: "all",
   cartStep: "items",
@@ -243,6 +250,15 @@ const dom = {
   adminAccountFilter: document.querySelector("#adminAccountFilter"),
   adminCreateAccountForm: document.querySelector("#adminCreateAccountForm"),
   adminStoreAccounts: document.querySelector("#adminStoreAccounts"),
+  adminPricingEditor: document.querySelector("#adminPricingEditor"),
+  adminPricingTitle: document.querySelector("#adminPricingTitle"),
+  adminPricingSubtitle: document.querySelector("#adminPricingSubtitle"),
+  adminPricingSearch: document.querySelector("#adminPricingSearch"),
+  adminPricingGrid: document.querySelector("#adminPricingGrid"),
+  adminPricingChangeCount: document.querySelector("#adminPricingChangeCount"),
+  adminClosePricingEditor: document.querySelector("#adminClosePricingEditor"),
+  adminCancelPricing: document.querySelector("#adminCancelPricing"),
+  adminSavePricing: document.querySelector("#adminSavePricing"),
   adminIdentityLabel: document.querySelector("#adminIdentityLabel"),
   adminNotificationBell: document.querySelector("#adminNotificationBell"),
   adminNotificationCount: document.querySelector("#adminNotificationCount"),
@@ -617,6 +633,15 @@ function bindEvents() {
   });
   dom.adminCreateAccountForm?.addEventListener("submit", createAdminStoreAccount);
   dom.adminStoreAccounts?.addEventListener("click", handleAdminStoreAction);
+  dom.adminClosePricingEditor?.addEventListener("click", closeAdminPricingEditor);
+  dom.adminCancelPricing?.addEventListener("click", closeAdminPricingEditor);
+  dom.adminPricingSearch?.addEventListener("input", (event) => {
+    state.adminPricingQuery = event.target.value.trim().toLowerCase();
+    renderAdminPricingEditor();
+  });
+  dom.adminPricingGrid?.addEventListener("click", handleAdminPricingClick);
+  dom.adminPricingGrid?.addEventListener("change", handleAdminPricingInput);
+  dom.adminSavePricing?.addEventListener("click", saveAdminPricing);
 
   dom.customProductForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -2606,6 +2631,7 @@ function adminHeaders() {
 
 function openNewsEditor(options = {}) {
   if (options.reset) clearAnnouncementEditor();
+  closeAdminPricingEditor({ restoreFocus: false });
   dom.announcementForm.inert = false;
   dom.announcementForm.setAttribute("aria-hidden", "false");
   dom.adminNewsSide.inert = false;
@@ -2622,6 +2648,7 @@ function closeNewsEditor() {
 }
 
 function openProductEditor(mode = "flavor", parentId = "") {
+  closeAdminPricingEditor({ restoreFocus: false });
   dom.customProductForm.reset();
   setProductEditorMode(mode);
   if (mode === "flavor") {
@@ -2647,6 +2674,7 @@ function closeProductEditor() {
 function closeAdminEditors() {
   closeNewsEditor();
   closeProductEditor();
+  closeAdminPricingEditor();
 }
 
 function renderAdmin() {
@@ -2698,6 +2726,183 @@ async function loadAdminAccounts(options = {}) {
   }
 }
 
+function openAdminPricingEditor(accountId, trigger = null) {
+  const account = state.adminAccounts.find((entry) => entry.id === accountId);
+  if (!account || !dom.adminPricingEditor) return;
+  closeNewsEditor();
+  closeProductEditor();
+  lastPricingTrigger = trigger || document.activeElement;
+  state.adminPricingAccountId = account.id;
+  state.adminPricingQuery = "";
+  state.adminPricingDraft = {};
+  state.adminPricingOriginal = {};
+  state.adminPricingBaseline = {};
+  state.adminPricingDirty = new Set();
+  if (dom.adminPricingSearch) dom.adminPricingSearch.value = "";
+
+  state.adminPricingCatalog.forEach((item) => {
+    const variantOverride = (account.priceOverrides || []).find((entry) => entry.variantId === item.variantId);
+    const productOverride = (account.priceOverrides || []).find((entry) => !entry.variantId && entry.productId === item.productId);
+    const baseline = Number.isFinite(Number(productOverride?.wholesalePrice))
+      ? Number(productOverride.wholesalePrice)
+      : Number(item.wholesalePrice);
+    const current = Number.isFinite(Number(variantOverride?.wholesalePrice))
+      ? Number(variantOverride.wholesalePrice)
+      : baseline;
+    state.adminPricingDraft[item.variantId] = roundPrice(current);
+    state.adminPricingOriginal[item.variantId] = variantOverride ? roundPrice(variantOverride.wholesalePrice) : null;
+    state.adminPricingBaseline[item.variantId] = roundPrice(baseline);
+  });
+
+  dom.adminPricingEditor.inert = false;
+  dom.adminPricingEditor.setAttribute("aria-hidden", "false");
+  document.body.classList.add("admin-pricing-editing");
+  renderAdminPricingEditor();
+  window.requestAnimationFrame(() => dom.adminPricingSearch?.focus());
+}
+
+function closeAdminPricingEditor(options = {}) {
+  if (!dom.adminPricingEditor) return;
+  const wasOpen = document.body.classList.contains("admin-pricing-editing");
+  document.body.classList.remove("admin-pricing-editing");
+  dom.adminPricingEditor.inert = true;
+  dom.adminPricingEditor.setAttribute("aria-hidden", "true");
+  if (wasOpen && options.restoreFocus !== false && lastPricingTrigger?.isConnected) lastPricingTrigger.focus();
+  if (wasOpen) lastPricingTrigger = null;
+}
+
+function renderAdminPricingEditor() {
+  if (!dom.adminPricingGrid || !document.body.classList.contains("admin-pricing-editing")) return;
+  const account = state.adminAccounts.find((entry) => entry.id === state.adminPricingAccountId);
+  if (!account) {
+    closeAdminPricingEditor({ restoreFocus: false });
+    return;
+  }
+  if (dom.adminPricingTitle) dom.adminPricingTitle.textContent = `${account.store?.storeName || "Store"} Pricing`;
+  if (dom.adminPricingSubtitle) {
+    dom.adminPricingSubtitle.textContent = `Adjust each flavor for @${account.username}. Changes apply to future carts and orders after you save.`;
+  }
+  const query = state.adminPricingQuery;
+  const items = state.adminPricingCatalog.filter((item) => {
+    const haystack = `${item.product} ${item.flavor} ${item.item}`.toLowerCase();
+    return !query || haystack.includes(query);
+  });
+  if (!items.length) {
+    dom.adminPricingGrid.innerHTML = `<div class="empty-state">No matching products.</div>`;
+  } else {
+    dom.adminPricingGrid.innerHTML = items.map((item) => {
+      const portalItem = state.items.find((entry) => entry.id === item.variantId);
+      const image = portalItem?.cardImage || portalItem?.bottle || item.image || "";
+      const value = roundPrice(state.adminPricingDraft[item.variantId]);
+      const baseline = roundPrice(state.adminPricingBaseline[item.variantId]);
+      const custom = value !== baseline;
+      const unavailable = item.hidden || item.status === "inactive";
+      return `
+        <article class="admin-pricing-card ${custom ? "is-custom" : ""} ${unavailable ? "is-unavailable" : ""}" data-pricing-variant="${escapeHtml(item.variantId)}">
+          <div class="admin-pricing-media">
+            ${image ? `<img src="${escapeHtml(image)}" alt="" width="160" height="160" loading="lazy" decoding="async" />` : `<span aria-hidden="true">#${escapeHtml(item.item)}</span>`}
+          </div>
+          <div class="admin-pricing-copy">
+            <span class="admin-kicker">#${escapeHtml(item.item)}${item.status === "coming-soon" ? " · Coming Soon" : unavailable ? " · Inactive" : ""}</span>
+            <h3>${escapeHtml(item.product)}</h3>
+            <p>${escapeHtml(item.flavor)}</p>
+            <small>${state.adminPricingOriginal[item.variantId] === null ? "Standard" : "Custom"} · Base ${money(baseline)}</small>
+          </div>
+          <div class="admin-price-stepper" aria-label="${escapeHtml(`${item.product} ${item.flavor} wholesale price`)}">
+            <button type="button" data-price-adjust="-1" aria-label="${escapeHtml(`Decrease ${item.product} ${item.flavor} price by one dollar`)}">−</button>
+            <label>
+              <span class="sr-only">${escapeHtml(`${item.product} ${item.flavor} wholesale price`)}</span>
+              <span aria-hidden="true">$</span>
+              <input type="number" inputmode="decimal" min="0" max="100000" step="0.01" value="${value.toFixed(2)}" data-price-input="${escapeHtml(item.variantId)}" />
+            </label>
+            <button type="button" data-price-adjust="1" aria-label="${escapeHtml(`Increase ${item.product} ${item.flavor} price by one dollar`)}">+</button>
+          </div>
+          <button class="admin-price-reset" type="button" data-price-reset="${escapeHtml(item.variantId)}" ${custom ? "" : "disabled"}>Use Base Price</button>
+        </article>
+      `;
+    }).join("");
+  }
+  const changeCount = state.adminPricingDirty.size;
+  if (dom.adminPricingChangeCount) dom.adminPricingChangeCount.textContent = changeCount ? `${changeCount} unsaved` : "No changes";
+  if (dom.adminSavePricing) {
+    dom.adminSavePricing.disabled = changeCount === 0;
+    dom.adminSavePricing.textContent = changeCount ? `Save ${changeCount} Change${changeCount === 1 ? "" : "s"}` : "Save Pricing";
+  }
+}
+
+function handleAdminPricingClick(event) {
+  const adjust = event.target.closest("[data-price-adjust]");
+  const reset = event.target.closest("[data-price-reset]");
+  const card = event.target.closest("[data-pricing-variant]");
+  const variantId = card?.dataset.pricingVariant;
+  if (!variantId || (!adjust && !reset)) return;
+  if (adjust) {
+    const amount = Number(adjust.dataset.priceAdjust || 0);
+    state.adminPricingDraft[variantId] = roundPrice(Math.max(0, Number(state.adminPricingDraft[variantId] || 0) + amount));
+  } else {
+    state.adminPricingDraft[variantId] = roundPrice(state.adminPricingBaseline[variantId]);
+  }
+  syncAdminPricingDirty(variantId);
+  renderAdminPricingEditor();
+  window.requestAnimationFrame(() => {
+    const selector = adjust ? `[data-pricing-variant="${CSS.escape(variantId)}"] [data-price-adjust="${adjust.dataset.priceAdjust}"]` : `[data-price-reset="${CSS.escape(variantId)}"]`;
+    dom.adminPricingGrid?.querySelector(selector)?.focus();
+  });
+}
+
+function handleAdminPricingInput(event) {
+  const input = event.target.closest("[data-price-input]");
+  if (!input) return;
+  const value = Number(input.value);
+  if (!Number.isFinite(value) || value < 0 || value > 100000) {
+    input.value = Number(state.adminPricingDraft[input.dataset.priceInput] || 0).toFixed(2);
+    return showToast("Enter a valid wholesale price");
+  }
+  state.adminPricingDraft[input.dataset.priceInput] = roundPrice(value);
+  syncAdminPricingDirty(input.dataset.priceInput);
+  renderAdminPricingEditor();
+}
+
+function syncAdminPricingDirty(variantId) {
+  const current = roundPrice(state.adminPricingDraft[variantId]);
+  const original = state.adminPricingOriginal[variantId];
+  const baseline = roundPrice(state.adminPricingBaseline[variantId]);
+  const originalEffective = original === null ? baseline : roundPrice(original);
+  if (current === originalEffective) state.adminPricingDirty.delete(variantId);
+  else state.adminPricingDirty.add(variantId);
+}
+
+async function saveAdminPricing() {
+  const account = state.adminAccounts.find((entry) => entry.id === state.adminPricingAccountId);
+  const changes = [...state.adminPricingDirty];
+  if (!account || !changes.length || !dom.adminSavePricing) return;
+  const prices = changes.map((variantId) => {
+    const current = roundPrice(state.adminPricingDraft[variantId]);
+    const baseline = roundPrice(state.adminPricingBaseline[variantId]);
+    return current === baseline ? { variantId, remove: true } : { variantId, wholesalePrice: current };
+  });
+  dom.adminSavePricing.disabled = true;
+  try {
+    const response = await fetch("/api/admin/accounts", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accountId: account.id, action: "set-prices", prices }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.message || "Unable to save product pricing");
+    await loadAdminAccounts({ silent: true });
+    openAdminPricingEditor(account.id, lastPricingTrigger);
+    showToast("Store pricing saved");
+  } catch (error) {
+    dom.adminSavePricing.disabled = false;
+    showToast(error?.message || "Unable to save product pricing");
+  }
+}
+
+function roundPrice(value) {
+  return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
+}
+
 async function createAdminStoreAccount(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -2729,6 +2934,30 @@ async function handleAdminStoreAction(event) {
   const account = state.adminAccounts.find((entry) => entry.id === accountId);
   if (!account) return;
   const action = button.dataset.storeAction;
+  if (action === "pricing") {
+    openAdminPricingEditor(account.id, button);
+    return;
+  }
+  if (action === "delete") {
+    const confirmed = window.confirm(`Delete ${account.store?.storeName || account.username}?\n\nThis removes the store login and ends its sessions. Historical orders will remain in the admin inbox. This cannot be undone.`);
+    if (!confirmed) return;
+    button.disabled = true;
+    try {
+      const response = await fetch("/api/admin/accounts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accountId: account.id }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.message || "Unable to delete store account");
+      await loadAdminAccounts({ silent: true });
+      showToast("Store account deleted; order history preserved");
+    } catch (error) {
+      button.disabled = false;
+      showToast(error?.message || "Unable to delete store account");
+    }
+    return;
+  }
   const payload = { accountId, action };
 
   if (action === "status") payload.status = button.dataset.status;
@@ -2801,18 +3030,9 @@ function renderAdminStoreAccounts() {
     return;
   }
 
-  const productOptions = unique(state.adminPricingCatalog.map((item) => item.productId)).map((productId) => {
-    const item = state.adminPricingCatalog.find((entry) => entry.productId === productId);
-    return `<option value="product:${escapeHtml(productId)}">${escapeHtml(item?.product || productId)} — all variants</option>`;
-  }).join("");
-
   dom.adminStoreAccounts.innerHTML = accounts.map((account) => {
     const unlinkedOrders = state.adminAccountOrders.filter((order) => !order.storeId || order.storeId === account.storeId);
     const orderOptions = unlinkedOrders.map((order) => `<option value="${escapeHtml(order.id)}">${escapeHtml(order.storeName || order.id)} · ${escapeHtml(order.id)}</option>`).join("");
-    const overrides = (account.priceOverrides || []).map((override) => {
-      const item = state.adminPricingCatalog.find((entry) => override.variantId ? entry.variantId === override.variantId : entry.productId === override.productId);
-      return `<li><span>${escapeHtml(item ? `${item.product}${override.variantId ? ` / ${item.flavor}` : ""}` : override.variantId || override.productId)} <strong>${money(override.wholesalePrice)}</strong></span><button type="button" data-store-action="remove-price" data-override-id="${escapeHtml(override.id)}">Remove</button></li>`;
-    }).join("");
     return `
       <article class="admin-card admin-store-account" data-account-id="${escapeHtml(account.id)}">
         <div class="admin-store-account-head">
@@ -2823,12 +3043,12 @@ function renderAdminStoreAccounts() {
           ${account.status !== "active" ? `<button class="admin-button admin-primary" type="button" data-store-action="status" data-status="active">Enable</button>` : ""}
           ${account.status !== "disabled" ? `<button class="admin-button admin-secondary" type="button" data-store-action="status" data-status="disabled">Disable</button>` : ""}
           <button class="admin-button admin-secondary" type="button" data-store-action="store">Edit Store</button>
+          <button class="admin-button admin-primary" type="button" data-store-action="pricing">Edit Product Pricing</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="username">Change Username</button>
           <button class="admin-button admin-secondary" type="button" data-store-action="reset-password">Reset Password</button>
+          <button class="admin-button admin-danger" type="button" data-store-action="delete">Delete Store</button>
         </div>
         <div class="admin-store-meta"><span>Salesperson <strong>${escapeHtml((account.store?.salesperson || "parker").replace(/^./, (letter) => letter.toUpperCase()))}</strong></span><span>Last login <strong>${account.lastLoginAt ? escapeHtml(shortDate(account.lastLoginAt)) : "Never"}</strong></span><span>Product prices <strong>${account.priceOverrides?.length || 0}</strong></span></div>
-        <div class="admin-store-control"><label><span>Product</span><select data-price-target><option value="">Select a product</option>${productOptions}</select></label><label><span>Wholesale price</span><input data-price-value type="number" min="0" step="0.01" placeholder="0.00" /></label><button class="admin-button admin-primary" type="button" data-store-action="add-price">Set Product Price</button></div>
-        <ul class="admin-price-overrides">${overrides || "<li><span>No product prices set.</span></li>"}</ul>
         <div class="admin-store-control admin-order-link"><label><span>Historical order</span><select data-order-target><option value="">Select order</option>${orderOptions}</select></label><button class="admin-button admin-secondary" type="button" data-store-action="link-order">Link Order</button></div>
       </article>
     `;
@@ -3839,7 +4059,7 @@ function safePortalBack() {
 function installLegacyMobileNavigation() {
   const nav = document.querySelector(".portal-bottom-nav");
   if (!nav) return;
-  const overlayClasses = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
+  const overlayClasses = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing", "admin-pricing-editing"];
 
   const syncOverlay = () => {
     const blocked = overlayClasses.some((name) => document.body.classList.contains(name))

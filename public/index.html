@@ -8,7 +8,7 @@
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260718-web-push-motion" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260723-admin-pricing-pdf" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -634,6 +634,29 @@
                 </div>
               </div>
             </section>
+
+            <section class="admin-pricing-editor" id="adminPricingEditor" aria-hidden="true" inert>
+              <header class="admin-pricing-header">
+                <div>
+                  <span class="admin-kicker">Store pricing</span>
+                  <h2 id="adminPricingTitle">Product Pricing</h2>
+                  <p id="adminPricingSubtitle">Adjust wholesale pricing by flavor. Customer orders continue to use server-verified prices.</p>
+                </div>
+                <button class="admin-sheet-close" id="adminClosePricingEditor" type="button" aria-label="Close pricing editor">&times;</button>
+              </header>
+              <div class="admin-pricing-toolbar">
+                <label class="admin-search-field">
+                  <span>Search products</span>
+                  <input id="adminPricingSearch" type="search" placeholder="Product, flavor, or item #" autocomplete="off" />
+                </label>
+                <span class="admin-count-badge" id="adminPricingChangeCount">No changes</span>
+              </div>
+              <div class="admin-pricing-grid" id="adminPricingGrid"></div>
+              <footer class="admin-pricing-footer">
+                <button class="admin-button admin-secondary" id="adminCancelPricing" type="button">Close</button>
+                <button class="admin-button admin-primary" id="adminSavePricing" type="button" disabled>Save Pricing</button>
+              </footer>
+            </section>
             </div>
           </div>
         </section>
@@ -758,6 +781,6 @@
   </div>
 </div>
 
-    <script type="module" src="/app.js?v=20260718-web-push-motion"></script>
+    <script type="module" src="/app.js?v=20260723-admin-pricing-pdf"></script>
   </body>
 </html>

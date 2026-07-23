@@ -135,6 +135,11 @@ export async function renameAccountUsername(oldUsername: string, nextUsername: s
   return next;
 }
 
+export async function deleteAccount(username: string, accountId: string): Promise<void> {
+  await deleteRecord(accountPath(username), localPath("accounts", `${accountFileName(username)}.json`));
+  await deleteSessionsForAccount(accountId).catch(() => undefined);
+}
+
 export async function createSessionRecord(session: AccountSession): Promise<void> {
   const pathname = sessionPath(session.tokenHash);
   if (shouldUseBlob()) {
@@ -169,6 +174,36 @@ export function hashSessionToken(token: string): string {
 
 export function newStoreId(): string { return `store_${randomUUID()}`; }
 export function newAccountId(): string { return `acct_${randomUUID()}`; }
+
+async function deleteSessionsForAccount(accountId: string): Promise<void> {
+  if (shouldUseBlob()) {
+    const { del, list } = await import("@vercel/blob");
+    const pathnames: string[] = [];
+    let cursor: string | undefined;
+    do {
+      const page = await list({ prefix: SESSION_PREFIX, cursor, limit: 1000 });
+      pathnames.push(...page.blobs.filter((blob) => blob.pathname.endsWith(".json")).map((blob) => blob.pathname));
+      cursor = page.hasMore ? page.cursor : undefined;
+    } while (cursor);
+    const sessions = await Promise.all(pathnames.map(async (pathname) => ({ pathname, session: await readBlob<AccountSession>(pathname) })));
+    const stale = sessions.filter((entry) => entry.session?.accountId === accountId).map((entry) => entry.pathname);
+    if (stale.length) await del(stale);
+    return;
+  }
+
+  ensureLocalAllowed();
+  const directory = localPath("sessions");
+  const names = await readdir(directory).catch((error: NodeJS.ErrnoException) => error.code === "ENOENT" ? [] : Promise.reject(error));
+  await Promise.all(names.filter((name) => name.endsWith(".json")).map(async (name) => {
+    const target = path.join(directory, name);
+    try {
+      const session = JSON.parse(await readFile(target, "utf8")) as AccountSession;
+      if (session.accountId === accountId) await unlink(target);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+  }));
+}
 
 async function readRecord<T>(pathname: string, localFile: string): Promise<T | null> {
   if (shouldUseBlob()) {

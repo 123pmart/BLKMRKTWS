@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { readContent } from "@/api/content/store.js";
+import { isEmbeddedCatalogImageSource } from "@/lib/catalog/embedded-image";
 import { resolveCatalogProductImage } from "@/lib/catalog/image-core";
 
 export interface ServerCatalogItem {
@@ -27,7 +28,7 @@ interface RawVariant {
 interface RawProduct { id?: string; title?: string; bottle?: string; variants?: RawVariant[] }
 interface RawCatalog { products?: RawProduct[] }
 
-export async function loadServerCatalog(): Promise<ServerCatalogItem[]> {
+export async function loadServerCatalog(options: { includeEmbeddedImages?: boolean } = {}): Promise<ServerCatalogItem[]> {
   const raw = JSON.parse(await readFile(path.join(process.cwd(), "public", "catalog-data.json"), "utf8")) as RawCatalog;
   const content = await readContent().catch(() => null) as {
     customProducts?: RawProduct[];
@@ -52,15 +53,26 @@ export async function loadServerCatalog(): Promise<ServerCatalogItem[]> {
       upc: clean(variant.upc),
       wholesalePrice: moneyValue(variant.wholesaleValue, variant.wholesale),
       mapPrice: moneyValue(variant.mapValue, variant.map),
-      image: resolveCatalogProductImage({
+      image: resolveServerCatalogImage({
         variantOverrideImage: override.bottle,
         variantImage: variant.bottle,
         productImage: product.bottle,
-      }) || "",
+      }, Boolean(options.includeEmbeddedImages)),
       status,
       hidden: hidden.has(variantId),
     } satisfies ServerCatalogItem;
   })).filter((item) => item.variantId && item.item && item.wholesalePrice >= 0);
+}
+
+function resolveServerCatalogImage(
+  candidate: { variantOverrideImage?: string; variantImage?: string; productImage?: string },
+  includeEmbeddedImages: boolean,
+): string {
+  const regular = resolveCatalogProductImage(candidate);
+  if (regular || !includeEmbeddedImages) return regular || "";
+  return [candidate.variantOverrideImage, candidate.variantImage, candidate.productImage]
+    .map((value) => String(value ?? "").trim())
+    .find(isEmbeddedCatalogImageSource) || "";
 }
 
 function moneyValue(numeric: unknown, formatted: unknown): number {

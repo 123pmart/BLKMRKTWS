@@ -1,9 +1,9 @@
-import { createAccount, getAccountById, listAccounts, newAccountId, newStoreId, renameAccountUsername, updateAccount, UsernameConflictError } from "@/lib/account/account-store";
+import { createAccount, deleteAccount, getAccountById, listAccounts, newAccountId, newStoreId, renameAccountUsername, updateAccount, UsernameConflictError } from "@/lib/account/account-store";
 import { hashPassword } from "@/lib/account/password";
 import { normalizeUsername, validateRegistration } from "@/lib/account/validation";
 import { getAdminIdentity } from "@/lib/admin/auth";
 import { accountSalesperson, adminCanAccessSalesperson, isSalespersonId, normalizeSalesperson, orderSalesperson } from "@/lib/salespeople";
-import { loadServerCatalog } from "@/lib/catalog/server-catalog";
+import { loadServerCatalog, type ServerCatalogItem } from "@/lib/catalog/server-catalog";
 import { normalizePriceOverride } from "@/lib/catalog/pricing";
 import { linkOrderToStore, readOrders } from "@/api/orders/store.js";
 import type { StoreAccount, StoreAccountStatus } from "@/types";
@@ -24,9 +24,10 @@ export async function GET(request: Request) {
     orders: visibleOrders.map((order) => ({
       id: order.id, storeId: order.storeId || "", storeName: order.store?.storeName || "", date: order.date || "",
     })),
-    catalog: catalog.map((item: { productId: string; variantId: string; product: string; flavor: string; item: string; wholesalePrice: number }) => ({
+    catalog: catalog.map((item: ServerCatalogItem) => ({
       productId: item.productId, variantId: item.variantId, product: item.product, flavor: item.flavor,
-      item: item.item, wholesalePrice: item.wholesalePrice,
+      item: item.item, wholesalePrice: item.wholesalePrice, mapPrice: item.mapPrice,
+      image: item.image, status: item.status, hidden: item.hidden,
     })),
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
@@ -115,6 +116,43 @@ export async function PATCH(request: Request) {
       ...record,
       priceOverrides: [...record.priceOverrides.filter((entry) => override.variantId ? entry.variantId !== override.variantId : entry.variantId || entry.productId !== override.productId), override],
     }));
+  } else if (action === "set-prices") {
+    const submitted = Array.isArray(body.prices) ? body.prices : [];
+    if (!submitted.length || submitted.length > 1000) return badRequest("Submit between 1 and 1,000 price changes.");
+    const catalog = await loadServerCatalog();
+    const changes: Array<{ productId: string; variantId: string; remove: boolean; wholesalePrice?: number }> = [];
+    const seen = new Set<string>();
+    for (const raw of submitted) {
+      if (!raw || typeof raw !== "object") return badRequest("Invalid product price.");
+      const entry = raw as Record<string, unknown>;
+      const variantId = String(entry.variantId || "").trim();
+      const target = catalog.find((item) => item.variantId === variantId);
+      if (!target || seen.has(variantId)) return badRequest("A selected catalog item no longer exists.");
+      seen.add(variantId);
+      if (entry.remove === true) {
+        changes.push({ productId: target.productId, variantId, remove: true });
+        continue;
+      }
+      const wholesalePrice = Number(entry.wholesalePrice);
+      if (!Number.isFinite(wholesalePrice) || wholesalePrice < 0 || wholesalePrice > 100_000) {
+        return badRequest(`Enter a valid wholesale price for ${target.product} / ${target.flavor}.`);
+      }
+      changes.push({ productId: target.productId, variantId, remove: false, wholesalePrice });
+    }
+    updated = await updateAccount(account.username, (record) => {
+      const touched = new Set(changes.map((entry) => entry.variantId));
+      const retained = record.priceOverrides.filter((entry) => !entry.variantId || !touched.has(entry.variantId));
+      const next = changes.filter((entry) => !entry.remove).map((entry) => {
+        const existing = record.priceOverrides.find((override) => override.variantId === entry.variantId);
+        return normalizePriceOverride({
+          ...existing,
+          productId: entry.productId,
+          variantId: entry.variantId,
+          wholesalePrice: entry.wholesalePrice,
+        }, record.storeId);
+      });
+      return { ...record, priceOverrides: [...retained, ...next] };
+    });
   } else if (action === "remove-price") {
     const overrideId = String(body.overrideId || "");
     updated = await updateAccount(account.username, (record) => ({ ...record, priceOverrides: record.priceOverrides.filter((entry) => entry.id !== overrideId) }));
@@ -129,6 +167,22 @@ export async function PATCH(request: Request) {
   }
 
   return Response.json({ ok: true, account: publicAdminAccount(updated) }, { headers: { "Cache-Control": "no-store" } });
+}
+
+export async function DELETE(request: Request) {
+  const identity = await getAdminIdentity(request);
+  if (!identity) return unauthorized();
+  const body = await request.json().catch(() => ({})) as Record<string, unknown>;
+  const account = await getAccountById(String(body.accountId || ""));
+  if (!account || !adminCanAccessSalesperson(identity, accountSalesperson(account))) {
+    return Response.json({ ok: false, message: "Store account not found." }, { status: 404, headers: { "Cache-Control": "no-store" } });
+  }
+  await deleteAccount(account.username, account.id);
+  return Response.json({
+    ok: true,
+    deletedAccountId: account.id,
+    message: "Store account deleted. Historical orders were preserved.",
+  }, { headers: { "Cache-Control": "no-store" } });
 }
 
 function publicAdminAccount(account: StoreAccount) {

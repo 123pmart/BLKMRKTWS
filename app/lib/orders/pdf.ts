@@ -4,6 +4,7 @@ import path from "node:path";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
 import sharp from "sharp";
 
+import { decodeEmbeddedCatalogImage } from "@/lib/catalog/embedded-image";
 import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
 import { formatOrderLineMargin } from "@/lib/orders/margin";
 import { bundledPdfBrandLogo } from "@/lib/orders/pdf-brand-logo";
@@ -173,6 +174,15 @@ async function loadThumbnail(pdf: PDFDocument, line: OrderLine, cache: Map<strin
         cache.set(key, embedded);
         return embedded;
       }
+    }
+  }
+  const embeddedSource = decodeEmbeddedCatalogImage(source);
+  if (embeddedSource) {
+    const jpeg = await makeThumbnail(embeddedSource).catch(() => null);
+    const embedded = jpeg ? await pdf.embedJpg(Uint8Array.from(jpeg)).catch(() => null) : null;
+    if (embedded) {
+      cache.set(key, embedded);
+      return embedded;
     }
   }
   const bundled = bundledPdfProductThumbnail(line);
