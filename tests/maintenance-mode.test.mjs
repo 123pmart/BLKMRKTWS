@@ -35,6 +35,7 @@ test("maintenance customers retain catalog access without ordering controls", ()
   assert.match(portalHtml, /data-view="news"/);
   assert.match(portalHtml, /data-view="catalog"/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) return "";/);
+  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.sku-card\s*\{\s*grid-template-rows: auto 168px auto auto;/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
   assert.doesNotMatch(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
 });
