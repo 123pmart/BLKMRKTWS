@@ -337,40 +337,6 @@ img {
   line-height: 1.65;
 }
 
-body.maintenance-catalog-mode:not([data-view="admin"]) .topbar {
-  grid-template-columns: 1fr;
-  justify-items: center;
-}
-
-body.maintenance-catalog-mode:not([data-view="admin"]) .topbar .brand {
-  grid-column: 1;
-  justify-self: center;
-}
-
-body.maintenance-catalog-mode:not([data-view="admin"]) .top-nav,
-body.maintenance-catalog-mode:not([data-view="admin"]) .mobile-quick-nav,
-body.maintenance-catalog-mode:not([data-view="admin"]) .header-actions,
-body.maintenance-catalog-mode:not([data-view="admin"]) .portal-bottom-nav,
-body.maintenance-catalog-mode:not([data-view="admin"]) .install-prompt,
-body.maintenance-catalog-mode:not([data-view="admin"]) .push-prompt {
-  display: none !important;
-}
-
-body.maintenance-catalog-mode:not([data-view="admin"]) .content {
-  padding-bottom: max(54px, env(safe-area-inset-bottom));
-}
-
-body.maintenance-catalog-mode:not([data-view="admin"]) .qty-mini.is-maintenance {
-  border-color: rgba(255, 255, 255, 0.13);
-  border-style: solid;
-  color: #8f8f98;
-  background: #0d0d10;
-}
-
-body.maintenance-catalog-mode:not([data-view="admin"]) .qty-mini.is-maintenance span {
-  color: #8f8f98;
-}
-
 body[data-view="admin"] .maintenance-catalog-hero {
   display: none !important;
 }

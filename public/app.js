@@ -1340,13 +1340,7 @@ function pumpMediaPreloadQueue() {
 
 function renderMiniQty(id) {
   const item = state.items.find((entry) => entry.id === id);
-  if (isPortalMaintenanceMode()) {
-    return `
-      <div class="qty-mini is-disabled is-maintenance" aria-label="Online ordering temporarily unavailable">
-        <span>Ordering paused</span>
-      </div>
-    `;
-  }
+  if (isPortalMaintenanceMode()) return "";
   if (item && !isOrderable(item)) {
     return `
       <div class="qty-mini is-disabled" aria-label="Coming soon">
@@ -1799,10 +1793,6 @@ function setCartStep(step) {
 }
 
 function openCartDrawer(trigger = document.activeElement, options = {}) {
-  if (isPortalMaintenanceMode()) {
-    showToast("Online ordering is paused. Contact BLACKMARKET to place an order.");
-    return;
-  }
   renderCart();
   setCartStep("items");
   lastCartTrigger = trigger instanceof HTMLElement ? trigger : null;
@@ -2677,15 +2667,12 @@ function applyPortalMaintenanceMode(options = {}) {
   document.body.classList.toggle("maintenance-catalog-mode", active);
   if (dom.maintenanceCatalogHero) dom.maintenanceCatalogHero.hidden = !active;
   if (dom.headerCartButton) {
-    dom.headerCartButton.disabled = active;
-    dom.headerCartButton.setAttribute("aria-disabled", active ? "true" : "false");
+    dom.headerCartButton.disabled = false;
+    dom.headerCartButton.removeAttribute("aria-disabled");
   }
 
   if (active) {
     closeCartDrawer({ history: false });
-    if (state.activeView !== "admin" && state.activeView !== "products") {
-      setView("products", { history: false });
-    }
   }
 
   if (options.render !== false) {
@@ -4005,7 +3992,6 @@ async function saveSite(options = {}) {
 }
 
 function setView(view, options = {}) {
-  if (isPortalMaintenanceMode() && view !== "admin") view = "products";
   if (view === "cart") {
     openCartDrawer(document.activeElement, options);
     return;

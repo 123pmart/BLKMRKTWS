@@ -28,9 +28,11 @@ test("maintenance customers retain catalog access without ordering controls", ()
   assert.match(portalHtml, /id="maintenanceCatalogHero"/);
   assert.match(portalHtml, /id="productsView"/);
   assert.doesNotMatch(portalHtml, />Contact Us<\/a>/);
-  assert.match(portalScript, /Ordering paused/);
+  assert.match(portalHtml, /data-view="news"/);
+  assert.match(portalHtml, /data-view="catalog"/);
+  assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) return "";/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
-  assert.match(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
+  assert.doesNotMatch(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
 });
 
 test("the server rejects submissions whenever persisted maintenance mode is active", () => {
