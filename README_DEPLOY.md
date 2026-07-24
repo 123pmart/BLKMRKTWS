@@ -39,6 +39,14 @@ ORDER_TO_EMAIL
 
 `RESEND_API_KEY` is optional. If it is missing, orders still save to the admin inbox and email sending is skipped silently. When Resend is configured later, `ORDER_FROM_EMAIL` defaults to `pmart@blackmarketlabs.com`, `ORDER_TO_EMAIL` defaults to `pmart@blackmarketlabs.com`, and each order sends an admin copy plus a customer confirmation to the store email entered at checkout.
 
+## Portal Maintenance Switch
+
+The portal status is controlled from **Admin → Settings → Ordering Availability** and is stored with the existing server-side portal content. It does not use a Vercel environment variable.
+
+This deployment defaults to maintenance mode. Customers can still browse and search the current product catalog, open product details, and view product imagery. Quantity controls, cart access, and order submission are disabled, and the maintenance interface directs buyers to contact BLACKMARKET.
+
+Turning maintenance mode off in Admin immediately restores the normal landing page, cart, and checkout after the setting is confirmed by durable content storage. A failed save leaves the prior status active.
+
 ## Notes
 
 - The homepage is served by `app/route.js`, which returns the portal HTML from `public/index.html`.

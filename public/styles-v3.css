@@ -287,6 +287,111 @@ img {
   padding: 28px 20px 90px;
 }
 
+.maintenance-catalog-hero {
+  display: grid;
+  grid-template-columns: minmax(190px, 280px) minmax(0, 1fr);
+  min-height: 310px;
+  align-items: center;
+  gap: clamp(20px, 5vw, 64px);
+  margin-bottom: 28px;
+  padding: clamp(24px, 5vw, 54px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 16% 48%, rgba(245, 169, 0, 0.07), transparent 34%),
+    linear-gradient(145deg, #0d0d0f, #070708 68%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+}
+
+.maintenance-catalog-mark {
+  display: grid;
+  place-items: center;
+}
+
+.maintenance-catalog-mark img {
+  width: min(100%, 260px);
+  height: auto;
+  filter: drop-shadow(0 20px 38px rgba(0, 0, 0, 0.7));
+}
+
+.maintenance-catalog-copy {
+  max-width: 650px;
+}
+
+.maintenance-catalog-copy h1 {
+  max-width: 680px;
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  font-weight: 950;
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.maintenance-catalog-copy > p:not(.eyebrow) {
+  max-width: 610px;
+  margin: 19px 0 0;
+  color: #9d9da5;
+  font-size: clamp(0.83rem, 1.5vw, 0.98rem);
+  line-height: 1.65;
+}
+
+.maintenance-catalog-copy > a {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 23px;
+  padding: 0 22px;
+  border-radius: 999px;
+  color: #090909;
+  background: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .topbar {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .topbar .brand {
+  grid-column: 1;
+  justify-self: center;
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .top-nav,
+body.maintenance-catalog-mode:not([data-view="admin"]) .mobile-quick-nav,
+body.maintenance-catalog-mode:not([data-view="admin"]) .header-actions,
+body.maintenance-catalog-mode:not([data-view="admin"]) .portal-bottom-nav,
+body.maintenance-catalog-mode:not([data-view="admin"]) .install-prompt,
+body.maintenance-catalog-mode:not([data-view="admin"]) .push-prompt {
+  display: none !important;
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .content {
+  padding-bottom: max(54px, env(safe-area-inset-bottom));
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .qty-mini.is-maintenance {
+  border-color: rgba(255, 255, 255, 0.13);
+  border-style: solid;
+  color: #8f8f98;
+  background: #0d0d10;
+}
+
+body.maintenance-catalog-mode:not([data-view="admin"]) .qty-mini.is-maintenance span {
+  color: #8f8f98;
+}
+
+body[data-view="admin"] .maintenance-catalog-hero {
+  display: none !important;
+}
+
 .view {
   display: none;
 }
@@ -2484,6 +2589,116 @@ body.admin-news-editing .admin-news-side {
   gap: 10px;
 }
 
+.admin-maintenance-card {
+  grid-column: 1 / -1;
+  border-color: rgba(245, 169, 0, 0.32);
+  background:
+    linear-gradient(135deg, rgba(245, 169, 0, 0.055), transparent 50%),
+    #0c0c0e;
+}
+
+.admin-portal-status {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid rgba(245, 169, 0, 0.35);
+  border-radius: 999px;
+  color: var(--accent);
+  background: rgba(245, 169, 0, 0.07);
+  font-size: 0.6rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.admin-portal-status[data-state="live"] {
+  border-color: rgba(98, 211, 155, 0.35);
+  color: var(--success);
+  background: rgba(98, 211, 155, 0.07);
+}
+
+.admin-maintenance-toggle {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 14px 15px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: #08080a;
+  cursor: pointer;
+}
+
+.admin-maintenance-toggle > span {
+  display: grid;
+  gap: 5px;
+}
+
+.admin-maintenance-toggle strong {
+  color: var(--text);
+  font-size: 0.76rem;
+}
+
+.admin-maintenance-toggle small {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.admin-maintenance-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.admin-maintenance-toggle i {
+  position: relative;
+  flex: 0 0 auto;
+  width: 52px;
+  height: 30px;
+  border: 1px solid #3a3a40;
+  border-radius: 999px;
+  background: #1a1a1e;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.admin-maintenance-toggle i::after {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #a2a2aa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  content: "";
+  transition: transform 220ms var(--ease-ios), background-color 180ms ease;
+}
+
+.admin-maintenance-toggle input:checked + i {
+  border-color: rgba(245, 169, 0, 0.7);
+  background: rgba(245, 169, 0, 0.22);
+}
+
+.admin-maintenance-toggle input:checked + i::after {
+  background: var(--accent);
+  transform: translateX(22px);
+}
+
+.admin-maintenance-toggle input:focus-visible + i {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.admin-maintenance-toggle input:disabled + i {
+  cursor: progress;
+  opacity: 0.55;
+}
+
 .admin-settings-grid > :last-child {
   grid-column: 1 / -1;
 }
@@ -3762,6 +3977,10 @@ body.admin-pricing-editing .admin-pricing-editor {
   background: var(--accent);
 }
 
+.admin-live-status[data-state="live"] i {
+  background: var(--success);
+}
+
 .admin-masthead-actions,
 .admin-notification-bell {
   display: inline-flex;
@@ -4660,6 +4879,40 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 @media (max-width: 720px) {
+  .maintenance-catalog-hero {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    margin: -2px -4px 22px;
+    padding: 26px 20px 30px;
+    text-align: center;
+  }
+
+  .maintenance-catalog-mark img {
+    width: 170px;
+  }
+
+  .maintenance-catalog-copy {
+    display: grid;
+    justify-items: center;
+  }
+
+  .maintenance-catalog-copy h1 {
+    font-size: clamp(2.1rem, 11vw, 3.45rem);
+  }
+
+  .maintenance-catalog-copy > p:not(.eyebrow) {
+    margin-top: 15px;
+  }
+
+  .maintenance-catalog-copy > a {
+    width: min(100%, 260px);
+    margin-top: 20px;
+  }
+
+  .admin-maintenance-toggle {
+    align-items: flex-start;
+  }
+
   #productsView .search {
     margin-block: 0 18px;
   }

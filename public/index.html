@@ -8,7 +8,7 @@
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260723-admin-pricing-pdf" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260724-admin-maintenance-catalog" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -58,6 +58,18 @@
       </header>
 
       <main class="content" id="content">
+        <section class="maintenance-catalog-hero" id="maintenanceCatalogHero" aria-labelledby="maintenanceCatalogTitle" hidden>
+          <div class="maintenance-catalog-mark">
+            <img src="/spyguy-white.png" alt="" width="900" height="900" decoding="async" />
+          </div>
+          <div class="maintenance-catalog-copy">
+            <p class="eyebrow">System maintenance</p>
+            <h1 id="maintenanceCatalogTitle">Ordering is temporarily offline.</h1>
+            <p>Our current product catalog is still available to browse. To place an order while the portal is being updated, contact the BLACKMARKET team directly.</p>
+            <a href="mailto:pmart@blackmarketlabs.com?subject=BLACKMARKET%20Wholesale%20Order">Contact Us</a>
+          </div>
+        </section>
+
         <section class="view active landing-view" id="landingView" aria-label="Product categories">
           <div class="landing-brand">
             <span>BLACKMARKET</span>
@@ -203,7 +215,7 @@
             </div>
             <div class="admin-masthead-actions">
               <span id="adminIdentityLabel" class="admin-identity-label" hidden></span>
-              <span class="admin-live-status"><i aria-hidden="true"></i> Portal live</span>
+              <span class="admin-live-status" id="adminLiveStatus"><i aria-hidden="true"></i> Portal live</span>
             </div>
           </div>
 
@@ -578,6 +590,21 @@
                 </div>
               </div>
               <div class="admin-settings-grid">
+                <div class="admin-card admin-maintenance-card">
+                  <div class="admin-card-heading">
+                    <div><span class="admin-kicker">Customer portal</span><h3>Ordering Availability</h3></div>
+                    <span class="admin-portal-status" id="adminMaintenanceStatus">Maintenance</span>
+                  </div>
+                  <p class="admin-card-copy">Customers can browse every product while ordering is paused. Existing carts remain saved, and checkout directs buyers to contact BLACKMARKET.</p>
+                  <label class="admin-maintenance-toggle">
+                    <span>
+                      <strong>Maintenance mode</strong>
+                      <small id="adminMaintenanceHelp">Online ordering is currently paused.</small>
+                    </span>
+                    <input id="adminMaintenanceToggle" type="checkbox" role="switch" aria-label="Maintenance mode" />
+                    <i aria-hidden="true"></i>
+                  </label>
+                </div>
                 <div class="admin-card">
                   <div class="admin-card-heading">
                     <div><span class="admin-kicker">Orders</span><h3>Order Handling</h3></div>
@@ -781,6 +808,6 @@
   </div>
 </div>
 
-    <script type="module" src="/app.js?v=20260723-admin-pricing-pdf"></script>
+    <script type="module" src="/app.js?v=20260724-admin-maintenance-catalog"></script>
   </body>
 </html>

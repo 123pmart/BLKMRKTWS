@@ -69,6 +69,7 @@ const PRODUCT_PANEL_OVERRIDES = {
 };
 
 const defaultSite = {
+  maintenanceMode: true,
   hiddenVariants: [],
   variantOverrides: {},
   announcements: [
@@ -157,6 +158,7 @@ const dom = {
   catalogCount: document.querySelector("#catalogCount"),
   search: document.querySelector("#searchInput"),
   categoryNav: document.querySelector("#categoryNav"),
+  maintenanceCatalogHero: document.querySelector("#maintenanceCatalogHero"),
   announcementBand: document.querySelector("#announcementBand"),
   catalogPages: document.querySelector("#catalogPages"),
   cartItems: document.querySelector("#cartItems"),
@@ -206,6 +208,10 @@ const dom = {
   adminOrderStorageStatus: document.querySelector("#adminOrderStorageStatus"),
   adminContentStorageMode: document.querySelector("#adminContentStorageMode"),
   adminContentStorageStatus: document.querySelector("#adminContentStorageStatus"),
+  adminLiveStatus: document.querySelector("#adminLiveStatus"),
+  adminMaintenanceToggle: document.querySelector("#adminMaintenanceToggle"),
+  adminMaintenanceStatus: document.querySelector("#adminMaintenanceStatus"),
+  adminMaintenanceHelp: document.querySelector("#adminMaintenanceHelp"),
   adminLogout: document.querySelector("#adminLogout"),
   customProductForm: document.querySelector("#customProductForm"),
   adminOpenFlavorEditor: document.querySelector("#adminOpenFlavorEditor"),
@@ -311,6 +317,7 @@ async function init() {
   renderNews();
   renderCatalogPages();
   renderCatalog();
+  applyPortalMaintenanceMode({ render: false });
   renderCart();
   renderAdmin();
   bindEvents();
@@ -339,6 +346,7 @@ async function hydratePublicPortalData(contentRequest, pricingRequest) {
   const catalogChanged = previousSite !== JSON.stringify(state.site) || previousPricing !== JSON.stringify(state.priceOverrides);
   if (catalogChanged) rebuildProductState();
   if (previousSite !== JSON.stringify(state.site)) {
+    applyPortalMaintenanceMode();
     renderAnnouncements();
     renderNews();
     renderAdminNews();
@@ -733,6 +741,9 @@ function bindEvents() {
 
   dom.adminRefreshContent.addEventListener("click", async () => {
     await loadServerContent();
+  });
+  dom.adminMaintenanceToggle?.addEventListener("change", async (event) => {
+    await updatePortalMaintenanceMode(Boolean(event.currentTarget.checked));
   });
   dom.adminExportContent.addEventListener("click", exportAdminContentBackup);
 
@@ -1329,6 +1340,13 @@ function pumpMediaPreloadQueue() {
 
 function renderMiniQty(id) {
   const item = state.items.find((entry) => entry.id === id);
+  if (isPortalMaintenanceMode()) {
+    return `
+      <div class="qty-mini is-disabled is-maintenance" aria-label="Online ordering temporarily unavailable">
+        <span>Ordering paused</span>
+      </div>
+    `;
+  }
   if (item && !isOrderable(item)) {
     return `
       <div class="qty-mini is-disabled" aria-label="Coming soon">
@@ -1651,6 +1669,10 @@ function addToCart(id) {
 }
 
 function setQty(id, requestedQty) {
+  if (isPortalMaintenanceMode()) {
+    showToast("Online ordering is paused. Contact BLACKMARKET to place an order.");
+    return false;
+  }
   const item = state.items.find((entry) => entry.id === id);
   if (!item) return false;
   const next = Math.max(0, Math.floor(Number.isFinite(requestedQty) ? requestedQty : 0));
@@ -1751,10 +1773,13 @@ function renderCartLine({ item, qty, lineWholesale }) {
 
 function updateOrderState() {
   const hasItems = cartLines().length > 0;
-  const ready = state.accountResolved && hasItems && dom.storeForm.checkValidity();
-  dom.cartNextStep.disabled = !hasItems;
+  const maintenanceMode = isPortalMaintenanceMode();
+  const ready = !maintenanceMode && state.accountResolved && hasItems && dom.storeForm.checkValidity();
+  dom.cartNextStep.disabled = maintenanceMode || !hasItems;
   dom.sendOrder.disabled = !ready;
-  dom.orderHint.textContent = ready
+  dom.orderHint.textContent = maintenanceMode
+    ? "Online ordering is paused. Contact BLACKMARKET Wholesale."
+    : ready
     ? "Ready for final review"
     : !state.accountResolved
       ? "Checking store account"
@@ -1774,6 +1799,10 @@ function setCartStep(step) {
 }
 
 function openCartDrawer(trigger = document.activeElement, options = {}) {
+  if (isPortalMaintenanceMode()) {
+    showToast("Online ordering is paused. Contact BLACKMARKET to place an order.");
+    return;
+  }
   renderCart();
   setCartStep("items");
   lastCartTrigger = trigger instanceof HTMLElement ? trigger : null;
@@ -1843,6 +1872,10 @@ function saveStoreForm() {
 }
 
 async function sendOrder() {
+  if (isPortalMaintenanceMode()) {
+    showToast("Online ordering is paused. Contact BLACKMARKET to place an order.");
+    return;
+  }
   if (dom.sendOrder.disabled) {
     showToast("Complete the cart and store information");
     return;
@@ -2549,6 +2582,10 @@ async function deleteServerOrder(id) {
 
 function applyServerContent(content) {
   if (!content || typeof content !== "object") return false;
+  if (typeof content.maintenanceMode === "boolean") {
+    state.site = { ...state.site, maintenanceMode: content.maintenanceMode };
+    saveJson(SITE_KEY, state.site);
+  }
   if (Array.isArray(content.hiddenVariants)) {
     state.site = { ...state.site, hiddenVariants: unique(content.hiddenVariants.map(String)) };
     saveJson(SITE_KEY, state.site);
@@ -2579,6 +2616,7 @@ async function loadServerContent(options = {}) {
     state.contentStorageMode = body.storage || "server";
     if (body.content) applyServerContent(body.content);
     rebuildProductState();
+    applyPortalMaintenanceMode();
     renderAnnouncements();
     renderNews();
     renderAdmin();
@@ -2602,6 +2640,7 @@ async function persistAdminContent(options = {}) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        maintenanceMode: isPortalMaintenanceMode(),
         announcements: state.site.announcements,
         hiddenVariants: hiddenVariantIds(),
         variantOverrides: variantOverrides(),
@@ -2627,6 +2666,74 @@ async function persistAdminContent(options = {}) {
 
 function adminHeaders() {
   return {};
+}
+
+function isPortalMaintenanceMode() {
+  return state.site?.maintenanceMode !== false;
+}
+
+function applyPortalMaintenanceMode(options = {}) {
+  const active = isPortalMaintenanceMode();
+  document.body.classList.toggle("maintenance-catalog-mode", active);
+  if (dom.maintenanceCatalogHero) dom.maintenanceCatalogHero.hidden = !active;
+  if (dom.headerCartButton) {
+    dom.headerCartButton.disabled = active;
+    dom.headerCartButton.setAttribute("aria-disabled", active ? "true" : "false");
+  }
+
+  if (active) {
+    closeCartDrawer({ history: false });
+    if (state.activeView !== "admin" && state.activeView !== "products") {
+      setView("products", { history: false });
+    }
+  }
+
+  if (options.render !== false) {
+    renderCatalog();
+    renderCart();
+  }
+  renderAdminMaintenanceSetting();
+}
+
+function renderAdminMaintenanceSetting() {
+  const active = isPortalMaintenanceMode();
+  if (dom.adminMaintenanceToggle) dom.adminMaintenanceToggle.checked = active;
+  if (dom.adminMaintenanceStatus) {
+    dom.adminMaintenanceStatus.textContent = active ? "Maintenance" : "Ordering live";
+    dom.adminMaintenanceStatus.dataset.state = active ? "maintenance" : "live";
+  }
+  if (dom.adminMaintenanceHelp) {
+    dom.adminMaintenanceHelp.textContent = active
+      ? "Customers can browse, but checkout is disabled."
+      : "Customers can build and submit wholesale orders.";
+  }
+  if (dom.adminLiveStatus) {
+    dom.adminLiveStatus.innerHTML = `<i aria-hidden="true"></i> ${active ? "Maintenance mode" : "Portal live"}`;
+    dom.adminLiveStatus.dataset.state = active ? "maintenance" : "live";
+  }
+}
+
+async function updatePortalMaintenanceMode(enabled) {
+  if (!state.adminAuthed || !dom.adminMaintenanceToggle) return;
+  const previous = isPortalMaintenanceMode();
+  dom.adminMaintenanceToggle.disabled = true;
+  state.site = { ...state.site, maintenanceMode: enabled };
+  renderAdminMaintenanceSetting();
+
+  const saved = await persistAdminContent({ silent: true });
+  if (!saved) {
+    state.site = { ...state.site, maintenanceMode: previous };
+    saveJson(SITE_KEY, state.site);
+    renderAdminMaintenanceSetting();
+    dom.adminMaintenanceToggle.disabled = false;
+    showToast("Portal status was not changed because cloud save failed");
+    return;
+  }
+
+  saveJson(SITE_KEY, state.site);
+  applyPortalMaintenanceMode();
+  dom.adminMaintenanceToggle.disabled = false;
+  showToast(enabled ? "Maintenance mode enabled" : "Online ordering reopened");
 }
 
 function openNewsEditor(options = {}) {
@@ -2691,6 +2798,7 @@ function renderAdmin() {
     if (state.adminIdentity.scope === "own") createSalesperson.value = state.adminIdentity.salesperson;
   }
   renderAdminNotificationBell();
+  renderAdminMaintenanceSetting();
   renderAdminPages();
   renderAdminMetrics();
   renderAdminNews();
@@ -3897,6 +4005,7 @@ async function saveSite(options = {}) {
 }
 
 function setView(view, options = {}) {
+  if (isPortalMaintenanceMode() && view !== "admin") view = "products";
   if (view === "cart") {
     openCartDrawer(document.activeElement, options);
     return;

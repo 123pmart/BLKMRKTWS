@@ -1,4 +1,5 @@
 import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
+import { readContent } from "../content/store.js";
 import { getVerifiedStoreAccount } from "../../lib/account/auth.ts";
 import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
 import { formatOrderLineMargin } from "../../../public/lib/margin-metrics.js";
@@ -10,6 +11,20 @@ const ORDER_FROM_EMAIL = process.env.ORDER_FROM_EMAIL || "pmart@blackmarketlabs.
 export const runtime = "nodejs";
 
 export async function POST(request) {
+  const portalContent = await readContent().catch((error) => {
+    console.error("Unable to verify portal maintenance status:", error);
+    return null;
+  });
+  if (portalContent?.maintenanceMode !== false) {
+    return Response.json(
+      {
+        ok: false,
+        message: "Online ordering is temporarily unavailable while we update the portal. Your cart has not been cleared. Please contact BLACKMARKET Wholesale to place an order.",
+      },
+      { status: 503, headers: { "Cache-Control": "private, no-store", "Retry-After": "3600" } },
+    );
+  }
+
   const payload = await request.json().catch(() => ({}));
   let verifiedPayload;
   try {
