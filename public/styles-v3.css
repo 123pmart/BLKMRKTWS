@@ -337,23 +337,6 @@ img {
   line-height: 1.65;
 }
 
-.maintenance-catalog-copy > a {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 23px;
-  padding: 0 22px;
-  border-radius: 999px;
-  color: #090909;
-  background: var(--accent);
-  font-size: 0.7rem;
-  font-weight: 950;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
 body.maintenance-catalog-mode:not([data-view="admin"]) .topbar {
   grid-template-columns: 1fr;
   justify-items: center;
@@ -4902,11 +4885,6 @@ body.admin-pricing-editing .admin-pricing-editor {
 
   .maintenance-catalog-copy > p:not(.eyebrow) {
     margin-top: 15px;
-  }
-
-  .maintenance-catalog-copy > a {
-    width: min(100%, 260px);
-    margin-top: 20px;
   }
 
   .admin-maintenance-toggle {

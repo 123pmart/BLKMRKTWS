@@ -27,7 +27,7 @@ test("admin includes a persisted maintenance switch", () => {
 test("maintenance customers retain catalog access without ordering controls", () => {
   assert.match(portalHtml, /id="maintenanceCatalogHero"/);
   assert.match(portalHtml, /id="productsView"/);
-  assert.match(portalHtml, /mailto:pmart@blackmarketlabs\.com/);
+  assert.doesNotMatch(portalHtml, />Contact Us<\/a>/);
   assert.match(portalScript, /Ordering paused/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
