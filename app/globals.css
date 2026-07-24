@@ -60,6 +60,10 @@
     transform: translateX(50%);
   }
 
+  .liquid-mobile-nav[data-maintenance="true"] {
+    grid-template-columns: repeat(3, 48px);
+  }
+
   .liquid-mobile-nav[data-hidden="true"] {
     pointer-events: none;
     opacity: 0;

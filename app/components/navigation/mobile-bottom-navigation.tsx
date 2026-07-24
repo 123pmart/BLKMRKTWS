@@ -7,7 +7,7 @@ import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack
 
 const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
-export function MobileBottomNavigation() {
+export function MobileBottomNavigation({ maintenanceMode = false }: { maintenanceMode?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const [overlayOpen, setOverlayOpen] = useState(false);
@@ -66,6 +66,7 @@ export function MobileBottomNavigation() {
     <nav
       className="liquid-mobile-nav"
       data-hidden={overlayOpen ? "true" : "false"}
+      data-maintenance={maintenanceMode ? "true" : "false"}
       aria-label="Mobile portal navigation"
       aria-hidden={overlayOpen}
     >
@@ -83,17 +84,19 @@ export function MobileBottomNavigation() {
       >
         <NavGlyph name="home" />
       </button>
-      <button
-        className="liquid-mobile-nav__control"
-        data-active={pathname.startsWith("/account") || pathname === "/sign-in" ? "true" : "false"}
-        type="button"
-        onClick={() => { if (pathname !== accountDestination) navigate(accountDestination); }}
-        aria-label="Account"
-        aria-current={pathname.startsWith("/account") || pathname === "/sign-in" ? "page" : undefined}
-        title="Account"
-      >
-        <NavGlyph name="account" />
-      </button>
+      {!maintenanceMode ? (
+        <button
+          className="liquid-mobile-nav__control"
+          data-active={pathname.startsWith("/account") || pathname === "/sign-in" ? "true" : "false"}
+          type="button"
+          onClick={() => { if (pathname !== accountDestination) navigate(accountDestination); }}
+          aria-label="Account"
+          aria-current={pathname.startsWith("/account") || pathname === "/sign-in" ? "page" : undefined}
+          title="Account"
+        >
+          <NavGlyph name="account" />
+        </button>
+      ) : null}
       <button
         className="liquid-mobile-nav__control"
         data-active={pathname === "/cart" ? "true" : "false"}

@@ -4,8 +4,10 @@ import { AccountPageHeader } from "@/components/account/account-page-header";
 import { AuthPanel } from "@/components/account/auth-panel";
 import { Card, CardContent } from "@/components/ui/card";
 import { getVerifiedStoreIdentity } from "@/lib/account/auth";
+import { isPortalMaintenanceMode } from "@/lib/maintenance/server";
 
 export default async function SignInPage() {
+  if (await isPortalMaintenanceMode()) redirect("/products");
   if (await getVerifiedStoreIdentity()) redirect("/account");
   return (
     <main className="account-shell">

@@ -8,6 +8,10 @@ const portalHtml = await readFile(new URL("../public/index.html", import.meta.ur
 const portalScript = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
 const portalStyles = await readFile(new URL("../public/styles-v3.css", import.meta.url), "utf8");
 const orderRoute = await readFile(new URL("../app/api/send-order/route.js", import.meta.url), "utf8");
+const loginRoute = await readFile(new URL("../app/api/account/login/route.ts", import.meta.url), "utf8");
+const registrationRoute = await readFile(new URL("../app/api/account/register/route.ts", import.meta.url), "utf8");
+const signInPage = await readFile(new URL("../app/sign-in/page.tsx", import.meta.url), "utf8");
+const reactNavigation = await readFile(new URL("../app/components/navigation/mobile-bottom-navigation.tsx", import.meta.url), "utf8");
 
 test("maintenance mode defaults on for this deployment and persists explicit admin changes", () => {
   assert.equal(normalizeContentPayload({}).maintenanceMode, true);
@@ -33,6 +37,17 @@ test("maintenance customers retain catalog access without ordering controls", ()
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) return "";/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
   assert.doesNotMatch(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
+});
+
+test("maintenance mode hides store-account entry points and rejects new customer authentication", () => {
+  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.desktop-account-link/);
+  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.portal-bottom-nav \[data-account-route\]/);
+  assert.match(reactNavigation, /!maintenanceMode \? \(/);
+  assert.match(signInPage, /if \(await isPortalMaintenanceMode\(\)\) redirect\("\/products"\)/);
+  assert.match(loginRoute, /if \(await isPortalMaintenanceMode\(\)\)/);
+  assert.match(registrationRoute, /if \(await isPortalMaintenanceMode\(\)\)/);
+  assert.match(loginRoute, /status: 503/);
+  assert.match(registrationRoute, /status: 503/);
 });
 
 test("the server rejects submissions whenever persisted maintenance mode is active", () => {

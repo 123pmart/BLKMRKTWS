@@ -3,6 +3,7 @@ import { verifyPassword } from "@/lib/account/password";
 import { consumeRateLimit, requestRateKey } from "@/lib/account/rate-limit";
 import { createAccountSession, setAccountSessionCookie } from "@/lib/account/session";
 import { validateLogin } from "@/lib/account/validation";
+import { isPortalMaintenanceMode } from "@/lib/maintenance/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +11,13 @@ export const dynamic = "force-dynamic";
 const GENERIC_ERROR = "Username or password is incorrect.";
 
 export async function POST(request: Request) {
+  if (await isPortalMaintenanceMode()) {
+    return Response.json({ ok: false, message: "Store sign-in is temporarily unavailable during maintenance." }, {
+      status: 503,
+      headers: { "Cache-Control": "private, no-store", "Retry-After": "3600" },
+    });
+  }
+
   const rate = consumeRateLimit(requestRateKey(request, "login"), 8, 15 * 60_000);
   if (!rate.allowed) {
     return Response.json({ ok: false, message: "Too many sign-in attempts. Try again later." }, {

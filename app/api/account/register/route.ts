@@ -3,12 +3,20 @@ import { hashPassword } from "@/lib/account/password";
 import { consumeRateLimit, requestRateKey } from "@/lib/account/rate-limit";
 import { createAccountSession, setAccountSessionCookie } from "@/lib/account/session";
 import { validateRegistration } from "@/lib/account/validation";
+import { isPortalMaintenanceMode } from "@/lib/maintenance/server";
 import type { StoreAccount } from "@/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  if (await isPortalMaintenanceMode()) {
+    return Response.json({ ok: false, message: "Store account creation is temporarily unavailable during maintenance." }, {
+      status: 503,
+      headers: { "Cache-Control": "private, no-store", "Retry-After": "3600" },
+    });
+  }
+
   const rate = consumeRateLimit(requestRateKey(request, "register"), 5, 60 * 60_000);
   if (!rate.allowed) {
     return Response.json({ ok: false, message: "Too many attempts. Try again later." }, {
