@@ -21,6 +21,7 @@ const STORE_KEY = "blackmarket-wholesale-store-v3";
 const SITE_KEY = "blackmarket-wholesale-site-v1";
 const ORDERS_KEY = "blackmarket-wholesale-orders-v1";
 const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
+const MAINTENANCE_NOTICE_DISMISSED_KEY = "blackmarket-maintenance-notice-dismissed";
 
 const MEDIA_PRELOAD_CONCURRENCY = 3;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "stores", "settings"]);
@@ -159,6 +160,7 @@ const dom = {
   search: document.querySelector("#searchInput"),
   categoryNav: document.querySelector("#categoryNav"),
   maintenanceCatalogHero: document.querySelector("#maintenanceCatalogHero"),
+  maintenanceNoticeDismiss: document.querySelector("#maintenanceNoticeDismiss"),
   announcementBand: document.querySelector("#announcementBand"),
   catalogPages: document.querySelector("#catalogPages"),
   cartItems: document.querySelector("#cartItems"),
@@ -386,6 +388,7 @@ function bindEvents() {
   dom.mobileNavToggle?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
   dom.brandHome.addEventListener("click", () => goHome());
   dom.headerCartButton.addEventListener("click", (event) => openCartDrawer(event.currentTarget));
+  dom.maintenanceNoticeDismiss?.addEventListener("click", dismissMaintenanceNotice);
   dom.cartBackdrop.addEventListener("click", closeCartDrawer);
   dom.closeCartDrawer.addEventListener("click", closeCartDrawer);
   dom.continueShopping.addEventListener("click", closeCartDrawer);
@@ -1793,6 +1796,13 @@ function setCartStep(step) {
 }
 
 function openCartDrawer(trigger = document.activeElement, options = {}) {
+  if (isPortalMaintenanceMode()) {
+    closeCartDrawer({ history: false });
+    if (window.location.pathname === "/cart") {
+      window.history.replaceState(window.history.state, "", "/products");
+    }
+    return;
+  }
   renderCart();
   setCartStep("items");
   lastCartTrigger = trigger instanceof HTMLElement ? trigger : null;
@@ -2662,17 +2672,43 @@ function isPortalMaintenanceMode() {
   return state.site?.maintenanceMode !== false;
 }
 
+function isMaintenanceNoticeDismissed() {
+  try {
+    return window.sessionStorage.getItem(MAINTENANCE_NOTICE_DISMISSED_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function dismissMaintenanceNotice() {
+  try {
+    window.sessionStorage.setItem(MAINTENANCE_NOTICE_DISMISSED_KEY, "true");
+  } catch {}
+  document.body.classList.add("maintenance-notice-dismissed");
+  if (dom.maintenanceCatalogHero) dom.maintenanceCatalogHero.hidden = true;
+}
+
 function applyPortalMaintenanceMode(options = {}) {
   const active = isPortalMaintenanceMode();
+  const noticeDismissed = active && isMaintenanceNoticeDismissed();
   document.body.classList.toggle("maintenance-catalog-mode", active);
-  if (dom.maintenanceCatalogHero) dom.maintenanceCatalogHero.hidden = !active;
+  document.body.classList.toggle("maintenance-notice-dismissed", noticeDismissed);
+  if (dom.maintenanceCatalogHero) dom.maintenanceCatalogHero.hidden = !active || noticeDismissed;
   if (dom.headerCartButton) {
-    dom.headerCartButton.disabled = false;
-    dom.headerCartButton.removeAttribute("aria-disabled");
+    dom.headerCartButton.disabled = active;
+    dom.headerCartButton.setAttribute("aria-disabled", active ? "true" : "false");
   }
 
   if (active) {
     closeCartDrawer({ history: false });
+    if (window.location.pathname === "/cart") {
+      window.history.replaceState(window.history.state, "", "/products");
+    }
+  } else {
+    try {
+      window.sessionStorage.removeItem(MAINTENANCE_NOTICE_DISMISSED_KEY);
+    } catch {}
+    document.body.classList.remove("maintenance-notice-dismissed");
   }
 
   if (options.render !== false) {

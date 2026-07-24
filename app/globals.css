@@ -61,7 +61,7 @@
   }
 
   .liquid-mobile-nav[data-maintenance="true"] {
-    grid-template-columns: repeat(3, 48px);
+    grid-template-columns: repeat(2, 48px);
   }
 
   .liquid-mobile-nav[data-hidden="true"] {

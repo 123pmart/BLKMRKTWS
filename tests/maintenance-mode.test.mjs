@@ -34,16 +34,22 @@ test("maintenance customers retain catalog access without ordering controls", ()
   assert.doesNotMatch(portalHtml, />Contact Us<\/a>/);
   assert.match(portalHtml, /data-view="news"/);
   assert.match(portalHtml, /data-view="catalog"/);
+  assert.match(portalHtml, /id="maintenanceNoticeDismiss"/);
+  assert.match(portalHtml, /aria-label="Dismiss maintenance message"/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) return "";/);
+  assert.match(portalScript, /sessionStorage\.setItem\(MAINTENANCE_NOTICE_DISMISSED_KEY, "true"\)/);
   assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.sku-card\s*\{\s*grid-template-rows: auto 168px auto auto;/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
   assert.doesNotMatch(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
 });
 
-test("maintenance mode hides store-account entry points and rejects new customer authentication", () => {
+test("maintenance mode hides account and cart entry points and rejects new customer authentication", () => {
   assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.desktop-account-link/);
   assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.portal-bottom-nav \[data-account-route\]/);
-  assert.match(reactNavigation, /!maintenanceMode \? \(/);
+  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.portal-bottom-nav \[data-portal-cart\]/);
+  assert.equal(reactNavigation.match(/!maintenanceMode \? \(/g)?.length, 2);
+  assert.match(portalScript, /function openCartDrawer[\s\S]+if \(isPortalMaintenanceMode\(\)\)/);
+  assert.match(portalScript, /window\.history\.replaceState\(window\.history\.state, "", "\/products"\)/);
   assert.match(signInPage, /if \(await isPortalMaintenanceMode\(\)\) redirect\("\/products"\)/);
   assert.match(loginRoute, /if \(await isPortalMaintenanceMode\(\)\)/);
   assert.match(registrationRoute, /if \(await isPortalMaintenanceMode\(\)\)/);

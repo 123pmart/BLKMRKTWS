@@ -97,18 +97,20 @@ export function MobileBottomNavigation({ maintenanceMode = false }: { maintenanc
           <NavGlyph name="account" />
         </button>
       ) : null}
-      <button
-        className="liquid-mobile-nav__control"
-        data-active={pathname === "/cart" ? "true" : "false"}
-        type="button"
-        onClick={() => navigate("/cart")}
-        aria-label={`Cart, ${cartUnits} item${cartUnits === 1 ? "" : "s"}`}
-        aria-current={pathname === "/cart" ? "page" : undefined}
-        title="Cart"
-      >
-        <NavGlyph name="cart" />
-        {cartUnits ? <span className="liquid-mobile-nav__badge">{cartUnits > 99 ? "99+" : cartUnits}</span> : null}
-      </button>
+      {!maintenanceMode ? (
+        <button
+          className="liquid-mobile-nav__control"
+          data-active={pathname === "/cart" ? "true" : "false"}
+          type="button"
+          onClick={() => navigate("/cart")}
+          aria-label={`Cart, ${cartUnits} item${cartUnits === 1 ? "" : "s"}`}
+          aria-current={pathname === "/cart" ? "page" : undefined}
+          title="Cart"
+        >
+          <NavGlyph name="cart" />
+          {cartUnits ? <span className="liquid-mobile-nav__badge">{cartUnits > 99 ? "99+" : cartUnits}</span> : null}
+        </button>
+      ) : null}
     </nav>
   );
 }
