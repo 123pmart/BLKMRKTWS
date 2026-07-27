@@ -332,22 +332,34 @@ async function init() {
 }
 
 async function hydratePublicPortalData(contentRequest, pricingRequest) {
-  const [contentResponse, pricingResponse] = await Promise.all([contentRequest, pricingRequest]);
-  const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
+  await Promise.all([
+    hydrateAccountPricing(pricingRequest),
+    hydratePortalContent(contentRequest),
+  ]);
+}
+
+async function hydrateAccountPricing(pricingRequest) {
+  const pricingResponse = await pricingRequest;
   const pricingData = pricingResponse?.ok ? await pricingResponse.json().catch(() => null) : null;
-  const previousSite = JSON.stringify(state.site);
   const previousPricing = JSON.stringify(state.priceOverrides);
 
-  if (contentData?.content) applyServerContent(contentData.content);
-  if (contentData?.storage) state.contentStorageMode = contentData.storage;
   state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
   state.accountAuthenticated = Boolean(pricingData?.authenticated);
   state.accountResolved = true;
   syncAccountDestinations();
 
-  const catalogChanged = previousSite !== JSON.stringify(state.site) || previousPricing !== JSON.stringify(state.priceOverrides);
-  if (catalogChanged) rebuildProductState();
+  if (previousPricing !== JSON.stringify(state.priceOverrides)) rebuildProductState();
+}
+
+async function hydratePortalContent(contentRequest) {
+  const contentResponse = await contentRequest;
+  const contentData = contentResponse?.ok ? await contentResponse.json().catch(() => null) : null;
+  const previousSite = JSON.stringify(state.site);
+
+  if (contentData?.content) applyServerContent(contentData.content);
+  if (contentData?.storage) state.contentStorageMode = contentData.storage;
   if (previousSite !== JSON.stringify(state.site)) {
+    rebuildProductState();
     applyPortalMaintenanceMode();
     renderAnnouncements();
     renderNews();
@@ -380,6 +392,10 @@ function bindEvents() {
   document.querySelector("[data-portal-home]")?.addEventListener("click", (event) => {
     event.preventDefault();
     goHome();
+  });
+  document.querySelector("[data-portal-cart]")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    openCartDrawer(event.currentTarget);
   });
   document.querySelectorAll("[data-portal-route], [data-account-route]").forEach((link) => {
     link.addEventListener("click", () => recordPortalNavigation(link.getAttribute("href") || "/products"));

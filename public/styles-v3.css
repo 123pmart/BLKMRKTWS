@@ -3371,7 +3371,7 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .category-tile {
-    flex: 0 0 132px;
+    flex: 0 0 calc((100% - 20px) / 3);
     scroll-snap-align: start;
   }
 
@@ -3819,6 +3819,8 @@ body.admin-pricing-editing .admin-pricing-editor {
 @media (max-width: 520px) {
   .sku-row.unified-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: calc(100% - 2px);
+    margin-inline: 1px;
   }
 }
 
