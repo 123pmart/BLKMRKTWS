@@ -8,7 +8,7 @@
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260727-category-scroll-cue" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260727-account-nudge" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -766,6 +766,20 @@
       </div>
     </aside>
 
+    <aside id="accountNudge" class="account-nudge hidden" role="dialog" aria-labelledby="accountNudgeTitle" aria-describedby="accountNudgeMessage">
+      <div class="account-nudge-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3"/><path d="M6.5 19c.6-3.3 2.4-4.9 5.5-4.9s4.9 1.6 5.5 4.9"/></svg>
+      </div>
+      <div class="account-nudge-copy">
+        <strong id="accountNudgeTitle">Make the next order faster.</strong>
+        <p id="accountNudgeMessage">Create a store account to save checkout details and keep your order history in one place.</p>
+      </div>
+      <div class="account-nudge-actions">
+        <a id="accountNudgeCreate" href="/sign-in?mode=register&amp;next=/account" data-portal-route>Create account</a>
+        <button id="accountNudgeDismiss" type="button">Maybe later</button>
+      </div>
+    </aside>
+
 <div id="installPrompt" class="install-prompt hidden">
   <div class="install-content">
 
@@ -808,6 +822,6 @@
   </div>
 </div>
 
-    <script type="module" src="/app.js?v=20260727-category-scroll-cue"></script>
+    <script type="module" src="/app.js?v=20260727-account-nudge"></script>
   </body>
 </html>

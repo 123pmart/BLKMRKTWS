@@ -8,6 +8,12 @@ import {
   safePortalBack as safePortalHistoryBack,
 } from "/lib/portal-history.js?v=20260717-home-final";
 import { formatOrderLineMargin } from "/lib/margin-metrics.js?v=20260718-customer-margin";
+import {
+  ACCOUNT_NUDGE_FIRST_LOAD,
+  accountNudgeIsDue,
+  nextAccountNudgeLoad,
+  nextPortalLoad,
+} from "/lib/account-nudge.js?v=20260727-account-nudge";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -22,6 +28,9 @@ const SITE_KEY = "blackmarket-wholesale-site-v1";
 const ORDERS_KEY = "blackmarket-wholesale-orders-v1";
 const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 const MAINTENANCE_NOTICE_DISMISSED_KEY = "blackmarket-maintenance-notice-dismissed";
+const ACCOUNT_NUDGE_LOADS_KEY = "blackmarket-account-nudge-loads-v1";
+const ACCOUNT_NUDGE_NEXT_KEY = "blackmarket-account-nudge-next-v1";
+const ACCOUNT_KNOWN_KEY = "blackmarket-store-account-known-v1";
 
 const MEDIA_PRELOAD_CONCURRENCY = 3;
 const ADMIN_SECTIONS = new Set(["orders", "news", "products", "stores", "settings"]);
@@ -34,6 +43,10 @@ let lastNewsTrigger = null;
 let lastCartTrigger = null;
 let lastPricingTrigger = null;
 let toastTimer = 0;
+let accountNudgeChecked = false;
+let accountNudgeScheduled = false;
+let accountNudgeLoad = 0;
+let accountNudgeTimer = 0;
 
 const SECTION_META = [
   { slug: "thermogenics", label: "THERMOGENICS" },
@@ -132,6 +145,7 @@ const state = {
   priceOverrides: [],
   accountAuthenticated: false,
   accountResolved: false,
+  contentResolved: false,
   adminResolved: false,
 };
 
@@ -292,6 +306,9 @@ const dom = {
   pushPromptMessage: document.querySelector("#pushPromptMessage"),
   pushEnableButton: document.querySelector("#pushEnableButton"),
   pushDismissButton: document.querySelector("#pushDismissButton"),
+  accountNudge: document.querySelector("#accountNudge"),
+  accountNudgeCreate: document.querySelector("#accountNudgeCreate"),
+  accountNudgeDismiss: document.querySelector("#accountNudgeDismiss"),
 };
 
 init();
@@ -346,7 +363,9 @@ async function hydrateAccountPricing(pricingRequest) {
   state.priceOverrides = Array.isArray(pricingData?.overrides) ? pricingData.overrides : [];
   state.accountAuthenticated = Boolean(pricingData?.authenticated);
   state.accountResolved = true;
+  if (state.accountAuthenticated) rememberStoreAccount();
   syncAccountDestinations();
+  maybeScheduleAccountNudge();
 
   if (previousPricing !== JSON.stringify(state.priceOverrides)) rebuildProductState();
 }
@@ -358,6 +377,7 @@ async function hydratePortalContent(contentRequest) {
 
   if (contentData?.content) applyServerContent(contentData.content);
   if (contentData?.storage) state.contentStorageMode = contentData.storage;
+  state.contentResolved = true;
   if (previousSite !== JSON.stringify(state.site)) {
     rebuildProductState();
     applyPortalMaintenanceMode();
@@ -365,6 +385,7 @@ async function hydratePortalContent(contentRequest) {
     renderNews();
     renderAdminNews();
   }
+  maybeScheduleAccountNudge();
 }
 
 async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionRequest) {
@@ -648,6 +669,8 @@ function bindEvents() {
     localStorage.setItem("blackmarket-push-dismissed", String(Date.now()));
     hidePushPrompt();
   });
+  dom.accountNudgeDismiss?.addEventListener("click", dismissAccountNudge);
+  dom.accountNudgeCreate?.addEventListener("click", hideAccountNudge);
 
   dom.adminRefreshAccounts?.addEventListener("click", () => loadAdminAccounts());
   dom.adminAccountSearch?.addEventListener("input", (event) => {
@@ -4095,6 +4118,84 @@ function syncAccountDestinations() {
   syncCheckoutSalesperson();
 }
 
+function rememberStoreAccount() {
+  try {
+    localStorage.setItem(ACCOUNT_KNOWN_KEY, "true");
+  } catch {
+    // Account state still remains authoritative on the server.
+  }
+  hideAccountNudge();
+}
+
+function hasKnownStoreAccount() {
+  try {
+    return localStorage.getItem(ACCOUNT_KNOWN_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function maybeScheduleAccountNudge() {
+  if (accountNudgeChecked || !state.accountResolved || !state.contentResolved) return;
+  accountNudgeChecked = true;
+
+  if (state.accountAuthenticated) {
+    rememberStoreAccount();
+    return;
+  }
+  if (hasKnownStoreAccount() || isPortalMaintenanceMode() || state.activeView === "admin") return;
+
+  try {
+    accountNudgeLoad = nextPortalLoad(localStorage.getItem(ACCOUNT_NUDGE_LOADS_KEY));
+    localStorage.setItem(ACCOUNT_NUDGE_LOADS_KEY, String(accountNudgeLoad));
+    const nextLoad = localStorage.getItem(ACCOUNT_NUDGE_NEXT_KEY) || ACCOUNT_NUDGE_FIRST_LOAD;
+    if (!accountNudgeIsDue(accountNudgeLoad, nextLoad)) return;
+  } catch {
+    return;
+  }
+
+  accountNudgeScheduled = true;
+  window.clearTimeout(accountNudgeTimer);
+  accountNudgeTimer = window.setTimeout(showAccountNudge, 1800);
+}
+
+function accountNudgeCanOpen() {
+  const competingPromptOpen =
+    !dom.pushPrompt?.classList.contains("hidden") ||
+    !installPrompt?.classList.contains("hidden");
+  const overlayOpen =
+    document.body.classList.contains("cart-open") ||
+    document.body.classList.contains("modal-open") ||
+    Boolean(document.querySelector("dialog[open]"));
+  return !state.accountAuthenticated &&
+    !hasKnownStoreAccount() &&
+    !isPortalMaintenanceMode() &&
+    state.activeView !== "admin" &&
+    !competingPromptOpen &&
+    !overlayOpen;
+}
+
+function showAccountNudge() {
+  accountNudgeScheduled = false;
+  if (!dom.accountNudge || !accountNudgeCanOpen()) return;
+  dom.accountNudge.classList.remove("hidden");
+}
+
+function hideAccountNudge() {
+  accountNudgeScheduled = false;
+  window.clearTimeout(accountNudgeTimer);
+  dom.accountNudge?.classList.add("hidden");
+}
+
+function dismissAccountNudge() {
+  hideAccountNudge();
+  try {
+    localStorage.setItem(ACCOUNT_NUDGE_NEXT_KEY, String(nextAccountNudgeLoad(accountNudgeLoad)));
+  } catch {
+    // A blocked storage write should not prevent dismissal for this page.
+  }
+}
+
 function syncCheckoutSalesperson() {
   if (!dom.checkoutSalespersonField || !dom.checkoutSalesperson) return;
   const guestSelectionRequired = state.accountResolved && !state.accountAuthenticated;
@@ -4432,7 +4533,7 @@ async function syncPushSubscription(options = {}) {
 }
 
 function showPushPrompt() {
-  if (!dom.pushPrompt) return;
+  if (!dom.pushPrompt || accountNudgeScheduled || !dom.accountNudge?.classList.contains("hidden")) return;
   const admin = state.adminAuthed;
   if (dom.pushPromptTitle) dom.pushPromptTitle.textContent = admin ? "Never miss a new order" : "Get BlackMarket news";
   if (dom.pushPromptMessage) {
@@ -4572,7 +4673,12 @@ function showInstallStep(index) {
 }
 
 function showInstallPrompt() {
-  if (!installPrompt || isStandaloneMode()) return;
+  if (
+    !installPrompt ||
+    isStandaloneMode() ||
+    accountNudgeScheduled ||
+    !dom.accountNudge?.classList.contains("hidden")
+  ) return;
 
 const dismissed = localStorage.getItem("blackmarket-install-dismissed");
 

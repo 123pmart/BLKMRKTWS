@@ -391,7 +391,8 @@ body.maintenance-catalog-mode:not([data-view="admin"]) .portal-bottom-nav [data-
 }
 
 body.maintenance-catalog-mode:not([data-view="admin"]) .install-prompt,
-body.maintenance-catalog-mode:not([data-view="admin"]) .push-prompt {
+body.maintenance-catalog-mode:not([data-view="admin"]) .push-prompt,
+body.maintenance-catalog-mode:not([data-view="admin"]) .account-nudge {
   display: none !important;
 }
 
@@ -4580,6 +4581,116 @@ body.admin-pricing-editing .admin-pricing-editor {
 .push-prompt-actions button:first-child { border-color: transparent; color: #080808; background: var(--accent); }
 .push-prompt-actions button:active { transform: scale(.97); transition-duration: 80ms; }
 
+.account-nudge {
+  position: fixed;
+  z-index: 9998;
+  left: 16px;
+  right: 16px;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 11px 12px;
+  width: min(430px, calc(100vw - 32px));
+  margin-inline: auto;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: 19px;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, .075), transparent 42%),
+    rgba(8, 8, 10, .9);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .56), inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+  backdrop-filter: blur(24px) saturate(135%);
+  animation: accountNudgeIn 420ms var(--ease-ios) both;
+}
+
+.account-nudge-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 13px;
+  color: rgba(247, 247, 245, .88);
+  background: rgba(255, 255, 255, .045);
+}
+
+.account-nudge-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.account-nudge-copy {
+  min-width: 0;
+  align-self: center;
+}
+
+.account-nudge-copy strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: .9rem;
+  letter-spacing: -.01em;
+}
+
+.account-nudge-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .71rem;
+  line-height: 1.42;
+}
+
+.account-nudge-actions {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.account-nudge-actions a,
+.account-nudge-actions button {
+  display: grid;
+  min-height: 44px;
+  padding: 0 12px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(255, 255, 255, .035);
+  font: inherit;
+  font-size: .74rem;
+  font-weight: 850;
+  text-decoration: none;
+  transition: transform 260ms var(--ease-ios), background-color 160ms ease;
+}
+
+.account-nudge-actions a {
+  border-color: transparent;
+  color: #080808;
+  background: var(--accent);
+}
+
+.account-nudge-actions a:active,
+.account-nudge-actions button:active {
+  transform: scale(.97);
+  transition-duration: 80ms;
+}
+
+.account-nudge-actions a:focus-visible,
+.account-nudge-actions button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes accountNudgeIn {
+  from { opacity: 0; transform: translateY(24px) scale(.98); }
+}
+
 @keyframes pushPromptIn {
   from { opacity: 0; transform: translateY(28px) scale(.97); }
 }
@@ -4805,17 +4916,20 @@ body.admin-pricing-editing .admin-pricing-editor {
 
   .portal-bottom-nav-badge {
     position: absolute;
-    top: 1px;
-    right: 1px;
+    top: 5px;
+    right: 4px;
     display: grid;
-    min-width: 17px;
-    height: 17px;
-    padding: 0 4px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
     place-items: center;
+    border: 1px solid rgba(7, 7, 7, .75);
     border-radius: 999px;
     color: #070707;
     background: var(--accent);
-    font-size: 9px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .42);
+    font-size: 8px;
+    line-height: 1;
     font-weight: 950;
   }
 
@@ -4860,6 +4974,10 @@ body.admin-pricing-editing .admin-pricing-editor {
     bottom: calc(18px + env(safe-area-inset-bottom));
   }
 
+  .account-nudge {
+    bottom: calc(var(--mobile-bottom-nav-height) + 28px + env(safe-area-inset-bottom));
+  }
+
   #productsView {
     min-width: 0;
     overflow-x: clip;
@@ -4880,6 +4998,10 @@ body.admin-pricing-editing .admin-pricing-editor {
   .portal-bottom-nav {
     bottom: calc(22px + env(safe-area-inset-bottom));
   }
+
+  .account-nudge {
+    bottom: calc(var(--mobile-bottom-nav-height) + 40px + env(safe-area-inset-bottom));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4892,6 +5014,7 @@ body.admin-pricing-editing .admin-pricing-editor {
   .view.active,
   .landing-view.active,
   .push-prompt,
+  .account-nudge,
   dialog::backdrop {
     animation: none !important;
   }

@@ -128,17 +128,20 @@
 
   .liquid-mobile-nav__badge {
     position: absolute;
-    top: 1px;
-    right: 1px;
+    top: 5px;
+    right: 4px;
     display: grid;
-    min-width: 17px;
-    height: 17px;
-    padding: 0 4px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
     place-items: center;
+    border: 1px solid rgb(7 7 7 / 75%);
     border-radius: 999px;
     color: #070707;
     background: var(--primary);
-    font-size: 9px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 42%);
+    font-size: 8px;
+    line-height: 1;
     font-weight: 950;
   }
 

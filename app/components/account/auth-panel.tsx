@@ -18,7 +18,7 @@ interface ApiResult {
 export function AuthPanel() {
   const router = useRouter();
   const search = useSearchParams();
-  const [mode, setMode] = useState<Mode>("sign-in");
+  const [mode, setMode] = useState<Mode>(() => search.get("mode") === "register" ? "register" : "sign-in");
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -42,6 +42,11 @@ export function AuthPanel() {
         setMessage(result.message || "The request could not be completed.");
         setErrors(result.errors || {});
         return;
+      }
+      try {
+        window.localStorage.setItem("blackmarket-store-account-known-v1", "true");
+      } catch {
+        // The server session remains authoritative when device storage is unavailable.
       }
       if (mode === "register") {
         router.replace("/account");
