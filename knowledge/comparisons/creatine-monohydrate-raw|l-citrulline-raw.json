@@ -1,0 +1,41 @@
+{
+  "id": "creatine-monohydrate-raw|l-citrulline-raw",
+  "productIds": [
+    "creatine-monohydrate-raw",
+    "l-citrulline-raw"
+  ],
+  "title": "Creatine RAW vs L-Citrulline RAW",
+  "directVerdict": "Creatine RAW is the better fit for strength and power, while L-Citrulline RAW is the better fit for pump.",
+  "majorFormulaDifferences": [
+    "Only Creatine RAW discloses: Creatine Monohydrate: 5 g per full serving.",
+    "Only L-Citrulline RAW discloses: L-Citrulline: 5 g per full serving.",
+    "Creatine RAW caffeine: Creatine RAW is stimulant-free and lists no caffeine. L-Citrulline RAW caffeine: L-Citrulline RAW is stimulant-free and lists no caffeine."
+  ],
+  "experience": "Creatine RAW: Creatine RAW: A single-ingredient micronized Creatine Monohydrate powder. The easiest concrete points are 5 g Creatine Monohydrate, 60 servings, Single ingredient. L-Citrulline RAW: L-Citrulline RAW: A single-ingredient, unflavored L-Citrulline powder. The easiest concrete points are 5 g L-Citrulline, 60 servings, Single ingredient.",
+  "chooseFirstWhen": [
+    "A foundational strength shelf",
+    "Stacking",
+    "Ingredient-specific shoppers"
+  ],
+  "chooseSecondWhen": [
+    "Ingredient-specific shoppers",
+    "Stacking",
+    "An easy staff-training product"
+  ],
+  "tradeoffs": [
+    "Creatine RAW: Customers who want a complete flavored pre-workout",
+    "L-Citrulline RAW: Customers who want a complete flavored pre-workout"
+  ],
+  "overlappingIngredients": [],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: Creatine RAW for strength and power; L-Citrulline RAW for pump.",
+  "sourceReferences": [
+    "creatine-monohydrate-raw:catalog",
+    "creatine-monohydrate-raw:official",
+    "creatine-monohydrate-raw:label",
+    "creatine-monohydrate-raw:portal-catalog",
+    "l-citrulline-raw:catalog",
+    "l-citrulline-raw:official",
+    "l-citrulline-raw:label",
+    "l-citrulline-raw:portal-catalog"
+  ]
+}

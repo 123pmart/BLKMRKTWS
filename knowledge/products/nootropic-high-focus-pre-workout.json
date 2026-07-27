@@ -1,0 +1,494 @@
+{
+  "id": "nootropic-high-focus-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "NOOTROPIC High Focus Pre-workout",
+  "shortName": "NOOTROPIC",
+  "slug": "nootropic-high-focus-pre-workout",
+  "aliases": [
+    "nootropic",
+    "nootropic high focus",
+    "high focus pre workout"
+  ],
+  "commonMisspellings": [
+    "no tropic",
+    "nootrpic"
+  ],
+  "category": "High Stimulant & Focus Products",
+  "subcategory": "focus",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Focus",
+  "secondaryGoals": [
+    "Energy",
+    "Pump"
+  ],
+  "shortDescription": "A high-focus pre-workout positioned around cognitive support, energy, and pump.",
+  "wholesaleSummary": "The established $54.99 MAP focus formula for customers who want a recognizable nootropic-forward pre-workout.",
+  "retailerSalesPitch": "The established $54.99 MAP focus formula for customers who want a recognizable nootropic-forward pre-workout.",
+  "keyDifferentiators": [
+    "350 mg caffeine anhydrous",
+    "Lion's Mane and Alpha GPC positioning",
+    "Four represented flavors"
+  ],
+  "bestFor": [
+    "Focus-first pre-workout shoppers",
+    "Customers seeking 350 mg caffeine"
+  ],
+  "notIdealFor": [
+    "Stimulant-sensitive shoppers"
+  ],
+  "targetCustomer": "Focus-first pre-workout shoppers; Customers seeking 350 mg caffeine",
+  "suggestedStaffExplanation": "NOOTROPIC: A high-focus pre-workout positioned around cognitive support, energy, and pump. The easiest concrete points are 350 mg caffeine anhydrous, Lion's Mane and Alpha GPC positioning, Four represented flavors.",
+  "suggestedRetailerTalkingPoints": [
+    "The established $54.99 MAP focus formula for customers who want a recognizable nootropic-forward pre-workout.",
+    "350 mg caffeine anhydrous",
+    "Lion's Mane and Alpha GPC positioning",
+    "Four represented flavors"
+  ],
+  "servingSize": "1 scoop",
+  "servingsPerContainer": null,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 3200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-citrulline",
+      "name": "L-Citrulline",
+      "normalizedName": "l citrulline",
+      "amount": 3000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "normalizedName": "l tyrosine",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "lion-s-mane",
+      "name": "Lion's Mane",
+      "normalizedName": "lion s mane",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "sodium-bicarbonate",
+      "name": "Sodium Bicarbonate",
+      "normalizedName": "sodium bicarbonate",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pink-himalayan-salt",
+      "name": "Pink Himalayan Salt",
+      "normalizedName": "pink himalayan salt",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-gpc-50",
+      "name": "Alpha GPC 50%",
+      "normalizedName": "alpha gpc 50",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dendrobium-extract-10-1",
+      "name": "Dendrobium Extract 10:1",
+      "normalizedName": "dendrobium extract 10 1",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "eria-jarensis",
+      "name": "Eria Jarensis",
+      "normalizedName": "eria jarensis",
+      "amount": 125,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "gaba",
+      "name": "GABA",
+      "normalizedName": "gaba",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 70,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dextrose",
+      "name": "Dextrose",
+      "normalizedName": "dextrose",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 350,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "astragin",
+      "name": "AstraGin",
+      "normalizedName": "astragin",
+      "amount": 25,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "nootropic-high-focus-pre-workout:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 350,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "high",
+  "pumpProfile": "Pump profile: L-Citrulline 3000 mg.",
+  "focusProfile": "Focus profile: L-Tyrosine 1000 mg, Lion's Mane 500 mg, Alpha GPC 50% 600 mg, Dendrobium Extract 10:1 300 mg, Eria Jarensis 125 mg, GABA 100 mg, Mucuna Pruriens 70 mg.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: Beta-Alanine 3200 mg, Sodium Bicarbonate 500 mg, Dextrose 1000 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 350 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with nitricoxide-stim-free-pre-workout; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "beta alanine",
+    "l citrulline",
+    "l tyrosine",
+    "lion s mane",
+    "sodium bicarbonate",
+    "pink himalayan salt",
+    "alpha gpc 50",
+    "dendrobium extract 10 1",
+    "eria jarensis",
+    "gaba",
+    "mucuna pruriens",
+    "dextrose",
+    "caffeine anhydrous",
+    "astragin"
+  ],
+  "relatedProducts": [
+    "rule-hyper-focus",
+    "bump-laser-focus-nootropic",
+    "underground-high-stimulant"
+  ],
+  "alternatives": [
+    "rule-hyper-focus",
+    "bump-laser-focus-nootropic"
+  ],
+  "upgrades": [
+    "rule-hyper-focus"
+  ],
+  "downgrades": [],
+  "searchTags": [
+    "nootropic",
+    "nootropic high focus",
+    "high focus pre workout",
+    "no tropic",
+    "nootrpic",
+    "focus",
+    "energy",
+    "pump",
+    "beta alanine",
+    "performance",
+    "l citrulline",
+    "l tyrosine",
+    "lions mane",
+    "lion s mane",
+    "sodium bicarbonate",
+    "hydration",
+    "pink himalayan salt",
+    "mineral",
+    "alpha gpc 50",
+    "dendrobium extract 10 1",
+    "stimulant",
+    "eria jarensis",
+    "gaba",
+    "mucuna pruriens",
+    "dextrose",
+    "caffeine anhydrous",
+    "astragin",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "nootropic-high-focus-pre-workout-candy-dust-56055",
+      "flavor": "Candy Dust",
+      "sku": "56055",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    },
+    {
+      "variantId": "nootropic-high-focus-pre-workout-peach-ring-56262",
+      "flavor": "Peach Ring",
+      "sku": "56262",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    },
+    {
+      "variantId": "nootropic-high-focus-pre-workout-strawberry-lemonade-56070",
+      "flavor": "Strawberry Lemonade",
+      "sku": "56070",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    },
+    {
+      "variantId": "nootropic-high-focus-pre-workout-candy-road-56303",
+      "flavor": "Candy Road",
+      "sku": "56303",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "nootropic-high-focus-pre-workout:catalog",
+    "nootropic-high-focus-pre-workout:official",
+    "nootropic-high-focus-pre-workout:label",
+    "nootropic-high-focus-pre-workout:guide",
+    "nootropic-high-focus-pre-workout:portal-catalog",
+    "nootropic-high-focus-pre-workout:official-page",
+    "nootropic-high-focus-pre-workout:current-label"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

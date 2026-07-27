@@ -1,0 +1,41 @@
+{
+  "id": "bulk-pills-testosterone-capsules|cuts-pills-thermogenic-capsules",
+  "productIds": [
+    "cuts-pills-thermogenic-capsules",
+    "bulk-pills-testosterone-capsules"
+  ],
+  "title": "CUTS PILLS vs BULK PILLS",
+  "directVerdict": "CUTS PILLS is the better fit for thermogenic and cutting, while BULK PILLS is the better fit for strength and power.",
+  "majorFormulaDifferences": [
+    "Only CUTS PILLS discloses: L-Carnitine Fumarate: 750 mg per full serving; Dandelion Extract: 500 mg per full serving; Beta Phenylethylamine HCl: 200 mg per full serving; Caffeine Anhydrous: 175 mg per full serving; Guarana Extract: 100 mg per full serving; L-Theanine: 100 mg per full serving; Theobromine: 100 mg per full serving; Bitter Orange Extract: 50 mg per full serving.",
+    "Only BULK PILLS discloses: Vitamin D3: 125 mcg per full serving; Magnesium: 30 mg per full serving; Zinc: 5.5 mg per full serving; Fadogia Agrestis: 500 mg per full serving; Bulbine Natalensis: 500 mg per full serving; Tongkat Ali: 400 mg per full serving; Spilanthes Acmella: 300 mg per full serving; Inositol: 200 mg per full serving.",
+    "CUTS PILLS caffeine: CUTS PILLS lists stimulant ingredients, but the verified source set does not confirm a total caffeine amount. BULK PILLS caffeine: BULK PILLS is stimulant-free and lists no caffeine."
+  ],
+  "experience": "CUTS PILLS: CUTS PILLS: A capsule-format thermogenic and energy product for customers who do not want a powdered pre-workout. The easiest concrete points are Capsule delivery, Single no-flavor SKU, Caffeine, guarana, and theobromine combination. BULK PILLS: BULK PILLS: A capsule-format strength and testosterone-support product. The easiest concrete points are No flavor decision, 30 servings, Fadogia, Bulbine, Tongkat Ali, and Shilajit.",
+  "chooseFirstWhen": [
+    "Capsule-format shoppers",
+    "A simple single-SKU CUTS add-on"
+  ],
+  "chooseSecondWhen": [
+    "Capsule-format strength assortment",
+    "Cross-selling beside BULK powder"
+  ],
+  "tradeoffs": [
+    "CUTS PILLS: A stimulant-free request; Customers asking for a confirmed total-caffeine number until the guarana contribution is verified",
+    "BULK PILLS: A pre-workout energy request"
+  ],
+  "overlappingIngredients": [],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: CUTS PILLS for thermogenic and cutting; BULK PILLS for strength and power.",
+  "sourceReferences": [
+    "cuts-pills-thermogenic-capsules:catalog",
+    "cuts-pills-thermogenic-capsules:official",
+    "cuts-pills-thermogenic-capsules:label",
+    "cuts-pills-thermogenic-capsules:portal-catalog",
+    "cuts-pills-thermogenic-capsules:official-page",
+    "bulk-pills-testosterone-capsules:catalog",
+    "bulk-pills-testosterone-capsules:official",
+    "bulk-pills-testosterone-capsules:label",
+    "bulk-pills-testosterone-capsules:portal-catalog",
+    "bulk-pills-testosterone-capsules:official-page"
+  ]
+}

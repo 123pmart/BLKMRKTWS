@@ -1,0 +1,50 @@
+{
+  "id": "pregnenolone",
+  "name": "Pregnenolone",
+  "normalizedName": "pregnenolone",
+  "aliases": [
+    "pregnenolone",
+    "Pregnenolone"
+  ],
+  "roles": [
+    "other"
+  ],
+  "whatItIs": "Pregnenolone is an ingredient disclosed on one or more current BLACKMARKET product labels.",
+  "howItWorks": "The canonical source set does not contain enough high-confidence research detail to make a more specific mechanism statement.",
+  "whyIncluded": "It is used in formulas where the label assigns other positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation."
+  ],
+  "possibleSideEffects": [
+    "No product-specific side-effect statement is stored; consult the current label warnings."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [],
+  "overlappingIngredients": [
+    "vitamin-d3",
+    "magnesium",
+    "zinc",
+    "fadogia-agrestis",
+    "bulbine-natalensis",
+    "tongkat-ali",
+    "spilanthes-acmella",
+    "inositol",
+    "shilajit",
+    "dim",
+    "black-pepper-extract",
+    "boron-citrate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "bulk-pills-testosterone-capsules",
+      "amount": 10,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "bulk-pills-testosterone-capsules:label"
+  ]
+}

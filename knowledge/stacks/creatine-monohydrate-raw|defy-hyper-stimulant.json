@@ -1,0 +1,28 @@
+{
+  "id": "creatine-monohydrate-raw|defy-hyper-stimulant",
+  "productIds": [
+    "defy-hyper-stimulant",
+    "creatine-monohydrate-raw"
+  ],
+  "name": "Hyper-performance pre-workout plus creatine",
+  "positioning": "DEFY supplies energy positioning while Creatine RAW adds strength and power positioning.",
+  "overlaps": [],
+  "cautions": [
+    "The listed full servings total 450 mg official caffeine before any other dietary sources.",
+    "This is product education, not a statement that the combination is medically safe for an individual."
+  ],
+  "retailerExplanation": "Explain the roles separately, check duplicate stimulants and actives, and have the buyer follow both labels rather than treating the combination as one serving.",
+  "sourceReferences": [
+    "defy-hyper-stimulant:catalog",
+    "defy-hyper-stimulant:official",
+    "defy-hyper-stimulant:label",
+    "defy-hyper-stimulant:guide",
+    "defy-hyper-stimulant:portal-catalog",
+    "defy-hyper-stimulant:official-page",
+    "defy-hyper-stimulant:current-label",
+    "creatine-monohydrate-raw:catalog",
+    "creatine-monohydrate-raw:official",
+    "creatine-monohydrate-raw:label",
+    "creatine-monohydrate-raw:portal-catalog"
+  ]
+}

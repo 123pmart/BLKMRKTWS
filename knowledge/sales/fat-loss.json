@@ -1,0 +1,47 @@
+{
+  "id": "fat-loss",
+  "queryTags": [
+    "fat loss",
+    "thermogenic",
+    "cutting"
+  ],
+  "verdict": "CUTS Diamond is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "cuts-diamond-ultra-thermogenic",
+    "scorch-ultra-thermogenic",
+    "cuts-pills-thermogenic-capsules",
+    "tone-weight-loss-pre-workout",
+    "cuts-thermogenic-pre-workout"
+  ],
+  "reasons": {
+    "cuts-diamond-ultra-thermogenic": [
+      "Thermogenic category and disclosed actives",
+      "300 mg caffeine",
+      "5 g L-Citrulline"
+    ],
+    "scorch-ultra-thermogenic": [
+      "Thermogenic category and disclosed actives",
+      "450 mg official total caffeine",
+      "8 g L-Citrulline"
+    ],
+    "cuts-pills-thermogenic-capsules": [
+      "Thermogenic category and disclosed actives",
+      "Capsule delivery",
+      "Single no-flavor SKU"
+    ],
+    "tone-weight-loss-pre-workout": [
+      "Thermogenic category and disclosed actives",
+      "300 mg caffeine",
+      "CLA and antioxidant positioning"
+    ],
+    "cuts-thermogenic-pre-workout": [
+      "Thermogenic category and disclosed actives",
+      "300 mg caffeine anhydrous",
+      "Seven represented flavors"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

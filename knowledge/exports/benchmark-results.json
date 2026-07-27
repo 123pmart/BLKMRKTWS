@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-07-27T09:21:14.865Z",
+  "total": 160,
+  "passed": 160,
+  "failed": 0,
+  "passRate": 100,
+  "failures": [],
+  "spotChecks": [
+    {
+      "id": "spot-cuts-vs-bulk",
+      "question": "What's the difference between CUTS and BULK?",
+      "requiredFacts": [
+        "thermogenic",
+        "strength",
+        "creatine",
+        "300 mg",
+        "proprietary"
+      ],
+      "pass": true,
+      "missingFacts": [],
+      "wordCount": 276,
+      "answer": "CUTS is the thermogenic/cutting pre-workout; BULK is the strength-and-size pre-workout. Major formula differences Only CUTS discloses: Vitamin C: 50 mg per full serving; Chromium: 144 mcg per full serving; Sodium: 20 mg per full serving; L-Carnitine Tartrate: inside Fat Burning Matrix; individual amount not disclosed; Acetyl L-Carnitine HCl: inside Fat Burning Matrix; individual amount not disclosed; Choline Bitartrate: inside Fat Burning Matrix; individual amount not disclosed; Raspberry Ketone: inside Fat Burning Matrix; individual amount not disclosed; Evodiamine: inside Fat Burning Matrix; individual amount not disclosed. Only BULK discloses: Creatine Monohydrate: inside Testosterone/Strength Matrix; individual amount not disclosed; D-Aspartic Acid: inside Testosterone/Strength Matrix; individual amount not disclosed; Betaine Anhydrous: inside Testosterone/Strength Matrix; individual amount not disclosed. CUTS caffeine: CUTS officially lists 300 mg total caffeine per 1 scoop (8 g). BULK caffeine: BULK officially lists 300 mg total caffeine per 1 scoop (11 g). Experience Both disclose 300 mg caffeine, but their proprietary matrices point in different directions. CUTS centers L-carnitine forms, agmatine, caffeine, bitter orange, and other thermogenic-positioned ingredients. BULK centers creatine, D-Aspartic Acid, betaine, beta-alanine, agmatine, stimulant energy, and strength/testosterone-support positioning. Who should choose each Choose CUTS when: A broad thermogenic-pre-workout shelf; Customers seeking a 300 mg caffeine pre-workout. Choose BULK when: A core strength pre-workout SKU; Customers seeking creatine and 300 mg caffeine. Tradeoffs CUTS: A stimulant-free request; Buyers who require every active ingredient to have an individually disclosed dosage BULK: A stimulant-free request; Buyers requiring all exact ingredient dosages Bottom line Use CUTS for the shopper whose primary goal is a thermogenic pre-workout. Use BULK for the shopper who wants strength, size, creatine, and power positioning. Neither label discloses every individual blend amount."
+    },
+    {
+      "id": "spot-cuts-vs-tone",
+      "question": "CUTS vs TONE",
+      "requiredFacts": [
+        "thermogenic",
+        "women",
+        "CLA",
+        "antioxidant",
+        "300 mg",
+        "proprietary"
+      ],
+      "pass": true,
+      "missingFacts": [],
+      "wordCount": 340,
+      "answer": "CUTS is the more aggressive general thermogenic pre-workout; TONE is the women-positioned weight-management formula with a broader antioxidant and CLA story. Major formula differences Chromium: CUTS 144 mcg; TONE 116 mcg. Sodium: CUTS 20 mg; TONE 10 mg. Only CUTS discloses: Vitamin C: 50 mg per full serving; Agmatine Sulfate: inside Fat Burning Matrix; individual amount not disclosed; Acetyl L-Carnitine HCl: inside Fat Burning Matrix; individual amount not disclosed; Mucuna Pruriens: inside Fat Burning Matrix; individual amount not disclosed; Evodiamine: inside Fat Burning Matrix; individual amount not disclosed. Only TONE discloses: Theobromine: inside Energy Focus Blend; individual amount not disclosed; L-Theanine: inside Energy Focus Blend; individual amount not disclosed; Vitamin B12: inside Energy Focus Blend; individual amount not disclosed; CLA: inside Weight Loss/Antioxidant Blend; individual amount not disclosed; L-Citrulline Malate: inside Weight Loss/Antioxidant Blend; individual amount not disclosed; Eleutherococcus Senticosus: inside Weight Loss/Antioxidant Blend; individual amount not disclosed; Green Coffee Bean Extract: inside Weight Loss/Antioxidant Blend; individual amount not disclosed; Green Tea Extract: inside Weight Loss/Antioxidant Blend; individual amount not disclosed. CUTS caffeine: CUTS officially lists 300 mg total caffeine per 1 scoop (8 g). TONE caffeine: TONE officially lists 300 mg total caffeine per 1 scoop (9 g). Experience Both disclose 300 mg caffeine and use proprietary blends. CUTS is built around its Fat Burning Matrix and a direct thermogenic-pre-workout experience. TONE divides the label into an Energy Focus Blend and a Weight Loss/Antioxidant Blend with CLA, carnitine, citrulline malate, green coffee, green tea, fruit extracts, vitamins, and minerals. Who should choose each Choose CUTS when: A broad thermogenic-pre-workout shelf; Customers seeking a 300 mg caffeine pre-workout. Choose TONE when: Thermogenic assortment variety; Customers seeking 300 mg caffeine. Tradeoffs CUTS: A stimulant-free request; Buyers who require every active ingredient to have an individually disclosed dosage TONE: A stimulant-free request; A fully transparent formula request Bottom line Choose CUTS for the established, direct thermogenic pre-workout sale. Choose TONE when the buyer wants women-oriented weight-management positioning, CLA, vitamins, and antioxidant ingredients—while being clear that most individual blend dosages are not disclosed."
+    },
+    {
+      "id": "spot-defy-vs-rule",
+      "question": "DEFY vs RULE",
+      "requiredFacts": [
+        "10 g L-Citrulline",
+        "5 g Betaine",
+        "3 g L-Tyrosine",
+        "Uridine",
+        "Lion's Mane"
+      ],
+      "pass": true,
+      "missingFacts": [],
+      "wordCount": 280,
+      "answer": "DEFY is the more complete performance-and-pump formula; RULE is the more cognition-heavy hyper-focus formula. Major formula differences L-Citrulline: DEFY 10 g; RULE 5 g. Beta-Alanine: DEFY 3.2 g; RULE 5 g. L-Tyrosine: DEFY 1 g; RULE 3 g. Dendrobium Extract: DEFY 600 mg; RULE 300 mg. Caffeine Anhydrous: DEFY 300 mg; RULE 350 mg. Bitter Orange Extract: DEFY 120 mg; RULE 80 mg. Dicaffeine Malate: DEFY 75 mg; RULE 50 mg. Mucuna Pruriens: DEFY 50 mg; RULE 100 mg. Only DEFY discloses: Betaine Anhydrous: 5 g per 2 scoops; Choline Bitartrate: 600 mg per 2 scoops; N-Acetyl L-Tyrosine: 500 mg per 2 scoops. Only RULE discloses: Lion's Mane: 800 mg per 2 scoops; Uridine Monophosphate: 250 mg per 2 scoops; Theobromine: 200 mg per 2 scoops. DEFY caffeine: DEFY officially lists 450 mg total caffeine per 2 scoops (27.19 g); 1-scoop option also shown. RULE caffeine: RULE officially lists 485 mg total caffeine per 2 scoops; 1-scoop option also shown. Experience At full serving, DEFY puts more weight behind pump and output with 10 g L-Citrulline and 5 g betaine. RULE shifts more of the formula toward cognition with 3 g L-Tyrosine, Lion’s Mane, Uridine, Theobromine, Alpha GPC, and a broader focus stack. Who should choose each Choose DEFY when: Experienced stimulant users; Customers prioritizing energy and a large disclosed pump formula. Choose RULE when: Experienced stimulant users; Customers prioritizing focus and nootropic ingredients. Tradeoffs DEFY: Stimulant-sensitive shoppers; A daily low-stimulant request RULE: Stimulant-sensitive shoppers; A daily low-stimulant request Bottom line Choose DEFY when pump, betaine, and all-around training performance lead the sale. Choose RULE when the buyer specifically wants the deepest focus/nootropic experience and accepts RULE’s very-high stimulant position."
+    }
+  ]
+}

@@ -1,0 +1,710 @@
+[
+  {
+    "id": "bulk-testosterone-pre-workout:faq:01",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is BULK?",
+    "answer": "The original BULK strength-oriented pre-workout, positioned around power output, energy, focus, and natural testosterone support.",
+    "tags": [
+      "overview"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:02",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is BULK designed for?",
+    "answer": "BULK is positioned primarily for strength and power. The original BULK strength-oriented pre-workout, positioned around power output, energy, focus, and natural testosterone support.",
+    "tags": [
+      "purpose"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:03",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Who is BULK best for?",
+    "answer": "A core strength pre-workout SKU; Customers seeking creatine and 300 mg caffeine",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:04",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Who is BULK not ideal for?",
+    "answer": "A stimulant-free request; Buyers requiring all exact ingredient dosages",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:05",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is BULK stimulant-free?",
+    "answer": "No. BULK officially lists 300 mg total caffeine per 1 scoop (11 g).",
+    "tags": [
+      "stimulant"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:06",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "How much caffeine is in BULK?",
+    "answer": "BULK officially lists 300 mg total caffeine per 1 scoop (11 g).",
+    "tags": [
+      "caffeine"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:07",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What are the main ingredients in BULK?",
+    "answer": "Caffeine Anhydrous: 300 mg per full serving, Beta-Alanine: inside Testosterone/Strength Matrix; individual amount not disclosed, Creatine Monohydrate: inside Testosterone/Strength Matrix; individual amount not disclosed, D-Aspartic Acid: inside Testosterone/Strength Matrix; individual amount not disclosed, Betaine Anhydrous: inside Testosterone/Strength Matrix; individual amount not disclosed, Agmatine Sulfate: inside Testosterone/Strength Matrix; individual amount not disclosed",
+    "tags": [
+      "formula"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:08",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK use a proprietary blend?",
+    "answer": "BULK uses Testosterone/Strength Matrix (9240 mg). Ingredients are listed in label order, but individual amounts marked proprietary_unknown are not estimated.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:09",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is every BULK dosage disclosed?",
+    "answer": "No. One or more ingredients are inside a proprietary blend or otherwise lack an individual disclosed amount.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:10",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the serving size for BULK?",
+    "answer": "1 scoop (11 g).",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:11",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "How many servings are in BULK?",
+    "answer": "30 full servings per container.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:12",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is BULK beginner-friendly?",
+    "answer": "Not positioned as a beginner stimulant product.",
+    "tags": [
+      "beginner"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:13",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is BULK for experienced users?",
+    "answer": "Designed for experienced stimulant users who understand their tolerance.",
+    "tags": [
+      "advanced"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:14",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Can BULK be used late at night?",
+    "answer": "Not the preferred late-night option because the full serving lists 300 mg caffeine.",
+    "tags": [
+      "late-night"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:15",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is BULK positioned for daily use?",
+    "answer": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+    "tags": [
+      "daily"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:16",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What does BULK feel like?",
+    "answer": "Strength and power first. Pump profile: Agmatine Sulfate (amount not disclosed). Focus profile: Mucuna Pruriens (amount not disclosed). The verified formula does not have a dedicated thermogenic profile. Stimulant intensity: high.",
+    "tags": [
+      "experience"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:17",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "How should store staff explain BULK?",
+    "answer": "BULK: The original BULK strength-oriented pre-workout, positioned around power output, energy, focus, and natural testosterone support. The easiest concrete points are Contains Creatine Monohydrate, 300 mg caffeine, $49.99 MAP.",
+    "tags": [
+      "staff"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:18",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the main selling point of BULK?",
+    "answer": "Contains Creatine Monohydrate; 300 mg caffeine; $49.99 MAP; Original BULK formula positioning",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:19",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What objection comes up with BULK?",
+    "answer": "A stimulant-free request",
+    "tags": [
+      "objection"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:20",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What products compare with BULK?",
+    "answer": "BULK APEX",
+    "tags": [
+      "comparison"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:21",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What can replace BULK?",
+    "answer": "BULK APEX",
+    "tags": [
+      "substitute"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:22",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is an upgrade from BULK?",
+    "answer": "BULK APEX",
+    "tags": [
+      "upgrade"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:23",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What stacks with BULK?",
+    "answer": "Commonly paired with l-citrulline-raw; review overlapping actives first.; Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.; Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW.",
+    "tags": [
+      "stack"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:24",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What overlaps when stacking BULK?",
+    "answer": "beta alanine, creatine monohydrate, d aspartic acid, betaine anhydrous, agmatine sulfate, caffeine anhydrous, bitter orange extract, mucuna pruriens",
+    "tags": [
+      "stack",
+      "overlap"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:25",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain creatine?",
+    "answer": "Creatine Monohydrate: inside Testosterone/Strength Matrix; individual amount not disclosed",
+    "tags": [
+      "ingredient",
+      "creatine"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:26",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain beta-alanine?",
+    "answer": "Beta-Alanine: inside Testosterone/Strength Matrix; individual amount not disclosed",
+    "tags": [
+      "ingredient",
+      "beta-alanine"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:27",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain citrulline?",
+    "answer": "No citrulline ingredient is listed in the current verified BULK formula.",
+    "tags": [
+      "ingredient",
+      "citrulline"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:28",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain HMB?",
+    "answer": "No hmb ingredient is listed in the current verified BULK formula.",
+    "tags": [
+      "ingredient",
+      "hmb"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:29",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain nootropic ingredients?",
+    "answer": "Yes: Mucuna Pruriens: inside Testosterone/Strength Matrix; individual amount not disclosed.",
+    "tags": [
+      "ingredient",
+      "focus"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:30",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain nitrate ingredients?",
+    "answer": "No nitrate ingredient is listed in the current verified BULK formula.",
+    "tags": [
+      "ingredient",
+      "nitrates"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:31",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain carnitine?",
+    "answer": "No carnitine ingredient is listed in the current verified BULK formula.",
+    "tags": [
+      "ingredient",
+      "carnitine"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:32",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK contain bitter orange?",
+    "answer": "Bitter Orange Extract: inside Testosterone/Strength Matrix; individual amount not disclosed",
+    "tags": [
+      "ingredient"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:33",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Does BULK use natural flavors?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "flavors",
+      "label"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:34",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What sweeteners or colors does BULK use?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "label"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:35",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What flavors of BULK are orderable?",
+    "answer": "Fruit Punch, Watermelon, Blue Razz",
+    "tags": [
+      "flavors",
+      "stock"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:36",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "Is BULK in stock?",
+    "answer": "3 wholesale variants are currently orderable: Fruit Punch, Watermelon, Blue Razz.",
+    "tags": [
+      "stock"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:37",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the MAP for BULK?",
+    "answer": "BULK MAP: $49.99. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:38",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the wholesale price for BULK?",
+    "answer": "BULK wholesale: $24.00. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:39",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the retailer margin on BULK?",
+    "answer": "Fruit Punch: $24.00 wholesale, $49.99 MAP, 51.99% estimated gross MAP margin before other costs.",
+    "tags": [
+      "pricing",
+      "margin"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:40",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What should staff avoid claiming about BULK?",
+    "answer": "Do not claim that the product diagnoses, treats, cures, or prevents a disease, and do not present a proprietary ingredient amount as known.",
+    "tags": [
+      "compliance"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:faq:41",
+    "productId": "bulk-testosterone-pre-workout",
+    "question": "What is the bottom-line pitch for BULK?",
+    "answer": "The lower-MAP, time-tested BULK option for broad strength-category placement. The clearest differentiators are Contains Creatine Monohydrate; 300 mg caffeine; $49.99 MAP; Original BULK formula positioning.",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "bulk-testosterone-pre-workout:catalog",
+      "bulk-testosterone-pre-workout:official",
+      "bulk-testosterone-pre-workout:label",
+      "bulk-testosterone-pre-workout:guide",
+      "bulk-testosterone-pre-workout:portal-catalog",
+      "bulk-testosterone-pre-workout:official-page"
+    ]
+  }
+]

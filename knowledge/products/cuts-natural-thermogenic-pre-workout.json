@@ -1,0 +1,495 @@
+{
+  "id": "cuts-natural-thermogenic-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "CUTS Natural Thermogenic Pre-workout",
+  "shortName": "CUTS Natural",
+  "slug": "cuts-natural",
+  "aliases": [
+    "cuts natural",
+    "natural cuts",
+    "cuts natty"
+  ],
+  "commonMisspellings": [],
+  "category": "Thermogenic Products",
+  "subcategory": "thermogenic",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": true,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Thermogenic and cutting",
+  "secondaryGoals": [
+    "Energy",
+    "Focus",
+    "Daily-use positioning"
+  ],
+  "shortDescription": "The core CUTS thermogenic formula positioned with natural flavors, colors, and sweeteners.",
+  "wholesaleSummary": "A CUTS alternative for label-conscious shoppers who still want the established 300 mg thermogenic-pre-workout positioning.",
+  "retailerSalesPitch": "A CUTS alternative for label-conscious shoppers who still want the established 300 mg thermogenic-pre-workout positioning.",
+  "keyDifferentiators": [
+    "Natural flavor, color, and sweetener positioning",
+    "300 mg caffeine anhydrous"
+  ],
+  "bestFor": [
+    "Stores asked for a naturally flavored and sweetened CUTS option",
+    "Customers seeking 300 mg caffeine"
+  ],
+  "notIdealFor": [
+    "A stimulant-free request",
+    "A fully transparent formula request"
+  ],
+  "targetCustomer": "Stores asked for a naturally flavored and sweetened CUTS option; Customers seeking 300 mg caffeine",
+  "suggestedStaffExplanation": "CUTS Natural: The core CUTS thermogenic formula positioned with natural flavors, colors, and sweeteners. The easiest concrete points are Natural flavor, color, and sweetener positioning, 300 mg caffeine anhydrous.",
+  "suggestedRetailerTalkingPoints": [
+    "A CUTS alternative for label-conscious shoppers who still want the established 300 mg thermogenic-pre-workout positioning.",
+    "Natural flavor, color, and sweetener positioning",
+    "300 mg caffeine anhydrous"
+  ],
+  "servingSize": "1 scoop (8.7 g)",
+  "servingsPerContainer": 30,
+  "calories": 0,
+  "fullServing": [
+    {
+      "ingredientId": "vitamin-c",
+      "name": "Vitamin C",
+      "normalizedName": "vitamin c",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "vitamin"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "calcium",
+      "name": "Calcium",
+      "normalizedName": "calcium",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "chromium",
+      "name": "Chromium",
+      "normalizedName": "chromium",
+      "amount": 144,
+      "unit": "mcg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 1,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-carnitine-tartrate",
+      "name": "L-Carnitine Tartrate",
+      "normalizedName": "l carnitine tartrate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 2,
+      "roles": [
+        "thermogenic",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "agmatine-sulfate",
+      "name": "Agmatine Sulfate",
+      "normalizedName": "agmatine sulfate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 3,
+      "roles": [
+        "pump"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "acetyl-l-carnitine-hcl",
+      "name": "Acetyl L-Carnitine HCl",
+      "normalizedName": "acetyl l carnitine hcl",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 4,
+      "roles": [
+        "focus",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 5,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "choline-bitartrate",
+      "name": "Choline Bitartrate",
+      "normalizedName": "choline bitartrate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 6,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "raspberry-ketone",
+      "name": "Raspberry Ketone",
+      "normalizedName": "raspberry ketone",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 7,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 8,
+      "roles": [
+        "stimulant",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 9,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "evodiamine",
+      "name": "Evodiamine",
+      "normalizedName": "evodiamine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 10,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "chromium-picolinate",
+      "name": "Chromium Picolinate",
+      "normalizedName": "chromium picolinate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Fat Burning Matrix",
+      "blendTotal": 5626,
+      "blendTotalUnit": "mg",
+      "labelOrder": 11,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [
+    {
+      "name": "Fat Burning Matrix",
+      "totalAmount": 5626,
+      "unit": "mg",
+      "ingredients": [
+        "Beta-Alanine",
+        "L-Carnitine Tartrate",
+        "Agmatine Sulfate",
+        "Acetyl L-Carnitine HCl",
+        "Caffeine Anhydrous",
+        "Choline Bitartrate",
+        "Raspberry Ketone",
+        "Bitter Orange Extract",
+        "Mucuna Pruriens",
+        "Evodiamine",
+        "Chromium Picolinate"
+      ],
+      "sourceIds": [
+        "cuts-natural-thermogenic-pre-workout:catalog",
+        "cuts-natural-thermogenic-pre-workout:official",
+        "cuts-natural-thermogenic-pre-workout:label",
+        "cuts-natural-thermogenic-pre-workout:portal-catalog",
+        "cuts-natural-thermogenic-pre-workout:official-page",
+        "cuts-natural-thermogenic-pre-workout:current-label"
+      ]
+    }
+  ],
+  "otherIngredients": [
+    "Natural flavors",
+    "Natural colors",
+    "Stevia"
+  ],
+  "totalCaffeineMg": 300,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "high",
+  "pumpProfile": "Pump profile: Agmatine Sulfate (amount not disclosed).",
+  "focusProfile": "Focus profile: Acetyl L-Carnitine HCl (amount not disclosed), Choline Bitartrate (amount not disclosed), Mucuna Pruriens (amount not disclosed).",
+  "thermogenicProfile": "Thermogenic profile: L-Carnitine Tartrate (amount not disclosed), Acetyl L-Carnitine HCl (amount not disclosed), Raspberry Ketone (amount not disclosed), Bitter Orange Extract (amount not disclosed), Evodiamine (amount not disclosed).",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: Beta-Alanine (amount not disclosed), L-Carnitine Tartrate (amount not disclosed).",
+  "formulaTransparency": "partially-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Officially positioned for consistent or daily use; follow the label and account for ingredient overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 300 mg caffeine.",
+  "naturalOrArtificialFlavors": "Natural flavors",
+  "colorsAndSweeteners": "Natural colors and stevia; the current label does not list artificial sweeteners.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with cuts-pump-thermogenic-liquid-glycerol; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "vitamin c",
+    "calcium",
+    "chromium",
+    "beta alanine",
+    "l carnitine tartrate",
+    "agmatine sulfate",
+    "acetyl l carnitine hcl",
+    "caffeine anhydrous",
+    "choline bitartrate",
+    "raspberry ketone",
+    "bitter orange extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "chromium picolinate"
+  ],
+  "relatedProducts": [
+    "cuts-thermogenic-pre-workout",
+    "cuts-diamond-ultra-thermogenic"
+  ],
+  "alternatives": [
+    "cuts-thermogenic-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "cuts natural",
+    "natural cuts",
+    "cuts natty",
+    "cutting",
+    "energy",
+    "focus",
+    "daily",
+    "vitamin c",
+    "vitamin",
+    "calcium",
+    "mineral",
+    "chromium",
+    "beta alanine",
+    "performance",
+    "l carnitine tartrate",
+    "thermogenic",
+    "agmatine sulfate",
+    "pump",
+    "acetyl l carnitine hcl",
+    "caffeine anhydrous",
+    "stimulant",
+    "choline bitartrate",
+    "raspberry ketone",
+    "bitter orange extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "chromium picolinate"
+  ],
+  "flavors": [
+    {
+      "variantId": "cuts-natural-thermogenic-pre-workout-sour-gummy-56325",
+      "flavor": "Sour Gummy",
+      "sku": "56325",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 24,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326",
+      "flavor": "Strawberry Lemonade",
+      "sku": "56326",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 24,
+      "mapPrice": 49.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "cuts-natural-thermogenic-pre-workout:catalog",
+    "cuts-natural-thermogenic-pre-workout:official",
+    "cuts-natural-thermogenic-pre-workout:label",
+    "cuts-natural-thermogenic-pre-workout:portal-catalog",
+    "cuts-natural-thermogenic-pre-workout:official-page",
+    "cuts-natural-thermogenic-pre-workout:current-label"
+  ],
+  "conflicts": [
+    "The current label discloses a 5,626 mg proprietary blend; ingredient order is verified, but most individual ingredient dosages remain proprietary_unknown."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

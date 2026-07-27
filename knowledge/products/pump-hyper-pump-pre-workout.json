@@ -1,0 +1,456 @@
+{
+  "id": "pump-hyper-pump-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "PUMP Hyper-Pump Pre-workout",
+  "shortName": "PUMP",
+  "slug": "pump-hyper-pump-pre-workout",
+  "aliases": [
+    "pump",
+    "hyper pump",
+    "pump pre workout"
+  ],
+  "commonMisspellings": [],
+  "category": "Pump Products",
+  "subcategory": "pump",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Pump",
+  "secondaryGoals": [
+    "Training performance",
+    "Stimulant-free"
+  ],
+  "shortDescription": "The strongest pump-specific, stimulant-free powder in the current line, built around citrulline and nitrates.",
+  "wholesaleSummary": "The premium pump formula for customers who want every active aimed at pump and power output.",
+  "retailerSalesPitch": "The premium pump formula for customers who want every active aimed at pump and power output.",
+  "keyDifferentiators": [
+    "8 g L-Citrulline",
+    "Nitrate-based pump ingredients",
+    "Over 16 g actives at two scoops",
+    "No disclosed caffeine"
+  ],
+  "bestFor": [
+    "A dedicated pump product",
+    "Stimulant-free requests",
+    "Stacking with another pre-workout"
+  ],
+  "notIdealFor": [
+    "Customers asking for stimulant energy"
+  ],
+  "targetCustomer": "A dedicated pump product; Stimulant-free requests; Stacking with another pre-workout",
+  "suggestedStaffExplanation": "PUMP: The strongest pump-specific, stimulant-free powder in the current line, built around citrulline and nitrates. The easiest concrete points are 8 g L-Citrulline, Nitrate-based pump ingredients, Over 16 g actives at two scoops.",
+  "suggestedRetailerTalkingPoints": [
+    "The premium pump formula for customers who want every active aimed at pump and power output.",
+    "8 g L-Citrulline",
+    "Nitrate-based pump ingredients",
+    "Over 16 g actives at two scoops",
+    "No disclosed caffeine"
+  ],
+  "servingSize": "2 scoops; 1-scoop option also shown",
+  "servingsPerContainer": 20,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-citrulline",
+      "name": "L-Citrulline",
+      "normalizedName": "l citrulline",
+      "amount": 8,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump",
+        "performance"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-anhydrous",
+      "name": "Betaine Anhydrous",
+      "normalizedName": "betaine anhydrous",
+      "amount": 2.5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "taurine",
+      "name": "Taurine",
+      "normalizedName": "taurine",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-nitrate",
+      "name": "Betaine Nitrate",
+      "normalizedName": "betaine nitrate",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "arginine-nitrate",
+      "name": "Arginine Nitrate",
+      "normalizedName": "arginine nitrate",
+      "amount": 1,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pink-himalayan-salt",
+      "name": "Pink Himalayan Salt",
+      "normalizedName": "pink himalayan salt",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "pump-hyper-pump-pre-workout:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [
+    {
+      "label": "1 scoop",
+      "multiplier": 0.5,
+      "ingredients": [
+        {
+          "ingredientId": "l-citrulline",
+          "name": "L-Citrulline",
+          "normalizedName": "l citrulline",
+          "amount": 4,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "pump",
+            "performance"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "betaine-anhydrous",
+          "name": "Betaine Anhydrous",
+          "normalizedName": "betaine anhydrous",
+          "amount": 1.25,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "strength",
+            "performance"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "taurine",
+          "name": "Taurine",
+          "normalizedName": "taurine",
+          "amount": 1,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "hydration",
+            "performance"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "betaine-nitrate",
+          "name": "Betaine Nitrate",
+          "normalizedName": "betaine nitrate",
+          "amount": 1,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "pump"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "arginine-nitrate",
+          "name": "Arginine Nitrate",
+          "normalizedName": "arginine nitrate",
+          "amount": 0.5,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "pump"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "pink-himalayan-salt",
+          "name": "Pink Himalayan Salt",
+          "normalizedName": "pink himalayan salt",
+          "amount": 250,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "hydration",
+            "mineral"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "bioperine",
+          "name": "BioPerine",
+          "normalizedName": "bioperine",
+          "amount": 2.5,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "other"
+          ],
+          "sourceIds": [
+            "pump-hyper-pump-pre-workout:label"
+          ],
+          "confidence": "high"
+        }
+      ]
+    }
+  ],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 0,
+  "totalCaffeineStatus": "none",
+  "caffeineSources": [],
+  "stimulantFree": true,
+  "stimulantIntensity": "none",
+  "pumpProfile": "Pump profile: L-Citrulline 8 g, Betaine Nitrate 2 g, Arginine Nitrate 1 g.",
+  "focusProfile": "The verified formula does not have a dedicated focus profile.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Betaine Anhydrous 2.5 g.",
+  "enduranceProfile": "Performance profile: L-Citrulline 8 g, Betaine Anhydrous 2.5 g, Taurine 2 g.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "More approachable from a stimulant standpoint; buyers still need to review the full label and directions.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "The formula is stimulant-free, making it the line’s more relevant late-day option; individual ingredients and tolerance still matter.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "The label provides a one-scoop and two-scoop serving option.",
+    "Do not exceed the current label directions."
+  ],
+  "warnings": [
+    "Use only as directed on the current label."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with defy-hyper-stimulant; review overlapping actives first.",
+    "Commonly paired with rule-hyper-focus; review overlapping actives first."
+  ],
+  "overlappingIngredients": [
+    "l citrulline",
+    "betaine anhydrous",
+    "taurine",
+    "betaine nitrate",
+    "arginine nitrate",
+    "pink himalayan salt",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "nitricoxide-stim-free-pre-workout",
+    "cuts-pump-thermogenic-liquid-glycerol"
+  ],
+  "alternatives": [
+    "nitricoxide-stim-free-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "pump",
+    "hyper pump",
+    "pump pre workout",
+    "performance",
+    "stim free",
+    "l citrulline",
+    "betaine anhydrous",
+    "strength",
+    "taurine",
+    "hydration",
+    "betaine nitrate",
+    "arginine nitrate",
+    "pink himalayan salt",
+    "mineral",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "pump-hyper-pump-pre-workout-watermelon-lemonade-56302",
+      "flavor": "Watermelon Lemonade",
+      "sku": "56302",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "pump-hyper-pump-pre-workout-razz-mango-sherbet-56300",
+      "flavor": "Razz Mango Sherbet",
+      "sku": "56300",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "pump-hyper-pump-pre-workout:catalog",
+    "pump-hyper-pump-pre-workout:official",
+    "pump-hyper-pump-pre-workout:label",
+    "pump-hyper-pump-pre-workout:guide",
+    "pump-hyper-pump-pre-workout:portal-catalog",
+    "pump-hyper-pump-pre-workout:official-page"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

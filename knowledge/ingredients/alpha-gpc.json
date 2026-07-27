@@ -1,0 +1,95 @@
+{
+  "id": "alpha-gpc",
+  "name": "Alpha GPC",
+  "normalizedName": "alpha gpc",
+  "aliases": [
+    "alpha gpc",
+    "Alpha GPC"
+  ],
+  "roles": [
+    "focus"
+  ],
+  "whatItIs": "A choline-containing compound; some labels specify a 50% Alpha GPC material.",
+  "howItWorks": "It supplies choline used in acetylcholine synthesis.",
+  "whyIncluded": "Focus and mind-muscle-connection positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation.",
+    "A 600 mg amount of Alpha GPC 50% material is not the same as 600 mg active Alpha GPC."
+  ],
+  "possibleSideEffects": [
+    "No product-specific side-effect statement is stored; consult the current label warnings."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [
+    "l tyrosine",
+    "uridine monophosphate"
+  ],
+  "overlappingIngredients": [
+    "citrulline-malate",
+    "beta-alanine",
+    "taurine",
+    "dendrobium-extract-10-1",
+    "sodium-bicarbonate",
+    "pink-himalayan-salt",
+    "n-acetyl-l-tyrosine",
+    "choline-bitartrate",
+    "eria-jarensis",
+    "juniper-berry",
+    "theobromine",
+    "l-theanine",
+    "mucuna-pruriens",
+    "caffeine-anhydrous",
+    "astragin",
+    "l-citrulline",
+    "betaine-anhydrous",
+    "l-tyrosine",
+    "dendrobium-extract",
+    "bitter-orange-extract",
+    "cafe-alatus",
+    "dicaffeine-malate",
+    "bioperine",
+    "lion-s-mane",
+    "uridine-monophosphate",
+    "gaba",
+    "5-htp",
+    "natural-caffeine",
+    "peako2"
+  ],
+  "productsContaining": [
+    {
+      "productId": "underground-high-stimulant",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "defy-hyper-stimulant",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "rule-hyper-focus",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bump-laser-focus-nootropic",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "underground-high-stimulant:label",
+    "defy-hyper-stimulant:label",
+    "rule-hyper-focus:label",
+    "bump-laser-focus-nootropic:label"
+  ]
+}

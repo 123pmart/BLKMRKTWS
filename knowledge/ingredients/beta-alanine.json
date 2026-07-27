@@ -1,0 +1,215 @@
+{
+  "id": "beta-alanine",
+  "name": "Beta-Alanine",
+  "normalizedName": "beta alanine",
+  "aliases": [
+    "beta alanine",
+    "Beta-Alanine"
+  ],
+  "roles": [
+    "performance"
+  ],
+  "whatItIs": "An amino acid used to raise muscle carnosine over repeated daily use.",
+  "howItWorks": "Muscle carnosine contributes to buffering acidity during high-intensity efforts.",
+  "whyIncluded": "High-intensity endurance and repeated-effort positioning.",
+  "evidenceSupportedRanges": [
+    {
+      "minimum": 4,
+      "maximum": 6,
+      "unit": "g",
+      "context": "Daily range summarized by the ISSN position stand; some labels use 3.2 g as a common practical serving.",
+      "sourceIds": [
+        "research-beta-alanine-issn"
+      ]
+    }
+  ],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation.",
+    "The evidence concerns repeated daily intake, not only the immediate pre-workout serving."
+  ],
+  "possibleSideEffects": [
+    "Temporary tingling (paresthesia) is common, especially with larger single doses."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [
+    "creatine monohydrate"
+  ],
+  "overlappingIngredients": [
+    "vitamin-c",
+    "chromium",
+    "sodium",
+    "l-carnitine-tartrate",
+    "agmatine-sulfate",
+    "acetyl-l-carnitine-hcl",
+    "caffeine-anhydrous",
+    "choline-bitartrate",
+    "raspberry-ketone",
+    "bitter-orange-extract",
+    "mucuna-pruriens",
+    "evodiamine",
+    "chromium-picolinate",
+    "calcium",
+    "l-citrulline",
+    "l-carnitine-fumarate",
+    "caloriburn-gp",
+    "progbb",
+    "bioperine",
+    "potassium-dodecanedioic-acid",
+    "dandelion-extract",
+    "sodium-dodecanedioic-acid",
+    "natural-caffeine",
+    "grapefruit-extract",
+    "theobromine",
+    "l-theanine",
+    "vitamin-b12",
+    "cla",
+    "l-citrulline-malate",
+    "eleutherococcus-senticosus",
+    "green-coffee-bean-extract",
+    "green-tea-extract",
+    "pomegranate-extract",
+    "acai-berry-extract",
+    "blueberry-extract",
+    "vitamin-b1",
+    "biotin",
+    "vitamin-b6",
+    "folate",
+    "creatine-monohydrate",
+    "d-aspartic-acid",
+    "betaine-anhydrous",
+    "calcium-hmb",
+    "taurine",
+    "l-tyrosine",
+    "pink-himalayan-salt",
+    "elevatp",
+    "dicaffeine-malate",
+    "cafe-alatus",
+    "cyanotis-arachnoidea-extract",
+    "peako2-mushroom-blend",
+    "alpha-gpc-50",
+    "sodium-chloride",
+    "potassium-chloride",
+    "trisodium-citrate",
+    "lion-s-mane",
+    "sodium-bicarbonate",
+    "dendrobium-extract-10-1",
+    "eria-jarensis",
+    "gaba",
+    "dextrose",
+    "astragin",
+    "citrulline-malate",
+    "alpha-gpc",
+    "n-acetyl-l-tyrosine",
+    "juniper-berry",
+    "dendrobium-extract",
+    "uridine-monophosphate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "cuts-thermogenic-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "cuts-natural-thermogenic-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "cuts-diamond-ultra-thermogenic",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "scorch-ultra-thermogenic",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "tone-weight-loss-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bulk-testosterone-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bulk-apex-strength-pre-workout",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    },
+    {
+      "productId": "beta-alanine-raw",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "fit-performance-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "nootropic-high-focus-pre-workout",
+      "amount": 3200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "underground-high-stimulant",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "defy-hyper-stimulant",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "rule-hyper-focus",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    }
+  ],
+  "sourceReferences": [
+    "cuts-thermogenic-pre-workout:label",
+    "cuts-natural-thermogenic-pre-workout:label",
+    "cuts-diamond-ultra-thermogenic:label",
+    "scorch-ultra-thermogenic:label",
+    "tone-weight-loss-pre-workout:label",
+    "bulk-testosterone-pre-workout:official",
+    "bulk-apex-strength-pre-workout:label",
+    "beta-alanine-raw:label",
+    "fit-performance-pre-workout:guide",
+    "nootropic-high-focus-pre-workout:guide",
+    "underground-high-stimulant:label",
+    "defy-hyper-stimulant:label",
+    "rule-hyper-focus:label"
+  ]
+}

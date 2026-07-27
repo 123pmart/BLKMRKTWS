@@ -1,0 +1,61 @@
+{
+  "id": "defy-hyper-stimulant|underground-high-stimulant",
+  "productIds": [
+    "defy-hyper-stimulant",
+    "underground-high-stimulant"
+  ],
+  "title": "DEFY vs UNDERGROUND",
+  "directVerdict": "DEFY is the better fit for energy, while UNDERGROUND is the better fit for energy.",
+  "majorFormulaDifferences": [
+    "Alpha GPC: DEFY 600 mg; UNDERGROUND 300 mg.",
+    "Choline Bitartrate: DEFY 600 mg; UNDERGROUND 200 mg.",
+    "N-Acetyl L-Tyrosine: DEFY 500 mg; UNDERGROUND 250 mg.",
+    "Caffeine Anhydrous: DEFY 300 mg; UNDERGROUND 350 mg.",
+    "L-Theanine: DEFY 100 mg; UNDERGROUND 150 mg.",
+    "Mucuna Pruriens: DEFY 50 mg; UNDERGROUND 70 mg.",
+    "Only DEFY discloses: L-Citrulline: 10 g per 2 scoops; Betaine Anhydrous: 5 g per 2 scoops; L-Tyrosine: 1 g per 2 scoops; Dendrobium Extract: 600 mg per 2 scoops; Bitter Orange Extract: 120 mg per 2 scoops; Cafe Alatus: 100 mg per 2 scoops; Dicaffeine Malate: 75 mg per 2 scoops; BioPerine: 5 mg per 2 scoops.",
+    "Only UNDERGROUND discloses: Citrulline Malate: 7 g per full serving; Taurine: 1000 mg per full serving; Dendrobium Extract 10:1: 600 mg per full serving; Sodium Bicarbonate: 500 mg per full serving; Juniper Berry: 150 mg per full serving; Theobromine: 150 mg per full serving; AstraGin: 25 mg per full serving.",
+    "DEFY caffeine: DEFY officially lists 450 mg total caffeine per 2 scoops (27.19 g); 1-scoop option also shown. UNDERGROUND caffeine: UNDERGROUND officially lists 350 mg total caffeine per 1 scoop (17.04 g)."
+  ],
+  "experience": "DEFY: DEFY: A hyper-stimulant pre-workout positioned around intense energy, pump, and performance. The easiest concrete points are 450 mg official total caffeine at two scoops, 10 g L-Citrulline, 5 g Betaine. UNDERGROUND: UNDERGROUND: A high-stimulant pre-workout with a broad disclosed focus and performance formula. The easiest concrete points are 350 mg caffeine, 7 g Citrulline Malate, 3.2 g Beta-Alanine.",
+  "chooseFirstWhen": [
+    "Experienced stimulant users",
+    "Customers prioritizing energy and a large disclosed pump formula"
+  ],
+  "chooseSecondWhen": [
+    "Experienced stimulant users",
+    "Customers seeking 350 mg caffeine and a full pre-workout"
+  ],
+  "tradeoffs": [
+    "DEFY: Stimulant-sensitive shoppers; A daily low-stimulant request",
+    "UNDERGROUND: Stimulant-sensitive shoppers; A daily low-stimulant request"
+  ],
+  "overlappingIngredients": [
+    "beta alanine",
+    "alpha gpc",
+    "choline bitartrate",
+    "n acetyl l tyrosine",
+    "caffeine anhydrous",
+    "pink himalayan salt",
+    "eria jarensis",
+    "l theanine",
+    "mucuna pruriens"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: DEFY for energy; UNDERGROUND for energy.",
+  "sourceReferences": [
+    "defy-hyper-stimulant:catalog",
+    "defy-hyper-stimulant:official",
+    "defy-hyper-stimulant:label",
+    "defy-hyper-stimulant:guide",
+    "defy-hyper-stimulant:portal-catalog",
+    "defy-hyper-stimulant:official-page",
+    "defy-hyper-stimulant:current-label",
+    "underground-high-stimulant:catalog",
+    "underground-high-stimulant:official",
+    "underground-high-stimulant:label",
+    "underground-high-stimulant:guide",
+    "underground-high-stimulant:portal-catalog",
+    "underground-high-stimulant:official-page",
+    "underground-high-stimulant:current-label"
+  ]
+}

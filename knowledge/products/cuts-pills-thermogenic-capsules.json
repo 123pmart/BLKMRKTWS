@@ -1,0 +1,382 @@
+{
+  "id": "cuts-pills-thermogenic-capsules",
+  "brandId": "blackmarketlabs",
+  "officialName": "CUTS PILLS Thermogenic Capsules",
+  "shortName": "CUTS PILLS",
+  "slug": "cuts-thermogenic-pills",
+  "aliases": [
+    "cuts pills",
+    "cuts capsules",
+    "thermogenic pills"
+  ],
+  "commonMisspellings": [],
+  "category": "Thermogenic Products",
+  "subcategory": "thermogenic",
+  "productType": "capsule",
+  "format": "capsules",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Thermogenic and cutting",
+  "secondaryGoals": [
+    "Energy",
+    "Focus"
+  ],
+  "shortDescription": "A capsule-format thermogenic and energy product for customers who do not want a powdered pre-workout.",
+  "wholesaleSummary": "The convenient CUTS capsule option with a high MAP-to-wholesale margin and no flavor decision.",
+  "retailerSalesPitch": "The convenient CUTS capsule option with a high MAP-to-wholesale margin and no flavor decision.",
+  "keyDifferentiators": [
+    "Capsule delivery",
+    "Single no-flavor SKU",
+    "Caffeine, guarana, and theobromine combination"
+  ],
+  "bestFor": [
+    "Capsule-format shoppers",
+    "A simple single-SKU CUTS add-on"
+  ],
+  "notIdealFor": [
+    "A stimulant-free request",
+    "Customers asking for a confirmed total-caffeine number until the guarana contribution is verified"
+  ],
+  "targetCustomer": "Capsule-format shoppers; A simple single-SKU CUTS add-on",
+  "suggestedStaffExplanation": "CUTS PILLS: A capsule-format thermogenic and energy product for customers who do not want a powdered pre-workout. The easiest concrete points are Capsule delivery, Single no-flavor SKU, Caffeine, guarana, and theobromine combination.",
+  "suggestedRetailerTalkingPoints": [
+    "The convenient CUTS capsule option with a high MAP-to-wholesale margin and no flavor decision.",
+    "Capsule delivery",
+    "Single no-flavor SKU",
+    "Caffeine, guarana, and theobromine combination"
+  ],
+  "servingSize": "4 capsules",
+  "servingsPerContainer": 30,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-carnitine-fumarate",
+      "name": "L-Carnitine Fumarate",
+      "normalizedName": "l carnitine fumarate",
+      "amount": 750,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dandelion-extract",
+      "name": "Dandelion Extract",
+      "normalizedName": "dandelion extract",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-phenylethylamine-hcl",
+      "name": "Beta Phenylethylamine HCl",
+      "normalizedName": "beta phenylethylamine hcl",
+      "amount": 200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus",
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 175,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "guarana-extract",
+      "name": "Guarana Extract",
+      "normalizedName": "guarana extract",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-theanine",
+      "name": "L-Theanine",
+      "normalizedName": "l theanine",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "theobromine",
+      "name": "Theobromine",
+      "normalizedName": "theobromine",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "grains-of-paradise",
+      "name": "Grains of Paradise",
+      "normalizedName": "grains of paradise",
+      "amount": 40,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "progbb",
+      "name": "ProGBB",
+      "normalizedName": "progbb",
+      "amount": 40,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-yohimbine",
+      "name": "Alpha Yohimbine",
+      "normalizedName": "alpha yohimbine",
+      "amount": 1,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-pills-thermogenic-capsules:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": null,
+  "totalCaffeineStatus": "not-confirmed",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "not-confirmed",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "Focus profile: Beta Phenylethylamine HCl 200 mg, L-Theanine 100 mg.",
+  "thermogenicProfile": "Thermogenic profile: L-Carnitine Fumarate 750 mg, Dandelion Extract 500 mg, Bitter Orange Extract 50 mg, Grains of Paradise 40 mg, ProGBB 40 mg, Alpha Yohimbine 1 mg.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: L-Carnitine Fumarate 750 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists unconfirmed mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the half-cap or full-cap serving exactly as directed on the current label."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients."
+  ],
+  "overlappingIngredients": [
+    "l carnitine fumarate",
+    "dandelion extract",
+    "beta phenylethylamine hcl",
+    "caffeine anhydrous",
+    "guarana extract",
+    "l theanine",
+    "theobromine",
+    "bitter orange extract",
+    "grains of paradise",
+    "progbb",
+    "alpha yohimbine"
+  ],
+  "relatedProducts": [
+    "cuts-thermogenic-pre-workout",
+    "bulk-pills-testosterone-capsules"
+  ],
+  "alternatives": [
+    "cuts-thermogenic-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "cuts pills",
+    "cuts capsules",
+    "thermogenic pills",
+    "cutting",
+    "energy",
+    "focus",
+    "l carnitine fumarate",
+    "thermogenic",
+    "performance",
+    "dandelion extract",
+    "beta phenylethylamine hcl",
+    "stimulant",
+    "caffeine anhydrous",
+    "guarana extract",
+    "l theanine",
+    "theobromine",
+    "bitter orange extract",
+    "grains of paradise",
+    "progbb",
+    "alpha yohimbine"
+  ],
+  "flavors": [
+    {
+      "variantId": "cuts-pills-thermogenic-capsules-capsules-56314",
+      "flavor": "Capsules",
+      "sku": "56314",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 21,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "needs-review",
+  "sourceReferences": [
+    "cuts-pills-thermogenic-capsules:catalog",
+    "cuts-pills-thermogenic-capsules:official",
+    "cuts-pills-thermogenic-capsules:label",
+    "cuts-pills-thermogenic-capsules:portal-catalog",
+    "cuts-pills-thermogenic-capsules:official-page"
+  ],
+  "conflicts": [
+    "The label confirms 175 mg caffeine anhydrous, but total caffeine including guarana is not confirmed."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

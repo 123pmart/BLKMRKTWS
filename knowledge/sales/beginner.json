@@ -1,0 +1,46 @@
+{
+  "id": "beginner",
+  "queryTags": [
+    "beginner",
+    "new to pre workout"
+  ],
+  "verdict": "CUTS PUMP is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "cuts-pump-thermogenic-liquid-glycerol",
+    "cuts-heat-stim-free-thermogenic",
+    "bulk-pills-testosterone-capsules",
+    "beta-alanine-raw",
+    "creatine-monohydrate-raw"
+  ],
+  "reasons": {
+    "cuts-pump-thermogenic-liquid-glycerol": [
+      "Lower stimulant burden",
+      "Liquid format",
+      "20 g glycerol per full cap"
+    ],
+    "cuts-heat-stim-free-thermogenic": [
+      "Lower stimulant burden",
+      "No disclosed caffeine",
+      "L-Carnitine and taurine"
+    ],
+    "bulk-pills-testosterone-capsules": [
+      "Lower stimulant burden",
+      "No flavor decision",
+      "30 servings"
+    ],
+    "beta-alanine-raw": [
+      "Lower stimulant burden",
+      "3.2 g Beta-Alanine",
+      "60 servings"
+    ],
+    "creatine-monohydrate-raw": [
+      "Lower stimulant burden",
+      "5 g Creatine Monohydrate",
+      "60 servings"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

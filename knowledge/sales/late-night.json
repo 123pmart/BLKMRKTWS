@@ -1,0 +1,46 @@
+{
+  "id": "late-night",
+  "queryTags": [
+    "late night",
+    "night training"
+  ],
+  "verdict": "CUTS PUMP is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "cuts-pump-thermogenic-liquid-glycerol",
+    "pump-hyper-pump-pre-workout",
+    "nitricoxide-stim-free-pre-workout",
+    "l-citrulline-raw",
+    "cuts-heat-stim-free-thermogenic"
+  ],
+  "reasons": {
+    "cuts-pump-thermogenic-liquid-glycerol": [
+      "Stimulant-free training option",
+      "Liquid format",
+      "20 g glycerol per full cap"
+    ],
+    "pump-hyper-pump-pre-workout": [
+      "Stimulant-free training option",
+      "8 g L-Citrulline",
+      "Nitrate-based pump ingredients"
+    ],
+    "nitricoxide-stim-free-pre-workout": [
+      "Stimulant-free training option",
+      "5 g L-Citrulline",
+      "PeakO2 and CitraPeak positioning"
+    ],
+    "l-citrulline-raw": [
+      "Stimulant-free training option",
+      "5 g L-Citrulline",
+      "60 servings"
+    ],
+    "cuts-heat-stim-free-thermogenic": [
+      "Stimulant-free training option",
+      "No disclosed caffeine",
+      "L-Carnitine and taurine"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

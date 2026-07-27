@@ -1,0 +1,368 @@
+{
+  "id": "bulk-testosterone-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "BULK Testosterone Pre-workout",
+  "shortName": "BULK",
+  "slug": "bulk-strength-pre-workout",
+  "aliases": [
+    "bulk",
+    "bulk pre workout",
+    "bulk strength"
+  ],
+  "commonMisspellings": [],
+  "category": "Strength Products",
+  "subcategory": "strength",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Strength and power",
+  "secondaryGoals": [
+    "Energy",
+    "Focus",
+    "Recovery"
+  ],
+  "shortDescription": "The original BULK strength-oriented pre-workout, positioned around power output, energy, focus, and natural testosterone support.",
+  "wholesaleSummary": "The lower-MAP, time-tested BULK option for broad strength-category placement.",
+  "retailerSalesPitch": "The lower-MAP, time-tested BULK option for broad strength-category placement.",
+  "keyDifferentiators": [
+    "Contains Creatine Monohydrate",
+    "300 mg caffeine",
+    "$49.99 MAP",
+    "Original BULK formula positioning"
+  ],
+  "bestFor": [
+    "A core strength pre-workout SKU",
+    "Customers seeking creatine and 300 mg caffeine"
+  ],
+  "notIdealFor": [
+    "A stimulant-free request",
+    "Buyers requiring all exact ingredient dosages"
+  ],
+  "targetCustomer": "A core strength pre-workout SKU; Customers seeking creatine and 300 mg caffeine",
+  "suggestedStaffExplanation": "BULK: The original BULK strength-oriented pre-workout, positioned around power output, energy, focus, and natural testosterone support. The easiest concrete points are Contains Creatine Monohydrate, 300 mg caffeine, $49.99 MAP.",
+  "suggestedRetailerTalkingPoints": [
+    "The lower-MAP, time-tested BULK option for broad strength-category placement.",
+    "Contains Creatine Monohydrate",
+    "300 mg caffeine",
+    "$49.99 MAP",
+    "Original BULK formula positioning"
+  ],
+  "servingSize": "1 scoop (11 g)",
+  "servingsPerContainer": 30,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 1,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "creatine-monohydrate",
+      "name": "Creatine Monohydrate",
+      "normalizedName": "creatine monohydrate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 2,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "d-aspartic-acid",
+      "name": "D-Aspartic Acid",
+      "normalizedName": "d aspartic acid",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 3,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-anhydrous",
+      "name": "Betaine Anhydrous",
+      "normalizedName": "betaine anhydrous",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 4,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "agmatine-sulfate",
+      "name": "Agmatine Sulfate",
+      "normalizedName": "agmatine sulfate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 5,
+      "roles": [
+        "pump"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 6,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 7,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "servingBasis": "full serving",
+      "blendName": "Testosterone/Strength Matrix",
+      "blendTotal": 9240,
+      "blendTotalUnit": "mg",
+      "labelOrder": 8,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:official"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [
+    {
+      "name": "Testosterone/Strength Matrix",
+      "totalAmount": 9240,
+      "unit": "mg",
+      "ingredients": [
+        "Beta-Alanine",
+        "Creatine Monohydrate",
+        "D-Aspartic Acid",
+        "Betaine Anhydrous",
+        "Agmatine Sulfate",
+        "Caffeine Anhydrous",
+        "Bitter Orange Extract",
+        "Mucuna Pruriens"
+      ],
+      "sourceIds": [
+        "bulk-testosterone-pre-workout:catalog",
+        "bulk-testosterone-pre-workout:official",
+        "bulk-testosterone-pre-workout:label",
+        "bulk-testosterone-pre-workout:guide",
+        "bulk-testosterone-pre-workout:portal-catalog",
+        "bulk-testosterone-pre-workout:official-page"
+      ]
+    }
+  ],
+  "otherIngredients": [],
+  "totalCaffeineMg": 300,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "high",
+  "pumpProfile": "Pump profile: Agmatine Sulfate (amount not disclosed).",
+  "focusProfile": "Focus profile: Mucuna Pruriens (amount not disclosed).",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Creatine Monohydrate (amount not disclosed), D-Aspartic Acid (amount not disclosed), Betaine Anhydrous (amount not disclosed).",
+  "enduranceProfile": "Performance profile: Beta-Alanine (amount not disclosed), Creatine Monohydrate (amount not disclosed), Betaine Anhydrous (amount not disclosed).",
+  "formulaTransparency": "partially-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 300 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with l-citrulline-raw; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "beta alanine",
+    "creatine monohydrate",
+    "d aspartic acid",
+    "betaine anhydrous",
+    "agmatine sulfate",
+    "caffeine anhydrous",
+    "bitter orange extract",
+    "mucuna pruriens"
+  ],
+  "relatedProducts": [
+    "bulk-apex-strength-pre-workout"
+  ],
+  "alternatives": [
+    "bulk-apex-strength-pre-workout"
+  ],
+  "upgrades": [
+    "bulk-apex-strength-pre-workout"
+  ],
+  "downgrades": [],
+  "searchTags": [
+    "bulk",
+    "bulk pre workout",
+    "bulk strength",
+    "strength",
+    "energy",
+    "focus",
+    "recovery",
+    "beta alanine",
+    "performance",
+    "creatine monohydrate",
+    "d aspartic acid",
+    "betaine anhydrous",
+    "agmatine sulfate",
+    "pump",
+    "caffeine anhydrous",
+    "stimulant",
+    "bitter orange extract",
+    "mucuna pruriens"
+  ],
+  "flavors": [
+    {
+      "variantId": "bulk-testosterone-pre-workout-fruit-punch-51114",
+      "flavor": "Fruit Punch",
+      "sku": "51114",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 24,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "bulk-testosterone-pre-workout-watermelon-51115",
+      "flavor": "Watermelon",
+      "sku": "51115",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 24,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "bulk-testosterone-pre-workout-blue-razz-51116",
+      "flavor": "Blue Razz",
+      "sku": "51116",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 24,
+      "mapPrice": 49.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "bulk-testosterone-pre-workout:catalog",
+    "bulk-testosterone-pre-workout:official",
+    "bulk-testosterone-pre-workout:label",
+    "bulk-testosterone-pre-workout:guide",
+    "bulk-testosterone-pre-workout:portal-catalog",
+    "bulk-testosterone-pre-workout:official-page"
+  ],
+  "conflicts": [
+    "The guide discloses a 9,240 mg proprietary blend and 300 mg caffeine; other individual amounts are not disclosed."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

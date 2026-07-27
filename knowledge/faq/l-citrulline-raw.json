@@ -1,0 +1,628 @@
+[
+  {
+    "id": "l-citrulline-raw:faq:01",
+    "productId": "l-citrulline-raw",
+    "question": "What is L-Citrulline RAW?",
+    "answer": "A single-ingredient, unflavored L-Citrulline powder.",
+    "tags": [
+      "overview"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:02",
+    "productId": "l-citrulline-raw",
+    "question": "What is L-Citrulline RAW designed for?",
+    "answer": "L-Citrulline RAW is positioned primarily for pump. A single-ingredient, unflavored L-Citrulline powder.",
+    "tags": [
+      "purpose"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:03",
+    "productId": "l-citrulline-raw",
+    "question": "Who is L-Citrulline RAW best for?",
+    "answer": "Ingredient-specific shoppers; Stacking; An easy staff-training product",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:04",
+    "productId": "l-citrulline-raw",
+    "question": "Who is L-Citrulline RAW not ideal for?",
+    "answer": "Customers who want a complete flavored pre-workout",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:05",
+    "productId": "l-citrulline-raw",
+    "question": "Is L-Citrulline RAW stimulant-free?",
+    "answer": "Yes. The current formula does not list caffeine.",
+    "tags": [
+      "stimulant"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:06",
+    "productId": "l-citrulline-raw",
+    "question": "How much caffeine is in L-Citrulline RAW?",
+    "answer": "L-Citrulline RAW is stimulant-free and lists no caffeine.",
+    "tags": [
+      "caffeine"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:07",
+    "productId": "l-citrulline-raw",
+    "question": "What are the main ingredients in L-Citrulline RAW?",
+    "answer": "L-Citrulline: 5 g per full serving",
+    "tags": [
+      "formula"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:08",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW use a proprietary blend?",
+    "answer": "L-Citrulline RAW has a fully transparent active formula in the canonical record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:09",
+    "productId": "l-citrulline-raw",
+    "question": "Is every L-Citrulline RAW dosage disclosed?",
+    "answer": "Yes, the active formula is fully disclosed in the current canonical label record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:10",
+    "productId": "l-citrulline-raw",
+    "question": "What is the serving size for L-Citrulline RAW?",
+    "answer": "1 scoop (5 g).",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:11",
+    "productId": "l-citrulline-raw",
+    "question": "How many servings are in L-Citrulline RAW?",
+    "answer": "60 full servings per container.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:12",
+    "productId": "l-citrulline-raw",
+    "question": "Is L-Citrulline RAW beginner-friendly?",
+    "answer": "More approachable from a stimulant standpoint; buyers still need to review the full label and directions.",
+    "tags": [
+      "beginner"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:13",
+    "productId": "l-citrulline-raw",
+    "question": "Is L-Citrulline RAW for experienced users?",
+    "answer": "Useful for advanced users when its formula goal matches the training need.",
+    "tags": [
+      "advanced"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:14",
+    "productId": "l-citrulline-raw",
+    "question": "Can L-Citrulline RAW be used late at night?",
+    "answer": "The formula is stimulant-free, making it the line’s more relevant late-day option; individual ingredients and tolerance still matter.",
+    "tags": [
+      "late-night"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:15",
+    "productId": "l-citrulline-raw",
+    "question": "Is L-Citrulline RAW positioned for daily use?",
+    "answer": "Officially positioned for consistent or daily use; follow the label and account for ingredient overlap.",
+    "tags": [
+      "daily"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:16",
+    "productId": "l-citrulline-raw",
+    "question": "What does L-Citrulline RAW feel like?",
+    "answer": "Pump first. Pump profile: L-Citrulline 5 g. The verified formula does not have a dedicated focus profile. The verified formula does not have a dedicated thermogenic profile. Stimulant intensity: none.",
+    "tags": [
+      "experience"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:17",
+    "productId": "l-citrulline-raw",
+    "question": "How should store staff explain L-Citrulline RAW?",
+    "answer": "L-Citrulline RAW: A single-ingredient, unflavored L-Citrulline powder. The easiest concrete points are 5 g L-Citrulline, 60 servings, Single ingredient.",
+    "tags": [
+      "staff"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:18",
+    "productId": "l-citrulline-raw",
+    "question": "What is the main selling point of L-Citrulline RAW?",
+    "answer": "5 g L-Citrulline; 60 servings; Single ingredient",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:19",
+    "productId": "l-citrulline-raw",
+    "question": "What objection comes up with L-Citrulline RAW?",
+    "answer": "Customers who want a complete flavored pre-workout",
+    "tags": [
+      "objection"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:20",
+    "productId": "l-citrulline-raw",
+    "question": "What products compare with L-Citrulline RAW?",
+    "answer": "Beta-Alanine RAW, Creatine RAW",
+    "tags": [
+      "comparison"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:21",
+    "productId": "l-citrulline-raw",
+    "question": "What can replace L-Citrulline RAW?",
+    "answer": "No direct substitute is stored.",
+    "tags": [
+      "substitute"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:22",
+    "productId": "l-citrulline-raw",
+    "question": "What is an upgrade from L-Citrulline RAW?",
+    "answer": "No formula upgrade is defined; compare by the buyer’s goal.",
+    "tags": [
+      "upgrade"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:23",
+    "productId": "l-citrulline-raw",
+    "question": "What stacks with L-Citrulline RAW?",
+    "answer": "Commonly paired with creatine-monohydrate-raw; review overlapping actives first.; Commonly paired with bulk-testosterone-pre-workout; review overlapping actives first.",
+    "tags": [
+      "stack"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:24",
+    "productId": "l-citrulline-raw",
+    "question": "What overlaps when stacking L-Citrulline RAW?",
+    "answer": "l citrulline",
+    "tags": [
+      "stack",
+      "overlap"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:25",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain creatine?",
+    "answer": "No creatine ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient",
+      "creatine"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:26",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain beta-alanine?",
+    "answer": "No beta alanine ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient",
+      "beta-alanine"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:27",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain citrulline?",
+    "answer": "L-Citrulline: 5 g per full serving",
+    "tags": [
+      "ingredient",
+      "citrulline"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:28",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain HMB?",
+    "answer": "No hmb ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient",
+      "hmb"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:29",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain nootropic ingredients?",
+    "answer": "No focus-classified ingredient is stored in the current verified formula.",
+    "tags": [
+      "ingredient",
+      "focus"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:30",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain nitrate ingredients?",
+    "answer": "No nitrate ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient",
+      "nitrates"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:31",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain carnitine?",
+    "answer": "No carnitine ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient",
+      "carnitine"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:32",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW contain bitter orange?",
+    "answer": "No bitter orange ingredient is listed in the current verified L-Citrulline RAW formula.",
+    "tags": [
+      "ingredient"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:33",
+    "productId": "l-citrulline-raw",
+    "question": "Does L-Citrulline RAW use natural flavors?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "flavors",
+      "label"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:34",
+    "productId": "l-citrulline-raw",
+    "question": "What sweeteners or colors does L-Citrulline RAW use?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "label"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:35",
+    "productId": "l-citrulline-raw",
+    "question": "What flavors of L-Citrulline RAW are orderable?",
+    "answer": "Unflavored",
+    "tags": [
+      "flavors",
+      "stock"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:36",
+    "productId": "l-citrulline-raw",
+    "question": "Is L-Citrulline RAW in stock?",
+    "answer": "1 wholesale variant is currently orderable: Unflavored.",
+    "tags": [
+      "stock"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:37",
+    "productId": "l-citrulline-raw",
+    "question": "What is the MAP for L-Citrulline RAW?",
+    "answer": "L-Citrulline RAW MAP: $36.99. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:38",
+    "productId": "l-citrulline-raw",
+    "question": "What is the wholesale price for L-Citrulline RAW?",
+    "answer": "L-Citrulline RAW wholesale: $18.00. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:39",
+    "productId": "l-citrulline-raw",
+    "question": "What is the retailer margin on L-Citrulline RAW?",
+    "answer": "Unflavored: $18.00 wholesale, $36.99 MAP, 51.34% estimated gross MAP margin before other costs.",
+    "tags": [
+      "pricing",
+      "margin"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:40",
+    "productId": "l-citrulline-raw",
+    "question": "What should staff avoid claiming about L-Citrulline RAW?",
+    "answer": "Do not claim that the product diagnoses, treats, cures, or prevents a disease, and do not present a proprietary ingredient amount as known.",
+    "tags": [
+      "compliance"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  },
+  {
+    "id": "l-citrulline-raw:faq:41",
+    "productId": "l-citrulline-raw",
+    "question": "What is the bottom-line pitch for L-Citrulline RAW?",
+    "answer": "A simple 60-serving RAW pump product for stacking and ingredient-specific shoppers. The clearest differentiators are 5 g L-Citrulline; 60 servings; Single ingredient.",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "l-citrulline-raw:catalog",
+      "l-citrulline-raw:official",
+      "l-citrulline-raw:label",
+      "l-citrulline-raw:portal-catalog"
+    ]
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "id": "gaba",
+  "name": "GABA",
+  "normalizedName": "gaba",
+  "aliases": [
+    "gaba",
+    "GABA"
+  ],
+  "roles": [
+    "focus"
+  ],
+  "whatItIs": "GABA is an ingredient disclosed on one or more current BLACKMARKET product labels.",
+  "howItWorks": "The canonical source set does not contain enough high-confidence research detail to make a more specific mechanism statement.",
+  "whyIncluded": "It is used in formulas where the label assigns focus positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation."
+  ],
+  "possibleSideEffects": [
+    "No product-specific side-effect statement is stored; consult the current label warnings."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [],
+  "overlappingIngredients": [
+    "beta-alanine",
+    "l-citrulline",
+    "l-tyrosine",
+    "lion-s-mane",
+    "sodium-bicarbonate",
+    "pink-himalayan-salt",
+    "alpha-gpc-50",
+    "dendrobium-extract-10-1",
+    "eria-jarensis",
+    "mucuna-pruriens",
+    "dextrose",
+    "caffeine-anhydrous",
+    "astragin",
+    "taurine",
+    "alpha-gpc",
+    "uridine-monophosphate",
+    "5-htp",
+    "natural-caffeine",
+    "l-theanine",
+    "bitter-orange-extract",
+    "peako2",
+    "bioperine"
+  ],
+  "productsContaining": [
+    {
+      "productId": "nootropic-high-focus-pre-workout",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bump-laser-focus-nootropic",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "nootropic-high-focus-pre-workout:label",
+    "bump-laser-focus-nootropic:label"
+  ]
+}

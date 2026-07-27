@@ -1,0 +1,403 @@
+{
+  "id": "cuts-heat-stim-free-thermogenic",
+  "brandId": "blackmarketlabs",
+  "officialName": "CUTS HEAT Stim-Free Thermogenic",
+  "shortName": "CUTS HEAT",
+  "slug": "cuts-heat-stim-free-thermogenic",
+  "aliases": [
+    "cuts heat",
+    "heat stim free",
+    "stim free thermogenic"
+  ],
+  "commonMisspellings": [],
+  "category": "Thermogenic Products",
+  "subcategory": "thermogenic",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Thermogenic and cutting",
+  "secondaryGoals": [
+    "Focus",
+    "Stimulant-free",
+    "Daily-use positioning"
+  ],
+  "shortDescription": "A stimulant-free thermogenic formula positioned for daily consistency and stackability.",
+  "wholesaleSummary": "The CUTS option for buyers who want thermogenic positioning without caffeine.",
+  "retailerSalesPitch": "The CUTS option for buyers who want thermogenic positioning without caffeine.",
+  "keyDifferentiators": [
+    "No disclosed caffeine",
+    "L-Carnitine and taurine",
+    "Stackable positioning"
+  ],
+  "bestFor": [
+    "Stimulant-free thermogenic requests",
+    "Stacking with a separate pre-workout"
+  ],
+  "notIdealFor": [
+    "Customers who specifically want stimulant energy"
+  ],
+  "targetCustomer": "Stimulant-free thermogenic requests; Stacking with a separate pre-workout",
+  "suggestedStaffExplanation": "CUTS HEAT: A stimulant-free thermogenic formula positioned for daily consistency and stackability. The easiest concrete points are No disclosed caffeine, L-Carnitine and taurine, Stackable positioning.",
+  "suggestedRetailerTalkingPoints": [
+    "The CUTS option for buyers who want thermogenic positioning without caffeine.",
+    "No disclosed caffeine",
+    "L-Carnitine and taurine",
+    "Stackable positioning"
+  ],
+  "servingSize": "1 scoop (7 g)",
+  "servingsPerContainer": 30,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-carnitine-l-tartrate",
+      "name": "L-Carnitine L-Tartrate",
+      "normalizedName": "l carnitine l tartrate",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "taurine",
+      "name": "Taurine",
+      "normalizedName": "taurine",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "microcrystalline-cellulose",
+      "name": "Microcrystalline Cellulose",
+      "normalizedName": "microcrystalline cellulose",
+      "amount": 850,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "potassium-dodecanedioic-acid",
+      "name": "Potassium Dodecanedioic Acid (Metabolyte)",
+      "normalizedName": "potassium dodecanedioic acid",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "chicory-inulin",
+      "name": "Chicory Inulin",
+      "normalizedName": "chicory inulin",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "normalizedName": "l tyrosine",
+      "amount": 400,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "sodium-dodecanedioic-acid",
+      "name": "Sodium Dodecanedioic Acid (Metabolyte)",
+      "normalizedName": "sodium dodecanedioic acid",
+      "amount": 400,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 160,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "progbb",
+      "name": "ProGBB",
+      "normalizedName": "progbb",
+      "amount": 30,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caloriburn-gp",
+      "name": "CaloriBurn GP",
+      "normalizedName": "caloriburn gp",
+      "amount": 30,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "cuts-heat-stim-free-thermogenic:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 0,
+  "totalCaffeineStatus": "none",
+  "caffeineSources": [],
+  "stimulantFree": true,
+  "stimulantIntensity": "none",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "Focus profile: L-Tyrosine 400 mg.",
+  "thermogenicProfile": "Thermogenic profile: L-Carnitine L-Tartrate 1000 mg, Bitter Orange Extract 160 mg, ProGBB 30 mg, CaloriBurn GP 30 mg.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: L-Carnitine L-Tartrate 1000 mg, Taurine 1000 mg, Potassium Dodecanedioic Acid (Metabolyte) 500 mg, Sodium Dodecanedioic Acid (Metabolyte) 400 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "More approachable from a stimulant standpoint; buyers still need to review the full label and directions.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Officially positioned for consistent or daily use; follow the label and account for ingredient overlap.",
+  "lateNightSuitability": "The formula is stimulant-free, making it the line’s more relevant late-day option; individual ingredients and tolerance still matter.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with bump-laser-focus-nootropic; review overlapping actives first."
+  ],
+  "overlappingIngredients": [
+    "l carnitine l tartrate",
+    "taurine",
+    "microcrystalline cellulose",
+    "potassium dodecanedioic acid",
+    "chicory inulin",
+    "l tyrosine",
+    "sodium dodecanedioic acid",
+    "bitter orange extract",
+    "progbb",
+    "caloriburn gp",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "cuts-thermogenic-pre-workout",
+    "nitricoxide-stim-free-pre-workout"
+  ],
+  "alternatives": [
+    "cuts-pump-thermogenic-liquid-glycerol"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "cuts heat",
+    "heat stim free",
+    "stim free thermogenic",
+    "cutting",
+    "focus",
+    "stim free",
+    "daily",
+    "l carnitine l tartrate",
+    "thermogenic",
+    "performance",
+    "taurine",
+    "hydration",
+    "microcrystalline cellulose",
+    "other",
+    "potassium dodecanedioic acid metabolyte",
+    "potassium dodecanedioic acid",
+    "chicory inulin",
+    "l tyrosine",
+    "sodium dodecanedioic acid metabolyte",
+    "sodium dodecanedioic acid",
+    "bitter orange extract",
+    "progbb",
+    "caloriburn gp",
+    "bioperine"
+  ],
+  "flavors": [
+    {
+      "variantId": "cuts-heat-stim-free-thermogenic-watermelon-56320",
+      "flavor": "Watermelon",
+      "sku": "56320",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 25,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "cuts-heat-stim-free-thermogenic-blue-razz-56321",
+      "flavor": "Blue Razz",
+      "sku": "56321",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 25,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "cuts-heat-stim-free-thermogenic-fruit-punch-56322",
+      "flavor": "Fruit Punch",
+      "sku": "56322",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 25,
+      "mapPrice": 49.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "cuts-heat-stim-free-thermogenic:catalog",
+    "cuts-heat-stim-free-thermogenic:official",
+    "cuts-heat-stim-free-thermogenic:label",
+    "cuts-heat-stim-free-thermogenic:portal-catalog",
+    "cuts-heat-stim-free-thermogenic:official-page"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

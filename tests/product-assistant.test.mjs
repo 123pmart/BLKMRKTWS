@@ -109,12 +109,15 @@ test("recognizes exact names, aliases, misspellings, and suppresses ingredient p
   ]);
 });
 
-test("product comparisons lead with a concise positioning difference", () => {
+test("product comparisons lead with a useful verdict and preserve deep formula sections", () => {
   const response = answerAssistantQuestion("What is the difference between DEFY and RULE?", products);
   assert.equal(response.intent, "compare_products");
   assert.equal(response.responseType, "comparison");
-  assert.match(response.directAnswer, /DEFY is .*; RULE is .*\./);
-  assert.ok(response.details.length <= 2);
+  assert.match(response.directAnswer, /DEFY is .*performance.*; RULE is .*cognition/i);
+  assert.ok(response.details.length >= 5);
+  assert.ok(response.sections?.some((section) => section.heading === "Major formula differences"));
+  assert.match(response.sections?.flatMap((section) => section.paragraphs).join(" ") ?? "", /10 g L-Citrulline/i);
+  assert.match(response.sections?.flatMap((section) => section.paragraphs).join(" ") ?? "", /3 g L-Tyrosine/i);
   assert.deepEqual(response.productIds, ["defy-hyper-stimulant", "rule-hyper-focus"]);
 });
 
@@ -122,10 +125,11 @@ test("CUTS and BULK comparison leads with thermogenic versus strength positionin
   const response = answerAssistantQuestion("What is the difference between CUTS and BULK?", products);
   assert.equal(
     response.directAnswer,
-    "CUTS is a thermogenic-focused product; BULK is a strength-focused product.",
+    "CUTS is the thermogenic/cutting pre-workout; BULK is the strength-and-size pre-workout.",
   );
-  assert.match(response.details[0], /300 mg caffeine/i);
-  assert.match(response.details[1], /creatine/i);
+  assert.match(response.details.join(" "), /300 mg caffeine/i);
+  assert.match(response.details.join(" "), /creatine/i);
+  assert.match(response.details.join(" "), /individual.*not disclosed|proprietary/i);
 });
 
 test("formula detail appears when the buyer explicitly asks for it", () => {
@@ -232,18 +236,19 @@ test("handles greetings, capabilities, general product education, and outside br
   assert.match(answerAssistantQuestion("Tell me about C4", products).directAnswer, /built specifically for BlackMarketLabs/i);
 });
 
-test("owner-supplied product guide corrections are represented exactly", () => {
+test("current label corrections supersede the older owner guide exactly", () => {
   const defy = products.find((product) => product.id === "defy-hyper-stimulant");
   const rule = products.find((product) => product.id === "rule-hyper-focus");
   const underground = products.find((product) => product.id === "underground-high-stimulant");
   const nootropic = products.find((product) => product.id === "nootropic-high-focus-pre-workout");
   const fit = products.find((product) => product.id === "fit-performance-pre-workout");
-  assert.equal(defy.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 150);
-  assert.equal(defy.formula.ingredients.find((item) => item.name === "Eria Jarensis").amount, 300);
-  assert.equal(rule.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 350);
-  assert.equal(rule.formula.ingredients.find((item) => item.name === "Bitter Orange Extract").amount, 100);
-  assert.equal(underground.formula.totalCaffeineMg, 300);
-  assert.equal(nootropic.formula.ingredients.find((item) => item.name === "Lion's Mane").amount, 600);
+  assert.equal(defy.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 50);
+  assert.equal(defy.formula.ingredients.find((item) => item.name === "Eria Jarensis").amount, 150);
+  assert.equal(rule.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 100);
+  assert.equal(rule.formula.ingredients.find((item) => item.name === "Bitter Orange Extract").amount, 80);
+  assert.equal(underground.formula.totalCaffeineMg, 350);
+  assert.equal(nootropic.formula.ingredients.find((item) => item.name === "Lion's Mane").amount, 500);
+  assert.equal(nootropic.formula.ingredients.find((item) => item.name === "Alpha GPC 50%").amount, 600);
   assert.equal(fit.formula.totalCaffeineMg, 200);
   assert.equal(fit.variants.length, 0);
 });

@@ -1,0 +1,933 @@
+{
+  "id": "defy-hyper-stimulant",
+  "brandId": "blackmarketlabs",
+  "officialName": "DEFY Hyper-Stimulant",
+  "shortName": "DEFY",
+  "slug": "defy-hyper-stimulant-pre-workout",
+  "aliases": [
+    "defy",
+    "defy hyper",
+    "defy hyper stimulant"
+  ],
+  "commonMisspellings": [],
+  "category": "High Stimulant & Focus Products",
+  "subcategory": "focus",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Energy",
+  "secondaryGoals": [
+    "Pump",
+    "Focus",
+    "Training performance"
+  ],
+  "shortDescription": "A hyper-stimulant pre-workout positioned around intense energy, pump, and performance.",
+  "wholesaleSummary": "The hyper-energy side of the DEFY/RULE comparison, for experienced stimulant customers.",
+  "retailerSalesPitch": "The hyper-energy side of the DEFY/RULE comparison, for experienced stimulant customers.",
+  "keyDifferentiators": [
+    "450 mg official total caffeine at two scoops",
+    "10 g L-Citrulline",
+    "5 g Betaine",
+    "Energy-first positioning"
+  ],
+  "bestFor": [
+    "Experienced stimulant users",
+    "Customers prioritizing energy and a large disclosed pump formula"
+  ],
+  "notIdealFor": [
+    "Stimulant-sensitive shoppers",
+    "A daily low-stimulant request"
+  ],
+  "targetCustomer": "Experienced stimulant users; Customers prioritizing energy and a large disclosed pump formula",
+  "suggestedStaffExplanation": "DEFY: A hyper-stimulant pre-workout positioned around intense energy, pump, and performance. The easiest concrete points are 450 mg official total caffeine at two scoops, 10 g L-Citrulline, 5 g Betaine.",
+  "suggestedRetailerTalkingPoints": [
+    "The hyper-energy side of the DEFY/RULE comparison, for experienced stimulant customers.",
+    "450 mg official total caffeine at two scoops",
+    "10 g L-Citrulline",
+    "5 g Betaine",
+    "Energy-first positioning"
+  ],
+  "servingSize": "2 scoops (27.19 g); 1-scoop option also shown",
+  "servingsPerContainer": 20,
+  "calories": 0,
+  "fullServing": [
+    {
+      "ingredientId": "l-citrulline",
+      "name": "L-Citrulline",
+      "normalizedName": "l citrulline",
+      "amount": 10,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump",
+        "performance"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-anhydrous",
+      "name": "Betaine Anhydrous",
+      "normalizedName": "betaine anhydrous",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "normalizedName": "l tyrosine",
+      "amount": 1,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-gpc",
+      "name": "Alpha GPC",
+      "normalizedName": "alpha gpc",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "choline-bitartrate",
+      "name": "Choline Bitartrate",
+      "normalizedName": "choline bitartrate",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dendrobium-extract",
+      "name": "Dendrobium Extract",
+      "normalizedName": "dendrobium extract",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "n-acetyl-l-tyrosine",
+      "name": "N-Acetyl L-Tyrosine",
+      "normalizedName": "n acetyl l tyrosine",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pink-himalayan-salt",
+      "name": "Pink Himalayan Salt",
+      "normalizedName": "pink himalayan salt",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "eria-jarensis",
+      "name": "Eria Jarensis",
+      "normalizedName": "eria jarensis",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 120,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "cafe-alatus",
+      "name": "Cafe Alatus",
+      "normalizedName": "cafe alatus",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-theanine",
+      "name": "L-Theanine",
+      "normalizedName": "l theanine",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dicaffeine-malate",
+      "name": "Dicaffeine Malate",
+      "normalizedName": "dicaffeine malate",
+      "amount": 75,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "defy-hyper-stimulant:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [
+    {
+      "label": "1 scoop",
+      "multiplier": 0.5,
+      "ingredients": [
+        {
+          "ingredientId": "l-citrulline",
+          "name": "L-Citrulline",
+          "normalizedName": "l citrulline",
+          "amount": 5,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "pump",
+            "performance"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "betaine-anhydrous",
+          "name": "Betaine Anhydrous",
+          "normalizedName": "betaine anhydrous",
+          "amount": 2.5,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "strength",
+            "performance"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "beta-alanine",
+          "name": "Beta-Alanine",
+          "normalizedName": "beta alanine",
+          "amount": 1.6,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "performance"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "l-tyrosine",
+          "name": "L-Tyrosine",
+          "normalizedName": "l tyrosine",
+          "amount": 0.5,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "alpha-gpc",
+          "name": "Alpha GPC",
+          "normalizedName": "alpha gpc",
+          "amount": 300,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "choline-bitartrate",
+          "name": "Choline Bitartrate",
+          "normalizedName": "choline bitartrate",
+          "amount": 300,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "dendrobium-extract",
+          "name": "Dendrobium Extract",
+          "normalizedName": "dendrobium extract",
+          "amount": 300,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant",
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "n-acetyl-l-tyrosine",
+          "name": "N-Acetyl L-Tyrosine",
+          "normalizedName": "n acetyl l tyrosine",
+          "amount": 250,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "caffeine-anhydrous",
+          "name": "Caffeine Anhydrous",
+          "normalizedName": "caffeine anhydrous",
+          "amount": 150,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "pink-himalayan-salt",
+          "name": "Pink Himalayan Salt",
+          "normalizedName": "pink himalayan salt",
+          "amount": 150,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "hydration",
+            "mineral"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "eria-jarensis",
+          "name": "Eria Jarensis",
+          "normalizedName": "eria jarensis",
+          "amount": 75,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant",
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "bitter-orange-extract",
+          "name": "Bitter Orange Extract",
+          "normalizedName": "bitter orange extract",
+          "amount": 60,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "cafe-alatus",
+          "name": "Cafe Alatus",
+          "normalizedName": "cafe alatus",
+          "amount": 50,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "l-theanine",
+          "name": "L-Theanine",
+          "normalizedName": "l theanine",
+          "amount": 50,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "dicaffeine-malate",
+          "name": "Dicaffeine Malate",
+          "normalizedName": "dicaffeine malate",
+          "amount": 37.5,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "mucuna-pruriens",
+          "name": "Mucuna Pruriens",
+          "normalizedName": "mucuna pruriens",
+          "amount": 25,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "bioperine",
+          "name": "BioPerine",
+          "normalizedName": "bioperine",
+          "amount": 2.5,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "other"
+          ],
+          "sourceIds": [
+            "defy-hyper-stimulant:label"
+          ],
+          "confidence": "high"
+        }
+      ]
+    }
+  ],
+  "proprietaryBlends": [],
+  "otherIngredients": [
+    "Malic acid",
+    "Citric acid",
+    "Natural and artificial flavors",
+    "Calcium silicate",
+    "Silicon dioxide",
+    "Sucralose",
+    "Acesulfame potassium"
+  ],
+  "totalCaffeineMg": 450,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous",
+    "Cafe Alatus",
+    "Dicaffeine Malate"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "very-high",
+  "pumpProfile": "Pump profile: L-Citrulline 10 g.",
+  "focusProfile": "Focus profile: L-Tyrosine 1 g, Alpha GPC 600 mg, Choline Bitartrate 600 mg, Dendrobium Extract 600 mg, N-Acetyl L-Tyrosine 500 mg, Eria Jarensis 150 mg, L-Theanine 100 mg, Mucuna Pruriens 50 mg.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Betaine Anhydrous 5 g.",
+  "enduranceProfile": "Performance profile: L-Citrulline 10 g, Betaine Anhydrous 5 g, Beta-Alanine 3.2 g.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 450 mg caffeine.",
+  "naturalOrArtificialFlavors": "Natural and artificial flavors",
+  "colorsAndSweeteners": "Sucralose and acesulfame potassium are listed on the current Street Tarts label.",
+  "directions": [
+    "The label provides a one-scoop and two-scoop serving option.",
+    "Do not exceed the current label directions."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "l citrulline",
+    "betaine anhydrous",
+    "beta alanine",
+    "l tyrosine",
+    "alpha gpc",
+    "choline bitartrate",
+    "dendrobium extract",
+    "n acetyl l tyrosine",
+    "caffeine anhydrous",
+    "pink himalayan salt",
+    "eria jarensis",
+    "bitter orange extract",
+    "cafe alatus",
+    "l theanine",
+    "dicaffeine malate",
+    "mucuna pruriens",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "rule-hyper-focus",
+    "underground-high-stimulant",
+    "scorch-ultra-thermogenic"
+  ],
+  "alternatives": [
+    "rule-hyper-focus",
+    "underground-high-stimulant"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "defy",
+    "defy hyper",
+    "defy hyper stimulant",
+    "energy",
+    "pump",
+    "focus",
+    "performance",
+    "l citrulline",
+    "betaine anhydrous",
+    "strength",
+    "beta alanine",
+    "l tyrosine",
+    "alpha gpc",
+    "choline bitartrate",
+    "dendrobium extract",
+    "stimulant",
+    "n acetyl l tyrosine",
+    "caffeine anhydrous",
+    "pink himalayan salt",
+    "hydration",
+    "mineral",
+    "eria jarensis",
+    "bitter orange extract",
+    "cafe alatus",
+    "l theanine",
+    "dicaffeine malate",
+    "mucuna pruriens",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "defy-hyper-stimulant-peach-rings-56277",
+      "flavor": "Peach Rings",
+      "sku": "56277",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "defy-hyper-stimulant-watermelon-lemonade-56278",
+      "flavor": "Watermelon Lemonade",
+      "sku": "56278",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "defy-hyper-stimulant-razz-mango-sherbert-56182",
+      "flavor": "Razz Mango Sherbert",
+      "sku": "56182",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "defy-hyper-stimulant-white-gummy-bear-56298",
+      "flavor": "White Gummy Bear",
+      "sku": "56298",
+      "stockStatus": "sold-out",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "defy-hyper-stimulant-streettarts-56329",
+      "flavor": "STREETTARTS",
+      "sku": "56329",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "defy-hyper-stimulant:catalog",
+    "defy-hyper-stimulant:official",
+    "defy-hyper-stimulant:label",
+    "defy-hyper-stimulant:guide",
+    "defy-hyper-stimulant:portal-catalog",
+    "defy-hyper-stimulant:official-page",
+    "defy-hyper-stimulant:current-label"
+  ],
+  "conflicts": [
+    "Walter White Gummy Bear is sold out and hidden in the wholesale portal."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

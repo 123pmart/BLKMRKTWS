@@ -1,0 +1,112 @@
+{
+  "id": "taurine",
+  "name": "Taurine",
+  "normalizedName": "taurine",
+  "aliases": [
+    "taurine",
+    "Taurine"
+  ],
+  "roles": [
+    "hydration",
+    "performance"
+  ],
+  "whatItIs": "A sulfur-containing amino acid-like compound found in excitable tissues.",
+  "howItWorks": "It is used in hydration, cellular-volume, and performance formulas.",
+  "whyIncluded": "Hydration and training-performance positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation."
+  ],
+  "possibleSideEffects": [
+    "Gastrointestinal discomfort is possible for some users."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [],
+  "overlappingIngredients": [
+    "l-carnitine-l-tartrate",
+    "microcrystalline-cellulose",
+    "potassium-dodecanedioic-acid",
+    "chicory-inulin",
+    "l-tyrosine",
+    "sodium-dodecanedioic-acid",
+    "bitter-orange-extract",
+    "progbb",
+    "caloriburn-gp",
+    "bioperine",
+    "creatine-monohydrate",
+    "beta-alanine",
+    "calcium-hmb",
+    "betaine-anhydrous",
+    "caffeine-anhydrous",
+    "pink-himalayan-salt",
+    "elevatp",
+    "l-theanine",
+    "mucuna-pruriens",
+    "dicaffeine-malate",
+    "cafe-alatus",
+    "cyanotis-arachnoidea-extract",
+    "citrulline-malate",
+    "dendrobium-extract-10-1",
+    "sodium-bicarbonate",
+    "alpha-gpc",
+    "n-acetyl-l-tyrosine",
+    "choline-bitartrate",
+    "eria-jarensis",
+    "juniper-berry",
+    "theobromine",
+    "astragin",
+    "lion-s-mane",
+    "gaba",
+    "uridine-monophosphate",
+    "5-htp",
+    "natural-caffeine",
+    "peako2",
+    "l-citrulline",
+    "betaine-nitrate",
+    "arginine-nitrate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "cuts-heat-stim-free-thermogenic",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bulk-apex-strength-pre-workout",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "underground-high-stimulant",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bump-laser-focus-nootropic",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "pump-hyper-pump-pre-workout",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "cuts-heat-stim-free-thermogenic:label",
+    "bulk-apex-strength-pre-workout:label",
+    "underground-high-stimulant:label",
+    "bump-laser-focus-nootropic:label",
+    "pump-hyper-pump-pre-workout:label"
+  ]
+}

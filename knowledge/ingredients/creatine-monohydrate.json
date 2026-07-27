@@ -1,0 +1,103 @@
+{
+  "id": "creatine-monohydrate",
+  "name": "Creatine Monohydrate",
+  "normalizedName": "creatine monohydrate",
+  "aliases": [
+    "creatine monohydrate",
+    "Creatine Monohydrate"
+  ],
+  "roles": [
+    "strength",
+    "performance"
+  ],
+  "whatItIs": "A well-studied dietary source of creatine used to increase muscle phosphocreatine stores.",
+  "howItWorks": "Higher phosphocreatine availability supports rapid ATP regeneration during repeated high-intensity work.",
+  "whyIncluded": "Strength, power-output, and training-capacity positioning.",
+  "evidenceSupportedRanges": [
+    {
+      "minimum": 3,
+      "maximum": 5,
+      "unit": "g",
+      "context": "Common daily maintenance range in the ISSN position stand.",
+      "sourceIds": [
+        "research-creatine-issn"
+      ]
+    }
+  ],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation.",
+    "Research dosing is generally daily and should not be treated as a promise about an individual product outcome."
+  ],
+  "possibleSideEffects": [
+    "Water-weight gain and gastrointestinal discomfort can occur for some users."
+  ],
+  "relatedIngredients": [
+    "creatine anhydrous"
+  ],
+  "synergisticIngredients": [
+    "beta alanine",
+    "betaine anhydrous"
+  ],
+  "overlappingIngredients": [
+    "beta-alanine",
+    "d-aspartic-acid",
+    "betaine-anhydrous",
+    "agmatine-sulfate",
+    "caffeine-anhydrous",
+    "bitter-orange-extract",
+    "mucuna-pruriens",
+    "calcium-hmb",
+    "taurine",
+    "l-tyrosine",
+    "pink-himalayan-salt",
+    "elevatp",
+    "l-theanine",
+    "dicaffeine-malate",
+    "cafe-alatus",
+    "cyanotis-arachnoidea-extract",
+    "bioperine",
+    "peako2-mushroom-blend",
+    "alpha-gpc-50",
+    "theobromine",
+    "vitamin-b12",
+    "sodium-chloride",
+    "potassium-chloride",
+    "trisodium-citrate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "bulk-testosterone-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "bulk-apex-strength-pre-workout",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    },
+    {
+      "productId": "creatine-monohydrate-raw",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    },
+    {
+      "productId": "fit-performance-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "bulk-testosterone-pre-workout:official",
+    "bulk-apex-strength-pre-workout:label",
+    "creatine-monohydrate-raw:label",
+    "fit-performance-pre-workout:guide"
+  ]
+}

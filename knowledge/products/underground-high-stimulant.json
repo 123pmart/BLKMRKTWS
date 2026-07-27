@@ -1,0 +1,534 @@
+{
+  "id": "underground-high-stimulant",
+  "brandId": "blackmarketlabs",
+  "officialName": "UNDERGROUND High Stimulant",
+  "shortName": "UNDERGROUND",
+  "slug": "underground-high-stimulant-pre-workout",
+  "aliases": [
+    "underground",
+    "underground high stimulant",
+    "high stim underground"
+  ],
+  "commonMisspellings": [],
+  "category": "High Stimulant & Focus Products",
+  "subcategory": "focus",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Energy",
+  "secondaryGoals": [
+    "Focus",
+    "Pump",
+    "Training performance"
+  ],
+  "shortDescription": "A high-stimulant pre-workout with a broad disclosed focus and performance formula.",
+  "wholesaleSummary": "An established high-stim choice below the $59.99 hyper-formula MAP tier.",
+  "retailerSalesPitch": "An established high-stim choice below the $59.99 hyper-formula MAP tier.",
+  "keyDifferentiators": [
+    "350 mg caffeine",
+    "7 g Citrulline Malate",
+    "3.2 g Beta-Alanine",
+    "$54.99 MAP"
+  ],
+  "bestFor": [
+    "Experienced stimulant users",
+    "Customers seeking 350 mg caffeine and a full pre-workout"
+  ],
+  "notIdealFor": [
+    "Stimulant-sensitive shoppers",
+    "A daily low-stimulant request"
+  ],
+  "targetCustomer": "Experienced stimulant users; Customers seeking 350 mg caffeine and a full pre-workout",
+  "suggestedStaffExplanation": "UNDERGROUND: A high-stimulant pre-workout with a broad disclosed focus and performance formula. The easiest concrete points are 350 mg caffeine, 7 g Citrulline Malate, 3.2 g Beta-Alanine.",
+  "suggestedRetailerTalkingPoints": [
+    "An established high-stim choice below the $59.99 hyper-formula MAP tier.",
+    "350 mg caffeine",
+    "7 g Citrulline Malate",
+    "3.2 g Beta-Alanine",
+    "$54.99 MAP"
+  ],
+  "servingSize": "1 scoop (17.04 g)",
+  "servingsPerContainer": 25,
+  "calories": 30,
+  "fullServing": [
+    {
+      "ingredientId": "citrulline-malate",
+      "name": "Citrulline Malate",
+      "normalizedName": "citrulline malate",
+      "amount": 7,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump",
+        "performance"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "taurine",
+      "name": "Taurine",
+      "normalizedName": "taurine",
+      "amount": 1000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dendrobium-extract-10-1",
+      "name": "Dendrobium Extract 10:1",
+      "normalizedName": "dendrobium extract 10 1",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "sodium-bicarbonate",
+      "name": "Sodium Bicarbonate",
+      "normalizedName": "sodium bicarbonate",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pink-himalayan-salt",
+      "name": "Pink Himalayan Salt",
+      "normalizedName": "pink himalayan salt",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-gpc",
+      "name": "Alpha GPC",
+      "normalizedName": "alpha gpc",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "n-acetyl-l-tyrosine",
+      "name": "N-Acetyl L-Tyrosine",
+      "normalizedName": "n acetyl l tyrosine",
+      "amount": 250,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "choline-bitartrate",
+      "name": "Choline Bitartrate",
+      "normalizedName": "choline bitartrate",
+      "amount": 200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "eria-jarensis",
+      "name": "Eria Jarensis",
+      "normalizedName": "eria jarensis",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "juniper-berry",
+      "name": "Juniper Berry",
+      "normalizedName": "juniper berry",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "theobromine",
+      "name": "Theobromine",
+      "normalizedName": "theobromine",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-theanine",
+      "name": "L-Theanine",
+      "normalizedName": "l theanine",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 70,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 350,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "astragin",
+      "name": "AstraGin",
+      "normalizedName": "astragin",
+      "amount": 25,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "underground-high-stimulant:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [
+    "Natural and artificial flavors",
+    "Silicon dioxide",
+    "Calcium silicate",
+    "Sucralose",
+    "Citric acid",
+    "Trisodium citrate",
+    "Acesulfame potassium",
+    "Turmeric (color)",
+    "Vegetable juice (color)"
+  ],
+  "totalCaffeineMg": 350,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "high",
+  "pumpProfile": "Pump profile: Citrulline Malate 7 g.",
+  "focusProfile": "Focus profile: Dendrobium Extract 10:1 600 mg, Alpha GPC 300 mg, N-Acetyl L-Tyrosine 250 mg, Choline Bitartrate 200 mg, Eria Jarensis 150 mg, L-Theanine 150 mg, Mucuna Pruriens 70 mg.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: Citrulline Malate 7 g, Beta-Alanine 3.2 g, Taurine 1000 mg, Sodium Bicarbonate 500 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 350 mg caffeine.",
+  "naturalOrArtificialFlavors": "Natural and artificial flavors",
+  "colorsAndSweeteners": "Sucralose, acesulfame potassium, turmeric color, and vegetable juice color are listed.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with nitricoxide-stim-free-pre-workout; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "citrulline malate",
+    "beta alanine",
+    "taurine",
+    "dendrobium extract 10 1",
+    "sodium bicarbonate",
+    "pink himalayan salt",
+    "alpha gpc",
+    "n acetyl l tyrosine",
+    "choline bitartrate",
+    "eria jarensis",
+    "juniper berry",
+    "theobromine",
+    "l theanine",
+    "mucuna pruriens",
+    "caffeine anhydrous",
+    "astragin"
+  ],
+  "relatedProducts": [
+    "defy-hyper-stimulant",
+    "nootropic-high-focus-pre-workout"
+  ],
+  "alternatives": [
+    "defy-hyper-stimulant",
+    "nootropic-high-focus-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "underground",
+    "underground high stimulant",
+    "high stim underground",
+    "energy",
+    "focus",
+    "pump",
+    "performance",
+    "citrulline malate",
+    "beta alanine",
+    "taurine",
+    "hydration",
+    "dendrobium extract 10 1",
+    "stimulant",
+    "sodium bicarbonate",
+    "pink himalayan salt",
+    "mineral",
+    "alpha gpc",
+    "n acetyl l tyrosine",
+    "choline bitartrate",
+    "eria jarensis",
+    "juniper berry",
+    "theobromine",
+    "l theanine",
+    "mucuna pruriens",
+    "caffeine anhydrous",
+    "astragin",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "underground-high-stimulant-strawberry-lemonade-56063",
+      "flavor": "Strawberry Lemonade",
+      "sku": "56063",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    },
+    {
+      "variantId": "underground-high-stimulant-candy-dust-56126",
+      "flavor": "Candy Dust",
+      "sku": "56126",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    },
+    {
+      "variantId": "underground-high-stimulant-peach-ring-56263",
+      "flavor": "Peach Ring",
+      "sku": "56263",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 26,
+      "mapPrice": 54.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "underground-high-stimulant:catalog",
+    "underground-high-stimulant:official",
+    "underground-high-stimulant:label",
+    "underground-high-stimulant:guide",
+    "underground-high-stimulant:portal-catalog",
+    "underground-high-stimulant:official-page",
+    "underground-high-stimulant:current-label"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

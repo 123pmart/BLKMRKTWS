@@ -1,0 +1,158 @@
+{
+  "id": "l-citrulline",
+  "name": "L-Citrulline",
+  "normalizedName": "l citrulline",
+  "aliases": [
+    "l citrulline",
+    "L-Citrulline"
+  ],
+  "roles": [
+    "pump",
+    "performance"
+  ],
+  "whatItIs": "An amino acid used in pump and nitric-oxide-oriented formulas.",
+  "howItWorks": "It can increase circulating arginine availability, which supports nitric oxide production.",
+  "whyIncluded": "Pump, blood-flow, and training-performance positioning.",
+  "evidenceSupportedRanges": [
+    {
+      "minimum": 6,
+      "maximum": 8,
+      "unit": "g",
+      "context": "Common range used in sports-nutrition studies for pure L-citrulline; study protocols vary.",
+      "sourceIds": [
+        "official-2026-catalog"
+      ]
+    }
+  ],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation.",
+    "Pure L-citrulline cannot be compared one-for-one with citrulline malate without knowing the malate ratio."
+  ],
+  "possibleSideEffects": [
+    "Gastrointestinal discomfort is possible at larger amounts."
+  ],
+  "relatedIngredients": [
+    "citrulline malate",
+    "arginine nitrate"
+  ],
+  "synergisticIngredients": [
+    "nitrates",
+    "pink himalayan salt"
+  ],
+  "overlappingIngredients": [
+    "beta-alanine",
+    "l-carnitine-tartrate",
+    "acetyl-l-carnitine-hcl",
+    "l-carnitine-fumarate",
+    "choline-bitartrate",
+    "caffeine-anhydrous",
+    "bitter-orange-extract",
+    "mucuna-pruriens",
+    "evodiamine",
+    "caloriburn-gp",
+    "progbb",
+    "chromium-picolinate",
+    "bioperine",
+    "potassium-dodecanedioic-acid",
+    "dandelion-extract",
+    "sodium-dodecanedioic-acid",
+    "natural-caffeine",
+    "raspberry-ketone",
+    "grapefruit-extract",
+    "l-tyrosine",
+    "lion-s-mane",
+    "sodium-bicarbonate",
+    "pink-himalayan-salt",
+    "alpha-gpc-50",
+    "dendrobium-extract-10-1",
+    "eria-jarensis",
+    "gaba",
+    "dextrose",
+    "astragin",
+    "betaine-anhydrous",
+    "alpha-gpc",
+    "dendrobium-extract",
+    "n-acetyl-l-tyrosine",
+    "cafe-alatus",
+    "l-theanine",
+    "dicaffeine-malate",
+    "uridine-monophosphate",
+    "theobromine",
+    "watermelon-juice-powder",
+    "peako2-mushroom-blend",
+    "citrapeak",
+    "pine-bark-extract",
+    "ginkgo-biloba",
+    "taurine",
+    "betaine-nitrate",
+    "arginine-nitrate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "cuts-diamond-ultra-thermogenic",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "scorch-ultra-thermogenic",
+      "amount": 8,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    },
+    {
+      "productId": "nootropic-high-focus-pre-workout",
+      "amount": 3000,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "defy-hyper-stimulant",
+      "amount": 10,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "rule-hyper-focus",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "nitricoxide-stim-free-pre-workout",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    },
+    {
+      "productId": "pump-hyper-pump-pre-workout",
+      "amount": 8,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": true
+    },
+    {
+      "productId": "l-citrulline-raw",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "reachesReferencedRange": false
+    }
+  ],
+  "sourceReferences": [
+    "cuts-diamond-ultra-thermogenic:label",
+    "scorch-ultra-thermogenic:label",
+    "nootropic-high-focus-pre-workout:guide",
+    "defy-hyper-stimulant:label",
+    "rule-hyper-focus:label",
+    "nitricoxide-stim-free-pre-workout:label",
+    "pump-hyper-pump-pre-workout:label",
+    "l-citrulline-raw:label"
+  ]
+}

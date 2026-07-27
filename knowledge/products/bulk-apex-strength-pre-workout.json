@@ -1,0 +1,528 @@
+{
+  "id": "bulk-apex-strength-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "BULK APEX Strength Pre-workout",
+  "shortName": "BULK APEX",
+  "slug": "bulk-apex-strength-pre-workout",
+  "aliases": [
+    "bulk apex",
+    "apex",
+    "bulk apex strength"
+  ],
+  "commonMisspellings": [],
+  "category": "Strength Products",
+  "subcategory": "strength",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Strength and power",
+  "secondaryGoals": [
+    "Energy",
+    "Recovery",
+    "Focus"
+  ],
+  "shortDescription": "The premium BULK strength formula with disclosed creatine, HMB, betaine, and elevATP.",
+  "wholesaleSummary": "The stronger, premium BULK step-up for experienced strength-focused customers.",
+  "retailerSalesPitch": "The stronger, premium BULK step-up for experienced strength-focused customers.",
+  "keyDifferentiators": [
+    "5 g Creatine Monohydrate",
+    "3 g Calcium HMB",
+    "400 mg official total caffeine",
+    "elevATP"
+  ],
+  "bestFor": [
+    "A premium strength pre-workout",
+    "Customers seeking 5 g creatine and 3 g HMB",
+    "Experienced stimulant users"
+  ],
+  "notIdealFor": [
+    "Stimulant-sensitive shoppers",
+    "A lower-MAP strength SKU"
+  ],
+  "targetCustomer": "A premium strength pre-workout; Customers seeking 5 g creatine and 3 g HMB; Experienced stimulant users",
+  "suggestedStaffExplanation": "BULK APEX: The premium BULK strength formula with disclosed creatine, HMB, betaine, and elevATP. The easiest concrete points are 5 g Creatine Monohydrate, 3 g Calcium HMB, 400 mg official total caffeine.",
+  "suggestedRetailerTalkingPoints": [
+    "The stronger, premium BULK step-up for experienced strength-focused customers.",
+    "5 g Creatine Monohydrate",
+    "3 g Calcium HMB",
+    "400 mg official total caffeine",
+    "elevATP"
+  ],
+  "servingSize": "1 scoop (25.5 g)",
+  "servingsPerContainer": 20,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "creatine-monohydrate",
+      "name": "Creatine Monohydrate",
+      "normalizedName": "creatine monohydrate",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "calcium-hmb",
+      "name": "Calcium HMB",
+      "normalizedName": "calcium hmb",
+      "amount": 3,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "recovery"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-anhydrous",
+      "name": "Betaine Anhydrous",
+      "normalizedName": "betaine anhydrous",
+      "amount": 2.5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "taurine",
+      "name": "Taurine",
+      "normalizedName": "taurine",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "normalizedName": "l tyrosine",
+      "amount": 1,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pink-himalayan-salt",
+      "name": "Pink Himalayan Salt",
+      "normalizedName": "pink himalayan salt",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 160,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "elevatp",
+      "name": "elevATP",
+      "normalizedName": "elevatp",
+      "amount": 150,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-theanine",
+      "name": "L-Theanine",
+      "normalizedName": "l theanine",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dicaffeine-malate",
+      "name": "Dicaffeine Malate",
+      "normalizedName": "dicaffeine malate",
+      "amount": 75,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "cafe-alatus",
+      "name": "Cafe Alatus",
+      "normalizedName": "cafe alatus",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "cyanotis-arachnoidea-extract",
+      "name": "Cyanotis Arachnoidea Extract",
+      "normalizedName": "cyanotis arachnoidea extract",
+      "amount": 25,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bulk-apex-strength-pre-workout:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 400,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous",
+    "Dicaffeine Malate",
+    "Cafe Alatus"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "very-high",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "Focus profile: L-Tyrosine 1 g, L-Theanine 100 mg, Mucuna Pruriens 100 mg.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Creatine Monohydrate 5 g, Calcium HMB 3 g, Betaine Anhydrous 2.5 g, elevATP 150 mg, Cyanotis Arachnoidea Extract 25 mg.",
+  "enduranceProfile": "Performance profile: Creatine Monohydrate 5 g, Beta-Alanine 5 g, Betaine Anhydrous 2.5 g, Taurine 2 g, elevATP 150 mg, Cyanotis Arachnoidea Extract 25 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 400 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with pump-hyper-pump-pre-workout; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "creatine monohydrate",
+    "beta alanine",
+    "calcium hmb",
+    "betaine anhydrous",
+    "taurine",
+    "l tyrosine",
+    "caffeine anhydrous",
+    "pink himalayan salt",
+    "bitter orange extract",
+    "elevatp",
+    "l theanine",
+    "mucuna pruriens",
+    "dicaffeine malate",
+    "cafe alatus",
+    "cyanotis arachnoidea extract",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "bulk-testosterone-pre-workout"
+  ],
+  "alternatives": [
+    "bulk-testosterone-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [
+    "bulk-testosterone-pre-workout"
+  ],
+  "searchTags": [
+    "bulk apex",
+    "apex",
+    "bulk apex strength",
+    "strength",
+    "energy",
+    "recovery",
+    "focus",
+    "creatine monohydrate",
+    "performance",
+    "beta alanine",
+    "calcium hmb",
+    "betaine anhydrous",
+    "taurine",
+    "hydration",
+    "l tyrosine",
+    "caffeine anhydrous",
+    "stimulant",
+    "pink himalayan salt",
+    "mineral",
+    "bitter orange extract",
+    "elevatp",
+    "l theanine",
+    "mucuna pruriens",
+    "dicaffeine malate",
+    "cafe alatus",
+    "cyanotis arachnoidea extract",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "bulk-apex-strength-pre-workout-sour-gummy-56317",
+      "flavor": "Sour Gummy",
+      "sku": "56317",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "bulk-apex-strength-pre-workout-strawberry-lemonade-56318",
+      "flavor": "Strawberry Lemonade",
+      "sku": "56318",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "bulk-apex-strength-pre-workout-grape-limeade-56319",
+      "flavor": "Grape Limeade",
+      "sku": "56319",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "bulk-apex-strength-pre-workout:catalog",
+    "bulk-apex-strength-pre-workout:official",
+    "bulk-apex-strength-pre-workout:label",
+    "bulk-apex-strength-pre-workout:portal-catalog",
+    "bulk-apex-strength-pre-workout:official-page",
+    "bulk-apex-strength-pre-workout:current-label"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

@@ -14,11 +14,26 @@ const adminPage = await readFile(new URL("../app/admin/assistant/page.tsx", impo
 const adminEditor = await readFile(new URL("../app/components/assistant/assistant-knowledge-editor.tsx", import.meta.url), "utf8");
 const layout = await readFile(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+const answerApi = await readFile(new URL("../app/api/assistant/answer/route.ts", import.meta.url), "utf8");
+const retrieval = await readFile(new URL("../app/lib/assistant/retrieval.ts", import.meta.url), "utf8");
 
 test("assistant is a React-owned route that does not load the legacy application shell", () => {
   assert.match(page, /ProductAssistant/);
   assert.doesNotMatch(page, /legacy-response|public\/index\.html|app\.js/);
   assert.doesNotMatch(component, /public\/app\.js|legacy-response/);
+  assert.doesNotMatch(component, /answerAssistantQuestion|knowledge\.generated/);
+  assert.match(component, /\/api\/assistant\/answer/);
+});
+
+test("assistant knowledge is server-retrieved with exact-pair and source-confidence reranking", () => {
+  assert.match(answerApi, /loadAssistantProducts/);
+  assert.match(answerApi, /answerAssistantQuestion/);
+  assert.match(answerApi, /Cache-Control": "private, no-store/);
+  assert.match(answerApi, /isSameOrigin/);
+  assert.match(retrieval, /dedicated comparison pair/);
+  assert.match(retrieval, /exact product match/);
+  assert.match(retrieval, /current label source/);
+  assert.match(retrieval, /sparseCosine/);
 });
 
 test("BLACKMARKET AI stays hidden from customers until the persisted release switch is enabled", () => {

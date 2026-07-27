@@ -6,6 +6,17 @@ import type {
   AssistantResponse,
   AssistantVariant,
 } from "@/lib/assistant/types";
+import {
+  detectCanonicalIngredientIds,
+  detectCanonicalProductIds,
+  getCanonicalComparison,
+  getCanonicalIngredient,
+  getCanonicalKnowledge,
+  getCanonicalProduct,
+  getSalesRecommendation,
+  retrieveKnowledge,
+} from "./retrieval.ts";
+import type { CanonicalIngredientAmount, CanonicalProduct } from "./canonical-types.ts";
 
 export interface AnswerOptions {
   context?: AssistantContext;
@@ -66,6 +77,7 @@ const INGREDIENT_ALIASES: Record<string, string[]> = {
   "citra peak": ["citrapeak", "citra peak"],
   "betaine nitrate": ["betaine nitrate", "n03 t"],
   "arginine nitrate": ["arginine nitrate"],
+  "nitrates": ["nitrate", "nitrates", "nitrate ingredients"],
   "uridine": ["uridine", "uridine monophosphate"],
   "cla": ["cla", "conjugated linoleic acid"],
   "biotin": ["biotin", "vitamin b7"],
@@ -166,7 +178,7 @@ export function resolveAssistantEntities(
     }
   }
 
-  const variantMatches = products.flatMap((product) => product.variants.flatMap((variant) => {
+  const variantMatches = ingredientQuestion ? [] : products.flatMap((product) => product.variants.flatMap((variant) => {
     const flavor = normalizeAssistantText(variant.flavor);
     return flavor && containsPhrase(query, flavor) ? [{ product, variant }] : [];
   }));
@@ -174,7 +186,14 @@ export function resolveAssistantEntities(
   let matchedProducts = uniqueBy([
     ...filteredProductMatches.map((match) => match.product),
     ...variantMatches.map((match) => match.product),
+    ...detectCanonicalProductIds(question, context)
+      .map((id) => products.find((product) => product.id === id))
+      .filter((product): product is AssistantProduct => Boolean(product)),
   ], (product) => product.id);
+  if (ingredientQuestion && !/\b(raw|monohydrate)\b/.test(query)) {
+    const rawIngredientProducts = new Set(["creatine-monohydrate-raw", "beta-alanine-raw", "l-citrulline-raw"]);
+    matchedProducts = matchedProducts.filter((product) => !rawIngredientProducts.has(product.id));
+  }
   if (!matchedProducts.length && /\b(it|that|those|them|which one|the two|both)\b/.test(query)) {
     matchedProducts = context.productIds
       .map((id) => products.find((product) => product.id === id))
@@ -196,6 +215,7 @@ export function answerAssistantQuestion(
   const context = options.context ?? { productIds: [], variantIds: [] };
   const entities = resolveAssistantEntities(question, products, context);
   const intent = detectAssistantIntent(question, entities.products.length);
+  const retrieval = retrieveKnowledge(question, intent, context, entities.products.map((product) => product.id));
   const base = {
     id: responseId(question),
     intent,
@@ -216,13 +236,13 @@ export function answerAssistantQuestion(
     case "general_product_education":
       return generalEducationResponse(base, question);
     case "compare_products":
-      return comparisonResponse(base, entities.products, question);
+      return comparisonResponse(base, entities.products, question, retrieval.detectedProductIds);
     case "explain_product":
-      return explanationResponse(base, entities.products[0]);
+      return explanationResponse(base, entities.products[0], question);
     case "find_by_ingredient":
-      return ingredientResponse(base, products, broadIngredientEntities(question, entities), false);
+      return ingredientResponse(base, products, broadIngredientEntities(question, entities), false, question);
     case "exclude_ingredient":
-      return ingredientResponse(base, products, broadIngredientEntities(question, entities), true);
+      return ingredientResponse(base, products, broadIngredientEntities(question, entities), true, question);
     case "rank_by_caffeine":
       return caffeineResponse(base, products, entities.products);
     case "find_stimulant_free":
@@ -309,77 +329,122 @@ function comparisonResponse(
   base: Pick<AssistantResponse, "id" | "intent" | "nextContext">,
   products: AssistantProduct[],
   question: string,
+  detectedProductIds: string[],
 ): AssistantResponse {
-  if (products.length < 2) {
+  const selectedIds = unique([...products.map((product) => product.id), ...detectedProductIds]).slice(0, 3);
+  if (selectedIds.length < 2) {
     return clarification(base, "Which products would you like to compare?", []);
   }
-  const compared = products.slice(0, 3);
+  const compared = selectedIds
+    .map((id) => products.find((product) => product.id === id))
+    .filter((product): product is AssistantProduct => Boolean(product));
+  const canonical = selectedIds
+    .map(getCanonicalProduct)
+    .filter((product): product is CanonicalProduct => Boolean(product));
+  if (canonical.length < 2) {
+    return clarification(base, "I don’t have enough verified product information to compare those products accurately.", []);
+  }
+  const dedicated = getCanonicalComparison(selectedIds);
   const rows = [
-    { label: "Primary purpose", values: compared.map((product) => product.purpose) },
-    { label: "Caffeine", values: compared.map(caffeineLabel) },
-    { label: "Serving", values: compared.map((product) => product.formula.servingSize ?? "Not listed") },
-    { label: "Formula highlights", values: compared.map((product) => product.keyDifferentiators.slice(0, 3).join(" · ")) },
+    { label: "Primary purpose", values: canonical.map((product) => product.primaryGoal) },
+    { label: "Caffeine", values: canonical.map(canonicalCaffeineLabel) },
+    { label: "Serving", values: canonical.map((product) => product.servingSize ?? "Not confirmed") },
+    { label: "Formula transparency", values: canonical.map((product) => product.formulaTransparency.replaceAll("-", " ")) },
     { label: "Wholesale", values: compared.map(priceRange) },
     { label: "MAP", values: compared.map(mapRange) },
-    { label: "Available flavors", values: compared.map((product) => availableVariants(product).map((variant) => variant.flavor).join(", ") || "None") },
   ];
-  const detailed = /\b(formula|ingredient|ingredients|dosage|dosages|dose|doses|serving|breakdown|break down|exact|detail|details|caffeine)\b/i.test(question);
-  const lead = compared
-    .map((product) => `${product.shortName} is ${concisePositioning(product)}`)
-    .join("; ");
+  const directAnswer = dedicated?.directVerdict
+    ?? `${canonical[0].shortName} is the stronger fit for ${canonical[0].primaryGoal.toLowerCase()}, while ${canonical[1].shortName} is the stronger fit for ${canonical[1].primaryGoal.toLowerCase()}.`;
+  const formulaDifferences = dedicated?.majorFormulaDifferences ?? compareCanonicalFormulas(canonical[0], canonical[1]);
+  const experience = dedicated?.experience
+    ?? `${canonical[0].shortName}: ${canonical[0].suggestedStaffExplanation} ${canonical[1].shortName}: ${canonical[1].suggestedStaffExplanation}`;
+  const choose = dedicated
+    ? [
+        `Choose ${canonical[0].shortName} when: ${dedicated.chooseFirstWhen.join("; ")}.`,
+        `Choose ${canonical[1].shortName} when: ${dedicated.chooseSecondWhen.join("; ")}.`,
+      ]
+    : canonical.map((product) => `Choose ${product.shortName} when: ${product.bestFor.join("; ")}.`);
+  const tradeoffs = dedicated?.tradeoffs ?? canonical.map((product) => `${product.shortName} is not the best fit for: ${product.notIdealFor.join("; ")}.`);
+  const bottomLine = dedicated?.bottomLine ?? `Match the recommendation to the buyer’s primary goal and stimulant preference; do not treat either formula as universally better.`;
+  const details = [
+    `Major formula differences — ${formulaDifferences.join(" ")}`,
+    `Experience and positioning — ${experience}`,
+    `Who should choose each — ${choose.join(" ")}`,
+    `Tradeoffs — ${tradeoffs.join(" ")}`,
+    `Bottom line — ${bottomLine}`,
+  ];
   return {
     ...base,
-    directAnswer: `${lead}.`,
-    details: detailed
-      ? compared.map((product) => `${product.shortName}: ${conciseFormula(product)}`)
-      : compared.map((product) => `${product.shortName}: ${conciseDifference(product)}`),
-    productIds: compared.map((product) => product.id),
-    comparison: { productIds: compared.map((product) => product.id), rows },
-    nextContext: { productIds: compared.map((product) => product.id), variantIds: [], lastIntent: "compare_products" },
+    directAnswer,
+    details,
+    sections: [
+      { heading: "Major formula differences", paragraphs: formulaDifferences },
+      { heading: "Experience", paragraphs: [experience] },
+      { heading: "Who should choose each", paragraphs: choose },
+      { heading: "Tradeoffs", paragraphs: tradeoffs },
+      { heading: "Bottom line", paragraphs: [bottomLine] },
+      {
+        heading: "Formula details",
+        paragraphs: canonical.map((product) => `${product.shortName}: ${fullFormulaSummary(product)}`),
+        expandable: !/\b(formula|ingredient|ingredients|dosage|dosages|dose|doses|serving|breakdown|exact|detail)\b/i.test(question),
+      },
+    ],
+    productIds: selectedIds,
+    comparison: { productIds: selectedIds, rows },
+    nextContext: { productIds: selectedIds, variantIds: [], lastIntent: "compare_products" },
     responseType: "comparison",
   };
-}
-
-function concisePositioning(product: AssistantProduct): string {
-  if (product.goals.includes("cutting")) return "a thermogenic-focused product";
-  if (product.goals.includes("strength")) return "a strength-focused product";
-  if (product.goals.includes("pump") && product.formula.stimulantFree) return "a stimulant-free pump product";
-  if (product.goals.includes("focus")) return "a focus-oriented product";
-  if (product.goals.includes("recovery")) return "a recovery-focused product";
-  return product.purpose.replace(/^The\s+/i, "").replace(/\.$/, "");
-}
-
-function conciseDifference(product: AssistantProduct): string {
-  const highlights = product.keyDifferentiators.slice(0, 2);
-  return highlights.length ? highlights.join(" · ") : product.purpose;
-}
-
-function conciseFormula(product: AssistantProduct): string {
-  const ingredients = product.formula.ingredients.slice(0, 6).map((ingredient) => (
-    ingredient.amount === undefined
-      ? ingredient.name
-      : `${ingredient.name} ${ingredient.amount} ${ingredient.unit}`
-  ));
-  const caffeine = product.formula.totalCaffeineMg === undefined
-    ? []
-    : [`${product.formula.totalCaffeineMg} mg total caffeine`];
-  return unique([...caffeine, ...ingredients]).join(", ");
 }
 
 function explanationResponse(
   base: Pick<AssistantResponse, "id" | "intent" | "nextContext">,
   product?: AssistantProduct,
+  question = "",
 ): AssistantResponse {
   if (!product) return clarification(base, "Which product would you like to know about?", []);
+  const canonical = getCanonicalProduct(product.id);
+  if (!canonical) {
+    return {
+      ...base,
+      directAnswer: "I don’t have enough verified product information to answer that accurately.",
+      details: [],
+      productIds: [product.id],
+      responseType: "unsupported",
+    };
+  }
+  if (/\b(sweetener|sweeteners|artificial sweetener|natural sweetener|colors?|dyes?)\b/i.test(question)) {
+    return {
+      ...base,
+      directAnswer: `${canonical.shortName}: ${canonical.colorsAndSweeteners}`,
+      details: [`Flavor disclosure: ${canonical.naturalOrArtificialFlavors}`, ...canonical.otherIngredients.map((ingredient) => `Other ingredient: ${ingredient}.`)],
+      productIds: [product.id],
+      responseType: "answer",
+    };
+  }
+  const formulaAsked = /\b(formula|ingredient|ingredients|dosage|dose|serving|exact|label|caffeine|contain)\b/i.test(question);
+  const transparency = canonical.formulaTransparency === "fully-transparent"
+    ? "The active formula is fully disclosed in the current canonical record."
+    : `${canonical.shortName} contains ${canonical.proprietaryBlends.map((blend) => `${blend.name} (${formatAmount(blend.totalAmount)} ${blend.unit})`).join(" and ") || "one or more undisclosed amounts"}; individual proprietary amounts are not estimated.`;
+  const details = [
+    canonical.retailerSalesPitch,
+    `Best fit — ${canonical.bestFor.join("; ")}.`,
+    `Main differentiators — ${canonical.keyDifferentiators.join("; ")}.`,
+    `Stimulant and serving — ${canonicalCaffeineLabel(canonical)}; ${canonical.servingSize ?? "serving size not confirmed"}.`,
+    transparency,
+    ...(formulaAsked ? canonical.fullServing.map(formatCanonicalIngredient) : []),
+  ];
   return {
     ...base,
-    directAnswer: product.purpose,
-    details: [
-      product.retailerPitch,
-      ...product.keyDifferentiators,
-      ...(product.formula.ingredients.some((ingredient) => ingredient.amount === undefined)
-        ? ["Some ingredients are listed inside a proprietary blend, so their individual amounts are not disclosed."]
-        : []),
+    directAnswer: canonical.shortDescription,
+    details,
+    sections: [
+      { heading: "Retail position", paragraphs: [canonical.retailerSalesPitch, `Best for: ${canonical.bestFor.join("; ")}.`] },
+      { heading: "Formula highlights", paragraphs: [canonical.keyDifferentiators.join("; "), canonicalCaffeineLabel(canonical), transparency] },
+      {
+        heading: "Full formula",
+        paragraphs: canonical.fullServing.map(formatCanonicalIngredient),
+        expandable: !formulaAsked,
+      },
     ],
     productIds: [product.id],
     responseType: "answer",
@@ -391,6 +456,7 @@ function ingredientResponse(
   allProducts: AssistantProduct[],
   entities: EntityResolution,
   exclude: boolean,
+  question: string,
 ): AssistantResponse {
   const ingredient = entities.ingredient;
   if (!ingredient) return clarification(base, "Which ingredient should I search for?", []);
@@ -408,12 +474,17 @@ function ingredientResponse(
         responseType: "answer",
       };
     }
+    const asksForDisclosedAmount = /\b(how much|dosage|dose|amount|disclose|disclosed)\b/i.test(question);
+    const matchingDetails = matching.flatMap((product) => ingredientDetails(product, ingredient));
+    const onlyUnknownAmounts = matchingDetails.length > 0
+      && matchingDetails.every((detail) => /not (?:individually )?disclosed|proprietary/i.test(detail));
     return {
       ...base,
       directAnswer: matching.length
         ? `${matching.map((product) => product.shortName).join(", ")} contains ${displayIngredient(ingredient)}.`
         : `${entities.products.map((product) => product.shortName).join(", ")} does not list ${displayIngredient(ingredient)} in its formula.`,
-      details: matching.flatMap((product) => ingredientDetails(product, ingredient)),
+      details: matchingDetails,
+      sections: asksForDisclosedAmount && onlyUnknownAmounts ? undefined : ingredientKnowledgeSections(ingredient),
       productIds: matching.map((product) => product.id),
       responseType: "answer",
     };
@@ -432,6 +503,7 @@ function ingredientResponse(
     details: exclude
       ? ["Products with proprietary or incomplete ingredient lists are omitted from exclusion results."]
       : result.flatMap((product) => ingredientDetails(product, ingredient)),
+    sections: exclude ? undefined : ingredientKnowledgeSections(ingredient),
     productIds: result.map((product) => product.id),
     nextContext: { productIds: result.map((product) => product.id), variantIds: [], lastIntent: base.intent },
     responseType: "answer",
@@ -443,6 +515,27 @@ function caffeineResponse(
   allProducts: AssistantProduct[],
   selected: AssistantProduct[],
 ): AssistantResponse {
+  if (selected.length && selected.every((product) => product.formula.stimulantFree)) {
+    return {
+      ...base,
+      directAnswer: `${selected.map((product) => product.shortName).join(", ")} ${selected.length === 1 ? "is" : "are"} stimulant-free and ${selected.length === 1 ? "lists" : "list"} 0 mg caffeine.`,
+      details: selected.map((product) => `${product.shortName}: no caffeine is listed in the verified formula.`),
+      productIds: selected.map((product) => product.id),
+      responseType: "answer",
+    };
+  }
+  if (selected.length && selected.every((product) => product.formula.totalCaffeineMg === undefined)) {
+    return {
+      ...base,
+      directAnswer: `The verified source set does not confirm a total caffeine amount for ${selected.map((product) => product.shortName).join(", ")}.`,
+      details: selected.map((product) => {
+        const disclosed = product.formula.ingredients.filter((ingredient) => ingredient.roles.includes("stimulant") && /caffeine|guarana/i.test(ingredient.name));
+        return `${product.shortName}: ${disclosed.map((ingredient) => ingredient.amount === undefined ? ingredient.name : `${ingredient.name} ${formatAmount(ingredient.amount)} ${ingredient.unit}`).join(", ") || "no confirmed caffeine-source detail"}.`;
+      }),
+      productIds: selected.map((product) => product.id),
+      responseType: "answer",
+    };
+  }
   const pool = (selected.length ? selected : availableProducts(allProducts))
     .filter((product) => product.formula.totalCaffeineMg !== undefined)
     .sort((a, b) => (b.formula.totalCaffeineMg ?? 0) - (a.formula.totalCaffeineMg ?? 0));
@@ -575,6 +668,37 @@ function recommendationResponse(
   question: string,
   products: AssistantProduct[],
 ): AssistantResponse {
+  const canonicalRule = getSalesRecommendation(question);
+  if (canonicalRule) {
+    const ranked = canonicalRule.rankedProductIds
+      .map((id) => products.find((product) => product.id === id))
+      .filter((product): product is AssistantProduct => Boolean(product))
+      .filter(isAvailable);
+    if (ranked.length) {
+      return {
+        ...base,
+        directAnswer: canonicalRule.verdict,
+        details: ranked.map((product, index) => {
+          const canonical = getCanonicalProduct(product.id);
+          const reasons = canonicalRule.reasons[product.id] ?? canonical?.keyDifferentiators ?? [];
+          return `${index + 1}. ${product.shortName} — ${reasons.join("; ")}. ${canonical ? canonicalCaffeineLabel(canonical) : caffeineLabel(product)}.`;
+        }),
+        sections: [
+          {
+            heading: "Why these match",
+            paragraphs: ranked.map((product) => `${product.shortName}: ${(canonicalRule.reasons[product.id] ?? []).join("; ")}.`),
+          },
+          {
+            heading: "Important limits",
+            paragraphs: canonicalRule.exclusions,
+          },
+        ],
+        productIds: ranked.map((product) => product.id),
+        nextContext: { productIds: ranked.map((product) => product.id), variantIds: [], lastIntent: "find_by_goal" },
+        responseType: "recommendation",
+      };
+    }
+  }
   const query = normalizeAssistantText(question);
   const goals = Object.entries(GOAL_ALIASES)
     .filter(([, aliases]) => aliases.some((alias) => containsPhrase(query, normalizeAssistantText(alias))))
@@ -882,16 +1006,27 @@ function resolveActionVariant(
 
 function ingredientFromQuery(query: string): string | undefined {
   const normalized = normalizeAssistantText(query);
-  return Object.entries(INGREDIENT_ALIASES)
+  const known = Object.entries(INGREDIENT_ALIASES)
     .sort((a, b) => Math.max(...b[1].map((item) => item.length)) - Math.max(...a[1].map((item) => item.length)))
     .find(([, aliases]) => aliases.some((alias) => containsPhrase(normalized, normalizeAssistantText(alias))))?.[0];
+  if (known) return known;
+  const canonicalId = detectCanonicalIngredientIds(query)[0];
+  return canonicalId ? getCanonicalIngredient(canonicalId)?.normalizedName : undefined;
 }
 
 function productHasIngredient(product: AssistantProduct, requested: string): boolean {
+  const canonical = getCanonicalProduct(product.id);
+  if (canonical) return canonical.fullServing.some((ingredient) => ingredientMatches(ingredient.normalizedName, ingredient.roles, requested));
   return product.formula.ingredients.some((ingredient) => ingredientMatches(ingredient.normalizedName, ingredient.roles, requested));
 }
 
 function ingredientDetails(product: AssistantProduct, requested: string): string[] {
+  const canonical = getCanonicalProduct(product.id);
+  if (canonical) {
+    return canonical.fullServing
+      .filter((ingredient) => ingredientMatches(ingredient.normalizedName, ingredient.roles, requested))
+      .map((ingredient) => `${product.shortName}: ${formatCanonicalIngredient(ingredient)}`);
+  }
   return product.formula.ingredients
     .filter((ingredient) => ingredientMatches(ingredient.normalizedName, ingredient.roles, requested))
     .map((ingredient) => {
@@ -1040,5 +1175,68 @@ function ingredientMatches(normalizedName: string, roles: string[], requested: s
   if (requested === "betaine") return normalized.includes("betaine");
   if (requested === "l tyrosine") return normalized.includes("tyrosine");
   if (requested === "theanine") return normalized.includes("theanine");
+  if (requested === "nitrates") return normalized.includes("nitrate");
+  if (requested === "bio perine") return normalized.includes("bioperine") || normalized.includes("bio perine") || normalized.includes("black pepper");
+  if (requested === "grains of paradise") return normalized.includes("grains of paradise") || normalized.includes("caloriburn");
   return normalized.includes(normalizeAssistantText(requested));
+}
+
+function canonicalCaffeineLabel(product: CanonicalProduct): string {
+  if (product.stimulantFree) return "Stimulant-free; no caffeine listed";
+  if (product.totalCaffeineMg === null) return "Total caffeine not confirmed";
+  return `${product.totalCaffeineMg} mg official total caffeine per ${product.servingSize ?? "full serving"}`;
+}
+
+function formatCanonicalIngredient(ingredient: CanonicalIngredientAmount): string {
+  if (ingredient.amountStatus === "proprietary_unknown") {
+    return `${ingredient.name}: listed in the proprietary ${ingredient.blendName ?? "blend"} (${ingredient.blendTotal ?? "total not confirmed"} ${ingredient.blendTotalUnit ?? ""}); individual amount not disclosed.`;
+  }
+  if (ingredient.amount === null) return `${ingredient.name}: amount not disclosed.`;
+  return `${ingredient.name}: ${formatAmount(ingredient.amount)} ${ingredient.unit} per ${ingredient.servingBasis}.`;
+}
+
+function ingredientKnowledgeSections(requested: string): AssistantResponse["sections"] {
+  const normalized = normalizeAssistantText(requested);
+  const ingredient = getCanonicalIngredient(normalized.replaceAll(" ", "-"))
+    ?? getCanonicalKnowledge().ingredients.find((candidate) => (
+      ingredientMatches(candidate.normalizedName, candidate.roles, requested)
+      || candidate.aliases.some((alias) => normalizeAssistantText(alias) === normalized)
+    ));
+  if (!ingredient) return undefined;
+  return [
+    {
+      heading: "What it is",
+      paragraphs: [ingredient.whatItIs, ingredient.howItWorks, ingredient.whyIncluded],
+    },
+    {
+      heading: "Evidence context",
+      paragraphs: ingredient.evidenceSupportedRanges.length
+        ? [
+            ...ingredient.evidenceSupportedRanges.map((range) => `${formatAmount(range.minimum)}–${formatAmount(range.maximum)} ${range.unit}: ${range.context}`),
+            ...ingredient.evidenceLimitations,
+          ]
+        : ["No high-confidence evidence dosage range is stored for this ingredient.", ...ingredient.evidenceLimitations],
+      expandable: true,
+    },
+  ];
+}
+
+function fullFormulaSummary(product: CanonicalProduct): string {
+  return product.fullServing.map((ingredient) => formatCanonicalIngredient(ingredient).replace(/\.$/, "")).join("; ");
+}
+
+function compareCanonicalFormulas(first: CanonicalProduct, second: CanonicalProduct): string[] {
+  const differences = first.fullServing.flatMap((ingredient) => {
+    const other = second.fullServing.find((candidate) => candidate.ingredientId === ingredient.ingredientId);
+    if (!other || ingredient.amount === null || other.amount === null || ingredient.unit !== other.unit || ingredient.amount === other.amount) return [];
+    return [`${ingredient.name}: ${first.shortName} ${formatAmount(ingredient.amount)} ${ingredient.unit}; ${second.shortName} ${formatAmount(other.amount)} ${other.unit}.`];
+  });
+  const firstOnly = first.fullServing.filter((ingredient) => !second.fullServing.some((candidate) => candidate.ingredientId === ingredient.ingredientId));
+  const secondOnly = second.fullServing.filter((ingredient) => !first.fullServing.some((candidate) => candidate.ingredientId === ingredient.ingredientId));
+  return [
+    ...differences.slice(0, 8),
+    ...(firstOnly.length ? [`Only ${first.shortName} discloses: ${firstOnly.slice(0, 8).map((ingredient) => ingredient.name).join(", ")}.`] : []),
+    ...(secondOnly.length ? [`Only ${second.shortName} discloses: ${secondOnly.slice(0, 8).map((ingredient) => ingredient.name).join(", ")}.`] : []),
+    `${first.shortName}: ${canonicalCaffeineLabel(first)}. ${second.shortName}: ${canonicalCaffeineLabel(second)}.`,
+  ];
 }

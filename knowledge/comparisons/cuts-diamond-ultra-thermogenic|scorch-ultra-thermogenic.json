@@ -1,0 +1,62 @@
+{
+  "id": "cuts-diamond-ultra-thermogenic|scorch-ultra-thermogenic",
+  "productIds": [
+    "cuts-diamond-ultra-thermogenic",
+    "scorch-ultra-thermogenic"
+  ],
+  "title": "CUTS Diamond vs SCORCH",
+  "directVerdict": "CUTS Diamond is the better fit for thermogenic and cutting, while SCORCH is the better fit for thermogenic and cutting.",
+  "majorFormulaDifferences": [
+    "L-Citrulline: CUTS Diamond 5 g; SCORCH 8 g.",
+    "Choline Bitartrate: CUTS Diamond 600 mg; SCORCH 300 mg.",
+    "Caffeine Anhydrous: CUTS Diamond 300 mg; SCORCH 350 mg.",
+    "Bitter Orange Extract: CUTS Diamond 160 mg; SCORCH 130 mg.",
+    "Mucuna Pruriens: CUTS Diamond 100 mg; SCORCH 75 mg.",
+    "Evodiamine: CUTS Diamond 50 mg; SCORCH 60 mg.",
+    "ProGBB: CUTS Diamond 30 mg; SCORCH 20 mg.",
+    "Only CUTS Diamond discloses: L-Carnitine Tartrate: 1.5 g per full serving; L-Carnitine Fumarate: 500 mg per full serving; CaloriBurn GP: 40 mg per full serving; Chromium Picolinate: 3.6 mg per full serving.",
+    "Only SCORCH discloses: Potassium Dodecanedioic Acid (Metabolyte): 1100 mg per full serving; Dandelion Extract: 500 mg per full serving; Sodium Dodecanedioic Acid (Metabolyte): 400 mg per full serving; Natural Caffeine: 100 mg per full serving; Raspberry Ketone: 250 mg per full serving; Grapefruit Extract: 100 mg per full serving.",
+    "CUTS Diamond caffeine: CUTS Diamond officially lists 300 mg total caffeine per 1 scoop (13.63 g). SCORCH caffeine: SCORCH officially lists 450 mg total caffeine per 1 scoop (19.2 g)."
+  ],
+  "experience": "CUTS Diamond: CUTS Diamond: The strongest thermogenic pre-workout positioning in the CUTS family, with a transparent formula and added pump support. The easiest concrete points are 300 mg caffeine, 5 g L-Citrulline, 3.2 g Beta-Alanine. SCORCH: SCORCH: A premium, high-caffeine thermogenic pre-workout with substantial disclosed pump support. The easiest concrete points are 450 mg official total caffeine, 8 g L-Citrulline, 20 servings.",
+  "chooseFirstWhen": [
+    "Experienced thermogenic-pre-workout customers",
+    "A premium CUTS upsell",
+    "Customers who value transparent dosages"
+  ],
+  "chooseSecondWhen": [
+    "Experienced stimulant users",
+    "Customers seeking thermogenic positioning with 8 g L-Citrulline"
+  ],
+  "tradeoffs": [
+    "CUTS Diamond: A stimulant-free request; A lower-price opening SKU",
+    "SCORCH: Stimulant-sensitive shoppers; A daily low-stimulant request"
+  ],
+  "overlappingIngredients": [
+    "l citrulline",
+    "beta alanine",
+    "acetyl l carnitine hcl",
+    "choline bitartrate",
+    "caffeine anhydrous",
+    "bitter orange extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "progbb",
+    "bioperine"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: CUTS Diamond for thermogenic and cutting; SCORCH for thermogenic and cutting.",
+  "sourceReferences": [
+    "cuts-diamond-ultra-thermogenic:catalog",
+    "cuts-diamond-ultra-thermogenic:official",
+    "cuts-diamond-ultra-thermogenic:label",
+    "cuts-diamond-ultra-thermogenic:guide",
+    "cuts-diamond-ultra-thermogenic:portal-catalog",
+    "cuts-diamond-ultra-thermogenic:official-page",
+    "cuts-diamond-ultra-thermogenic:current-label",
+    "scorch-ultra-thermogenic:catalog",
+    "scorch-ultra-thermogenic:official",
+    "scorch-ultra-thermogenic:label",
+    "scorch-ultra-thermogenic:portal-catalog",
+    "scorch-ultra-thermogenic:official-page"
+  ]
+}

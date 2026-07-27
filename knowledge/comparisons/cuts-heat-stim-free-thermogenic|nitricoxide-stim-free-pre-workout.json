@@ -1,0 +1,45 @@
+{
+  "id": "cuts-heat-stim-free-thermogenic|nitricoxide-stim-free-pre-workout",
+  "productIds": [
+    "cuts-heat-stim-free-thermogenic",
+    "nitricoxide-stim-free-pre-workout"
+  ],
+  "title": "CUTS HEAT vs NITRICOXIDE",
+  "directVerdict": "CUTS HEAT is the better fit for thermogenic and cutting, while NITRICOXIDE is the better fit for pump.",
+  "majorFormulaDifferences": [
+    "Only CUTS HEAT discloses: L-Carnitine L-Tartrate: 1000 mg per full serving; Taurine: 1000 mg per full serving; Microcrystalline Cellulose: 850 mg per full serving; Potassium Dodecanedioic Acid (Metabolyte): 500 mg per full serving; Chicory Inulin: 500 mg per full serving; Sodium Dodecanedioic Acid (Metabolyte): 400 mg per full serving; Bitter Orange Extract: 160 mg per full serving; ProGBB: 30 mg per full serving.",
+    "Only NITRICOXIDE discloses: L-Citrulline: 5 g per full serving; Watermelon Juice Powder: 1 g per full serving; PeakO2 Mushroom Blend: 1 g per full serving; Dextrose: 1 g per full serving; Pink Himalayan Salt: 500 mg per full serving; CitraPeak: 200 mg per full serving; Pine Bark Extract: 180 mg per full serving; Ginkgo Biloba: 120 mg per full serving.",
+    "CUTS HEAT caffeine: CUTS HEAT is stimulant-free and lists no caffeine. NITRICOXIDE caffeine: NITRICOXIDE is stimulant-free and lists no caffeine."
+  ],
+  "experience": "CUTS HEAT: CUTS HEAT: A stimulant-free thermogenic formula positioned for daily consistency and stackability. The easiest concrete points are No disclosed caffeine, L-Carnitine and taurine, Stackable positioning. NITRICOXIDE: NITRICOXIDE: A stimulant-free pre-workout positioned around pump, endurance, and focus through citrulline and extract-based ingredients. The easiest concrete points are 5 g L-Citrulline, PeakO2 and CitraPeak positioning, No disclosed caffeine.",
+  "chooseFirstWhen": [
+    "Stimulant-free thermogenic requests",
+    "Stacking with a separate pre-workout"
+  ],
+  "chooseSecondWhen": [
+    "Stimulant-free pre-workout requests",
+    "Late-day training positioning",
+    "Stacking with a stimulant product"
+  ],
+  "tradeoffs": [
+    "CUTS HEAT: Customers who specifically want stimulant energy",
+    "NITRICOXIDE: Customers asking specifically for stimulant energy"
+  ],
+  "overlappingIngredients": [
+    "l tyrosine"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: CUTS HEAT for thermogenic and cutting; NITRICOXIDE for pump.",
+  "sourceReferences": [
+    "cuts-heat-stim-free-thermogenic:catalog",
+    "cuts-heat-stim-free-thermogenic:official",
+    "cuts-heat-stim-free-thermogenic:label",
+    "cuts-heat-stim-free-thermogenic:portal-catalog",
+    "cuts-heat-stim-free-thermogenic:official-page",
+    "nitricoxide-stim-free-pre-workout:catalog",
+    "nitricoxide-stim-free-pre-workout:official",
+    "nitricoxide-stim-free-pre-workout:label",
+    "nitricoxide-stim-free-pre-workout:guide",
+    "nitricoxide-stim-free-pre-workout:portal-catalog",
+    "nitricoxide-stim-free-pre-workout:official-page"
+  ]
+}

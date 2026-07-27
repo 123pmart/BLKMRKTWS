@@ -1,0 +1,48 @@
+{
+  "id": "cuts-pills-thermogenic-capsules|cuts-thermogenic-pre-workout",
+  "productIds": [
+    "cuts-thermogenic-pre-workout",
+    "cuts-pills-thermogenic-capsules"
+  ],
+  "title": "CUTS vs CUTS PILLS",
+  "directVerdict": "CUTS is the better fit for thermogenic and cutting, while CUTS PILLS is the better fit for thermogenic and cutting.",
+  "majorFormulaDifferences": [
+    "Caffeine Anhydrous: CUTS 300 mg; CUTS PILLS 175 mg.",
+    "Only CUTS discloses: Vitamin C: 50 mg per full serving; Chromium: 144 mcg per full serving; Sodium: 20 mg per full serving; Beta-Alanine: inside Fat Burning Matrix; individual amount not disclosed; L-Carnitine Tartrate: inside Fat Burning Matrix; individual amount not disclosed; Agmatine Sulfate: inside Fat Burning Matrix; individual amount not disclosed; Acetyl L-Carnitine HCl: inside Fat Burning Matrix; individual amount not disclosed; Choline Bitartrate: inside Fat Burning Matrix; individual amount not disclosed.",
+    "Only CUTS PILLS discloses: L-Carnitine Fumarate: 750 mg per full serving; Dandelion Extract: 500 mg per full serving; Beta Phenylethylamine HCl: 200 mg per full serving; Guarana Extract: 100 mg per full serving; L-Theanine: 100 mg per full serving; Theobromine: 100 mg per full serving; Grains of Paradise: 40 mg per full serving; ProGBB: 40 mg per full serving.",
+    "CUTS caffeine: CUTS officially lists 300 mg total caffeine per 1 scoop (8 g). CUTS PILLS caffeine: CUTS PILLS lists stimulant ingredients, but the verified source set does not confirm a total caffeine amount."
+  ],
+  "experience": "CUTS: CUTS: The core thermogenic pre-workout in the line, positioned around consistent energy, performance, and focus. The easiest concrete points are 300 mg caffeine anhydrous, Seven represented flavors, Long-running core CUTS positioning. CUTS PILLS: CUTS PILLS: A capsule-format thermogenic and energy product for customers who do not want a powdered pre-workout. The easiest concrete points are Capsule delivery, Single no-flavor SKU, Caffeine, guarana, and theobromine combination.",
+  "chooseFirstWhen": [
+    "A broad thermogenic-pre-workout shelf",
+    "Customers seeking a 300 mg caffeine pre-workout"
+  ],
+  "chooseSecondWhen": [
+    "Capsule-format shoppers",
+    "A simple single-SKU CUTS add-on"
+  ],
+  "tradeoffs": [
+    "CUTS: A stimulant-free request; Buyers who require every active ingredient to have an individually disclosed dosage",
+    "CUTS PILLS: A stimulant-free request; Customers asking for a confirmed total-caffeine number until the guarana contribution is verified",
+    "Transparency: CUTS is partially transparent; CUTS PILLS is fully transparent."
+  ],
+  "overlappingIngredients": [
+    "caffeine anhydrous",
+    "bitter orange extract"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: CUTS for thermogenic and cutting; CUTS PILLS for thermogenic and cutting.",
+  "sourceReferences": [
+    "cuts-thermogenic-pre-workout:catalog",
+    "cuts-thermogenic-pre-workout:official",
+    "cuts-thermogenic-pre-workout:label",
+    "cuts-thermogenic-pre-workout:guide",
+    "cuts-thermogenic-pre-workout:portal-catalog",
+    "cuts-thermogenic-pre-workout:official-page",
+    "cuts-thermogenic-pre-workout:current-label",
+    "cuts-pills-thermogenic-capsules:catalog",
+    "cuts-pills-thermogenic-capsules:official",
+    "cuts-pills-thermogenic-capsules:label",
+    "cuts-pills-thermogenic-capsules:portal-catalog",
+    "cuts-pills-thermogenic-capsules:official-page"
+  ]
+}

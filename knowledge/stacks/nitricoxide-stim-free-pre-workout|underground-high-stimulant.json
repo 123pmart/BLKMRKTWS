@@ -1,0 +1,33 @@
+{
+  "id": "nitricoxide-stim-free-pre-workout|underground-high-stimulant",
+  "productIds": [
+    "underground-high-stimulant",
+    "nitricoxide-stim-free-pre-workout"
+  ],
+  "name": "High stimulant plus stimulant-free pump",
+  "positioning": "UNDERGROUND supplies energy positioning while NITRICOXIDE adds pump positioning.",
+  "overlaps": [
+    "pink himalayan salt"
+  ],
+  "cautions": [
+    "The listed full servings total 350 mg official caffeine before any other dietary sources.",
+    "Overlapping disclosed ingredients: pink himalayan salt.",
+    "This is product education, not a statement that the combination is medically safe for an individual."
+  ],
+  "retailerExplanation": "Explain the roles separately, check duplicate stimulants and actives, and have the buyer follow both labels rather than treating the combination as one serving.",
+  "sourceReferences": [
+    "underground-high-stimulant:catalog",
+    "underground-high-stimulant:official",
+    "underground-high-stimulant:label",
+    "underground-high-stimulant:guide",
+    "underground-high-stimulant:portal-catalog",
+    "underground-high-stimulant:official-page",
+    "underground-high-stimulant:current-label",
+    "nitricoxide-stim-free-pre-workout:catalog",
+    "nitricoxide-stim-free-pre-workout:official",
+    "nitricoxide-stim-free-pre-workout:label",
+    "nitricoxide-stim-free-pre-workout:guide",
+    "nitricoxide-stim-free-pre-workout:portal-catalog",
+    "nitricoxide-stim-free-pre-workout:official-page"
+  ]
+}

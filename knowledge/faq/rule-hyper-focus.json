@@ -1,0 +1,751 @@
+[
+  {
+    "id": "rule-hyper-focus:faq:01",
+    "productId": "rule-hyper-focus",
+    "question": "What is RULE?",
+    "answer": "A hyper-focus pre-workout positioned around concentrated nootropic support, controlled focus, energy, and performance.",
+    "tags": [
+      "overview"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:02",
+    "productId": "rule-hyper-focus",
+    "question": "What is RULE designed for?",
+    "answer": "RULE is positioned primarily for focus. A hyper-focus pre-workout positioned around concentrated nootropic support, controlled focus, energy, and performance.",
+    "tags": [
+      "purpose"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:03",
+    "productId": "rule-hyper-focus",
+    "question": "Who is RULE best for?",
+    "answer": "Experienced stimulant users; Customers prioritizing focus and nootropic ingredients",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:04",
+    "productId": "rule-hyper-focus",
+    "question": "Who is RULE not ideal for?",
+    "answer": "Stimulant-sensitive shoppers; A daily low-stimulant request",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:05",
+    "productId": "rule-hyper-focus",
+    "question": "Is RULE stimulant-free?",
+    "answer": "No. RULE officially lists 485 mg total caffeine per 2 scoops; 1-scoop option also shown.",
+    "tags": [
+      "stimulant"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:06",
+    "productId": "rule-hyper-focus",
+    "question": "How much caffeine is in RULE?",
+    "answer": "RULE officially lists 485 mg total caffeine per 2 scoops; 1-scoop option also shown.",
+    "tags": [
+      "caffeine"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:07",
+    "productId": "rule-hyper-focus",
+    "question": "What are the main ingredients in RULE?",
+    "answer": "L-Citrulline: 5 g per 2 scoops, Beta-Alanine: 5 g per 2 scoops, L-Tyrosine: 3 g per 2 scoops, Lion's Mane: 800 mg per 2 scoops, Alpha GPC: 600 mg per 2 scoops, Caffeine Anhydrous: 350 mg per 2 scoops",
+    "tags": [
+      "formula"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:08",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE use a proprietary blend?",
+    "answer": "RULE has a fully transparent active formula in the canonical record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:09",
+    "productId": "rule-hyper-focus",
+    "question": "Is every RULE dosage disclosed?",
+    "answer": "Yes, the active formula is fully disclosed in the current canonical label record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:10",
+    "productId": "rule-hyper-focus",
+    "question": "What is the serving size for RULE?",
+    "answer": "2 scoops; 1-scoop option also shown.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:11",
+    "productId": "rule-hyper-focus",
+    "question": "How many servings are in RULE?",
+    "answer": "20 full servings per container.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:12",
+    "productId": "rule-hyper-focus",
+    "question": "Is RULE beginner-friendly?",
+    "answer": "Not positioned as a beginner stimulant product.",
+    "tags": [
+      "beginner"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:13",
+    "productId": "rule-hyper-focus",
+    "question": "Is RULE for experienced users?",
+    "answer": "Designed for experienced stimulant users who understand their tolerance.",
+    "tags": [
+      "advanced"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:14",
+    "productId": "rule-hyper-focus",
+    "question": "Can RULE be used late at night?",
+    "answer": "Not the preferred late-night option because the full serving lists 485 mg caffeine.",
+    "tags": [
+      "late-night"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:15",
+    "productId": "rule-hyper-focus",
+    "question": "Is RULE positioned for daily use?",
+    "answer": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+    "tags": [
+      "daily"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:16",
+    "productId": "rule-hyper-focus",
+    "question": "What does RULE feel like?",
+    "answer": "Focus first. Pump profile: L-Citrulline 5 g. Focus profile: L-Tyrosine 3 g, Lion's Mane 800 mg, Alpha GPC 600 mg, Dendrobium Extract 300 mg, Uridine Monophosphate 250 mg, Eria Jarensis 150 mg, Mucuna Pruriens 100 mg, L-Theanine 100 mg. The verified formula does not have a dedicated thermogenic profile. Stimulant intensity: very-high.",
+    "tags": [
+      "experience"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:17",
+    "productId": "rule-hyper-focus",
+    "question": "How should store staff explain RULE?",
+    "answer": "RULE: A hyper-focus pre-workout positioned around concentrated nootropic support, controlled focus, energy, and performance. The easiest concrete points are 485 mg official total caffeine at two scoops, 3 g L-Tyrosine, Lion's Mane and Uridine.",
+    "tags": [
+      "staff"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:18",
+    "productId": "rule-hyper-focus",
+    "question": "What is the main selling point of RULE?",
+    "answer": "485 mg official total caffeine at two scoops; 3 g L-Tyrosine; Lion's Mane and Uridine; Focus-first positioning",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:19",
+    "productId": "rule-hyper-focus",
+    "question": "What objection comes up with RULE?",
+    "answer": "Stimulant-sensitive shoppers",
+    "tags": [
+      "objection"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:20",
+    "productId": "rule-hyper-focus",
+    "question": "What products compare with RULE?",
+    "answer": "DEFY, NOOTROPIC, BUMP",
+    "tags": [
+      "comparison"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:21",
+    "productId": "rule-hyper-focus",
+    "question": "What can replace RULE?",
+    "answer": "DEFY, NOOTROPIC",
+    "tags": [
+      "substitute"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:22",
+    "productId": "rule-hyper-focus",
+    "question": "What is an upgrade from RULE?",
+    "answer": "No formula upgrade is defined; compare by the buyer’s goal.",
+    "tags": [
+      "upgrade"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:23",
+    "productId": "rule-hyper-focus",
+    "question": "What stacks with RULE?",
+    "answer": "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.; Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW.",
+    "tags": [
+      "stack"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:24",
+    "productId": "rule-hyper-focus",
+    "question": "What overlaps when stacking RULE?",
+    "answer": "l citrulline, beta alanine, l tyrosine, lion s mane, alpha gpc, dendrobium extract, pink himalayan salt, uridine monophosphate, theobromine, eria jarensis, caffeine anhydrous, cafe alatus",
+    "tags": [
+      "stack",
+      "overlap"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:25",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain creatine?",
+    "answer": "No creatine ingredient is listed in the current verified RULE formula.",
+    "tags": [
+      "ingredient",
+      "creatine"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:26",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain beta-alanine?",
+    "answer": "Beta-Alanine: 5 g per 2 scoops",
+    "tags": [
+      "ingredient",
+      "beta-alanine"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:27",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain citrulline?",
+    "answer": "L-Citrulline: 5 g per 2 scoops",
+    "tags": [
+      "ingredient",
+      "citrulline"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:28",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain HMB?",
+    "answer": "No hmb ingredient is listed in the current verified RULE formula.",
+    "tags": [
+      "ingredient",
+      "hmb"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:29",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain nootropic ingredients?",
+    "answer": "Yes: L-Tyrosine: 3 g per 2 scoops; Lion's Mane: 800 mg per 2 scoops; Alpha GPC: 600 mg per 2 scoops; Dendrobium Extract: 300 mg per 2 scoops; Uridine Monophosphate: 250 mg per 2 scoops; Eria Jarensis: 150 mg per 2 scoops; Mucuna Pruriens: 100 mg per 2 scoops; L-Theanine: 100 mg per 2 scoops.",
+    "tags": [
+      "ingredient",
+      "focus"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:30",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain nitrate ingredients?",
+    "answer": "No nitrate ingredient is listed in the current verified RULE formula.",
+    "tags": [
+      "ingredient",
+      "nitrates"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:31",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain carnitine?",
+    "answer": "No carnitine ingredient is listed in the current verified RULE formula.",
+    "tags": [
+      "ingredient",
+      "carnitine"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:32",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE contain bitter orange?",
+    "answer": "Bitter Orange Extract: 80 mg per 2 scoops",
+    "tags": [
+      "ingredient"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:33",
+    "productId": "rule-hyper-focus",
+    "question": "Does RULE use natural flavors?",
+    "answer": "Natural flavors",
+    "tags": [
+      "flavors",
+      "label"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:34",
+    "productId": "rule-hyper-focus",
+    "question": "What sweeteners or colors does RULE use?",
+    "answer": "Sucralose, acesulfame potassium, and vegetable juice color are listed on the current label.",
+    "tags": [
+      "label"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:35",
+    "productId": "rule-hyper-focus",
+    "question": "What flavors of RULE are orderable?",
+    "answer": "Peach Rings, Watermelon Lemonade, Razz Mango Sherbert",
+    "tags": [
+      "flavors",
+      "stock"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:36",
+    "productId": "rule-hyper-focus",
+    "question": "Is RULE in stock?",
+    "answer": "3 wholesale variants are currently orderable: Peach Rings, Watermelon Lemonade, Razz Mango Sherbert.",
+    "tags": [
+      "stock"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:37",
+    "productId": "rule-hyper-focus",
+    "question": "What is the MAP for RULE?",
+    "answer": "RULE MAP: $59.99. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:38",
+    "productId": "rule-hyper-focus",
+    "question": "What is the wholesale price for RULE?",
+    "answer": "RULE wholesale: $28.00. Account-specific wholesale overrides may apply after sign-in.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:39",
+    "productId": "rule-hyper-focus",
+    "question": "What is the retailer margin on RULE?",
+    "answer": "Peach Rings: $28.00 wholesale, $59.99 MAP, 53.33% estimated gross MAP margin before other costs.",
+    "tags": [
+      "pricing",
+      "margin"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:40",
+    "productId": "rule-hyper-focus",
+    "question": "What should staff avoid claiming about RULE?",
+    "answer": "Do not claim that the product diagnoses, treats, cures, or prevents a disease, and do not present a proprietary ingredient amount as known.",
+    "tags": [
+      "compliance"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  },
+  {
+    "id": "rule-hyper-focus:faq:41",
+    "productId": "rule-hyper-focus",
+    "question": "What is the bottom-line pitch for RULE?",
+    "answer": "The focus-first side of the DEFY/RULE comparison for experienced stimulant customers. The clearest differentiators are 485 mg official total caffeine at two scoops; 3 g L-Tyrosine; Lion's Mane and Uridine; Focus-first positioning.",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "rule-hyper-focus:catalog",
+      "rule-hyper-focus:official",
+      "rule-hyper-focus:label",
+      "rule-hyper-focus:guide",
+      "rule-hyper-focus:portal-catalog",
+      "rule-hyper-focus:official-page",
+      "rule-hyper-focus:current-label"
+    ]
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "id": "calcium",
+  "name": "Calcium",
+  "normalizedName": "calcium",
+  "aliases": [
+    "calcium",
+    "Calcium"
+  ],
+  "roles": [
+    "mineral"
+  ],
+  "whatItIs": "Calcium is an ingredient disclosed on one or more current BLACKMARKET product labels.",
+  "howItWorks": "The canonical source set does not contain enough high-confidence research detail to make a more specific mechanism statement.",
+  "whyIncluded": "It is used in formulas where the label assigns mineral positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation."
+  ],
+  "possibleSideEffects": [
+    "No product-specific side-effect statement is stored; consult the current label warnings."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [],
+  "overlappingIngredients": [
+    "vitamin-c",
+    "chromium",
+    "beta-alanine",
+    "l-carnitine-tartrate",
+    "agmatine-sulfate",
+    "acetyl-l-carnitine-hcl",
+    "caffeine-anhydrous",
+    "choline-bitartrate",
+    "raspberry-ketone",
+    "bitter-orange-extract",
+    "mucuna-pruriens",
+    "evodiamine",
+    "chromium-picolinate"
+  ],
+  "productsContaining": [
+    {
+      "productId": "cuts-natural-thermogenic-pre-workout",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "cuts-natural-thermogenic-pre-workout:label"
+  ]
+}

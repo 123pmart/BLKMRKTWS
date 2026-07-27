@@ -1,0 +1,46 @@
+{
+  "id": "beta-alanine-sensitive",
+  "queryTags": [
+    "no beta alanine",
+    "beta alanine sensitivity"
+  ],
+  "verdict": "CUTS PUMP is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "cuts-pump-thermogenic-liquid-glycerol",
+    "cuts-pills-thermogenic-capsules",
+    "cuts-heat-stim-free-thermogenic",
+    "bulk-pills-testosterone-capsules",
+    "creatine-monohydrate-raw"
+  ],
+  "reasons": {
+    "cuts-pump-thermogenic-liquid-glycerol": [
+      "No beta-alanine listed",
+      "Liquid format",
+      "20 g glycerol per full cap"
+    ],
+    "cuts-pills-thermogenic-capsules": [
+      "No beta-alanine listed",
+      "Capsule delivery",
+      "Single no-flavor SKU"
+    ],
+    "cuts-heat-stim-free-thermogenic": [
+      "No beta-alanine listed",
+      "No disclosed caffeine",
+      "L-Carnitine and taurine"
+    ],
+    "bulk-pills-testosterone-capsules": [
+      "No beta-alanine listed",
+      "No flavor decision",
+      "30 servings"
+    ],
+    "creatine-monohydrate-raw": [
+      "No beta-alanine listed",
+      "5 g Creatine Monohydrate",
+      "60 servings"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

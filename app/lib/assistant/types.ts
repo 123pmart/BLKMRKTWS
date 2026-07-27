@@ -173,11 +173,18 @@ export interface AssistantComparisonRow {
   values: string[];
 }
 
+export interface AssistantResponseSection {
+  heading: string;
+  paragraphs: string[];
+  expandable?: boolean;
+}
+
 export interface AssistantResponse {
   id: string;
   intent: AssistantIntent;
   directAnswer: string;
   details: string[];
+  sections?: AssistantResponseSection[];
   productIds: string[];
   comparison?: {
     productIds: string[];

@@ -1,0 +1,23 @@
+{
+  "id": "women-oriented",
+  "queryTags": [
+    "women",
+    "female",
+    "tone"
+  ],
+  "verdict": "TONE is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "tone-weight-loss-pre-workout"
+  ],
+  "reasons": {
+    "tone-weight-loss-pre-workout": [
+      "Official women-oriented product position",
+      "300 mg caffeine",
+      "CLA and antioxidant positioning"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

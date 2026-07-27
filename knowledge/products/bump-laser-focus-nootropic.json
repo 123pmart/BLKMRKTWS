@@ -1,0 +1,710 @@
+{
+  "id": "bump-laser-focus-nootropic",
+  "brandId": "blackmarketlabs",
+  "officialName": "BUMP Laser-Focus Nootropic",
+  "shortName": "BUMP",
+  "slug": "bump-laser-focus-nootropic",
+  "aliases": [
+    "bump",
+    "bump nootropic",
+    "laser focus bump"
+  ],
+  "commonMisspellings": [],
+  "category": "High Stimulant & Focus Products",
+  "subcategory": "focus",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Focus",
+  "secondaryGoals": [
+    "Daily-use positioning",
+    "Energy"
+  ],
+  "shortDescription": "A lower-stimulant nootropic drink positioned for work, gaming, and daily mental focus rather than a full high-stim pre-workout.",
+  "wholesaleSummary": "The approachable focus option for customers who do not want a 300–485 mg stimulant formula.",
+  "retailerSalesPitch": "The approachable focus option for customers who do not want a 300–485 mg stimulant formula.",
+  "keyDifferentiators": [
+    "Nootropic-first daily positioning",
+    "Lower-stimulant placement",
+    "Two represented flavors"
+  ],
+  "bestFor": [
+    "Daily focus positioning",
+    "A lower-stimulant alternative",
+    "Work and gaming merchandising"
+  ],
+  "notIdealFor": [
+    "Customers seeking a maximum-stimulant pre-workout",
+    "Questions requiring a confirmed total-caffeine value until the label conflict is resolved"
+  ],
+  "targetCustomer": "Daily focus positioning; A lower-stimulant alternative; Work and gaming merchandising",
+  "suggestedStaffExplanation": "BUMP: A lower-stimulant nootropic drink positioned for work, gaming, and daily mental focus rather than a full high-stim pre-workout. The easiest concrete points are Nootropic-first daily positioning, Lower-stimulant placement, Two represented flavors.",
+  "suggestedRetailerTalkingPoints": [
+    "The approachable focus option for customers who do not want a 300–485 mg stimulant formula.",
+    "Nootropic-first daily positioning",
+    "Lower-stimulant placement",
+    "Two represented flavors"
+  ],
+  "servingSize": "2 scoops; 1-scoop option also shown",
+  "servingsPerContainer": 20,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "normalizedName": "l tyrosine",
+      "amount": 4,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "taurine",
+      "name": "Taurine",
+      "normalizedName": "taurine",
+      "amount": 2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-gpc",
+      "name": "Alpha GPC",
+      "normalizedName": "alpha gpc",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "lion-s-mane",
+      "name": "Lion's Mane",
+      "normalizedName": "lion s mane",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "gaba",
+      "name": "GABA",
+      "normalizedName": "gaba",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "uridine-monophosphate",
+      "name": "Uridine Monophosphate",
+      "normalizedName": "uridine monophosphate",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "5-htp",
+      "name": "5-HTP",
+      "normalizedName": "5 htp",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 80,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "natural-caffeine",
+      "name": "Natural Caffeine",
+      "normalizedName": "natural caffeine",
+      "amount": 80,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-theanine",
+      "name": "L-Theanine",
+      "normalizedName": "l theanine",
+      "amount": 80,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 60,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "peako2",
+      "name": "PEAKO2",
+      "normalizedName": "peako2",
+      "amount": 20,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus",
+        "performance"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "2 scoops",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bump-laser-focus-nootropic:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [
+    {
+      "label": "1 scoop",
+      "multiplier": 0.5,
+      "ingredients": [
+        {
+          "ingredientId": "l-tyrosine",
+          "name": "L-Tyrosine",
+          "normalizedName": "l tyrosine",
+          "amount": 2,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "taurine",
+          "name": "Taurine",
+          "normalizedName": "taurine",
+          "amount": 1,
+          "unit": "g",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "hydration",
+            "performance"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "alpha-gpc",
+          "name": "Alpha GPC",
+          "normalizedName": "alpha gpc",
+          "amount": 300,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "lion-s-mane",
+          "name": "Lion's Mane",
+          "normalizedName": "lion s mane",
+          "amount": 250,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "gaba",
+          "name": "GABA",
+          "normalizedName": "gaba",
+          "amount": 250,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "uridine-monophosphate",
+          "name": "Uridine Monophosphate",
+          "normalizedName": "uridine monophosphate",
+          "amount": 50,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "5-htp",
+          "name": "5-HTP",
+          "normalizedName": "5 htp",
+          "amount": 50,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "caffeine-anhydrous",
+          "name": "Caffeine Anhydrous",
+          "normalizedName": "caffeine anhydrous",
+          "amount": 40,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "natural-caffeine",
+          "name": "Natural Caffeine",
+          "normalizedName": "natural caffeine",
+          "amount": 40,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "l-theanine",
+          "name": "L-Theanine",
+          "normalizedName": "l theanine",
+          "amount": 40,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "bitter-orange-extract",
+          "name": "Bitter Orange Extract",
+          "normalizedName": "bitter orange extract",
+          "amount": 30,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "stimulant"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "peako2",
+          "name": "PEAKO2",
+          "normalizedName": "peako2",
+          "amount": 10,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "focus",
+            "performance"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        },
+        {
+          "ingredientId": "bioperine",
+          "name": "BioPerine",
+          "normalizedName": "bioperine",
+          "amount": 2.5,
+          "unit": "mg",
+          "amountStatus": "exact",
+          "servingBasis": "1 scoop",
+          "blendName": null,
+          "blendTotal": null,
+          "blendTotalUnit": null,
+          "labelOrder": null,
+          "roles": [
+            "other"
+          ],
+          "sourceIds": [
+            "bump-laser-focus-nootropic:label"
+          ],
+          "confidence": "high"
+        }
+      ]
+    }
+  ],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": null,
+  "totalCaffeineStatus": "not-confirmed",
+  "caffeineSources": [
+    "Caffeine Anhydrous",
+    "Natural Caffeine"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "not-confirmed",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "Focus profile: L-Tyrosine 4 g, Alpha GPC 600 mg, Lion's Mane 500 mg, GABA 500 mg, Uridine Monophosphate 100 mg, 5-HTP 100 mg, L-Theanine 80 mg, PEAKO2 20 mg.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: Taurine 2 g, PEAKO2 20 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Officially positioned for consistent or daily use; follow the label and account for ingredient overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists unconfirmed mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "The label provides a one-scoop and two-scoop serving option.",
+    "Do not exceed the current label directions."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with cuts-heat-stim-free-thermogenic; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients."
+  ],
+  "overlappingIngredients": [
+    "l tyrosine",
+    "taurine",
+    "alpha gpc",
+    "lion s mane",
+    "gaba",
+    "uridine monophosphate",
+    "5 htp",
+    "caffeine anhydrous",
+    "natural caffeine",
+    "l theanine",
+    "bitter orange extract",
+    "peako2",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "nootropic-high-focus-pre-workout",
+    "rule-hyper-focus"
+  ],
+  "alternatives": [
+    "nootropic-high-focus-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "bump",
+    "bump nootropic",
+    "laser focus bump",
+    "focus",
+    "daily",
+    "energy",
+    "l tyrosine",
+    "taurine",
+    "hydration",
+    "performance",
+    "alpha gpc",
+    "lions mane",
+    "lion s mane",
+    "gaba",
+    "uridine monophosphate",
+    "5 htp",
+    "caffeine anhydrous",
+    "stimulant",
+    "natural caffeine",
+    "l theanine",
+    "bitter orange extract",
+    "peako2",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "bump-laser-focus-nootropic-razz-mango-sherbet-56305",
+      "flavor": "Razz Mango Sherbet",
+      "sku": "56305",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 22.5,
+      "mapPrice": 49.99
+    },
+    {
+      "variantId": "bump-laser-focus-nootropic-watermelon-lemonade-56307",
+      "flavor": "Watermelon Lemonade",
+      "sku": "56307",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 22.5,
+      "mapPrice": 49.99
+    }
+  ],
+  "verificationStatus": "needs-review",
+  "sourceReferences": [
+    "bump-laser-focus-nootropic:catalog",
+    "bump-laser-focus-nootropic:official",
+    "bump-laser-focus-nootropic:label",
+    "bump-laser-focus-nootropic:portal-catalog",
+    "bump-laser-focus-nootropic:official-page"
+  ],
+  "conflicts": [
+    "The official page says 80 mg total caffeine, while the current two-scoop label appears to list 80 mg from each of two caffeine sources. The assistant will not state a confirmed total."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

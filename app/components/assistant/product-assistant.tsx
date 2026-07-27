@@ -2,11 +2,9 @@
 
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { answerAssistantQuestion } from "@/lib/assistant/engine";
 import type {
   AssistantCartAction,
   AssistantContext,
-  AssistantProduct,
   AssistantResponse,
 } from "@/lib/assistant/types";
 
@@ -24,11 +22,9 @@ interface UndoState {
 }
 
 export function ProductAssistant({
-  products,
   maintenanceMode,
   adminPreview = false,
 }: {
-  products: AssistantProduct[];
   maintenanceMode: boolean;
   adminPreview?: boolean;
 }) {
@@ -37,6 +33,8 @@ export function ProductAssistant({
   const [context, setContext] = useState<AssistantContext>({ productIds: [], variantIds: [] });
   const [cart, setCart] = useState<Record<string, number>>({});
   const [undo, setUndo] = useState<UndoState | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [requestError, setRequestError] = useState("");
   const conversationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -56,13 +54,29 @@ export function ProductAssistant({
     if (conversation) conversation.scrollTop = conversation.scrollHeight;
   }, [turns]);
 
-  function ask(nextQuestion: string) {
+  async function ask(nextQuestion: string) {
     const clean = nextQuestion.trim();
-    if (!clean) return;
-    const response = answerAssistantQuestion(clean, products, { context, cart });
-    setTurns((current) => [...current, { id: `${response.id}-${current.length}`, question: clean, response }]);
-    if (response.nextContext.productIds.length || response.nextContext.variantIds.length) setContext(response.nextContext);
+    if (!clean || loading) return;
+    setLoading(true);
+    setRequestError("");
     setQuestion("");
+    try {
+      const result = await fetch("/api/assistant/answer", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: clean, context, cart }),
+      });
+      const payload = await result.json() as { response?: AssistantResponse; error?: string };
+      if (!result.ok || !payload.response) throw new Error(payload.error || "BLACKMARKET AI could not answer that question.");
+      const response = payload.response;
+      setTurns((current) => [...current, { id: `${response.id}-${current.length}`, question: clean, response }]);
+      if (response.nextContext.productIds.length || response.nextContext.variantIds.length) setContext(response.nextContext);
+    } catch (error) {
+      setRequestError(error instanceof Error ? error.message : "BLACKMARKET AI could not answer that question.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -143,6 +157,9 @@ export function ProductAssistant({
         </div>
       ) : null}
 
+      {loading ? <p className="assistant-thinking" role="status">Reviewing formulas…</p> : null}
+      {requestError ? <p className="assistant-request-error" role="alert">{requestError}</p> : null}
+
       <form className="assistant-composer" onSubmit={submit}>
         <label className="sr-only" htmlFor="assistant-question">Ask BLACKMARKET AI</label>
         <input
@@ -153,7 +170,7 @@ export function ProductAssistant({
           autoComplete="off"
           enterKeyHint="send"
         />
-        <button type="submit" disabled={!question.trim()} aria-label="Send question">
+        <button type="submit" disabled={!question.trim() || loading} aria-label="Send question">
           <SendIcon />
         </button>
       </form>
@@ -192,7 +209,21 @@ function AssistantAnswer({
         onComplete={completeAnswer}
       />
 
-      {answerComplete && details.length ? (
+      {answerComplete && response.sections?.length ? (
+        <div className="assistant-answer-sections">
+          {response.sections.map((section) => section.expandable ? (
+            <details className="assistant-answer-section assistant-answer-section-expandable" key={section.heading}>
+              <summary>{section.heading}</summary>
+              {section.paragraphs.map((paragraph, index) => <p key={`${section.heading}-${index}`}>{paragraph}</p>)}
+            </details>
+          ) : (
+            <section className="assistant-answer-section" key={section.heading}>
+              <h2>{section.heading}</h2>
+              {section.paragraphs.map((paragraph, index) => <p key={`${section.heading}-${index}`}>{paragraph}</p>)}
+            </section>
+          ))}
+        </div>
+      ) : answerComplete && details.length ? (
         <div className="assistant-answer-details">
           {details.map((detail, index) => <p key={`${detail}-${index}`}>{detail}</p>)}
         </div>
@@ -280,24 +311,8 @@ function StreamingText({
 }
 
 function visibleDetails(question: string, response: AssistantResponse): string[] {
-  const asksForDetail = /\b(formula|ingredient|ingredients|dosage|dosages|dose|doses|serving|breakdown|break down|exact|detail|details)\b/i.test(question);
-  if (asksForDetail) return response.details.slice(0, 10);
-  if (response.responseType === "clarification" || response.responseType === "cart-action") return response.details.slice(0, 2);
-  if (response.intent === "compare_products") return response.details.slice(0, 2);
-  if ([
-    "show_flavors",
-    "show_stock",
-    "show_new_products",
-    "show_pricing",
-    "calculate_margin",
-    "find_by_ingredient",
-    "exclude_ingredient",
-    "find_stimulant_free",
-    "rank_by_caffeine",
-  ].includes(response.intent)) {
-    return response.details.slice(0, 8);
-  }
-  return response.details.slice(0, 3);
+  void question;
+  return response.details;
 }
 
 function SendIcon() {

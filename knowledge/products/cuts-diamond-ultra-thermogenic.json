@@ -1,0 +1,496 @@
+{
+  "id": "cuts-diamond-ultra-thermogenic",
+  "brandId": "blackmarketlabs",
+  "officialName": "CUTS Diamond Ultra Thermogenic",
+  "shortName": "CUTS Diamond",
+  "slug": "cuts-diamond-thermogenic-pre-workout",
+  "aliases": [
+    "cuts diamond",
+    "diamond cuts",
+    "cuts ultra"
+  ],
+  "commonMisspellings": [],
+  "category": "Thermogenic Products",
+  "subcategory": "thermogenic",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Thermogenic and cutting",
+  "secondaryGoals": [
+    "Energy",
+    "Focus",
+    "Pump"
+  ],
+  "shortDescription": "The strongest thermogenic pre-workout positioning in the CUTS family, with a transparent formula and added pump support.",
+  "wholesaleSummary": "The premium CUTS step-up at a $59.99 MAP for customers who want a more disclosed, higher-feature formula.",
+  "retailerSalesPitch": "The premium CUTS step-up at a $59.99 MAP for customers who want a more disclosed, higher-feature formula.",
+  "keyDifferentiators": [
+    "300 mg caffeine",
+    "5 g L-Citrulline",
+    "3.2 g Beta-Alanine",
+    "Three disclosed forms of L-Carnitine"
+  ],
+  "bestFor": [
+    "Experienced thermogenic-pre-workout customers",
+    "A premium CUTS upsell",
+    "Customers who value transparent dosages"
+  ],
+  "notIdealFor": [
+    "A stimulant-free request",
+    "A lower-price opening SKU"
+  ],
+  "targetCustomer": "Experienced thermogenic-pre-workout customers; A premium CUTS upsell; Customers who value transparent dosages",
+  "suggestedStaffExplanation": "CUTS Diamond: The strongest thermogenic pre-workout positioning in the CUTS family, with a transparent formula and added pump support. The easiest concrete points are 300 mg caffeine, 5 g L-Citrulline, 3.2 g Beta-Alanine.",
+  "suggestedRetailerTalkingPoints": [
+    "The premium CUTS step-up at a $59.99 MAP for customers who want a more disclosed, higher-feature formula.",
+    "300 mg caffeine",
+    "5 g L-Citrulline",
+    "3.2 g Beta-Alanine",
+    "Three disclosed forms of L-Carnitine"
+  ],
+  "servingSize": "1 scoop (13.63 g)",
+  "servingsPerContainer": 25,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-citrulline",
+      "name": "L-Citrulline",
+      "normalizedName": "l citrulline",
+      "amount": 5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-carnitine-tartrate",
+      "name": "L-Carnitine Tartrate",
+      "normalizedName": "l carnitine tartrate",
+      "amount": 1.5,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "acetyl-l-carnitine-hcl",
+      "name": "Acetyl L-Carnitine HCl",
+      "normalizedName": "acetyl l carnitine hcl",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "l-carnitine-fumarate",
+      "name": "L-Carnitine Fumarate",
+      "normalizedName": "l carnitine fumarate",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic",
+        "performance"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "choline-bitartrate",
+      "name": "Choline Bitartrate",
+      "normalizedName": "choline bitartrate",
+      "amount": 600,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 160,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "evodiamine",
+      "name": "Evodiamine",
+      "normalizedName": "evodiamine",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caloriburn-gp",
+      "name": "CaloriBurn GP",
+      "normalizedName": "caloriburn gp",
+      "amount": 40,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "progbb",
+      "name": "ProGBB",
+      "normalizedName": "progbb",
+      "amount": 30,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "chromium-picolinate",
+      "name": "Chromium Picolinate",
+      "normalizedName": "chromium picolinate",
+      "amount": 3.6,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "cuts-diamond-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 300,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "high",
+  "pumpProfile": "Pump profile: L-Citrulline 5 g.",
+  "focusProfile": "Focus profile: Acetyl L-Carnitine HCl 500 mg, Choline Bitartrate 600 mg, Mucuna Pruriens 100 mg.",
+  "thermogenicProfile": "Thermogenic profile: L-Carnitine Tartrate 1.5 g, Acetyl L-Carnitine HCl 500 mg, L-Carnitine Fumarate 500 mg, Bitter Orange Extract 160 mg, Evodiamine 50 mg, CaloriBurn GP 40 mg, ProGBB 30 mg.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: L-Citrulline 5 g, Beta-Alanine 3.2 g, L-Carnitine Tartrate 1.5 g, L-Carnitine Fumarate 500 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 300 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with cuts-pump-thermogenic-liquid-glycerol; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "l citrulline",
+    "beta alanine",
+    "l carnitine tartrate",
+    "acetyl l carnitine hcl",
+    "l carnitine fumarate",
+    "choline bitartrate",
+    "caffeine anhydrous",
+    "bitter orange extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "caloriburn gp",
+    "progbb",
+    "chromium picolinate",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "cuts-thermogenic-pre-workout",
+    "scorch-ultra-thermogenic"
+  ],
+  "alternatives": [
+    "scorch-ultra-thermogenic",
+    "cuts-thermogenic-pre-workout"
+  ],
+  "upgrades": [],
+  "downgrades": [
+    "cuts-thermogenic-pre-workout"
+  ],
+  "searchTags": [
+    "cuts diamond",
+    "diamond cuts",
+    "cuts ultra",
+    "cutting",
+    "energy",
+    "focus",
+    "pump",
+    "l citrulline",
+    "performance",
+    "beta alanine",
+    "l carnitine tartrate",
+    "thermogenic",
+    "acetyl l carnitine hcl",
+    "l carnitine fumarate",
+    "choline bitartrate",
+    "caffeine anhydrous",
+    "stimulant",
+    "bitter orange extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "caloriburn gp",
+    "progbb",
+    "chromium picolinate",
+    "mineral",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "cuts-diamond-ultra-thermogenic-fruit-punch-56292",
+      "flavor": "Fruit Punch",
+      "sku": "56292",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "cuts-diamond-ultra-thermogenic-blue-razz-56293",
+      "flavor": "Blue Razz",
+      "sku": "56293",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "cuts-diamond-ultra-thermogenic-watermelon-56294",
+      "flavor": "Watermelon",
+      "sku": "56294",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "cuts-diamond-ultra-thermogenic-grape-limeade-56316",
+      "flavor": "Grape Limeade",
+      "sku": "56316",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "cuts-diamond-ultra-thermogenic:catalog",
+    "cuts-diamond-ultra-thermogenic:official",
+    "cuts-diamond-ultra-thermogenic:label",
+    "cuts-diamond-ultra-thermogenic:guide",
+    "cuts-diamond-ultra-thermogenic:portal-catalog",
+    "cuts-diamond-ultra-thermogenic:official-page",
+    "cuts-diamond-ultra-thermogenic:current-label"
+  ],
+  "conflicts": [
+    "Grape Limeade has a separate facts image and remains linked as a variant-specific source."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

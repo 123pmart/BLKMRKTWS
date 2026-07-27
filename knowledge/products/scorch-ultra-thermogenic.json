@@ -1,0 +1,515 @@
+{
+  "id": "scorch-ultra-thermogenic",
+  "brandId": "blackmarketlabs",
+  "officialName": "SCORCH Ultra Thermogenic",
+  "shortName": "SCORCH",
+  "slug": "scorch-ultra-thermogenic-pre-workout",
+  "aliases": [
+    "scorch",
+    "scorch ultra",
+    "ultra thermogenic"
+  ],
+  "commonMisspellings": [],
+  "category": "Thermogenic Products",
+  "subcategory": "thermogenic",
+  "productType": "powder",
+  "format": "powder",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Thermogenic and cutting",
+  "secondaryGoals": [
+    "Energy",
+    "Pump",
+    "Focus"
+  ],
+  "shortDescription": "A premium, high-caffeine thermogenic pre-workout with substantial disclosed pump support.",
+  "wholesaleSummary": "A high-intensity thermogenic choice for experienced stimulant buyers at a premium MAP.",
+  "retailerSalesPitch": "A high-intensity thermogenic choice for experienced stimulant buyers at a premium MAP.",
+  "keyDifferentiators": [
+    "450 mg official total caffeine",
+    "8 g L-Citrulline",
+    "20 servings",
+    "BLACKMARKET and Anabolic Warfare collaboration"
+  ],
+  "bestFor": [
+    "Experienced stimulant users",
+    "Customers seeking thermogenic positioning with 8 g L-Citrulline"
+  ],
+  "notIdealFor": [
+    "Stimulant-sensitive shoppers",
+    "A daily low-stimulant request"
+  ],
+  "targetCustomer": "Experienced stimulant users; Customers seeking thermogenic positioning with 8 g L-Citrulline",
+  "suggestedStaffExplanation": "SCORCH: A premium, high-caffeine thermogenic pre-workout with substantial disclosed pump support. The easiest concrete points are 450 mg official total caffeine, 8 g L-Citrulline, 20 servings.",
+  "suggestedRetailerTalkingPoints": [
+    "A high-intensity thermogenic choice for experienced stimulant buyers at a premium MAP.",
+    "450 mg official total caffeine",
+    "8 g L-Citrulline",
+    "20 servings",
+    "BLACKMARKET and Anabolic Warfare collaboration"
+  ],
+  "servingSize": "1 scoop (19.2 g)",
+  "servingsPerContainer": 20,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "l-citrulline",
+      "name": "L-Citrulline",
+      "normalizedName": "l citrulline",
+      "amount": 8,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "pump",
+        "performance"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": 3.2,
+      "unit": "g",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "potassium-dodecanedioic-acid",
+      "name": "Potassium Dodecanedioic Acid (Metabolyte)",
+      "normalizedName": "potassium dodecanedioic acid",
+      "amount": 1100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "acetyl-l-carnitine-hcl",
+      "name": "Acetyl L-Carnitine HCl",
+      "normalizedName": "acetyl l carnitine hcl",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dandelion-extract",
+      "name": "Dandelion Extract",
+      "normalizedName": "dandelion extract",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "sodium-dodecanedioic-acid",
+      "name": "Sodium Dodecanedioic Acid (Metabolyte)",
+      "normalizedName": "sodium dodecanedioic acid",
+      "amount": 400,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "performance"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "choline-bitartrate",
+      "name": "Choline Bitartrate",
+      "normalizedName": "choline bitartrate",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 350,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "natural-caffeine",
+      "name": "Natural Caffeine",
+      "normalizedName": "natural caffeine",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "raspberry-ketone",
+      "name": "Raspberry Ketone",
+      "normalizedName": "raspberry ketone",
+      "amount": 250,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bitter-orange-extract",
+      "name": "Bitter Orange Extract",
+      "normalizedName": "bitter orange extract",
+      "amount": 130,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "grapefruit-extract",
+      "name": "Grapefruit Extract",
+      "normalizedName": "grapefruit extract",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": 75,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "evodiamine",
+      "name": "Evodiamine",
+      "normalizedName": "evodiamine",
+      "amount": 60,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "progbb",
+      "name": "ProGBB",
+      "normalizedName": "progbb",
+      "amount": 20,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "thermogenic"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": 5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "scorch-ultra-thermogenic:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 450,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous",
+    "Natural Caffeine"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "very-high",
+  "pumpProfile": "Pump profile: L-Citrulline 8 g.",
+  "focusProfile": "Focus profile: Acetyl L-Carnitine HCl 500 mg, Choline Bitartrate 300 mg, Mucuna Pruriens 75 mg.",
+  "thermogenicProfile": "Thermogenic profile: Acetyl L-Carnitine HCl 500 mg, Dandelion Extract 500 mg, Raspberry Ketone 250 mg, Bitter Orange Extract 130 mg, Grapefruit Extract 100 mg, Evodiamine 60 mg, ProGBB 20 mg.",
+  "strengthProfile": "The verified formula does not have a dedicated strength profile.",
+  "enduranceProfile": "Performance profile: L-Citrulline 8 g, Beta-Alanine 3.2 g, Potassium Dodecanedioic Acid (Metabolyte) 1100 mg, Sodium Dodecanedioic Acid (Metabolyte) 400 mg.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Not positioned as a beginner stimulant product.",
+  "advancedUserSuitability": "Designed for experienced stimulant users who understand their tolerance.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 450 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "l citrulline",
+    "beta alanine",
+    "potassium dodecanedioic acid",
+    "acetyl l carnitine hcl",
+    "dandelion extract",
+    "sodium dodecanedioic acid",
+    "choline bitartrate",
+    "caffeine anhydrous",
+    "natural caffeine",
+    "raspberry ketone",
+    "bitter orange extract",
+    "grapefruit extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "progbb",
+    "bioperine"
+  ],
+  "relatedProducts": [
+    "cuts-diamond-ultra-thermogenic",
+    "defy-hyper-stimulant"
+  ],
+  "alternatives": [
+    "cuts-diamond-ultra-thermogenic"
+  ],
+  "upgrades": [],
+  "downgrades": [
+    "cuts-diamond-ultra-thermogenic",
+    "cuts-thermogenic-pre-workout"
+  ],
+  "searchTags": [
+    "scorch",
+    "scorch ultra",
+    "ultra thermogenic",
+    "cutting",
+    "energy",
+    "pump",
+    "focus",
+    "l citrulline",
+    "performance",
+    "beta alanine",
+    "potassium dodecanedioic acid metabolyte",
+    "potassium dodecanedioic acid",
+    "hydration",
+    "acetyl l carnitine hcl",
+    "thermogenic",
+    "dandelion extract",
+    "sodium dodecanedioic acid metabolyte",
+    "sodium dodecanedioic acid",
+    "choline bitartrate",
+    "caffeine anhydrous",
+    "stimulant",
+    "natural caffeine",
+    "raspberry ketone",
+    "bitter orange extract",
+    "grapefruit extract",
+    "mucuna pruriens",
+    "evodiamine",
+    "progbb",
+    "bioperine",
+    "other"
+  ],
+  "flavors": [
+    {
+      "variantId": "scorch-ultra-thermogenic-hawaiian-kill-shot-56312",
+      "flavor": "Hawaiian Kill Shot",
+      "sku": "56312",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    },
+    {
+      "variantId": "scorch-ultra-thermogenic-cherry-slush-bomb-56313",
+      "flavor": "Cherry Slush Bomb",
+      "sku": "56313",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 28,
+      "mapPrice": 59.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "scorch-ultra-thermogenic:catalog",
+    "scorch-ultra-thermogenic:official",
+    "scorch-ultra-thermogenic:label",
+    "scorch-ultra-thermogenic:portal-catalog",
+    "scorch-ultra-thermogenic:official-page"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

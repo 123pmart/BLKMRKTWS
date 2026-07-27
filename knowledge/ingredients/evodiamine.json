@@ -1,0 +1,86 @@
+{
+  "id": "evodiamine",
+  "name": "Evodiamine",
+  "normalizedName": "evodiamine",
+  "aliases": [
+    "evodiamine",
+    "Evodiamine"
+  ],
+  "roles": [
+    "thermogenic"
+  ],
+  "whatItIs": "Evodiamine is an ingredient disclosed on one or more current BLACKMARKET product labels.",
+  "howItWorks": "The canonical source set does not contain enough high-confidence research detail to make a more specific mechanism statement.",
+  "whyIncluded": "It is used in formulas where the label assigns thermogenic positioning.",
+  "evidenceSupportedRanges": [],
+  "evidenceLimitations": [
+    "Finished-product effects cannot be inferred from one ingredient in isolation."
+  ],
+  "possibleSideEffects": [
+    "No product-specific side-effect statement is stored; consult the current label warnings."
+  ],
+  "relatedIngredients": [],
+  "synergisticIngredients": [],
+  "overlappingIngredients": [
+    "vitamin-c",
+    "chromium",
+    "sodium",
+    "beta-alanine",
+    "l-carnitine-tartrate",
+    "agmatine-sulfate",
+    "acetyl-l-carnitine-hcl",
+    "caffeine-anhydrous",
+    "choline-bitartrate",
+    "raspberry-ketone",
+    "bitter-orange-extract",
+    "mucuna-pruriens",
+    "chromium-picolinate",
+    "calcium",
+    "l-citrulline",
+    "l-carnitine-fumarate",
+    "caloriburn-gp",
+    "progbb",
+    "bioperine",
+    "potassium-dodecanedioic-acid",
+    "dandelion-extract",
+    "sodium-dodecanedioic-acid",
+    "natural-caffeine",
+    "grapefruit-extract"
+  ],
+  "productsContaining": [
+    {
+      "productId": "cuts-thermogenic-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "cuts-natural-thermogenic-pre-workout",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "proprietary_unknown",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "cuts-diamond-ultra-thermogenic",
+      "amount": 50,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    },
+    {
+      "productId": "scorch-ultra-thermogenic",
+      "amount": 60,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "reachesReferencedRange": null
+    }
+  ],
+  "sourceReferences": [
+    "cuts-thermogenic-pre-workout:label",
+    "cuts-natural-thermogenic-pre-workout:label",
+    "cuts-diamond-ultra-thermogenic:guide",
+    "scorch-ultra-thermogenic:label"
+  ]
+}

@@ -1,0 +1,419 @@
+{
+  "id": "fit-performance-pre-workout",
+  "brandId": "blackmarketlabs",
+  "officialName": "FIT",
+  "shortName": "FIT",
+  "slug": "fit-performance-pre-workout",
+  "aliases": [
+    "fit",
+    "fit pre workout",
+    "adrenolyn fit"
+  ],
+  "commonMisspellings": [],
+  "category": "Strength Products",
+  "subcategory": "energy",
+  "productType": "powder",
+  "format": "powder",
+  "status": "catalog-only",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Energy",
+  "secondaryGoals": [
+    "Focus",
+    "Strength and power",
+    "Training performance"
+  ],
+  "shortDescription": "A performance pre-workout positioned around endurance, power, focus, and moderate stimulant energy.",
+  "wholesaleSummary": "A balanced performance formula with 200 mg caffeine, creatine, Beta-Alanine, PeakO2, betaine, and Alpha GPC.",
+  "retailerSalesPitch": "A balanced performance formula with 200 mg caffeine, creatine, Beta-Alanine, PeakO2, betaine, and Alpha GPC.",
+  "keyDifferentiators": [
+    "200 mg caffeine",
+    "Endurance, power, and focus blend structure",
+    "Creatine and PeakO2 positioning"
+  ],
+  "bestFor": [
+    "A moderate-stimulant performance position",
+    "Customers prioritizing endurance and power support"
+  ],
+  "notIdealFor": [
+    "A stimulant-free request",
+    "Customers seeking a currently orderable portal item"
+  ],
+  "targetCustomer": "A moderate-stimulant performance position; Customers prioritizing endurance and power support",
+  "suggestedStaffExplanation": "FIT: A performance pre-workout positioned around endurance, power, focus, and moderate stimulant energy. The easiest concrete points are 200 mg caffeine, Endurance, power, and focus blend structure, Creatine and PeakO2 positioning.",
+  "suggestedRetailerTalkingPoints": [
+    "A balanced performance formula with 200 mg caffeine, creatine, Beta-Alanine, PeakO2, betaine, and Alpha GPC.",
+    "200 mg caffeine",
+    "Endurance, power, and focus blend structure",
+    "Creatine and PeakO2 positioning"
+  ],
+  "servingSize": null,
+  "servingsPerContainer": null,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "beta-alanine",
+      "name": "Beta-Alanine",
+      "normalizedName": "beta alanine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "peako2-mushroom-blend",
+      "name": "PeakO2 Mushroom Blend",
+      "normalizedName": "peako2 mushroom blend",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "performance"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bioperine",
+      "name": "BioPerine",
+      "normalizedName": "bioperine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "creatine-monohydrate",
+      "name": "Creatine Monohydrate",
+      "normalizedName": "creatine monohydrate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "betaine-anhydrous",
+      "name": "Betaine Anhydrous",
+      "normalizedName": "betaine anhydrous",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength",
+        "performance"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "alpha-gpc-50",
+      "name": "Alpha GPC 50%",
+      "normalizedName": "alpha gpc 50",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "theobromine",
+      "name": "Theobromine",
+      "normalizedName": "theobromine",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "caffeine-anhydrous",
+      "name": "Caffeine Anhydrous",
+      "normalizedName": "caffeine anhydrous",
+      "amount": 200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "stimulant",
+        "energy"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "mucuna-pruriens",
+      "name": "Mucuna Pruriens",
+      "normalizedName": "mucuna pruriens",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "focus"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "vitamin-b12",
+      "name": "Vitamin B12",
+      "normalizedName": "vitamin b12",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "vitamin"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "sodium-chloride",
+      "name": "Sodium Chloride",
+      "normalizedName": "sodium chloride",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "potassium-chloride",
+      "name": "Potassium Chloride",
+      "normalizedName": "potassium chloride",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "trisodium-citrate",
+      "name": "Trisodium Citrate",
+      "normalizedName": "trisodium citrate",
+      "amount": null,
+      "unit": null,
+      "amountStatus": "not_disclosed",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "hydration",
+        "mineral"
+      ],
+      "sourceIds": [
+        "fit-performance-pre-workout:guide"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 200,
+  "totalCaffeineStatus": "official-total",
+  "caffeineSources": [
+    "Caffeine Anhydrous"
+  ],
+  "stimulantFree": false,
+  "stimulantIntensity": "moderate",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "Focus profile: Alpha GPC 50% (amount not disclosed), Mucuna Pruriens (amount not disclosed).",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Creatine Monohydrate (amount not disclosed), Betaine Anhydrous (amount not disclosed).",
+  "enduranceProfile": "Performance profile: Beta-Alanine (amount not disclosed), PeakO2 Mushroom Blend (amount not disclosed), Creatine Monohydrate (amount not disclosed), Betaine Anhydrous (amount not disclosed).",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "Moderate-stimulant positioning; start with the labeled minimum serving where one is provided.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "Not the preferred late-night option because the full serving lists 200 mg caffeine.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the labeled serving only as directed on the current product container."
+  ],
+  "warnings": [
+    "Use only as directed on the current label.",
+    "Account for caffeine and other stimulant sources before stacking."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with nitricoxide-stim-free-pre-workout; review overlapping actives first.",
+    "Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.",
+    "Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW."
+  ],
+  "overlappingIngredients": [
+    "beta alanine",
+    "peako2 mushroom blend",
+    "bioperine",
+    "creatine monohydrate",
+    "betaine anhydrous",
+    "alpha gpc 50",
+    "theobromine",
+    "caffeine anhydrous",
+    "mucuna pruriens",
+    "vitamin b12",
+    "sodium chloride",
+    "potassium chloride",
+    "trisodium citrate"
+  ],
+  "relatedProducts": [
+    "underground-high-stimulant",
+    "nootropic-high-focus-pre-workout"
+  ],
+  "alternatives": [
+    "underground-high-stimulant"
+  ],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "fit",
+    "fit pre workout",
+    "adrenolyn fit",
+    "energy",
+    "focus",
+    "strength",
+    "performance",
+    "beta alanine",
+    "peako2 mushroom blend",
+    "bioperine",
+    "other",
+    "creatine monohydrate",
+    "betaine anhydrous",
+    "alpha gpc 50",
+    "theobromine",
+    "stimulant",
+    "caffeine anhydrous",
+    "mucuna pruriens",
+    "vitamin b12",
+    "vitamin",
+    "sodium chloride",
+    "hydration",
+    "mineral",
+    "potassium chloride",
+    "trisodium citrate"
+  ],
+  "flavors": [],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "fit-performance-pre-workout:guide",
+    "fit-performance-pre-workout:portal-catalog"
+  ],
+  "conflicts": [
+    "The guide lists blend totals, while individual amounts are disclosed only for caffeine."
+  ],
+  "lastVerifiedAt": "2026-07-27"
+}

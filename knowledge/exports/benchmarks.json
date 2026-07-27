@@ -1,0 +1,2260 @@
+[
+  {
+    "id": "cuts-bulk",
+    "question": "What’s the difference between CUTS and BULK?",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "strength",
+      "300 mg",
+      "proprietary"
+    ],
+    "forbiddenClaims": [
+      "CUTS contains a disclosed dose of every ingredient"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-tone",
+    "question": "CUTS vs TONE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [
+      "300 mg",
+      "CLA",
+      "proprietary"
+    ],
+    "forbiddenClaims": [
+      "TONE discloses every individual blend amount"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "defy-rule",
+    "question": "DEFY vs RULE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "defy-hyper-stimulant",
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [
+      "10 g L-Citrulline",
+      "5 g Betaine",
+      "3 g L-Tyrosine",
+      "Uridine"
+    ],
+    "forbiddenClaims": [
+      "both are simply focus-oriented"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "citrulline-defy-rule",
+    "question": "Which has more L-Citrulline, DEFY or RULE?",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "defy-hyper-stimulant",
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [
+      "DEFY",
+      "10 g",
+      "RULE",
+      "5 g"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "comparison"
+  },
+  {
+    "id": "uridine",
+    "question": "Which products contain Uridine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "rule-hyper-focus",
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [
+      "RULE",
+      "BUMP"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-creatine",
+    "question": "Does BULK disclose how much creatine it contains?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [
+      "proprietary",
+      "individual amount not disclosed"
+    ],
+    "forbiddenClaims": [
+      "5 g"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "pump-nitric",
+    "question": "PUMP vs NITRICOXIDE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout",
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "nitrate",
+      "8 g",
+      "5 g"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "comparison"
+  },
+  {
+    "id": "stim-free-fat",
+    "question": "Which product is stimulant-free for fat loss?",
+    "expectedIntent": "find_stimulant_free",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [
+      "CUTS HEAT",
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "five-creatine",
+    "question": "Which product has 5 grams of creatine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout",
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "5 g"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "apex-creatine",
+    "question": "What makes BULK APEX different from creatine?",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout",
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "HMB",
+      "beta-alanine",
+      "betaine",
+      "400 mg"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "comparison"
+  },
+  {
+    "id": "nitrates",
+    "question": "Which product uses nitrate ingredients?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [
+      "Betaine Nitrate",
+      "Arginine Nitrate"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natural-sweetener",
+    "question": "Does CUTS Natural use artificial sweeteners?",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "stevia",
+      "natural"
+    ],
+    "forbiddenClaims": [
+      "sucralose"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "late-night",
+    "question": "What is best for a late-night workout?",
+    "expectedIntent": "find_by_goal",
+    "expectedProductIds": [],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "nitric-alias",
+    "question": "tell me about nitric oxide",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natty-alias",
+    "question": "cuts natty ingredients",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "5626 mg",
+      "proprietary"
+    ],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout:caffeine",
+    "question": "How much caffeine is in CUTS?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "300"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout:formula",
+    "question": "Give me the formula for CUTS",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "Vitamin C",
+      "Chromium"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout:stock",
+    "question": "Is CUTS available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout:flavors",
+    "question": "What flavors does CUTS come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout:caffeine",
+    "question": "How much caffeine is in CUTS Natural?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "300"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout:formula",
+    "question": "Give me the formula for CUTS Natural",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "Vitamin C",
+      "Calcium"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout:stock",
+    "question": "Is CUTS Natural available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout:flavors",
+    "question": "What flavors does CUTS Natural come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic:caffeine",
+    "question": "How much caffeine is in CUTS Diamond?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "300"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic:formula",
+    "question": "Give me the formula for CUTS Diamond",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic:stock",
+    "question": "Is CUTS Diamond available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic:flavors",
+    "question": "What flavors does CUTS Diamond come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol:caffeine",
+    "question": "How much caffeine is in CUTS PUMP?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol:formula",
+    "question": "Give me the formula for CUTS PUMP",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [
+      "Glycerol",
+      "L-Carnitine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol:stock",
+    "question": "Is CUTS PUMP available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol:flavors",
+    "question": "What flavors does CUTS PUMP come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pills-thermogenic-capsules:caffeine",
+    "question": "How much caffeine is in CUTS PILLS?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [
+      "does not confirm"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pills-thermogenic-capsules:formula",
+    "question": "Give me the formula for CUTS PILLS",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [
+      "L-Carnitine Fumarate",
+      "Dandelion Extract"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pills-thermogenic-capsules:stock",
+    "question": "Is CUTS PILLS available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-pills-thermogenic-capsules:flavors",
+    "question": "What flavors does CUTS PILLS come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic:caffeine",
+    "question": "How much caffeine is in CUTS HEAT?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic:formula",
+    "question": "Give me the formula for CUTS HEAT",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [
+      "L-Carnitine L-Tartrate",
+      "Taurine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic:stock",
+    "question": "Is CUTS HEAT available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic:flavors",
+    "question": "What flavors does CUTS HEAT come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "scorch-ultra-thermogenic:caffeine",
+    "question": "How much caffeine is in SCORCH?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "450"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "scorch-ultra-thermogenic:formula",
+    "question": "Give me the formula for SCORCH",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "scorch-ultra-thermogenic:stock",
+    "question": "Is SCORCH available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "scorch-ultra-thermogenic:flavors",
+    "question": "What flavors does SCORCH come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "tone-weight-loss-pre-workout:caffeine",
+    "question": "How much caffeine is in TONE?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [
+      "300"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "tone-weight-loss-pre-workout:formula",
+    "question": "Give me the formula for TONE",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "Theobromine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "tone-weight-loss-pre-workout:stock",
+    "question": "Is TONE available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "tone-weight-loss-pre-workout:flavors",
+    "question": "What flavors does TONE come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:caffeine",
+    "question": "How much caffeine is in BULK?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [
+      "300"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:formula",
+    "question": "Give me the formula for BULK",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "Creatine Monohydrate"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:stock",
+    "question": "Is BULK available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-testosterone-pre-workout:flavors",
+    "question": "What flavors does BULK come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout:caffeine",
+    "question": "How much caffeine is in BULK APEX?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [
+      "400"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout:formula",
+    "question": "Give me the formula for BULK APEX",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [
+      "Creatine Monohydrate",
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout:stock",
+    "question": "Is BULK APEX available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout:flavors",
+    "question": "What flavors does BULK APEX come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules:caffeine",
+    "question": "How much caffeine is in BULK PILLS?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules:formula",
+    "question": "Give me the formula for BULK PILLS",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [
+      "Vitamin D3",
+      "Magnesium"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules:stock",
+    "question": "Is BULK PILLS available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules:flavors",
+    "question": "What flavors does BULK PILLS come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "beta-alanine-raw:caffeine",
+    "question": "How much caffeine is in Beta-Alanine RAW?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "beta-alanine-raw"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "beta-alanine-raw:formula",
+    "question": "Give me the formula for Beta-Alanine RAW",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "beta-alanine-raw"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "beta-alanine-raw:stock",
+    "question": "Is Beta-Alanine RAW available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "beta-alanine-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "beta-alanine-raw:flavors",
+    "question": "What flavors does Beta-Alanine RAW come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "beta-alanine-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "creatine-monohydrate-raw:caffeine",
+    "question": "How much caffeine is in Creatine RAW?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "creatine-monohydrate-raw:formula",
+    "question": "Give me the formula for Creatine RAW",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "Creatine Monohydrate"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "creatine-monohydrate-raw:stock",
+    "question": "Is Creatine RAW available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "creatine-monohydrate-raw:flavors",
+    "question": "What flavors does Creatine RAW come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "fit-performance-pre-workout:caffeine",
+    "question": "How much caffeine is in FIT?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "fit-performance-pre-workout"
+    ],
+    "requiredFacts": [
+      "200"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "fit-performance-pre-workout:formula",
+    "question": "Give me the formula for FIT",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "fit-performance-pre-workout"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "PeakO2 Mushroom Blend"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "fit-performance-pre-workout:stock",
+    "question": "Is FIT available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "fit-performance-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "fit-performance-pre-workout:flavors",
+    "question": "What flavors does FIT come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "fit-performance-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout:caffeine",
+    "question": "How much caffeine is in NOOTROPIC?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [
+      "350"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout:formula",
+    "question": "Give me the formula for NOOTROPIC",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "L-Citrulline"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout:stock",
+    "question": "Is NOOTROPIC available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout:flavors",
+    "question": "What flavors does NOOTROPIC come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "underground-high-stimulant:caffeine",
+    "question": "How much caffeine is in UNDERGROUND?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "350"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "underground-high-stimulant:formula",
+    "question": "Give me the formula for UNDERGROUND",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "Citrulline Malate",
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "underground-high-stimulant:stock",
+    "question": "Is UNDERGROUND available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "underground-high-stimulant:flavors",
+    "question": "What flavors does UNDERGROUND come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "defy-hyper-stimulant:caffeine",
+    "question": "How much caffeine is in DEFY?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [
+      "450"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "defy-hyper-stimulant:formula",
+    "question": "Give me the formula for DEFY",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Betaine Anhydrous"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "defy-hyper-stimulant:stock",
+    "question": "Is DEFY available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "defy-hyper-stimulant:flavors",
+    "question": "What flavors does DEFY come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "rule-hyper-focus:caffeine",
+    "question": "How much caffeine is in RULE?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [
+      "485"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "rule-hyper-focus:formula",
+    "question": "Give me the formula for RULE",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Beta-Alanine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "rule-hyper-focus:stock",
+    "question": "Is RULE available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "rule-hyper-focus:flavors",
+    "question": "What flavors does RULE come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bump-laser-focus-nootropic:caffeine",
+    "question": "How much caffeine is in BUMP?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [
+      "does not confirm"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bump-laser-focus-nootropic:formula",
+    "question": "Give me the formula for BUMP",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [
+      "L-Tyrosine",
+      "Taurine"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "bump-laser-focus-nootropic:stock",
+    "question": "Is BUMP available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "bump-laser-focus-nootropic:flavors",
+    "question": "What flavors does BUMP come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "nitricoxide-stim-free-pre-workout:caffeine",
+    "question": "How much caffeine is in NITRICOXIDE?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "nitricoxide-stim-free-pre-workout:formula",
+    "question": "Give me the formula for NITRICOXIDE",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Watermelon Juice Powder"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "nitricoxide-stim-free-pre-workout:stock",
+    "question": "Is NITRICOXIDE available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "nitricoxide-stim-free-pre-workout:flavors",
+    "question": "What flavors does NITRICOXIDE come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "pump-hyper-pump-pre-workout:caffeine",
+    "question": "How much caffeine is in PUMP?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "pump-hyper-pump-pre-workout:formula",
+    "question": "Give me the formula for PUMP",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [
+      "L-Citrulline",
+      "Betaine Anhydrous"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "pump-hyper-pump-pre-workout:stock",
+    "question": "Is PUMP available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "pump-hyper-pump-pre-workout:flavors",
+    "question": "What flavors does PUMP come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "l-citrulline-raw:caffeine",
+    "question": "How much caffeine is in L-Citrulline RAW?",
+    "expectedIntent": "rank_by_caffeine",
+    "expectedProductIds": [
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [
+      "stimulant-free"
+    ],
+    "forbiddenClaims": [
+      "cures"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "l-citrulline-raw:formula",
+    "question": "Give me the formula for L-Citrulline RAW",
+    "expectedIntent": "explain_product",
+    "expectedProductIds": [
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [
+      "L-Citrulline"
+    ],
+    "forbiddenClaims": [
+      "diagnoses"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "l-citrulline-raw:stock",
+    "question": "Is L-Citrulline RAW available?",
+    "expectedIntent": "show_stock",
+    "expectedProductIds": [
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "l-citrulline-raw:flavors",
+    "question": "What flavors does L-Citrulline RAW come in?",
+    "expectedIntent": "show_flavors",
+    "expectedProductIds": [
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [],
+    "responseType": "answer"
+  },
+  {
+    "id": "defy-hyper-stimulant|rule-hyper-focus:compare",
+    "question": "Compare DEFY and RULE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "defy-hyper-stimulant",
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [
+      "complete",
+      "performance-and-pump"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "defy-hyper-stimulant|underground-high-stimulant:compare",
+    "question": "Compare DEFY and UNDERGROUND",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "defy-hyper-stimulant",
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "energy,",
+      "UNDERGROUND"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "rule-hyper-focus|underground-high-stimulant:compare",
+    "question": "Compare RULE and UNDERGROUND",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "rule-hyper-focus",
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "UNDERGROUND",
+      "energy."
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout|rule-hyper-focus:compare",
+    "question": "Compare RULE and NOOTROPIC",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "rule-hyper-focus",
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [
+      "NOOTROPIC"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bump-laser-focus-nootropic|nootropic-high-focus-pre-workout:compare",
+    "question": "Compare NOOTROPIC and BUMP",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout",
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [
+      "NOOTROPIC"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bulk-testosterone-pre-workout|cuts-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS and BULK",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [
+      "thermogenic/cutting",
+      "pre-workout;"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout|tone-weight-loss-pre-workout:compare",
+    "question": "Compare CUTS and TONE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [
+      "aggressive",
+      "general"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout|cuts-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS and CUTS Natural",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic|cuts-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS and CUTS Diamond",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic|cuts-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS and CUTS HEAT",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-thermogenic-pre-workout|scorch-ultra-thermogenic:compare",
+    "question": "Compare CUTS and SCORCH",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-pills-thermogenic-capsules|cuts-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS and CUTS PILLS",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout",
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout|bulk-testosterone-pre-workout:compare",
+    "question": "Compare BULK and BULK APEX",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout",
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [
+      "transparent",
+      "premium"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules|bulk-testosterone-pre-workout:compare",
+    "question": "Compare BULK and BULK PILLS",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout",
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [
+      "strength",
+      "strength"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bulk-apex-strength-pre-workout|creatine-monohydrate-raw:compare",
+    "question": "Compare BULK APEX and Creatine RAW",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout",
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "strength",
+      "Creatine"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "nitricoxide-stim-free-pre-workout|pump-hyper-pump-pre-workout:compare",
+    "question": "Compare PUMP and NITRICOXIDE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout",
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "maximum",
+      "dedicated"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol|pump-hyper-pump-pre-workout:compare",
+    "question": "Compare PUMP and CUTS PUMP",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout",
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic|scorch-ultra-thermogenic:compare",
+    "question": "Compare CUTS Diamond and SCORCH",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic",
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "Diamond",
+      "thermogenic"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic|cuts-pump-thermogenic-liquid-glycerol:compare",
+    "question": "Compare CUTS HEAT and CUTS PUMP",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic",
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bump-laser-focus-nootropic|rule-hyper-focus:compare",
+    "question": "Compare RULE and BUMP",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "rule-hyper-focus",
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-diamond-ultra-thermogenic|cuts-natural-thermogenic-pre-workout:compare",
+    "question": "Compare CUTS Natural and CUTS Diamond",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout",
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [
+      "Natural",
+      "thermogenic"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-pump-thermogenic-liquid-glycerol|nitricoxide-stim-free-pre-workout:compare",
+    "question": "Compare CUTS PUMP and NITRICOXIDE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol",
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "NITRICOXIDE"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "bulk-pills-testosterone-capsules|cuts-pills-thermogenic-capsules:compare",
+    "question": "Compare CUTS PILLS and BULK PILLS",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules",
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-heat-stim-free-thermogenic|nitricoxide-stim-free-pre-workout:compare",
+    "question": "Compare CUTS HEAT and NITRICOXIDE",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic",
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "defy-hyper-stimulant|scorch-ultra-thermogenic:compare",
+    "question": "Compare SCORCH and DEFY",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic",
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "cuts-natural-thermogenic-pre-workout|tone-weight-loss-pre-workout:compare",
+    "question": "Compare TONE and CUTS Natural",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout",
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [
+      "thermogenic",
+      "cutting,"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "beta-alanine-raw|creatine-monohydrate-raw:compare",
+    "question": "Compare Beta-Alanine RAW and Creatine RAW",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "beta-alanine-raw",
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "training"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "beta-alanine-raw|l-citrulline-raw:compare",
+    "question": "Compare Beta-Alanine RAW and L-Citrulline RAW",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "beta-alanine-raw",
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [
+      "Beta-Alanine",
+      "training"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "creatine-monohydrate-raw|l-citrulline-raw:compare",
+    "question": "Compare Creatine RAW and L-Citrulline RAW",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw",
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [
+      "Creatine",
+      "strength"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "fit-performance-pre-workout|underground-high-stimulant:compare",
+    "question": "Compare FIT and UNDERGROUND",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "fit-performance-pre-workout",
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "energy,",
+      "UNDERGROUND"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "fit-performance-pre-workout|nootropic-high-focus-pre-workout:compare",
+    "question": "Compare FIT and NOOTROPIC",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "fit-performance-pre-workout",
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [
+      "energy,",
+      "NOOTROPIC"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "nootropic-high-focus-pre-workout|underground-high-stimulant:compare",
+    "question": "Compare NOOTROPIC and UNDERGROUND",
+    "expectedIntent": "compare_products",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout",
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [
+      "NOOTROPIC",
+      "UNDERGROUND"
+    ],
+    "forbiddenClaims": [
+      "medically safe"
+    ],
+    "responseType": "comparison"
+  },
+  {
+    "id": "generated:0",
+    "question": "Does CUTS contain Vitamin C?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:1",
+    "question": "Does CUTS Natural contain Calcium?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:2",
+    "question": "Does CUTS Diamond contain L-Carnitine Tartrate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:3",
+    "question": "Does CUTS PUMP contain Pink Himalayan Salt?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-pump-thermogenic-liquid-glycerol"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:4",
+    "question": "Does CUTS PILLS contain Guarana Extract?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-pills-thermogenic-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:5",
+    "question": "Does CUTS HEAT contain L-Tyrosine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-heat-stim-free-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:6",
+    "question": "Does SCORCH contain Choline Bitartrate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "scorch-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:7",
+    "question": "Does TONE contain L-Carnitine Tartrate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "tone-weight-loss-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:8",
+    "question": "Does BULK contain Beta-Alanine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bulk-testosterone-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:9",
+    "question": "Does BULK APEX contain elevATP?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bulk-apex-strength-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:10",
+    "question": "Does BULK PILLS contain Black Pepper Extract?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bulk-pills-testosterone-capsules"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:11",
+    "question": "Does Beta-Alanine RAW contain Beta-Alanine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "beta-alanine-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:12",
+    "question": "Does Creatine RAW contain Creatine Monohydrate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "creatine-monohydrate-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:13",
+    "question": "Does FIT contain Beta-Alanine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "fit-performance-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:14",
+    "question": "Does NOOTROPIC contain Beta-Alanine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "nootropic-high-focus-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:15",
+    "question": "Does UNDERGROUND contain AstraGin?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "underground-high-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:16",
+    "question": "Does DEFY contain BioPerine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "defy-hyper-stimulant"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:17",
+    "question": "Does RULE contain L-Citrulline?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "rule-hyper-focus"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:18",
+    "question": "Does BUMP contain Uridine Monophosphate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "bump-laser-focus-nootropic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:19",
+    "question": "Does NITRICOXIDE contain Watermelon Juice Powder?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "nitricoxide-stim-free-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:20",
+    "question": "Does PUMP contain BioPerine?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "pump-hyper-pump-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:21",
+    "question": "Does L-Citrulline RAW contain L-Citrulline?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "l-citrulline-raw"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:22",
+    "question": "Does CUTS contain Choline Bitartrate?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:23",
+    "question": "Does CUTS Natural contain Raspberry Ketone?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-natural-thermogenic-pre-workout"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  },
+  {
+    "id": "generated:24",
+    "question": "Does CUTS Diamond contain CaloriBurn GP?",
+    "expectedIntent": "find_by_ingredient",
+    "expectedProductIds": [
+      "cuts-diamond-ultra-thermogenic"
+    ],
+    "requiredFacts": [],
+    "forbiddenClaims": [
+      "invented dosage"
+    ],
+    "responseType": "answer"
+  }
+]

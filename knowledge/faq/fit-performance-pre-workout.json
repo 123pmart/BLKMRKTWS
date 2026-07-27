@@ -1,0 +1,546 @@
+[
+  {
+    "id": "fit-performance-pre-workout:faq:01",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is FIT?",
+    "answer": "A performance pre-workout positioned around endurance, power, focus, and moderate stimulant energy.",
+    "tags": [
+      "overview"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:02",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is FIT designed for?",
+    "answer": "FIT is positioned primarily for energy. A performance pre-workout positioned around endurance, power, focus, and moderate stimulant energy.",
+    "tags": [
+      "purpose"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:03",
+    "productId": "fit-performance-pre-workout",
+    "question": "Who is FIT best for?",
+    "answer": "A moderate-stimulant performance position; Customers prioritizing endurance and power support",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:04",
+    "productId": "fit-performance-pre-workout",
+    "question": "Who is FIT not ideal for?",
+    "answer": "A stimulant-free request; Customers seeking a currently orderable portal item",
+    "tags": [
+      "customer"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:05",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is FIT stimulant-free?",
+    "answer": "No. FIT officially lists 200 mg total caffeine per full serving.",
+    "tags": [
+      "stimulant"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:06",
+    "productId": "fit-performance-pre-workout",
+    "question": "How much caffeine is in FIT?",
+    "answer": "FIT officially lists 200 mg total caffeine per full serving.",
+    "tags": [
+      "caffeine"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:07",
+    "productId": "fit-performance-pre-workout",
+    "question": "What are the main ingredients in FIT?",
+    "answer": "Caffeine Anhydrous: 200 mg per full serving, Beta-Alanine: amount not disclosed, PeakO2 Mushroom Blend: amount not disclosed, BioPerine: amount not disclosed, Creatine Monohydrate: amount not disclosed, Betaine Anhydrous: amount not disclosed",
+    "tags": [
+      "formula"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:08",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT use a proprietary blend?",
+    "answer": "FIT has a fully transparent active formula in the canonical record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:09",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is every FIT dosage disclosed?",
+    "answer": "Yes, the active formula is fully disclosed in the current canonical label record.",
+    "tags": [
+      "transparency"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:10",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the serving size for FIT?",
+    "answer": "The current verified source set does not confirm a serving size.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:11",
+    "productId": "fit-performance-pre-workout",
+    "question": "How many servings are in FIT?",
+    "answer": "The current verified source set does not confirm the number of servings.",
+    "tags": [
+      "serving"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:12",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is FIT beginner-friendly?",
+    "answer": "Moderate-stimulant positioning; start with the labeled minimum serving where one is provided.",
+    "tags": [
+      "beginner"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:13",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is FIT for experienced users?",
+    "answer": "Useful for advanced users when its formula goal matches the training need.",
+    "tags": [
+      "advanced"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:14",
+    "productId": "fit-performance-pre-workout",
+    "question": "Can FIT be used late at night?",
+    "answer": "Not the preferred late-night option because the full serving lists 200 mg caffeine.",
+    "tags": [
+      "late-night"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:15",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is FIT positioned for daily use?",
+    "answer": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+    "tags": [
+      "daily"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:16",
+    "productId": "fit-performance-pre-workout",
+    "question": "What does FIT feel like?",
+    "answer": "Energy first. The verified formula does not have a dedicated pump profile. Focus profile: Alpha GPC 50% (amount not disclosed), Mucuna Pruriens (amount not disclosed). The verified formula does not have a dedicated thermogenic profile. Stimulant intensity: moderate.",
+    "tags": [
+      "experience"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:17",
+    "productId": "fit-performance-pre-workout",
+    "question": "How should store staff explain FIT?",
+    "answer": "FIT: A performance pre-workout positioned around endurance, power, focus, and moderate stimulant energy. The easiest concrete points are 200 mg caffeine, Endurance, power, and focus blend structure, Creatine and PeakO2 positioning.",
+    "tags": [
+      "staff"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:18",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the main selling point of FIT?",
+    "answer": "200 mg caffeine; Endurance, power, and focus blend structure; Creatine and PeakO2 positioning",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:19",
+    "productId": "fit-performance-pre-workout",
+    "question": "What objection comes up with FIT?",
+    "answer": "A stimulant-free request",
+    "tags": [
+      "objection"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:20",
+    "productId": "fit-performance-pre-workout",
+    "question": "What products compare with FIT?",
+    "answer": "UNDERGROUND, NOOTROPIC",
+    "tags": [
+      "comparison"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:21",
+    "productId": "fit-performance-pre-workout",
+    "question": "What can replace FIT?",
+    "answer": "UNDERGROUND",
+    "tags": [
+      "substitute"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:22",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is an upgrade from FIT?",
+    "answer": "No formula upgrade is defined; compare by the buyer’s goal.",
+    "tags": [
+      "upgrade"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:23",
+    "productId": "fit-performance-pre-workout",
+    "question": "What stacks with FIT?",
+    "answer": "Commonly paired with nitricoxide-stim-free-pre-workout; review overlapping actives first.; Avoid casually stacking with another stimulant product; compare official caffeine totals and other stimulant ingredients.; Check beta-alanine overlap with other pre-workouts or standalone Beta-Alanine RAW.",
+    "tags": [
+      "stack"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:24",
+    "productId": "fit-performance-pre-workout",
+    "question": "What overlaps when stacking FIT?",
+    "answer": "beta alanine, peako2 mushroom blend, bioperine, creatine monohydrate, betaine anhydrous, alpha gpc 50, theobromine, caffeine anhydrous, mucuna pruriens, vitamin b12, sodium chloride, potassium chloride",
+    "tags": [
+      "stack",
+      "overlap"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:25",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain creatine?",
+    "answer": "Creatine Monohydrate: amount not disclosed",
+    "tags": [
+      "ingredient",
+      "creatine"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:26",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain beta-alanine?",
+    "answer": "Beta-Alanine: amount not disclosed",
+    "tags": [
+      "ingredient",
+      "beta-alanine"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:27",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain citrulline?",
+    "answer": "No citrulline ingredient is listed in the current verified FIT formula.",
+    "tags": [
+      "ingredient",
+      "citrulline"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:28",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain HMB?",
+    "answer": "No hmb ingredient is listed in the current verified FIT formula.",
+    "tags": [
+      "ingredient",
+      "hmb"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:29",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain nootropic ingredients?",
+    "answer": "Yes: Alpha GPC 50%: amount not disclosed; Mucuna Pruriens: amount not disclosed.",
+    "tags": [
+      "ingredient",
+      "focus"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:30",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain nitrate ingredients?",
+    "answer": "No nitrate ingredient is listed in the current verified FIT formula.",
+    "tags": [
+      "ingredient",
+      "nitrates"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:31",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain carnitine?",
+    "answer": "No carnitine ingredient is listed in the current verified FIT formula.",
+    "tags": [
+      "ingredient",
+      "carnitine"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:32",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT contain bitter orange?",
+    "answer": "No bitter orange ingredient is listed in the current verified FIT formula.",
+    "tags": [
+      "ingredient"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:33",
+    "productId": "fit-performance-pre-workout",
+    "question": "Does FIT use natural flavors?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "flavors",
+      "label"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:34",
+    "productId": "fit-performance-pre-workout",
+    "question": "What sweeteners or colors does FIT use?",
+    "answer": "Varies by flavor; check the current variant label.",
+    "tags": [
+      "label"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:35",
+    "productId": "fit-performance-pre-workout",
+    "question": "What flavors of FIT are orderable?",
+    "answer": "No current variants are orderable.",
+    "tags": [
+      "flavors",
+      "stock"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:36",
+    "productId": "fit-performance-pre-workout",
+    "question": "Is FIT in stock?",
+    "answer": "No wholesale variants are currently orderable.",
+    "tags": [
+      "stock"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:37",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the MAP for FIT?",
+    "answer": "No current portal price is available.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:38",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the wholesale price for FIT?",
+    "answer": "No current portal price is available.",
+    "tags": [
+      "pricing"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:39",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the retailer margin on FIT?",
+    "answer": "No currently available priced variant is stored.",
+    "tags": [
+      "pricing",
+      "margin"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:40",
+    "productId": "fit-performance-pre-workout",
+    "question": "What should staff avoid claiming about FIT?",
+    "answer": "Do not claim that the product diagnoses, treats, cures, or prevents a disease, and do not present a proprietary ingredient amount as known.",
+    "tags": [
+      "compliance"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  },
+  {
+    "id": "fit-performance-pre-workout:faq:41",
+    "productId": "fit-performance-pre-workout",
+    "question": "What is the bottom-line pitch for FIT?",
+    "answer": "A balanced performance formula with 200 mg caffeine, creatine, Beta-Alanine, PeakO2, betaine, and Alpha GPC. The clearest differentiators are 200 mg caffeine; Endurance, power, and focus blend structure; Creatine and PeakO2 positioning.",
+    "tags": [
+      "sales"
+    ],
+    "sourceReferences": [
+      "fit-performance-pre-workout:guide",
+      "fit-performance-pre-workout:portal-catalog"
+    ]
+  }
+]

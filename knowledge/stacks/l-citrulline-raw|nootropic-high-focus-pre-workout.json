@@ -1,0 +1,31 @@
+{
+  "id": "l-citrulline-raw|nootropic-high-focus-pre-workout",
+  "productIds": [
+    "nootropic-high-focus-pre-workout",
+    "l-citrulline-raw"
+  ],
+  "name": "Focus pre-workout plus additional citrulline",
+  "positioning": "NOOTROPIC supplies focus positioning while L-Citrulline RAW adds pump positioning.",
+  "overlaps": [
+    "l citrulline"
+  ],
+  "cautions": [
+    "The listed full servings total 350 mg official caffeine before any other dietary sources.",
+    "Overlapping disclosed ingredients: l citrulline.",
+    "This is product education, not a statement that the combination is medically safe for an individual."
+  ],
+  "retailerExplanation": "Explain the roles separately, check duplicate stimulants and actives, and have the buyer follow both labels rather than treating the combination as one serving.",
+  "sourceReferences": [
+    "nootropic-high-focus-pre-workout:catalog",
+    "nootropic-high-focus-pre-workout:official",
+    "nootropic-high-focus-pre-workout:label",
+    "nootropic-high-focus-pre-workout:guide",
+    "nootropic-high-focus-pre-workout:portal-catalog",
+    "nootropic-high-focus-pre-workout:official-page",
+    "nootropic-high-focus-pre-workout:current-label",
+    "l-citrulline-raw:catalog",
+    "l-citrulline-raw:official",
+    "l-citrulline-raw:label",
+    "l-citrulline-raw:portal-catalog"
+  ]
+}

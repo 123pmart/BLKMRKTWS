@@ -1,0 +1,412 @@
+{
+  "id": "bulk-pills-testosterone-capsules",
+  "brandId": "blackmarketlabs",
+  "officialName": "BULK PILLS Testosterone Capsules",
+  "shortName": "BULK PILLS",
+  "slug": "bulk-testosterone-pills",
+  "aliases": [
+    "bulk pills",
+    "bulk capsules",
+    "testosterone pills"
+  ],
+  "commonMisspellings": [],
+  "category": "Strength Products",
+  "subcategory": "strength",
+  "productType": "capsule",
+  "format": "capsules",
+  "status": "active",
+  "featured": false,
+  "hidden": false,
+  "comingSoon": false,
+  "limited": false,
+  "runningLow": false,
+  "primaryGoal": "Strength and power",
+  "secondaryGoals": [
+    "Recovery"
+  ],
+  "shortDescription": "A capsule-format strength and testosterone-support product.",
+  "wholesaleSummary": "A convenient non-pre-workout strength-category add-on with the highest base MAP margin in the current portal.",
+  "retailerSalesPitch": "A convenient non-pre-workout strength-category add-on with the highest base MAP margin in the current portal.",
+  "keyDifferentiators": [
+    "No flavor decision",
+    "30 servings",
+    "Fadogia, Bulbine, Tongkat Ali, and Shilajit"
+  ],
+  "bestFor": [
+    "Capsule-format strength assortment",
+    "Cross-selling beside BULK powder"
+  ],
+  "notIdealFor": [
+    "A pre-workout energy request"
+  ],
+  "targetCustomer": "Capsule-format strength assortment; Cross-selling beside BULK powder",
+  "suggestedStaffExplanation": "BULK PILLS: A capsule-format strength and testosterone-support product. The easiest concrete points are No flavor decision, 30 servings, Fadogia, Bulbine, Tongkat Ali, and Shilajit.",
+  "suggestedRetailerTalkingPoints": [
+    "A convenient non-pre-workout strength-category add-on with the highest base MAP margin in the current portal.",
+    "No flavor decision",
+    "30 servings",
+    "Fadogia, Bulbine, Tongkat Ali, and Shilajit"
+  ],
+  "servingSize": "4 capsules",
+  "servingsPerContainer": 30,
+  "calories": null,
+  "fullServing": [
+    {
+      "ingredientId": "vitamin-d3",
+      "name": "Vitamin D3",
+      "normalizedName": "vitamin d3",
+      "amount": 125,
+      "unit": "mcg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "vitamin"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "magnesium",
+      "name": "Magnesium",
+      "normalizedName": "magnesium",
+      "amount": 30,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "zinc",
+      "name": "Zinc",
+      "normalizedName": "zinc",
+      "amount": 5.5,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "fadogia-agrestis",
+      "name": "Fadogia Agrestis",
+      "normalizedName": "fadogia agrestis",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "bulbine-natalensis",
+      "name": "Bulbine Natalensis",
+      "normalizedName": "bulbine natalensis",
+      "amount": 500,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "tongkat-ali",
+      "name": "Tongkat Ali",
+      "normalizedName": "tongkat ali",
+      "amount": 400,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "spilanthes-acmella",
+      "name": "Spilanthes Acmella",
+      "normalizedName": "spilanthes acmella",
+      "amount": 300,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "inositol",
+      "name": "Inositol",
+      "normalizedName": "inositol",
+      "amount": 200,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "shilajit",
+      "name": "Shilajit",
+      "normalizedName": "shilajit",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "strength"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "dim",
+      "name": "DIM",
+      "normalizedName": "dim",
+      "amount": 100,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "black-pepper-extract",
+      "name": "Black Pepper Extract",
+      "normalizedName": "black pepper extract",
+      "amount": 10,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "boron-citrate",
+      "name": "Boron Citrate",
+      "normalizedName": "boron citrate",
+      "amount": 10,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "mineral"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    },
+    {
+      "ingredientId": "pregnenolone",
+      "name": "Pregnenolone",
+      "normalizedName": "pregnenolone",
+      "amount": 10,
+      "unit": "mg",
+      "amountStatus": "exact",
+      "servingBasis": "full serving",
+      "blendName": null,
+      "blendTotal": null,
+      "blendTotalUnit": null,
+      "labelOrder": null,
+      "roles": [
+        "other"
+      ],
+      "sourceIds": [
+        "bulk-pills-testosterone-capsules:label"
+      ],
+      "confidence": "high"
+    }
+  ],
+  "partialServings": [],
+  "proprietaryBlends": [],
+  "otherIngredients": [],
+  "totalCaffeineMg": 0,
+  "totalCaffeineStatus": "none",
+  "caffeineSources": [],
+  "stimulantFree": true,
+  "stimulantIntensity": "none",
+  "pumpProfile": "The verified formula does not have a dedicated pump profile.",
+  "focusProfile": "The verified formula does not have a dedicated focus profile.",
+  "thermogenicProfile": "The verified formula does not have a dedicated thermogenic profile.",
+  "strengthProfile": "Strength profile: Fadogia Agrestis 500 mg, Bulbine Natalensis 500 mg, Tongkat Ali 400 mg, Spilanthes Acmella 300 mg, Shilajit 100 mg.",
+  "enduranceProfile": "The verified formula does not have a dedicated performance profile.",
+  "formulaTransparency": "fully-transparent",
+  "beginnerSuitability": "More approachable from a stimulant standpoint; buyers still need to review the full label and directions.",
+  "advancedUserSuitability": "Useful for advanced users when its formula goal matches the training need.",
+  "dailyUseSuitability": "Not specifically positioned as an everyday product; follow label directions and review stimulant overlap.",
+  "lateNightSuitability": "The formula is stimulant-free, making it the line’s more relevant late-day option; individual ingredients and tolerance still matter.",
+  "naturalOrArtificialFlavors": "Varies by flavor; check the current variant label.",
+  "colorsAndSweeteners": "Varies by flavor; check the current variant label.",
+  "directions": [
+    "Use the half-cap or full-cap serving exactly as directed on the current label."
+  ],
+  "warnings": [
+    "Use only as directed on the current label."
+  ],
+  "stackingCompatibility": [
+    "Commonly paired with bulk-testosterone-pre-workout; review overlapping actives first.",
+    "Commonly paired with bulk-apex-strength-pre-workout; review overlapping actives first."
+  ],
+  "overlappingIngredients": [
+    "vitamin d3",
+    "magnesium",
+    "zinc",
+    "fadogia agrestis",
+    "bulbine natalensis",
+    "tongkat ali",
+    "spilanthes acmella",
+    "inositol",
+    "shilajit",
+    "dim",
+    "black pepper extract",
+    "boron citrate",
+    "pregnenolone"
+  ],
+  "relatedProducts": [
+    "bulk-testosterone-pre-workout"
+  ],
+  "alternatives": [],
+  "upgrades": [],
+  "downgrades": [],
+  "searchTags": [
+    "bulk pills",
+    "bulk capsules",
+    "testosterone pills",
+    "strength",
+    "recovery",
+    "vitamin d3",
+    "vitamin",
+    "magnesium",
+    "mineral",
+    "zinc",
+    "fadogia agrestis",
+    "bulbine natalensis",
+    "tongkat ali",
+    "spilanthes acmella",
+    "inositol",
+    "other",
+    "shilajit",
+    "dim",
+    "black pepper extract",
+    "boron citrate",
+    "pregnenolone"
+  ],
+  "flavors": [
+    {
+      "variantId": "bulk-pills-testosterone-capsules-capsules-56315",
+      "flavor": "Capsules",
+      "sku": "56315",
+      "stockStatus": "available",
+      "visibility": "visible",
+      "limited": false,
+      "runningLow": false,
+      "wholesalePrice": 23,
+      "mapPrice": 69.99
+    }
+  ],
+  "verificationStatus": "verified",
+  "sourceReferences": [
+    "bulk-pills-testosterone-capsules:catalog",
+    "bulk-pills-testosterone-capsules:official",
+    "bulk-pills-testosterone-capsules:label",
+    "bulk-pills-testosterone-capsules:portal-catalog",
+    "bulk-pills-testosterone-capsules:official-page"
+  ],
+  "conflicts": [],
+  "lastVerifiedAt": "2026-07-27"
+}

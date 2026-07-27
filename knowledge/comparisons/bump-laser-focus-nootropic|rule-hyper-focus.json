@@ -1,0 +1,59 @@
+{
+  "id": "bump-laser-focus-nootropic|rule-hyper-focus",
+  "productIds": [
+    "rule-hyper-focus",
+    "bump-laser-focus-nootropic"
+  ],
+  "title": "RULE vs BUMP",
+  "directVerdict": "RULE is the better fit for focus, while BUMP is the better fit for focus.",
+  "majorFormulaDifferences": [
+    "L-Tyrosine: RULE 3 g; BUMP 4 g.",
+    "Lion's Mane: RULE 800 mg; BUMP 500 mg.",
+    "Uridine Monophosphate: RULE 250 mg; BUMP 100 mg.",
+    "Caffeine Anhydrous: RULE 350 mg; BUMP 80 mg.",
+    "L-Theanine: RULE 100 mg; BUMP 80 mg.",
+    "Bitter Orange Extract: RULE 80 mg; BUMP 60 mg.",
+    "Only RULE discloses: L-Citrulline: 5 g per 2 scoops; Beta-Alanine: 5 g per 2 scoops; Dendrobium Extract: 300 mg per 2 scoops; Pink Himalayan Salt: 300 mg per 2 scoops; Theobromine: 200 mg per 2 scoops; Eria Jarensis: 150 mg per 2 scoops; Cafe Alatus: 100 mg per 2 scoops; Mucuna Pruriens: 100 mg per 2 scoops.",
+    "Only BUMP discloses: Taurine: 2 g per 2 scoops; GABA: 500 mg per 2 scoops; 5-HTP: 100 mg per 2 scoops; Natural Caffeine: 80 mg per 2 scoops; PEAKO2: 20 mg per 2 scoops.",
+    "RULE caffeine: RULE officially lists 485 mg total caffeine per 2 scoops; 1-scoop option also shown. BUMP caffeine: BUMP lists stimulant ingredients, but the verified source set does not confirm a total caffeine amount."
+  ],
+  "experience": "RULE: RULE: A hyper-focus pre-workout positioned around concentrated nootropic support, controlled focus, energy, and performance. The easiest concrete points are 485 mg official total caffeine at two scoops, 3 g L-Tyrosine, Lion's Mane and Uridine. BUMP: BUMP: A lower-stimulant nootropic drink positioned for work, gaming, and daily mental focus rather than a full high-stim pre-workout. The easiest concrete points are Nootropic-first daily positioning, Lower-stimulant placement, Two represented flavors.",
+  "chooseFirstWhen": [
+    "Experienced stimulant users",
+    "Customers prioritizing focus and nootropic ingredients"
+  ],
+  "chooseSecondWhen": [
+    "Daily focus positioning",
+    "A lower-stimulant alternative",
+    "Work and gaming merchandising"
+  ],
+  "tradeoffs": [
+    "RULE: Stimulant-sensitive shoppers; A daily low-stimulant request",
+    "BUMP: Customers seeking a maximum-stimulant pre-workout; Questions requiring a confirmed total-caffeine value until the label conflict is resolved"
+  ],
+  "overlappingIngredients": [
+    "l tyrosine",
+    "lion s mane",
+    "alpha gpc",
+    "uridine monophosphate",
+    "caffeine anhydrous",
+    "l theanine",
+    "bitter orange extract",
+    "bioperine"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: RULE for focus; BUMP for focus.",
+  "sourceReferences": [
+    "rule-hyper-focus:catalog",
+    "rule-hyper-focus:official",
+    "rule-hyper-focus:label",
+    "rule-hyper-focus:guide",
+    "rule-hyper-focus:portal-catalog",
+    "rule-hyper-focus:official-page",
+    "rule-hyper-focus:current-label",
+    "bump-laser-focus-nootropic:catalog",
+    "bump-laser-focus-nootropic:official",
+    "bump-laser-focus-nootropic:label",
+    "bump-laser-focus-nootropic:portal-catalog",
+    "bump-laser-focus-nootropic:official-page"
+  ]
+}

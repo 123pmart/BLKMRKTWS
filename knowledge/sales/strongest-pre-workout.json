@@ -1,0 +1,47 @@
+{
+  "id": "strongest-pre-workout",
+  "queryTags": [
+    "strongest",
+    "high stim",
+    "maximum energy"
+  ],
+  "verdict": "RULE is the leading match for this request based on verified formula and positioning fields.",
+  "rankedProductIds": [
+    "rule-hyper-focus",
+    "scorch-ultra-thermogenic",
+    "defy-hyper-stimulant",
+    "bulk-apex-strength-pre-workout",
+    "nootropic-high-focus-pre-workout"
+  ],
+  "reasons": {
+    "rule-hyper-focus": [
+      "Highest official caffeine and hyper-stimulant positioning",
+      "485 mg official total caffeine at two scoops",
+      "3 g L-Tyrosine"
+    ],
+    "scorch-ultra-thermogenic": [
+      "Highest official caffeine and hyper-stimulant positioning",
+      "450 mg official total caffeine",
+      "8 g L-Citrulline"
+    ],
+    "defy-hyper-stimulant": [
+      "Highest official caffeine and hyper-stimulant positioning",
+      "450 mg official total caffeine at two scoops",
+      "10 g L-Citrulline"
+    ],
+    "bulk-apex-strength-pre-workout": [
+      "Highest official caffeine and hyper-stimulant positioning",
+      "5 g Creatine Monohydrate",
+      "3 g Calcium HMB"
+    ],
+    "nootropic-high-focus-pre-workout": [
+      "Highest official caffeine and hyper-stimulant positioning",
+      "350 mg caffeine anhydrous",
+      "Lion's Mane and Alpha GPC positioning"
+    ]
+  },
+  "exclusions": [
+    "Unavailable and hidden variants are not recommended.",
+    "Recommendations describe product positioning, not medical suitability."
+  ]
+}

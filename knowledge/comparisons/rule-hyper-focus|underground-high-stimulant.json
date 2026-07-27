@@ -1,0 +1,59 @@
+{
+  "id": "rule-hyper-focus|underground-high-stimulant",
+  "productIds": [
+    "rule-hyper-focus",
+    "underground-high-stimulant"
+  ],
+  "title": "RULE vs UNDERGROUND",
+  "directVerdict": "RULE is the better fit for focus, while UNDERGROUND is the better fit for energy.",
+  "majorFormulaDifferences": [
+    "Beta-Alanine: RULE 5 g; UNDERGROUND 3.2 g.",
+    "Alpha GPC: RULE 600 mg; UNDERGROUND 300 mg.",
+    "Theobromine: RULE 200 mg; UNDERGROUND 150 mg.",
+    "Mucuna Pruriens: RULE 100 mg; UNDERGROUND 70 mg.",
+    "L-Theanine: RULE 100 mg; UNDERGROUND 150 mg.",
+    "Only RULE discloses: L-Citrulline: 5 g per 2 scoops; L-Tyrosine: 3 g per 2 scoops; Lion's Mane: 800 mg per 2 scoops; Dendrobium Extract: 300 mg per 2 scoops; Uridine Monophosphate: 250 mg per 2 scoops; Cafe Alatus: 100 mg per 2 scoops; Bitter Orange Extract: 80 mg per 2 scoops; Dicaffeine Malate: 50 mg per 2 scoops.",
+    "Only UNDERGROUND discloses: Citrulline Malate: 7 g per full serving; Taurine: 1000 mg per full serving; Dendrobium Extract 10:1: 600 mg per full serving; Sodium Bicarbonate: 500 mg per full serving; N-Acetyl L-Tyrosine: 250 mg per full serving; Choline Bitartrate: 200 mg per full serving; Juniper Berry: 150 mg per full serving; AstraGin: 25 mg per full serving.",
+    "RULE caffeine: RULE officially lists 485 mg total caffeine per 2 scoops; 1-scoop option also shown. UNDERGROUND caffeine: UNDERGROUND officially lists 350 mg total caffeine per 1 scoop (17.04 g)."
+  ],
+  "experience": "RULE: RULE: A hyper-focus pre-workout positioned around concentrated nootropic support, controlled focus, energy, and performance. The easiest concrete points are 485 mg official total caffeine at two scoops, 3 g L-Tyrosine, Lion's Mane and Uridine. UNDERGROUND: UNDERGROUND: A high-stimulant pre-workout with a broad disclosed focus and performance formula. The easiest concrete points are 350 mg caffeine, 7 g Citrulline Malate, 3.2 g Beta-Alanine.",
+  "chooseFirstWhen": [
+    "Experienced stimulant users",
+    "Customers prioritizing focus and nootropic ingredients"
+  ],
+  "chooseSecondWhen": [
+    "Experienced stimulant users",
+    "Customers seeking 350 mg caffeine and a full pre-workout"
+  ],
+  "tradeoffs": [
+    "RULE: Stimulant-sensitive shoppers; A daily low-stimulant request",
+    "UNDERGROUND: Stimulant-sensitive shoppers; A daily low-stimulant request"
+  ],
+  "overlappingIngredients": [
+    "beta alanine",
+    "alpha gpc",
+    "pink himalayan salt",
+    "theobromine",
+    "eria jarensis",
+    "caffeine anhydrous",
+    "mucuna pruriens",
+    "l theanine"
+  ],
+  "bottomLine": "Match the recommendation to the buyer’s primary goal: RULE for focus; UNDERGROUND for energy.",
+  "sourceReferences": [
+    "rule-hyper-focus:catalog",
+    "rule-hyper-focus:official",
+    "rule-hyper-focus:label",
+    "rule-hyper-focus:guide",
+    "rule-hyper-focus:portal-catalog",
+    "rule-hyper-focus:official-page",
+    "rule-hyper-focus:current-label",
+    "underground-high-stimulant:catalog",
+    "underground-high-stimulant:official",
+    "underground-high-stimulant:label",
+    "underground-high-stimulant:guide",
+    "underground-high-stimulant:portal-catalog",
+    "underground-high-stimulant:official-page",
+    "underground-high-stimulant:current-label"
+  ]
+}
