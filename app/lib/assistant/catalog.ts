@@ -102,7 +102,7 @@ export async function loadAssistantProducts(overrides: StorePriceOverride[] = []
       verification: knowledge.verification,
       variants,
     } satisfies AssistantProduct;
-  }).filter((product) => product.variants.length > 0);
+  });
 }
 
 const OWNER_CONFIRMED_SOLD_OUT_VARIANTS = new Set([

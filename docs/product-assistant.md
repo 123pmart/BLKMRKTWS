@@ -19,9 +19,9 @@ The customer interface is a React-owned App Router route at `/assistant`. The re
 ## Main modules
 
 - `app/lib/assistant/types.ts`: knowledge, source, runtime-product, response, context, and cart-action contracts.
-- `app/lib/assistant/knowledge-data.ts`: reviewed baseline knowledge linked to portal labels and official BlackMarketLabs product pages.
+- `app/lib/assistant/knowledge-data.ts`: structured baseline knowledge linked to the owner-supplied BLACKMARKETLABS Product Guide, portal labels, and official product pages.
 - `app/lib/assistant/catalog.ts`: merges knowledge with the live catalog, status overrides, and authenticated account pricing.
-- `app/lib/assistant/engine.ts`: local entity recognition, intent classification, verified query logic, comparisons, recommendations, and cart-action planning.
+- `app/lib/assistant/engine.ts`: local entity recognition, conversational handling, intent classification, product queries, comparisons, recommendations, and cart-action planning.
 - `app/components/assistant/product-assistant.tsx`: minimal text-first conversation UI, inline cart confirmations, undo, and the legacy-cart adapter. Product cards and comparison tables are intentionally not rendered in chat.
 - `app/admin/assistant/page.tsx`: authenticated Assistant Knowledge review route.
 - `app/api/admin/assistant-knowledge/route.ts`: same-origin, admin-authenticated knowledge persistence.
@@ -37,13 +37,9 @@ Amounts distinguish exact disclosed dosage, proprietary blend total, ingredient 
 
 Full-serving caffeine is stored separately from the weights of individual caffeine-source ingredients. This prevents ingredient weight from being mistaken for caffeine yield.
 
-Current known review items:
+The owner-supplied 17-page BLACKMARKETLABS Product Guide dated 2026-07-27 is an authoritative source for CUTS, NOOTROPIC, TONE, BULK, UNDERGROUND, NITRICOXIDE, FIT, CUTS Diamond, DEFY, RULE, PUMP, and CUTS PUMP. Its disclosed formula values are encoded directly in the structured records. Ingredients printed inside proprietary blends remain listed without invented individual amounts.
 
-- BULK: official ingredients and 300 mg caffeine are verified, but a clear current Supplement Facts image is still needed for all exact dosages.
-- NOOTROPIC: official featured ingredients and 350 mg caffeine are verified; remaining exact dosages need a clean label review.
-- BUMP: the official page says 80 mg total caffeine while the current two-scoop label appears to show 80 mg from each of two sources. No total is presented as verified.
-- CUTS, CUTS Natural, and TONE contain proprietary blends. Undisclosed individual dosages remain undisclosed.
-- CUTS PILLS has 175 mg caffeine anhydrous plus guarana; a total-caffeine value is not claimed.
+FIT is available for product education from the guide but has no current portal variants, so the assistant describes it without presenting it as orderable. BUMP is not covered by this guide; the assistant uses its existing label record and does not claim a combined caffeine total when the source materials do not provide one consistently.
 
 ## Status policy
 
@@ -89,8 +85,8 @@ Intent priority matters. Cart mutations, medical guardrails, comparisons, formul
 Recommendations are explainable:
 
 - a product receives five points for each matching approved goal;
-- experienced/high-stim wording adds points only when verified full-serving caffeine is at least 350 mg;
-- caffeine-sensitive wording strongly favors verified stimulant-free products;
+- experienced/high-stim wording adds points when the listed full-serving caffeine is at least 350 mg;
+- caffeine-sensitive wording strongly favors stimulant-free products;
 - ties use current MAP margin only as a secondary wholesale factor.
 
 Unavailable products are excluded. The assistant displays the matching reasons instead of claiming a personalized health outcome.
@@ -101,7 +97,7 @@ The assistant does not create another cart. It reads and writes the current `bla
 
 All natural-language cart actions first produce a pending action. The user must confirm it. Supported actions include add, remove, set quantity, unambiguous product replacement, cart summary, category-coverage analysis, and one-step undo.
 
-Case quantities are intentionally unsupported until verified case packs exist. Order submission still uses the existing server catalog to reprice and validate every line.
+Case quantities are intentionally unsupported because the product guide does not provide case packs. Order submission still uses the existing server catalog to reprice and validate every line.
 
 ## Follow-up context
 
@@ -113,13 +109,13 @@ No customer names, email addresses, shipping details, or medical information are
 
 ## Testing
 
-`tests/product-assistant.test.mjs` covers exact/alias/misspelling matching, product/ingredient ambiguity, comparisons, caffeine ranking, ingredient inclusion and safe exclusion, stimulant-free filtering, pricing and margin, flavor status, follow-up context, cart actions, cart totals, case refusal, and medical guardrails.
+`tests/product-assistant.test.mjs` covers exact/alias/misspelling matching, product/ingredient ambiguity, owner-guide formula corrections, greetings, general product education, outside-brand scope, comparisons, caffeine ranking, ingredient inclusion and safe exclusion, stimulant-free filtering, pricing and margin, flavor status, follow-up context, cart actions, cart totals, case refusal, and medical guardrails.
 
 ## Known limitations
 
 - This is deterministic language matching, not open-ended generative language understanding.
 - Ambiguous variants require clarification.
-- No verified case quantities exist.
+- No case quantities are provided.
 - No cross-device conversation history is stored.
 - Recommendation scoring reflects approved product positioning, not individualized medical suitability.
 - The legacy catalog and cart still load `public/app.js`; `/assistant` itself does not.

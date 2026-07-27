@@ -15,13 +15,13 @@ const rawById = new Map(rawCatalog.products.map((product) => [product.id, produc
 
 const products = PRODUCT_KNOWLEDGE.map((knowledge) => {
   const raw = rawById.get(knowledge.productId);
-  const variants = raw.variants.map((variant) => ({
+  const variants = (raw?.variants || []).map((variant) => ({
     id: variant.id,
-    productId: raw.id,
+    productId: raw?.id || knowledge.productId,
     flavor: variant.flavor,
     item: variant.item,
     upc: variant.upc || "",
-    image: variant.cardImage || variant.bottle || raw.bottle,
+    image: variant.cardImage || variant.bottle || raw?.bottle || "",
     wholesalePrice: variant.wholesaleValue,
     standardWholesalePrice: variant.wholesaleValue,
     mapPrice: variant.mapValue,
@@ -38,7 +38,7 @@ const products = PRODUCT_KNOWLEDGE.map((knowledge) => {
       flavor: "Dragon Punch",
       item: "56330",
       upc: "",
-      image: raw.bottle,
+      image: raw?.bottle || "",
       wholesalePrice: 28,
       standardWholesalePrice: 28,
       mapPrice: 59.99,
@@ -51,12 +51,12 @@ const products = PRODUCT_KNOWLEDGE.map((knowledge) => {
   }
   return {
     id: knowledge.productId,
-    name: raw.title,
+    name: raw?.title || knowledge.shortName,
     shortName: knowledge.shortName,
-    slug: raw.handle,
-    category: raw.category,
-    categorySlug: raw.categorySlug,
-    image: raw.bottle,
+    slug: raw?.handle || knowledge.productId,
+    category: raw?.category || "Products",
+    categorySlug: raw?.categorySlug || "products",
+    image: raw?.bottle || "",
     aliases: knowledge.aliases,
     commonMisspellings: knowledge.commonMisspellings || [],
     purpose: knowledge.purpose,
@@ -152,8 +152,8 @@ test("finds ingredients across products instead of treating ingredient RAW produ
 test("only confirms ingredient exclusions for verified formulas", () => {
   const response = answerAssistantQuestion("Which products do not contain yohimbine?", products);
   assert.equal(response.intent, "exclude_ingredient");
-  assert.ok(!response.productIds.includes("bulk-testosterone-pre-workout"));
-  assert.ok(response.details.includes("Products with incomplete formulas are omitted from exclusion results."));
+  assert.ok(response.productIds.includes("bulk-testosterone-pre-workout"));
+  assert.ok(response.details.includes("Products with proprietary or incomplete ingredient lists are omitted from exclusion results."));
 });
 
 test("returns verified stimulant-free products", () => {
@@ -214,13 +214,36 @@ test("remove, quantity update, and cart totals use stable variant IDs", () => {
 test("case requests do not invent case quantities", () => {
   const response = answerAssistantQuestion("Add one case of each RULE flavor", products, { cart: {} });
   assert.equal(response.responseType, "unsupported");
-  assert.match(response.directAnswer, /don’t have verified case quantities/);
+  assert.match(response.directAnswer, /Case quantities are not included/);
 });
 
 test("unknown and medical questions never produce unsupported formula or medical claims", () => {
   const unknown = answerAssistantQuestion("Will this cure a medical condition?", products);
   assert.equal(unknown.responseType, "unsupported");
-  assert.match(unknown.directAnswer, /don’t have enough verified product information/);
+  assert.match(unknown.directAnswer, /built specifically for BlackMarketLabs/);
   const medical = answerAssistantQuestion("Is DEFY safe for high blood pressure?", products);
   assert.doesNotMatch(`${medical.directAnswer} ${medical.details.join(" ")}`, /\bsafe for\b.*high blood pressure/i);
+});
+
+test("handles greetings, capabilities, general product education, and outside brands conversationally", () => {
+  assert.equal(answerAssistantQuestion("Hi", products).directAnswer, "Hey — how can I help you with the BlackMarketLabs lineup?");
+  assert.match(answerAssistantQuestion("What can you do?", products).directAnswer, /compare formulas/i);
+  assert.match(answerAssistantQuestion("What is a thermogenic?", products).directAnswer, /cutting category/i);
+  assert.match(answerAssistantQuestion("Tell me about C4", products).directAnswer, /built specifically for BlackMarketLabs/i);
+});
+
+test("owner-supplied product guide corrections are represented exactly", () => {
+  const defy = products.find((product) => product.id === "defy-hyper-stimulant");
+  const rule = products.find((product) => product.id === "rule-hyper-focus");
+  const underground = products.find((product) => product.id === "underground-high-stimulant");
+  const nootropic = products.find((product) => product.id === "nootropic-high-focus-pre-workout");
+  const fit = products.find((product) => product.id === "fit-performance-pre-workout");
+  assert.equal(defy.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 150);
+  assert.equal(defy.formula.ingredients.find((item) => item.name === "Eria Jarensis").amount, 300);
+  assert.equal(rule.formula.ingredients.find((item) => item.name === "Mucuna Pruriens").amount, 350);
+  assert.equal(rule.formula.ingredients.find((item) => item.name === "Bitter Orange Extract").amount, 100);
+  assert.equal(underground.formula.totalCaffeineMg, 300);
+  assert.equal(nootropic.formula.ingredients.find((item) => item.name === "Lion's Mane").amount, 600);
+  assert.equal(fit.formula.totalCaffeineMg, 200);
+  assert.equal(fit.variants.length, 0);
 });

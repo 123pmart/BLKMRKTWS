@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { answerAssistantQuestion } from "@/lib/assistant/engine";
 import type {
@@ -120,8 +120,10 @@ export function ProductAssistant({
             <article className="assistant-turn" key={turn.id}>
               <p className="assistant-question">{turn.question}</p>
               <AssistantAnswer
+                key={turn.response.directAnswer}
                 question={turn.question}
                 response={turn.response}
+                animate={index === turns.length - 1}
                 maintenanceMode={maintenanceMode}
                 onApplyAction={index === turns.length - 1 ? applyAction : undefined}
                 onSuggestion={ask}
@@ -161,30 +163,39 @@ export function ProductAssistant({
 function AssistantAnswer({
   question,
   response,
+  animate,
   maintenanceMode,
   onApplyAction,
   onSuggestion,
 }: {
   question: string;
   response: AssistantResponse;
+  animate: boolean;
   maintenanceMode: boolean;
   onApplyAction?: (action: AssistantCartAction) => void;
   onSuggestion: (question: string) => void;
 }) {
   const details = visibleDetails(question, response);
+  const [answerComplete, setAnswerComplete] = useState(!animate);
+  const completeAnswer = useCallback(() => setAnswerComplete(true), []);
 
   return (
     <div className="assistant-answer">
       <span className="assistant-answer-label">BLACKMARKET AI</span>
-      <p className="assistant-direct-answer">{response.directAnswer}</p>
+      <StreamingText
+        className="assistant-direct-answer"
+        text={response.directAnswer}
+        animate={animate}
+        onComplete={completeAnswer}
+      />
 
-      {details.length ? (
+      {answerComplete && details.length ? (
         <div className="assistant-answer-details">
           {details.map((detail, index) => <p key={`${detail}-${index}`}>{detail}</p>)}
         </div>
       ) : null}
 
-      {response.clarification?.options.length ? (
+      {answerComplete && response.clarification?.options.length ? (
         <div className="assistant-option-row">
           {response.clarification.options.map((option) => (
             <button
@@ -198,7 +209,7 @@ function AssistantAnswer({
         </div>
       ) : null}
 
-      {response.pendingAction && onApplyAction ? (
+      {answerComplete && response.pendingAction && onApplyAction ? (
         <div className="assistant-confirm-action">
           <span>{response.pendingAction.label}</span>
           <button type="button" onClick={() => onApplyAction(response.pendingAction!)} disabled={maintenanceMode}>
@@ -207,6 +218,61 @@ function AssistantAnswer({
         </div>
       ) : null}
     </div>
+  );
+}
+
+function StreamingText({
+  text,
+  animate,
+  className,
+  onComplete,
+}: {
+  text: string;
+  animate: boolean;
+  className: string;
+  onComplete: () => void;
+}) {
+  const [visibleLength, setVisibleLength] = useState(animate ? 0 : text.length);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!animate) {
+      return;
+    }
+    if (reducedMotion) {
+      const reducedMotionTimer = window.setTimeout(() => {
+        setVisibleLength(text.length);
+        onComplete();
+      }, 0);
+      return () => window.clearTimeout(reducedMotionTimer);
+    }
+
+    let currentLength = 0;
+    let interval = 0;
+    const charactersPerTick = Math.max(1, Math.ceil(text.length / 110));
+    const delay = window.setTimeout(() => {
+      interval = window.setInterval(() => {
+        currentLength = Math.min(text.length, currentLength + charactersPerTick);
+        setVisibleLength(currentLength);
+        if (currentLength >= text.length) {
+          window.clearInterval(interval);
+          onComplete();
+        }
+      }, 14);
+    }, 160);
+
+    return () => {
+      window.clearTimeout(delay);
+      window.clearInterval(interval);
+    };
+  }, [animate, onComplete, text]);
+
+  const typing = visibleLength < text.length;
+  return (
+    <p className={className} aria-label={text}>
+      <span aria-hidden="true">{text.slice(0, visibleLength)}</span>
+      {typing ? <span className="assistant-stream-cursor" aria-hidden="true" /> : null}
+    </p>
   );
 }
 

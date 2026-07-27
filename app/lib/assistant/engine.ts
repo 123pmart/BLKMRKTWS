@@ -29,7 +29,6 @@ const INGREDIENT_ALIASES: Record<string, string[]> = {
   "l citrulline": ["citrulline", "l citrulline", "citrulline malate"],
   "beta alanine": ["beta alanine", "beta alinine"],
   "caffeine": ["caffeine", "caffeine anhydrous", "natural caffeine"],
-  "alpha gpc": ["alpha gpc", "alpha-gpc"],
   "lion s mane": ["lion s mane", "lions mane", "lion's mane"],
   "l carnitine": ["carnitine", "l carnitine", "acetyl l carnitine"],
   "yohimbine": ["yohimbine", "alpha yohimbine", "rauwolscine"],
@@ -39,10 +38,39 @@ const INGREDIENT_ALIASES: Record<string, string[]> = {
   "d aspartic acid": ["d aspartic acid", "daa"],
   "progbb": ["progbb", "pro gbb"],
   "glycerol": ["glycerol"],
-  "uridine": ["uridine", "uridine monophosphate"],
   "theanine": ["theanine", "l theanine"],
   "bitter orange": ["bitter orange", "citrus aurantium"],
   "nootropics": ["nootropic", "nootropics"],
+  "agmatine sulfate": ["agmatine", "agmatine sulfate"],
+  "choline bitartrate": ["choline", "choline bitartrate"],
+  "raspberry ketone": ["raspberry ketone", "raspberry ketones"],
+  "mucuna pruriens": ["mucuna", "mucuna pruriens", "velvet bean", "l dopa"],
+  "evodiamine": ["evodiamine"],
+  "chromium": ["chromium", "chromium picolinate"],
+  "vitamin c": ["vitamin c", "ascorbic acid"],
+  "theobromine": ["theobromine"],
+  "dendrobium extract": ["dendrobium", "dendrobium extract"],
+  "eria jarensis": ["eria jarensis", "eria"],
+  "gaba": ["gaba"],
+  "astragin": ["astragin", "astra gin"],
+  "peak o2": ["peak o2", "peako2"],
+  "pink himalayan salt": ["pink salt", "himalayan salt", "pink himalayan salt"],
+  "sodium bicarbonate": ["sodium bicarbonate", "baking soda"],
+  "bio perine": ["bioperine", "bio perine", "black pepper extract"],
+  "cafe alatus": ["cafe alatus", "café alatus", "natural caffeine"],
+  "dicaffeine malate": ["dicaffeine malate", "di caffeine malate", "infinergy"],
+  "grains of paradise": ["grains of paradise", "caloriburn"],
+  "alpha gpc": ["alpha gpc", "alpha-gpc"],
+  "ginkgo biloba": ["ginkgo", "ginkgo biloba"],
+  "pine bark extract": ["pine bark", "pine bark extract"],
+  "citra peak": ["citrapeak", "citra peak"],
+  "betaine nitrate": ["betaine nitrate", "n03 t"],
+  "arginine nitrate": ["arginine nitrate"],
+  "uridine": ["uridine", "uridine monophosphate"],
+  "cla": ["cla", "conjugated linoleic acid"],
+  "biotin": ["biotin", "vitamin b7"],
+  "green tea extract": ["green tea", "green tea extract"],
+  "green coffee bean": ["green coffee", "green coffee bean"],
 };
 
 const GOAL_ALIASES: Record<string, string[]> = {
@@ -72,6 +100,13 @@ export function detectAssistantIntent(question: string, entityCount = 0): Assist
     /\b(diagnose|diagnosis|treat|cure|prevent|disease|medical condition|medication|pregnant|pregnancy)\b/.test(query)
     || /\b(safe|recommend|best)\b.*\b(blood pressure|diabetes|heart|kidney|liver|anxiety|condition)\b/.test(query)
   ) return "unsupported_question";
+  if (/^(hi|hello|hey|hey there|good morning|good afternoon|good evening|how are you|whats up|what s up)$/.test(query)) return "greeting";
+  if (/^(thanks|thank you|thank you very much|appreciate it|got it|cool|awesome)$/.test(query)) return "gratitude";
+  if (/\b(what can you do|how can you help|who are you|what do you know|help me)\b/.test(query)) return "capabilities";
+  if (entityCount === 0 && (
+    /\bwhat (is|does)\b.*\b(pre workout|stimulant free|stim free|thermogenic|pump product|nootropic|map|wholesale|caffeine)\b/.test(query)
+    || /\bexplain\b.*\b(pre workout|stimulant free|stim free|thermogenic|pump product|nootropic|map|wholesale|caffeine)\b/.test(query)
+  )) return "general_product_education";
   if (/\b(replace|swap|switch)\b/.test(query)) return "replace_cart_item";
   if (/\b(remove|delete|take out)\b/.test(query) && /\b(cart|order|from)\b/.test(query)) return "remove_from_cart";
   if (/\b(set|make|change|update)\b/.test(query) && /\b(quantity|qty|units?|cart|order|\d+)\b/.test(query)) return "update_quantity";
@@ -172,6 +207,14 @@ export function answerAssistantQuestion(
   };
 
   switch (intent) {
+    case "greeting":
+      return conversationalResponse(base, "Hey — how can I help you with the BlackMarketLabs lineup?");
+    case "gratitude":
+      return conversationalResponse(base, "You’re welcome. What else would you like to know?");
+    case "capabilities":
+      return conversationalResponse(base, "I can explain BlackMarketLabs products, compare formulas, look up ingredients, caffeine, flavors, pricing, and availability, or help update your wholesale cart.");
+    case "general_product_education":
+      return generalEducationResponse(base, question);
     case "compare_products":
       return comparisonResponse(base, entities.products, question);
     case "explain_product":
@@ -212,12 +255,54 @@ export function answerAssistantQuestion(
     default:
       return {
         ...base,
-        directAnswer: "I don’t have enough verified product information to answer that accurately.",
-        details: ["Try asking about a product, formula, ingredient, price, flavor, comparison, stocking goal, or cart action."],
+        directAnswer: "I’m built specifically for BlackMarketLabs products.",
+        details: ["Ask me about a BlackMarket formula, comparison, ingredient, flavor, price, availability, or wholesale order."],
         productIds: [],
         responseType: "unsupported",
       };
   }
+}
+
+function conversationalResponse(
+  base: Pick<AssistantResponse, "id" | "intent" | "nextContext">,
+  directAnswer: string,
+): AssistantResponse {
+  return {
+    ...base,
+    directAnswer,
+    details: [],
+    productIds: [],
+    responseType: "answer",
+  };
+}
+
+function generalEducationResponse(
+  base: Pick<AssistantResponse, "id" | "intent" | "nextContext">,
+  question: string,
+): AssistantResponse {
+  const query = normalizeAssistantText(question);
+  if (/\bmap\b/.test(query)) {
+    return conversationalResponse(base, "MAP is the minimum advertised price. It is the lowest price a retailer should publicly advertise for a product; the portal shows MAP beside the current wholesale price.");
+  }
+  if (/\bwholesale\b/.test(query)) {
+    return conversationalResponse(base, "Wholesale price is what the store pays. MAP is the minimum advertised shelf price, and the difference is used to estimate the retailer’s gross margin.");
+  }
+  if (/\b(stimulant free|stim free)\b/.test(query)) {
+    return conversationalResponse(base, "Stimulant-free means the product’s formula does not list caffeine or another stimulant. In the BlackMarket line, that position is used for products focused on pump, hydration, performance, or non-stimulant thermogenic support.");
+  }
+  if (/\bthermogenic\b/.test(query)) {
+    return conversationalResponse(base, "A thermogenic product is positioned for the cutting category. In the BlackMarket lineup, CUTS, CUTS Diamond, TONE, SCORCH, and related products combine that positioning with different levels of energy, focus, and performance support.");
+  }
+  if (/\bnootropic\b/.test(query)) {
+    return conversationalResponse(base, "A nootropic product is positioned around focus and cognitive performance. BlackMarket’s focus-forward options include NOOTROPIC, RULE, and BUMP, with very different stimulant levels and use cases.");
+  }
+  if (/\bpump product\b|\bpump\b/.test(query)) {
+    return conversationalResponse(base, "A pump product is built around ingredients used for blood-flow, muscle-fullness, hydration, and training-performance positioning. BlackMarket’s dedicated stimulant-free options include PUMP, NITRICOXIDE, and CUTS PUMP.");
+  }
+  if (/\bcaffeine\b/.test(query)) {
+    return conversationalResponse(base, "Caffeine is the main stimulant amount used to compare energy intensity. Ask me for a specific product’s caffeine or to rank the BlackMarket lineup by caffeine.");
+  }
+  return conversationalResponse(base, "A pre-workout is a formula positioned for use before training. Depending on the product, it may emphasize energy, focus, pump, endurance, strength, or stimulant-free performance.");
 }
 
 function comparisonResponse(
@@ -232,7 +317,7 @@ function comparisonResponse(
   const rows = [
     { label: "Primary purpose", values: compared.map((product) => product.purpose) },
     { label: "Caffeine", values: compared.map(caffeineLabel) },
-    { label: "Serving", values: compared.map((product) => product.formula.servingSize ?? "Not verified") },
+    { label: "Serving", values: compared.map((product) => product.formula.servingSize ?? "Not listed") },
     { label: "Formula highlights", values: compared.map((product) => product.keyDifferentiators.slice(0, 3).join(" · ")) },
     { label: "Wholesale", values: compared.map(priceRange) },
     { label: "MAP", values: compared.map(mapRange) },
@@ -292,9 +377,9 @@ function explanationResponse(
     details: [
       product.retailerPitch,
       ...product.keyDifferentiators,
-      product.formula.verification === "needs-review"
-        ? "Some formula fields are marked Needs Review, so only confirmed fields are shown."
-        : "The displayed formula highlights are linked to verified product sources.",
+      ...(product.formula.ingredients.some((ingredient) => ingredient.amount === undefined)
+        ? ["Some ingredients are listed inside a proprietary blend, so their individual amounts are not disclosed."]
+        : []),
     ],
     productIds: [product.id],
     responseType: "answer",
@@ -311,15 +396,14 @@ function ingredientResponse(
   if (!ingredient) return clarification(base, "Which ingredient should I search for?", []);
   if (entities.products.length) {
     const matching = entities.products.filter((product) => productHasIngredient(product, ingredient));
-    const unknown = entities.products.filter((product) => !productHasIngredient(product, ingredient) && product.formula.verification !== "verified");
     if (exclude) {
       const clear = entities.products.filter((product) => !productHasIngredient(product, ingredient) && product.formula.verification === "verified");
       return {
         ...base,
         directAnswer: clear.length
-          ? `${clear.map((product) => product.shortName).join(", ")} does not list ${displayIngredient(ingredient)} in its verified formula.`
-          : "I don’t have enough verified product information to confirm that exclusion accurately.",
-        details: unknown.length ? [`Needs review before exclusion can be confirmed: ${unknown.map((product) => product.shortName).join(", ")}.`] : [],
+          ? `${clear.map((product) => product.shortName).join(", ")} does not list ${displayIngredient(ingredient)} in its formula.`
+          : `I can’t confirm that ${entities.products.map((product) => product.shortName).join(", ")} excludes ${displayIngredient(ingredient)} from the available formula data.`,
+        details: [],
         productIds: clear.map((product) => product.id),
         responseType: "answer",
       };
@@ -328,9 +412,7 @@ function ingredientResponse(
       ...base,
       directAnswer: matching.length
         ? `${matching.map((product) => product.shortName).join(", ")} contains ${displayIngredient(ingredient)}.`
-        : unknown.length
-          ? "I don’t have enough verified product information to answer that accurately."
-          : `${entities.products.map((product) => product.shortName).join(", ")} does not list ${displayIngredient(ingredient)} in its verified formula.`,
+        : `${entities.products.map((product) => product.shortName).join(", ")} does not list ${displayIngredient(ingredient)} in its formula.`,
       details: matching.flatMap((product) => ingredientDetails(product, ingredient)),
       productIds: matching.map((product) => product.id),
       responseType: "answer",
@@ -346,9 +428,9 @@ function ingredientResponse(
     ...base,
     directAnswer: result.length
       ? `${result.length} currently available product${result.length === 1 ? "" : "s"} ${exclude ? "do not list" : "contain"} ${displayIngredient(ingredient)}.`
-      : "I don’t have enough verified product information to answer that accurately.",
+      : `No currently available BlackMarket products matched ${displayIngredient(ingredient)} in that search.`,
     details: exclude
-      ? ["Products with incomplete formulas are omitted from exclusion results."]
+      ? ["Products with proprietary or incomplete ingredient lists are omitted from exclusion results."]
       : result.flatMap((product) => ingredientDetails(product, ingredient)),
     productIds: result.map((product) => product.id),
     nextContext: { productIds: result.map((product) => product.id), variantIds: [], lastIntent: base.intent },
@@ -367,7 +449,7 @@ function caffeineResponse(
   if (!pool.length) {
     return {
       ...base,
-      directAnswer: "I don’t have enough verified product information to rank those products accurately.",
+      directAnswer: "The product guide does not list a total caffeine amount for those products.",
       details: [],
       productIds: [],
       responseType: "answer",
@@ -376,7 +458,7 @@ function caffeineResponse(
   const leaders = pool.slice(0, selected.length ? 3 : 5);
   return {
     ...base,
-    directAnswer: `${leaders[0].shortName} has the highest verified full-serving caffeine in this set at ${leaders[0].formula.totalCaffeineMg} mg (${leaders[0].formula.caffeineServingBasis}).`,
+    directAnswer: `${leaders[0].shortName} has the highest full-serving caffeine in this set at ${leaders[0].formula.totalCaffeineMg} mg (${leaders[0].formula.caffeineServingBasis}).`,
     details: leaders.map((product, index) => `${index + 1}. ${product.shortName}: ${caffeineLabel(product)}`),
     productIds: leaders.map((product) => product.id),
     nextContext: { productIds: leaders.map((product) => product.id), variantIds: [], lastIntent: "rank_by_caffeine" },
@@ -391,7 +473,7 @@ function stimulantFreeResponse(
   const matches = availableProducts(products).filter((product) => product.formula.stimulantFree);
   return {
     ...base,
-    directAnswer: `${matches.length} currently available products are verified stimulant-free.`,
+    directAnswer: `${matches.length} currently available products are stimulant-free.`,
     details: matches.map((product) => `${product.shortName}: ${product.purpose}`),
     productIds: matches.map((product) => product.id),
     nextContext: { productIds: matches.map((product) => product.id), variantIds: [], lastIntent: "find_stimulant_free" },
@@ -431,6 +513,15 @@ function flavorResponse(
   products: AssistantProduct[],
 ): AssistantResponse {
   if (!products.length) return clarification(base, "Which product’s flavors would you like to see?", []);
+  if (products.every((product) => product.variants.length === 0)) {
+    return {
+      ...base,
+      directAnswer: `${products.map((product) => product.shortName).join(", ")} is not currently listed as an orderable product in the wholesale portal.`,
+      details: [],
+      productIds: products.map((product) => product.id),
+      responseType: "answer",
+    };
+  }
   return {
     ...base,
     directAnswer: products.map((product) => {
@@ -456,6 +547,15 @@ function stockResponse(
     : intent === "show_new_products"
       ? allProducts.filter((product) => product.variants.some((variant) => variant.limited || variant.status === "coming-soon"))
       : allProducts;
+  if (selected.length && selected.every((product) => product.variants.length === 0)) {
+    return {
+      ...base,
+      directAnswer: `${selected.map((product) => product.shortName).join(", ")} is covered by the product guide but is not currently orderable in the wholesale portal.`,
+      details: [],
+      productIds: selected.map((product) => product.id),
+      responseType: "answer",
+    };
+  }
   const details = pool.flatMap((product) => product.variants
     .filter((variant) => selected.length || variant.limited || variant.status !== "available" || variant.runningLow)
     .map((variant) => `${product.shortName} ${variant.flavor}: ${statusLabel(variant)}${variant.limited ? " · Limited edition" : ""}`));
@@ -492,11 +592,11 @@ function recommendationResponse(
     }
     if (/\bexperienced|strongest|high stim|intense\b/.test(query) && (product.formula.totalCaffeineMg ?? 0) >= 350) {
       score += 4;
-      reasons.push(`${product.formula.totalCaffeineMg} mg verified full-serving caffeine`);
+      reasons.push(`${product.formula.totalCaffeineMg} mg full-serving caffeine`);
     }
     if (/\b(caffeine sensitive|low stim|lower stim)\b/.test(query) && product.formula.stimulantFree) {
       score += 8;
-      reasons.push("verified stimulant-free formula");
+      reasons.push("stimulant-free formula");
     }
     if (/\bdaily|everyday\b/.test(query) && product.goals.includes("daily")) score += 3;
     return { product, score, reasons: unique(reasons) };
@@ -505,7 +605,7 @@ function recommendationResponse(
   return {
     ...base,
     directAnswer: goals.length
-      ? `These are the strongest verified matches for ${goals.map(goalLabel).join(" and ")}.`
+      ? `These are the strongest matches for ${goals.map(goalLabel).join(" and ")}.`
       : "These are broad starting points. Add a goal, stimulant preference, ingredient, budget, or desired MAP for a tighter recommendation.",
     details: result.map((entry) => `${entry.product.shortName}: ${entry.reasons.join(" · ")}`),
     productIds: result.map((entry) => entry.product.id),
@@ -537,7 +637,7 @@ function openingOrderResponse(
       ...preferred.map((product) => `${product.shortName}: ${product.retailerPitch}`),
       `One unit of one available flavor from each is approximately ${money(estimated)} wholesale.`,
       ...(budget ? [`Your ${money(budget)} budget allows room to increase quantities after choosing the best flavors for your store.`] : []),
-      "Case quantities are not yet verified, so the assistant will not guess case-based quantities.",
+      "Case quantities are not included in the product guide, so ask for a specific unit quantity.",
     ],
     productIds: preferred.map((product) => product.id),
     nextContext: { productIds: preferred.map((product) => product.id), variantIds: [], lastIntent: "suggest_opening_order" },
@@ -558,8 +658,8 @@ function pairingResponse(
   return {
     ...base,
     directAnswer: matches.length
-      ? `${selected.map((product) => product.shortName).join(", ")} pairs cleanly with ${matches.map((product) => product.shortName).join(", ")} in the current approved product relationships.`
-      : "No verified pairing has been approved for that product yet.",
+      ? `${selected.map((product) => product.shortName).join(", ")} pairs cleanly with ${matches.map((product) => product.shortName).join(", ")} in the current product relationships.`
+      : "No pairing is currently listed for that product.",
     details: matches.map((product) => product.retailerPitch),
     productIds: matches.map((product) => product.id),
     nextContext: { productIds: [selected[0].id, ...matches.map((product) => product.id)], variantIds: [], lastIntent: "suggest_product_pairing" },
@@ -579,7 +679,7 @@ function staffTrainingResponse(
       `Best for: ${product.bestFor.join("; ")}.`,
       `Main differences: ${product.keyDifferentiators.join("; ")}.`,
       `Avoid positioning it for: ${product.notIdealFor.join("; ")}.`,
-      "Keep the explanation to product positioning and verified label facts; do not make medical claims.",
+      "Keep the explanation to product positioning and label facts; do not make medical claims.",
     ],
     productIds: [product.id],
     responseType: "answer",
@@ -596,8 +696,8 @@ function cartActionResponse(
   if (/\bcase|cases\b/.test(normalizeAssistantText(question))) {
     return {
       ...base,
-      directAnswer: "I don’t have verified case quantities for every product yet, so I won’t guess a case size.",
-      details: ["Ask for a specific unit quantity instead, or add case quantities in Assistant Knowledge once they are confirmed."],
+      directAnswer: "Case quantities are not included in the product guide, so I won’t guess a case size.",
+      details: ["Ask for a specific unit quantity instead."],
       productIds: entities.products.map((product) => product.id),
       responseType: "unsupported",
     };
@@ -806,7 +906,7 @@ function formatAmount(amount: number): string {
 
 function caffeineLabel(product: AssistantProduct): string {
   return product.formula.totalCaffeineMg === undefined
-    ? "Total needs review"
+    ? "Total not listed"
     : `${product.formula.totalCaffeineMg} mg per ${product.formula.caffeineServingBasis ?? "full serving"}`;
 }
 

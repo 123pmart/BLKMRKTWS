@@ -28,7 +28,7 @@ export interface AssistantIngredient {
 
 export interface AssistantSource {
   id: string;
-  type: "catalog-record" | "supplement-facts-image" | "official-product-page" | "admin-entry";
+  type: "catalog-record" | "supplement-facts-image" | "official-product-page" | "product-guide" | "admin-entry";
   location: string;
   note?: string;
 }
@@ -129,6 +129,10 @@ export interface AssistantProduct {
 }
 
 export type AssistantIntent =
+  | "greeting"
+  | "gratitude"
+  | "capabilities"
+  | "general_product_education"
   | "compare_products"
   | "explain_product"
   | "find_by_goal"

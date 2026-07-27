@@ -7,6 +7,7 @@ const component = await readFile(new URL("../app/components/assistant/product-as
 const nav = await readFile(new URL("../app/components/navigation/mobile-bottom-navigation.tsx", import.meta.url), "utf8");
 const legacy = await readFile(new URL("../public/index.html", import.meta.url), "utf8");
 const adminApi = await readFile(new URL("../app/api/admin/assistant-knowledge/route.ts", import.meta.url), "utf8");
+const globalStyles = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
 
 test("assistant is a React-owned route that does not load the legacy application shell", () => {
   assert.match(page, /ProductAssistant/);
@@ -33,6 +34,13 @@ test("assistant cart actions reuse the existing cart key and require confirmatio
 test("chat scrolling is isolated from the document viewport", () => {
   assert.match(component, /conversation\.scrollTop = conversation\.scrollHeight/);
   assert.doesNotMatch(component, /scrollIntoView/);
+});
+
+test("assistant composer avoids iOS focus zoom and answers stream progressively", () => {
+  assert.match(globalStyles, /\.assistant-composer input[\s\S]*font-size:\s*16px/);
+  assert.match(component, /function StreamingText/);
+  assert.match(component, /prefers-reduced-motion: reduce/);
+  assert.match(component, /assistant-stream-cursor/);
 });
 
 test("knowledge mutations require admin identity and same-origin protection", () => {
