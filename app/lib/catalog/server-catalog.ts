@@ -19,11 +19,14 @@ export interface ServerCatalogItem {
   image: string;
   status: "available" | "coming-soon" | "inactive";
   hidden: boolean;
+  limited: boolean;
+  runningLow: boolean;
 }
 
 interface RawVariant {
   id?: string; item?: string; upc?: string; flavor?: string; wholesale?: string; wholesaleValue?: number;
   map?: string; mapValue?: number; bottle?: string; status?: string; available?: boolean;
+  limitedEdition?: boolean; runningLow?: boolean;
 }
 interface RawProduct { id?: string; title?: string; bottle?: string; variants?: RawVariant[] }
 interface RawCatalog { products?: RawProduct[] }
@@ -33,7 +36,7 @@ export async function loadServerCatalog(options: { includeEmbeddedImages?: boole
   const content = await readContent().catch(() => null) as {
     customProducts?: RawProduct[];
     hiddenVariants?: string[];
-    variantOverrides?: Record<string, { status?: string; bottle?: string }>;
+    variantOverrides?: Record<string, { status?: string; bottle?: string; limitedEdition?: boolean; runningLow?: boolean }>;
   } | null;
   const products = [...(raw.products || []), ...(content?.customProducts || [])];
   const hidden = new Set(content?.hiddenVariants || []);
@@ -60,6 +63,8 @@ export async function loadServerCatalog(options: { includeEmbeddedImages?: boole
       }, Boolean(options.includeEmbeddedImages)),
       status,
       hidden: hidden.has(variantId),
+      limited: override.limitedEdition ?? Boolean(variant.limitedEdition),
+      runningLow: override.runningLow ?? Boolean(variant.runningLow),
     } satisfies ServerCatalogItem;
   })).filter((item) => item.variantId && item.item && item.wholesalePrice >= 0);
 }

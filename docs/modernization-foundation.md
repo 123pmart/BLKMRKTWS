@@ -4,7 +4,8 @@
 
 - `public/index.html`, `public/app.js`, and `public/styles-v3.css` still own the catalog, cart, orders, PDF generation, admin console, news editor, catalog viewer, install prompt, and image galleries.
 - App Router route handlers serve that legacy document at `/`, `/products`, `/products/[slug]`, `/news`, `/catalog`, `/cart`, and `/admin`. This is the compatibility boundary; legacy behavior has not been duplicated in React.
-- React + strict TypeScript owns the new `/sign-in`, `/account`, `/account/orders`, and `/account/orders/[id]` surfaces, the shared layout, the mobile account navigation, and shadcn/ui primitives.
+- React + strict TypeScript owns `/sign-in`, `/account`, `/account/orders`, `/account/orders/[id]`, `/assistant`, and `/admin/assistant`, plus the shared layout, mobile account navigation, and shadcn/ui primitives.
+- `/assistant` uses the live server catalog and a deterministic local knowledge engine without loading `public/app.js`. `/admin/assistant` is the isolated Assistant Knowledge review surface.
 - Content and orders are normalized and written by Node route handlers. Vercel Blob is the intended durable production store; filesystem storage is a local-development fallback only.
 
 ## Data and security boundaries

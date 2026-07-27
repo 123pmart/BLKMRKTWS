@@ -24,12 +24,20 @@ export async function PUT(request) {
     return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
   }
 
-  const payload = await request.json().catch(() => null);
+  let payload = await request.json().catch(() => null);
   if (!payload || !Array.isArray(payload.announcements) || !Array.isArray(payload.customProducts)) {
     return Response.json({ ok: false, message: "Invalid content payload." }, { status: 400 });
   }
 
   try {
+    const current = await readContent();
+    payload = {
+      ...current,
+      ...payload,
+      assistantKnowledge: Array.isArray(payload.assistantKnowledge)
+        ? payload.assistantKnowledge
+        : current?.assistantKnowledge || [],
+    };
     const content = await writeContent(payload);
     const notificationId = cleanPushText(payload.notificationAnnouncementId, 120);
     const announcement = notificationId

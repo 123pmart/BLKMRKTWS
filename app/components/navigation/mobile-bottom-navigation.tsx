@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack, signInBackGoesHome } from "@/lib/navigation/internal-history";
@@ -83,6 +84,17 @@ export function MobileBottomNavigation({ maintenanceMode = false }: { maintenanc
         title="Home"
       >
         <NavGlyph name="home" />
+      </button>
+      <button
+        className="liquid-mobile-nav__control liquid-mobile-nav__assistant"
+        data-active={pathname === "/assistant" ? "true" : "false"}
+        type="button"
+        onClick={() => { if (pathname !== "/assistant") navigate("/assistant"); }}
+        aria-label="Ask Spy Guy about products"
+        aria-current={pathname === "/assistant" ? "page" : undefined}
+        title="Product Assistant"
+      >
+        <Image src="/spyguy-white.png" alt="" width={900} height={900} />
       </button>
       {!maintenanceMode ? (
         <button

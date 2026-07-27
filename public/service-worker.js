@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-18-v11-web-push-motion";
+const CACHE_VERSION = "2026-07-27-v12-product-assistant";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";
