@@ -7,14 +7,16 @@ interface PdfThumbnailData {
   version: number;
   width: number;
   height: number;
+  images: Record<string, string>;
   items: Record<string, string>;
-  variants: Record<string, string>;
 }
 
 const thumbnails = thumbnailData as PdfThumbnailData;
 
 export function bundledPdfProductThumbnail(line: Pick<OrderLine, "item" | "variantId">): string | null {
-  const item = String(line.item || thumbnails.variants[String(line.variantId || "")] || "").trim();
-  const encoded = thumbnails.items[item];
+  const variantId = String(line.variantId || "").trim();
+  const item = String(line.item || "").trim();
+  const imageKey = (variantId && thumbnails.images[variantId] ? variantId : "") || thumbnails.items[item] || "";
+  const encoded = thumbnails.images[imageKey];
   return encoded ? `data:image/jpeg;base64,${encoded}` : null;
 }

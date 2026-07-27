@@ -817,6 +817,9 @@ body[data-view="admin"] .maintenance-catalog-hero {
   background: transparent;
   font-size: 1rem;
   font-weight: 900;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .qty-mini button:hover,
