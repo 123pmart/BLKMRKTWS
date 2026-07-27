@@ -19,8 +19,8 @@ test("account pricing hydration is not blocked by content hydration", () => {
   );
 });
 
-test("mobile category and product grids preserve a visible right gutter", () => {
-  assert.match(portalStyles, /\.category-tile\s*\{\s*flex:\s*0 0 calc\(\(100% - 20px\) \/ 3\);/);
+test("mobile categories retain a partial next-card scroll cue while products preserve a right gutter", () => {
+  assert.match(portalStyles, /\.category-tile\s*\{\s*flex:\s*0 0 132px;/);
   assert.match(
     portalStyles,
     /@media \(max-width: 520px\)[\s\S]*?\.sku-row\.unified-grid\s*\{[^}]*width:\s*calc\(100% - 2px\);[^}]*margin-inline:\s*1px;/,

@@ -3371,7 +3371,7 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .category-tile {
-    flex: 0 0 calc((100% - 20px) / 3);
+    flex: 0 0 132px;
     scroll-snap-align: start;
   }
 
