@@ -19,10 +19,14 @@ export function AssistantKnowledgeEditor({
   products,
   adminName,
   canVerify,
+  canRelease,
+  assistantEnabled: initialAssistantEnabled,
 }: {
   products: AssistantProduct[];
   adminName: string;
   canVerify: boolean;
+  canRelease: boolean;
+  assistantEnabled: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(products[0]?.id ?? "");
@@ -30,6 +34,9 @@ export function AssistantKnowledgeEditor({
   const [draft, setDraft] = useState(() => selected ? editorDraft(selected) : null);
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [assistantEnabled, setAssistantEnabled] = useState(initialAssistantEnabled);
+  const [releaseSaving, setReleaseSaving] = useState(false);
+  const [releaseMessage, setReleaseMessage] = useState("");
   const visible = useMemo(() => {
     const term = query.toLowerCase().trim();
     return term ? products.filter((product) => `${product.shortName} ${product.name}`.toLowerCase().includes(term)) : products;
@@ -63,6 +70,28 @@ export function AssistantKnowledgeEditor({
     }
   }
 
+  async function updateCustomerAccess() {
+    if (!canRelease || releaseSaving) return;
+    const enabled = !assistantEnabled;
+    setReleaseSaving(true);
+    setReleaseMessage("");
+    try {
+      const response = await fetch("/api/admin/assistant-knowledge", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ enabled }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.ok) throw new Error(result.message || "Unable to update BLACKMARKET AI access.");
+      setAssistantEnabled(Boolean(result.assistantEnabled));
+      setReleaseMessage(enabled ? "BLACKMARKET AI is now available to customers." : "BLACKMARKET AI is hidden from customers. Admin preview remains available.");
+    } catch (error) {
+      setReleaseMessage(error instanceof Error ? error.message : "BLACKMARKET AI access could not be updated.");
+    } finally {
+      setReleaseSaving(false);
+    }
+  }
+
   return (
     <main className="knowledge-shell">
       <header className="knowledge-header">
@@ -76,6 +105,26 @@ export function AssistantKnowledgeEditor({
           <Link href="/admin">Back to Admin</Link>
         </div>
       </header>
+
+      <section className="knowledge-release" data-enabled={assistantEnabled ? "true" : "false"}>
+        <div>
+          <p>Customer release</p>
+          <h2>{assistantEnabled ? "BLACKMARKET AI is live" : "BLACKMARKET AI is hidden"}</h2>
+          <span>
+            {assistantEnabled
+              ? "Customers can open the assistant from portal navigation."
+              : "Customers cannot see or open the assistant. Signed-in admins can continue testing it."}
+          </span>
+          {releaseMessage ? <small role="status">{releaseMessage}</small> : null}
+        </div>
+        <div>
+          <Link href="/assistant" target="_blank" rel="noreferrer">Open Test Console</Link>
+          <button type="button" onClick={updateCustomerAccess} disabled={!canRelease || releaseSaving}>
+            {releaseSaving ? "Saving…" : assistantEnabled ? "Disable Customer Access" : "Activate for Customers"}
+          </button>
+          {!canRelease ? <small>Only Parker can change customer access.</small> : null}
+        </div>
+      </section>
 
       <div className="knowledge-layout">
         <aside className="knowledge-products">

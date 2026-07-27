@@ -154,6 +154,11 @@ img {
   align-items: center;
 }
 
+.top-nav-assistant[hidden],
+.portal-bottom-nav [data-portal-assistant][hidden] {
+  display: none !important;
+}
+
 .admin-assistant-knowledge-link {
   display: inline-flex;
   width: fit-content;

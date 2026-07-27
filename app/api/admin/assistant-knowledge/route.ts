@@ -12,8 +12,42 @@ export async function GET(request: Request) {
   return Response.json({
     ok: true,
     records: Array.isArray(content?.assistantKnowledge) ? content.assistantKnowledge : [],
+    assistantEnabled: content?.assistantEnabled === true,
     canVerify: identity.scope === "all",
+    canRelease: identity.scope === "all",
   }, { headers: { "Cache-Control": "private, no-store" } });
+}
+
+export async function PATCH(request: Request) {
+  const identity = await getAdminIdentity(request);
+  if (!identity) return Response.json({ ok: false, message: "Unauthorized" }, { status: 401 });
+  if (identity.scope !== "all") {
+    return Response.json({ ok: false, message: "Only Parker can change customer access to BLACKMARKET AI." }, { status: 403 });
+  }
+  if (!sameOrigin(request)) return Response.json({ ok: false, message: "Invalid request origin" }, { status: 403 });
+
+  const payload = await request.json().catch(() => null) as { enabled?: unknown } | null;
+  if (typeof payload?.enabled !== "boolean") {
+    return Response.json({ ok: false, message: "Invalid assistant availability setting." }, { status: 400 });
+  }
+
+  try {
+    const current = await readContent();
+    const content = await writeContent({
+      ...current,
+      assistantEnabled: payload.enabled,
+    });
+    return Response.json(
+      { ok: true, assistantEnabled: content.assistantEnabled },
+      { headers: { "Cache-Control": "private, no-store" } },
+    );
+  } catch (error) {
+    console.error("Assistant availability save failed:", error);
+    return Response.json(
+      { ok: false, message: "BLACKMARKET AI availability could not be saved to durable storage." },
+      { status: 503, headers: { "Cache-Control": "private, no-store" } },
+    );
+  }
 }
 
 export async function PUT(request: Request) {

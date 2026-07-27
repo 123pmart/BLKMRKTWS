@@ -96,6 +96,7 @@ export async function writeContent(payload) {
 export function normalizeContentPayload(payload = {}) {
   return {
     maintenanceMode: typeof payload.maintenanceMode === "boolean" ? payload.maintenanceMode : true,
+    assistantEnabled: typeof payload.assistantEnabled === "boolean" ? payload.assistantEnabled : false,
     announcements: cleanEntries(payload.announcements, MAX_ANNOUNCEMENTS),
     customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS),
     hiddenVariants: cleanStrings(payload.hiddenVariants, MAX_HIDDEN_VARIANTS),

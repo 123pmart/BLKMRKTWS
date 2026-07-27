@@ -26,9 +26,11 @@ interface UndoState {
 export function ProductAssistant({
   products,
   maintenanceMode,
+  adminPreview = false,
 }: {
   products: AssistantProduct[];
   maintenanceMode: boolean;
+  adminPreview?: boolean;
 }) {
   const [question, setQuestion] = useState("");
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
@@ -112,6 +114,7 @@ export function ProductAssistant({
     <section className={`assistant-chat${active ? " has-conversation" : ""}`} aria-labelledby="assistant-title">
       <header className="assistant-chat-title">
         <h1 id="assistant-title">BLACKMARKET AI</h1>
+        {adminPreview ? <span className="assistant-preview-badge">Admin preview · Hidden from customers</span> : null}
       </header>
 
       {active ? (

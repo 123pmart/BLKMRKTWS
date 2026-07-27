@@ -8,7 +8,13 @@ import { goHome, initializePortalHistory, recordPortalNavigation, safePortalBack
 
 const OVERLAY_CLASSES = ["cart-open", "modal-open", "nav-open", "admin-news-editing", "admin-product-editing"];
 
-export function MobileBottomNavigation({ maintenanceMode = false }: { maintenanceMode?: boolean }) {
+export function MobileBottomNavigation({
+  assistantEnabled = false,
+  maintenanceMode = false,
+}: {
+  assistantEnabled?: boolean;
+  maintenanceMode?: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const [overlayOpen, setOverlayOpen] = useState(false);
@@ -85,17 +91,19 @@ export function MobileBottomNavigation({ maintenanceMode = false }: { maintenanc
       >
         <NavGlyph name="home" />
       </button>
-      <button
-        className="liquid-mobile-nav__control liquid-mobile-nav__assistant"
-        data-active={pathname === "/assistant" ? "true" : "false"}
-        type="button"
-        onClick={() => { if (pathname !== "/assistant") navigate("/assistant"); }}
-        aria-label="Ask Spy Guy about products"
-        aria-current={pathname === "/assistant" ? "page" : undefined}
-        title="Product Assistant"
-      >
-        <Image src="/spyguy-white.png" alt="" width={900} height={900} />
-      </button>
+      {assistantEnabled ? (
+        <button
+          className="liquid-mobile-nav__control liquid-mobile-nav__assistant"
+          data-active={pathname === "/assistant" ? "true" : "false"}
+          type="button"
+          onClick={() => { if (pathname !== "/assistant") navigate("/assistant"); }}
+          aria-label="Ask Spy Guy about products"
+          aria-current={pathname === "/assistant" ? "page" : undefined}
+          title="Product Assistant"
+        >
+          <Image src="/spyguy-white.png" alt="" width={900} height={900} />
+        </button>
+      ) : null}
       {!maintenanceMode ? (
         <button
           className="liquid-mobile-nav__control"

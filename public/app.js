@@ -84,6 +84,7 @@ const PRODUCT_PANEL_OVERRIDES = {
 
 const defaultSite = {
   maintenanceMode: true,
+  assistantEnabled: false,
   hiddenVariants: [],
   variantOverrides: {},
   announcements: [
@@ -337,6 +338,7 @@ async function init() {
   renderCatalogPages();
   renderCatalog();
   applyPortalMaintenanceMode({ render: false });
+  applyAssistantAvailability();
   renderCart();
   renderAdmin();
   bindEvents();
@@ -381,6 +383,7 @@ async function hydratePortalContent(contentRequest) {
   if (previousSite !== JSON.stringify(state.site)) {
     rebuildProductState();
     applyPortalMaintenanceMode();
+    applyAssistantAvailability();
     renderAnnouncements();
     renderNews();
     renderAdminNews();
@@ -2625,6 +2628,10 @@ function applyServerContent(content) {
     state.site = { ...state.site, maintenanceMode: content.maintenanceMode };
     saveJson(SITE_KEY, state.site);
   }
+  if (typeof content.assistantEnabled === "boolean") {
+    state.site = { ...state.site, assistantEnabled: content.assistantEnabled };
+    saveJson(SITE_KEY, state.site);
+  }
   if (Array.isArray(content.hiddenVariants)) {
     state.site = { ...state.site, hiddenVariants: unique(content.hiddenVariants.map(String)) };
     saveJson(SITE_KEY, state.site);
@@ -2656,6 +2663,7 @@ async function loadServerContent(options = {}) {
     if (body.content) applyServerContent(body.content);
     rebuildProductState();
     applyPortalMaintenanceMode();
+    applyAssistantAvailability();
     renderAnnouncements();
     renderNews();
     renderAdmin();
@@ -2680,6 +2688,7 @@ async function persistAdminContent(options = {}) {
       },
       body: JSON.stringify({
         maintenanceMode: isPortalMaintenanceMode(),
+        assistantEnabled: isCustomerAssistantEnabled(),
         announcements: state.site.announcements,
         hiddenVariants: hiddenVariantIds(),
         variantOverrides: variantOverrides(),
@@ -2709,6 +2718,19 @@ function adminHeaders() {
 
 function isPortalMaintenanceMode() {
   return state.site?.maintenanceMode !== false;
+}
+
+function isCustomerAssistantEnabled() {
+  return state.site?.assistantEnabled === true;
+}
+
+function applyAssistantAvailability() {
+  const enabled = isCustomerAssistantEnabled();
+  document.querySelectorAll("[data-portal-assistant]").forEach((entry) => {
+    entry.hidden = !enabled;
+    entry.setAttribute("aria-hidden", enabled ? "false" : "true");
+    if ("inert" in entry) entry.inert = !enabled;
+  });
 }
 
 function isMaintenanceNoticeDismissed() {

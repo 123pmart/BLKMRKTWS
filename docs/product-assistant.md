@@ -16,6 +16,16 @@ The assistant combines:
 
 The customer interface is a React-owned App Router route at `/assistant`. The remaining customer catalog is still served by the legacy compatibility document.
 
+## Customer release control
+
+BLACKMARKET AI is default-off and controlled from `/admin/assistant`.
+
+- While disabled, customer navigation does not render the assistant entry and direct customer requests to `/assistant` return to the portal home.
+- Signed-in admins can use **Open Test Console** to access the same assistant privately while it remains hidden from customers.
+- Only Parker can use **Activate for Customers** or **Disable Customer Access** because this is a global customer-facing release decision.
+- The switch is stored as `assistantEnabled` in the durable content record. It does not require a Vercel environment-variable change or redeploy.
+- The legacy portal reads the same flag and reveals its desktop/mobile assistant entries only after the shared content response confirms that it is enabled.
+
 ## Main modules
 
 - `app/lib/assistant/types.ts`: knowledge, source, runtime-product, response, context, and cart-action contracts.
