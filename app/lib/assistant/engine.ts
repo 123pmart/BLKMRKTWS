@@ -173,7 +173,7 @@ export function answerAssistantQuestion(
 
   switch (intent) {
     case "compare_products":
-      return comparisonResponse(base, entities.products);
+      return comparisonResponse(base, entities.products, question);
     case "explain_product":
       return explanationResponse(base, entities.products[0]);
     case "find_by_ingredient":
@@ -223,6 +223,7 @@ export function answerAssistantQuestion(
 function comparisonResponse(
   base: Pick<AssistantResponse, "id" | "intent" | "nextContext">,
   products: AssistantProduct[],
+  question: string,
 ): AssistantResponse {
   if (products.length < 2) {
     return clarification(base, "Which products would you like to compare?", []);
@@ -237,20 +238,47 @@ function comparisonResponse(
     { label: "MAP", values: compared.map(mapRange) },
     { label: "Available flavors", values: compared.map((product) => availableVariants(product).map((variant) => variant.flavor).join(", ") || "None") },
   ];
-  const caffeineKnown = compared.filter((product) => product.formula.totalCaffeineMg !== undefined);
-  const highest = [...caffeineKnown].sort((a, b) => (b.formula.totalCaffeineMg ?? 0) - (a.formula.totalCaffeineMg ?? 0))[0];
-  const lead = highest
-    ? `${compared.map((product) => product.shortName).join(" and ")} serve different retailer needs. ${highest.shortName} has the highest verified full-serving caffeine in this comparison at ${highest.formula.totalCaffeineMg} mg.`
-    : `${compared.map((product) => product.shortName).join(" and ")} serve different retailer needs; a confirmed caffeine comparison is not available for every product.`;
+  const detailed = /\b(formula|ingredient|ingredients|dosage|dosages|dose|doses|serving|breakdown|break down|exact|detail|details|caffeine)\b/i.test(question);
+  const lead = compared
+    .map((product) => `${product.shortName} is ${concisePositioning(product)}`)
+    .join("; ");
   return {
     ...base,
-    directAnswer: lead,
-    details: compared.map((product) => `${product.shortName}: ${product.retailerPitch}`),
+    directAnswer: `${lead}.`,
+    details: detailed
+      ? compared.map((product) => `${product.shortName}: ${conciseFormula(product)}`)
+      : compared.map((product) => `${product.shortName}: ${conciseDifference(product)}`),
     productIds: compared.map((product) => product.id),
     comparison: { productIds: compared.map((product) => product.id), rows },
     nextContext: { productIds: compared.map((product) => product.id), variantIds: [], lastIntent: "compare_products" },
     responseType: "comparison",
   };
+}
+
+function concisePositioning(product: AssistantProduct): string {
+  if (product.goals.includes("cutting")) return "a thermogenic-focused product";
+  if (product.goals.includes("strength")) return "a strength-focused product";
+  if (product.goals.includes("pump") && product.formula.stimulantFree) return "a stimulant-free pump product";
+  if (product.goals.includes("focus")) return "a focus-oriented product";
+  if (product.goals.includes("recovery")) return "a recovery-focused product";
+  return product.purpose.replace(/^The\s+/i, "").replace(/\.$/, "");
+}
+
+function conciseDifference(product: AssistantProduct): string {
+  const highlights = product.keyDifferentiators.slice(0, 2);
+  return highlights.length ? highlights.join(" · ") : product.purpose;
+}
+
+function conciseFormula(product: AssistantProduct): string {
+  const ingredients = product.formula.ingredients.slice(0, 6).map((ingredient) => (
+    ingredient.amount === undefined
+      ? ingredient.name
+      : `${ingredient.name} ${ingredient.amount} ${ingredient.unit}`
+  ));
+  const caffeine = product.formula.totalCaffeineMg === undefined
+    ? []
+    : [`${product.formula.totalCaffeineMg} mg total caffeine`];
+  return unique([...caffeine, ...ingredients]).join(", ");
 }
 
 function explanationResponse(

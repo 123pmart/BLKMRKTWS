@@ -22,7 +22,7 @@ The customer interface is a React-owned App Router route at `/assistant`. The re
 - `app/lib/assistant/knowledge-data.ts`: reviewed baseline knowledge linked to portal labels and official BlackMarketLabs product pages.
 - `app/lib/assistant/catalog.ts`: merges knowledge with the live catalog, status overrides, and authenticated account pricing.
 - `app/lib/assistant/engine.ts`: local entity recognition, intent classification, verified query logic, comparisons, recommendations, and cart-action planning.
-- `app/components/assistant/product-assistant.tsx`: conversation UI, product cards, confirmations, undo, and the legacy-cart adapter.
+- `app/components/assistant/product-assistant.tsx`: minimal text-first conversation UI, inline cart confirmations, undo, and the legacy-cart adapter. Product cards and comparison tables are intentionally not rendered in chat.
 - `app/admin/assistant/page.tsx`: authenticated Assistant Knowledge review route.
 - `app/api/admin/assistant-knowledge/route.ts`: same-origin, admin-authenticated knowledge persistence.
 - `app/lib/assistant/question-library.ts`: structured library of at least 150 wholesale questions.
@@ -105,7 +105,9 @@ Case quantities are intentionally unsupported until verified case packs exist. O
 
 ## Follow-up context
 
-Current compared product and variant IDs live only in React state. Recent question text is stored in `sessionStorage`, not durable account data. The assistant can resolve follow-ups such as “Which one has more caffeine?” after a comparison.
+Current compared product and variant IDs live only in React state. Question text is not persisted. The assistant can resolve follow-ups such as “Which one has more caffeine?” during the current page session.
+
+Answers lead with the practical retail difference and keep formula detail brief. Exact ingredients and dosages are expanded only when the buyer explicitly asks for formula, ingredient, dosage, serving, or detailed information.
 
 No customer names, email addresses, shipping details, or medical information are used for assistant analytics.
 

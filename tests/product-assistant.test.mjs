@@ -109,12 +109,29 @@ test("recognizes exact names, aliases, misspellings, and suppresses ingredient p
   ]);
 });
 
-test("compares DEFY and RULE using verified full-serving data", () => {
+test("product comparisons lead with a concise positioning difference", () => {
   const response = answerAssistantQuestion("What is the difference between DEFY and RULE?", products);
   assert.equal(response.intent, "compare_products");
   assert.equal(response.responseType, "comparison");
-  assert.match(response.directAnswer, /RULE.*485 mg/);
+  assert.match(response.directAnswer, /DEFY is .*; RULE is .*\./);
+  assert.ok(response.details.length <= 2);
   assert.deepEqual(response.productIds, ["defy-hyper-stimulant", "rule-hyper-focus"]);
+});
+
+test("CUTS and BULK comparison leads with thermogenic versus strength positioning", () => {
+  const response = answerAssistantQuestion("What is the difference between CUTS and BULK?", products);
+  assert.equal(
+    response.directAnswer,
+    "CUTS is a thermogenic-focused product; BULK is a strength-focused product.",
+  );
+  assert.match(response.details[0], /300 mg caffeine/i);
+  assert.match(response.details[1], /creatine/i);
+});
+
+test("formula detail appears when the buyer explicitly asks for it", () => {
+  const response = answerAssistantQuestion("Compare the exact formula and ingredients in DEFY and RULE", products);
+  assert.match(response.details.join(" "), /mg total caffeine/);
+  assert.match(response.details.join(" "), /Beta-Alanine/);
 });
 
 test("ranks caffeine without inventing BUMP total", () => {

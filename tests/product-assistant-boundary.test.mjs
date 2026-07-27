@@ -14,8 +14,9 @@ test("assistant is a React-owned route that does not load the legacy application
   assert.doesNotMatch(component, /public\/app\.js|legacy-response/);
 });
 
-test("Spy Guy is the assistant identity and is reachable from legacy and React mobile navigation", () => {
-  assert.match(component, /spyguy-white\.png/);
+test("BLACKMARKET AI uses the Spy Guy navigation icon without cluttering the chat", () => {
+  assert.match(component, /BLACKMARKET AI/);
+  assert.doesNotMatch(component, /spyguy-white\.png|Suggested product questions|STARTERS|assistant-product-grid|assistant-comparison/);
   assert.match(nav, /\/assistant/);
   assert.match(nav, /spyguy-white\.png/);
   assert.match(legacy, /data-portal-assistant/);
@@ -24,9 +25,14 @@ test("Spy Guy is the assistant identity and is reachable from legacy and React m
 
 test("assistant cart actions reuse the existing cart key and require confirmation", () => {
   assert.match(component, /blackmarket-wholesale-cart-v4/);
-  assert.match(component, /Confirm cart change/);
+  assert.match(component, /Confirm/);
   assert.match(component, /blackmarket:cart-updated/);
   assert.doesNotMatch(component, /send-order/);
+});
+
+test("chat scrolling is isolated from the document viewport", () => {
+  assert.match(component, /conversation\.scrollTop = conversation\.scrollHeight/);
+  assert.doesNotMatch(component, /scrollIntoView/);
 });
 
 test("knowledge mutations require admin identity and same-origin protection", () => {

@@ -1561,6 +1561,369 @@
   }
 }
 
+/* Minimal BLACKMARKET AI chat surface. Rich catalog data stays behind the answers. */
+.assistant-shell {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  padding: 26px 20px;
+  background:
+    radial-gradient(circle at 50% 12%, rgb(255 255 255 / 3%), transparent 34rem),
+    #050505;
+}
+
+.assistant-chat {
+  display: flex;
+  width: min(100%, 780px);
+  height: 100%;
+  min-height: 0;
+  margin-inline: auto;
+  flex-direction: column;
+}
+
+.assistant-chat:not(.has-conversation) {
+  justify-content: center;
+  padding-bottom: 9vh;
+}
+
+.assistant-chat-title {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+.assistant-chat-title h1 {
+  margin: 0 0 24px;
+  color: #f4f4f2;
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  font-weight: 950;
+  letter-spacing: .035em;
+  line-height: 1;
+}
+
+.assistant-chat.has-conversation .assistant-chat-title {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+}
+
+.assistant-chat.has-conversation .assistant-chat-title h1 {
+  margin: 0;
+  font-size: .84rem;
+  letter-spacing: .13em;
+}
+
+.assistant-turns {
+  display: flex;
+  min-height: 0;
+  padding: 26px 4px 18px;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 26px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: rgb(255 255 255 / 12%) transparent;
+  scrollbar-width: thin;
+}
+
+.assistant-turn {
+  padding: 0;
+  border: 0;
+}
+
+.assistant-question {
+  display: block;
+  width: fit-content;
+  max-width: min(82%, 580px);
+  margin: 0 0 17px auto;
+  padding: 11px 15px;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 17px 17px 5px 17px;
+  color: #ededeb;
+  background: #1a1a1c;
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.assistant-answer {
+  display: block;
+  width: min(88%, 650px);
+  margin: 0 auto 0 0;
+}
+
+.assistant-answer-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #77777d;
+  font-size: .55rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+}
+
+.assistant-direct-answer {
+  max-width: none;
+  margin: 0;
+  color: #f0f0ee;
+  font-size: .95rem;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.assistant-answer-details {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+  color: #a0a0a6;
+  font-size: .81rem;
+  line-height: 1.58;
+}
+
+.assistant-answer-details p {
+  margin: 0;
+}
+
+.assistant-option-row {
+  display: flex;
+  margin-top: 14px;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.assistant-option-row button {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 999px;
+  color: #c7c7cb;
+  background: #101012;
+  font: inherit;
+  font-size: .7rem;
+  font-weight: 750;
+  text-align: center;
+}
+
+.assistant-option-row button:hover,
+.assistant-option-row button:focus-visible {
+  border-color: rgb(245 169 0 / 34%);
+  color: #fff;
+  background: #151515;
+  outline: none;
+}
+
+.assistant-confirm-action {
+  display: flex;
+  margin-top: 14px;
+  padding: 11px 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 12px;
+  background: #0d0d0f;
+}
+
+.assistant-confirm-action span {
+  color: #c9c9cc;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.assistant-confirm-action button {
+  min-width: 92px;
+  min-height: 40px;
+  padding-inline: 14px;
+  border: 0;
+  border-radius: 9px;
+  color: #080808;
+  background: var(--primary);
+  font: inherit;
+  font-size: .7rem;
+  font-weight: 950;
+}
+
+.assistant-confirm-action button:disabled {
+  color: #74747a;
+  background: #1a1a1d;
+}
+
+.assistant-undo {
+  display: flex;
+  margin: 7px 0 9px;
+  padding: 8px 10px;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-radius: 10px;
+  color: #8b8b92;
+  background: #0c0c0e;
+  font-size: .68rem;
+}
+
+.assistant-undo button {
+  min-height: 34px;
+  padding-inline: 12px;
+  border: 0;
+  color: var(--primary);
+  background: transparent;
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 900;
+}
+
+.assistant-composer {
+  display: grid;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 7px;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 6px;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 18px;
+  background: rgb(17 17 19 / 94%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 5%),
+    0 18px 50px rgb(0 0 0 / 36%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.assistant-chat.has-conversation .assistant-composer {
+  flex: 0 0 auto;
+}
+
+.assistant-composer input {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 12px;
+  color: #f2f2f0;
+  background: transparent;
+  font: inherit;
+  font-size: .88rem;
+  outline: none;
+}
+
+.assistant-composer input::placeholder {
+  color: #6f6f75;
+}
+
+.assistant-composer input:focus {
+  border: 0;
+  box-shadow: none;
+}
+
+.assistant-composer > button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  margin-block: 2px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #080808;
+  background: var(--primary);
+}
+
+.assistant-composer > button:disabled {
+  color: #6a6a70;
+  background: #202023;
+}
+
+.assistant-composer > button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.assistant-chat-status {
+  margin: 9px 0 0;
+  color: #65656b;
+  font-size: .62rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.assistant-loading-mark,
+.assistant-loading-panel {
+  display: none;
+}
+
+.assistant-loading-line {
+  width: min(68%, 420px);
+  height: 54px;
+  margin: calc(50dvh - 52px) auto 0;
+  border-radius: 18px;
+}
+
+@media (max-width: 600px) {
+  .assistant-shell {
+    height: 100dvh;
+    padding:
+      calc(16px + env(safe-area-inset-top))
+      14px
+      calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .assistant-chat:not(.has-conversation) {
+    padding-bottom: 12vh;
+  }
+
+  .assistant-chat-title h1 {
+    margin-bottom: 21px;
+    font-size: 1.48rem;
+  }
+
+  .assistant-chat.has-conversation .assistant-chat-title {
+    padding: 9px 0 15px;
+  }
+
+  .assistant-turns {
+    padding: 21px 1px 15px;
+    gap: 23px;
+  }
+
+  .assistant-question {
+    max-width: 86%;
+    padding: 10px 13px;
+    font-size: .82rem;
+  }
+
+  .assistant-answer {
+    width: 92%;
+  }
+
+  .assistant-direct-answer {
+    font-size: .88rem;
+  }
+
+  .assistant-answer-details {
+    font-size: .77rem;
+  }
+
+  .assistant-composer {
+    position: static;
+    z-index: auto;
+    bottom: auto;
+    margin: 0;
+  }
+
+  .assistant-confirm-action {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .assistant-confirm-action button {
+    width: 100%;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
