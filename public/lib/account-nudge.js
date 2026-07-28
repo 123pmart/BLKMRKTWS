@@ -1,5 +1,6 @@
-export const ACCOUNT_NUDGE_FIRST_LOAD = 2;
-export const ACCOUNT_NUDGE_REPEAT_GAP = 4;
+export const ACCOUNT_NUDGE_FIRST_LOAD = 5;
+export const ACCOUNT_NUDGE_SECOND_LOAD = 10;
+export const ACCOUNT_NUDGE_DISABLED_LOAD = Number.MAX_SAFE_INTEGER;
 
 function normalizeLoad(value, fallback = 0) {
   const load = Math.floor(Number(value));
@@ -15,5 +16,7 @@ export function accountNudgeIsDue(currentLoad, nextLoad = ACCOUNT_NUDGE_FIRST_LO
 }
 
 export function nextAccountNudgeLoad(currentLoad) {
-  return normalizeLoad(currentLoad) + ACCOUNT_NUDGE_REPEAT_GAP;
+  return normalizeLoad(currentLoad) < ACCOUNT_NUDGE_SECOND_LOAD
+    ? ACCOUNT_NUDGE_SECOND_LOAD
+    : ACCOUNT_NUDGE_DISABLED_LOAD;
 }

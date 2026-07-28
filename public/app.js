@@ -13,7 +13,7 @@ import {
   accountNudgeIsDue,
   nextAccountNudgeLoad,
   nextPortalLoad,
-} from "/lib/account-nudge.js?v=20260727-account-nudge";
+} from "/lib/account-nudge.js?v=20260728-account-nudge-cadence";
 
 const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
@@ -28,8 +28,8 @@ const SITE_KEY = "blackmarket-wholesale-site-v1";
 const ORDERS_KEY = "blackmarket-wholesale-orders-v1";
 const CUSTOM_PRODUCTS_KEY = "blackmarket-wholesale-custom-products-v1";
 const MAINTENANCE_NOTICE_DISMISSED_KEY = "blackmarket-maintenance-notice-dismissed";
-const ACCOUNT_NUDGE_LOADS_KEY = "blackmarket-account-nudge-loads-v1";
-const ACCOUNT_NUDGE_NEXT_KEY = "blackmarket-account-nudge-next-v1";
+const ACCOUNT_NUDGE_LOADS_KEY = "blackmarket-account-nudge-loads-v2";
+const ACCOUNT_NUDGE_NEXT_KEY = "blackmarket-account-nudge-next-v2";
 const ACCOUNT_KNOWN_KEY = "blackmarket-store-account-known-v1";
 
 const MEDIA_PRELOAD_CONCURRENCY = 3;
@@ -407,6 +407,7 @@ async function hydrateDeferredPortalData(catalogPagesRequest, adminSessionReques
     startAdminOrderPolling();
   }
   renderAdmin();
+  maybeScheduleAccountNudge();
   void syncPushSubscription({ showPrompt: true });
 }
 
@@ -545,6 +546,7 @@ function bindEvents() {
     if (response.ok && result.ok) {
       state.adminAuthed = true;
       state.adminIdentity = result.identity || null;
+      hideAccountNudge();
       renderAdmin();
       Promise.all([
         loadServerOrders({ silent: true, initial: true }),
@@ -4158,9 +4160,13 @@ function hasKnownStoreAccount() {
 }
 
 function maybeScheduleAccountNudge() {
-  if (accountNudgeChecked || !state.accountResolved || !state.contentResolved) return;
+  if (accountNudgeChecked || !state.accountResolved || !state.contentResolved || !state.adminResolved) return;
   accountNudgeChecked = true;
 
+  if (state.adminAuthed) {
+    hideAccountNudge();
+    return;
+  }
   if (state.accountAuthenticated) {
     rememberStoreAccount();
     return;
@@ -4172,6 +4178,7 @@ function maybeScheduleAccountNudge() {
     localStorage.setItem(ACCOUNT_NUDGE_LOADS_KEY, String(accountNudgeLoad));
     const nextLoad = localStorage.getItem(ACCOUNT_NUDGE_NEXT_KEY) || ACCOUNT_NUDGE_FIRST_LOAD;
     if (!accountNudgeIsDue(accountNudgeLoad, nextLoad)) return;
+    localStorage.setItem(ACCOUNT_NUDGE_NEXT_KEY, String(nextAccountNudgeLoad(accountNudgeLoad)));
   } catch {
     return;
   }
@@ -4211,11 +4218,6 @@ function hideAccountNudge() {
 
 function dismissAccountNudge() {
   hideAccountNudge();
-  try {
-    localStorage.setItem(ACCOUNT_NUDGE_NEXT_KEY, String(nextAccountNudgeLoad(accountNudgeLoad)));
-  } catch {
-    // A blocked storage write should not prevent dismissal for this page.
-  }
 }
 
 function syncCheckoutSalesperson() {
