@@ -137,8 +137,7 @@ img {
   gap: 28px;
 }
 
-.top-nav button,
-.top-nav-assistant {
+.top-nav button {
   position: relative;
   min-height: 42px;
   padding: 0;
@@ -149,29 +148,10 @@ img {
   font-weight: 800;
   text-transform: uppercase;
   transition: color 180ms ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-
-.top-nav-assistant[hidden],
-.portal-bottom-nav [data-portal-assistant][hidden] {
-  display: none !important;
-}
-
-.admin-assistant-knowledge-link {
-  display: inline-flex;
-  width: fit-content;
-  margin-top: 12px;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
 }
 
 .top-nav button:hover,
-.top-nav button.active,
-.top-nav-assistant:hover,
-.top-nav-assistant:focus-visible {
+.top-nav button.active {
   color: var(--accent);
 }
 
@@ -4863,7 +4843,7 @@ body.admin-pricing-editing .admin-pricing-editor {
     left: 50%;
     bottom: calc(10px + env(safe-area-inset-bottom));
     display: grid;
-    grid-template-columns: repeat(5, 48px);
+    grid-template-columns: repeat(4, 48px);
     gap: 1px;
     width: max-content;
     margin: 0;
@@ -4910,13 +4890,6 @@ body.admin-pricing-editing .admin-pricing-editor {
     stroke-width: 2.1;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-
-  .portal-bottom-nav [data-portal-assistant] img {
-    width: 25px;
-    height: 25px;
-    object-fit: contain;
-    opacity: .78;
   }
 
   .portal-bottom-nav a:active,
@@ -5082,7 +5055,7 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   body.maintenance-catalog-mode:not([data-view="admin"]) .portal-bottom-nav {
-    grid-template-columns: repeat(3, 48px);
+    grid-template-columns: repeat(2, 48px);
   }
 
   body.maintenance-catalog-mode.maintenance-notice-dismissed:not([data-view="admin"]) .content {

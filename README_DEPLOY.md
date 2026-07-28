@@ -47,10 +47,6 @@ This deployment defaults to maintenance mode. Customers can still browse and sea
 
 Turning maintenance mode off in Admin immediately restores the normal landing page, cart, and checkout after the setting is confirmed by durable content storage. A failed save leaves the prior status active.
 
-## Product Assistant
-
-The wholesale product assistant is available at `/assistant` and requires no third-party AI key or service. Assistant Knowledge is reviewed at `/admin/assistant` through the existing admin session and Vercel Blob content store. No additional environment variables are required.
-
 ## Notes
 
 - The homepage is served by `app/route.js`, which returns the portal HTML from `public/index.html`.

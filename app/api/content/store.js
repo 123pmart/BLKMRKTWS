@@ -8,7 +8,6 @@ const MAX_ANNOUNCEMENTS = 100;
 const MAX_CUSTOM_PRODUCTS = 300;
 const MAX_HIDDEN_VARIANTS = 1000;
 const MAX_VARIANT_OVERRIDES = 1500;
-const MAX_ASSISTANT_KNOWLEDGE = 100;
 const BLOB_READ_TIMEOUT_MS = 5000;
 
 if (!globalThis[STORE_STATE]) {
@@ -96,19 +95,17 @@ export async function writeContent(payload) {
 export function normalizeContentPayload(payload = {}) {
   return {
     maintenanceMode: typeof payload.maintenanceMode === "boolean" ? payload.maintenanceMode : true,
-    assistantEnabled: typeof payload.assistantEnabled === "boolean" ? payload.assistantEnabled : false,
     announcements: cleanEntries(payload.announcements, MAX_ANNOUNCEMENTS),
     customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS),
     hiddenVariants: cleanStrings(payload.hiddenVariants, MAX_HIDDEN_VARIANTS),
     variantOverrides: cleanVariantOverrides(payload.variantOverrides, MAX_VARIANT_OVERRIDES),
-    assistantKnowledge: cleanEntries(payload.assistantKnowledge, MAX_ASSISTANT_KNOWLEDGE),
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : new Date().toISOString(),
   };
 }
 
 export function publicContent(content) {
   if (!content) return null;
-  const publicPayload = {
+  return {
     ...content,
     customProducts: content.customProducts.map((entry) => {
       const product = { ...entry };
@@ -116,8 +113,6 @@ export function publicContent(content) {
       return product;
     }),
   };
-  delete publicPayload.assistantKnowledge;
-  return publicPayload;
 }
 
 export function contentStorageMode() {

@@ -10,9 +10,6 @@
     "generate:pdf-logo": "node scripts/generate-pdf-logo.mjs",
     "generate:pdf-thumbnails": "node scripts/generate-pdf-thumbnails.mjs",
     "optimize:catalog-images": "node scripts/optimize-catalog-images.mjs",
-    "knowledge:build": "node scripts/build-knowledge.ts",
-    "knowledge:audit": "node scripts/audit-knowledge.ts",
-    "knowledge:test": "node scripts/test-blackmarket-ai.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
     "lint": "eslint app tests public/lib/catalog-search.js public/lib/margin-metrics.js"

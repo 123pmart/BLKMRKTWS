@@ -8,7 +8,7 @@
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="/styles-v3.css?v=20260727-assistant-release-control" />
+    <link rel="stylesheet" href="/styles-v3.css?v=20260728-cleanup" />
   </head>
   <body data-view="landing">
     <div class="portal">
@@ -33,7 +33,6 @@
           </div>
           <button type="button" data-view="news">News</button>
           <button type="button" data-view="catalog">Catalog</button>
-          <a href="/assistant" class="top-nav-assistant" data-portal-route data-portal-assistant hidden>BLACKMARKET AI</a>
         </nav>
         <div class="header-actions">
           <a class="desktop-account-link" href="/sign-in?next=/account" data-account-route aria-label="Open store account">
@@ -645,7 +644,6 @@
                     <button class="admin-button admin-secondary" id="adminRefreshContent" type="button">Refresh Portal Data</button>
                     <button class="admin-button admin-secondary" id="adminExportContent" type="button">Export Content Backup</button>
                   </div>
-                  <a class="admin-button admin-primary admin-assistant-knowledge-link" href="/admin/assistant">Configure &amp; Test BLACKMARKET AI</a>
                 </div>
                 <div class="admin-card">
                   <div class="admin-card-heading">
@@ -701,9 +699,6 @@
       </button>
       <a href="/" data-portal-home title="Home" aria-label="Home">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.5 11.5 7.5-6 7.5 6" /><path d="M6.5 10.5V19h11v-8.5" /></svg>
-      </a>
-      <a href="/assistant" data-portal-route data-portal-assistant title="BLACKMARKET AI" aria-label="Open BLACKMARKET AI" hidden>
-        <img src="/spyguy-white.png" alt="" width="900" height="900" />
       </a>
       <a href="/sign-in?next=/account" data-account-route title="Account" aria-label="Account">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3" /><path d="M6.5 19c.6-3.3 2.4-4.9 5.5-4.9s4.9 1.6 5.5 4.9" /></svg>
@@ -827,6 +822,6 @@
   </div>
 </div>
 
-    <script type="module" src="/app.js?v=20260727-assistant-release-control"></script>
+    <script type="module" src="/app.js?v=20260728-cleanup"></script>
   </body>
 </html>

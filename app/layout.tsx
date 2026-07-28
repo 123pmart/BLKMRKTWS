@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { MobileBottomNavigation } from "@/components/navigation/mobile-bottom-navigation";
-import { getAssistantAvailability } from "@/lib/assistant/availability";
+import { isPortalMaintenanceMode } from "@/lib/maintenance/server";
 
 export const dynamic = "force-dynamic";
 
@@ -17,15 +17,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const availability = await getAssistantAvailability();
+  const maintenanceMode = await isPortalMaintenanceMode();
   return (
     <html lang="en">
       <body>
         {children}
-        <MobileBottomNavigation
-          assistantEnabled={availability.enabled}
-          maintenanceMode={availability.maintenanceMode}
-        />
+        <MobileBottomNavigation maintenanceMode={maintenanceMode} />
       </body>
     </html>
   );

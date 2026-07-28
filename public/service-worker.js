@@ -1,4 +1,4 @@
-const CACHE_VERSION = "2026-07-27-v13-assistant-release-control";
+const CACHE_VERSION = "2026-07-28-v14-cleanup";
 const STATIC_CACHE = `blackmarket-static-${CACHE_VERSION}`;
 const MEDIA_CACHE = `blackmarket-media-${CACHE_VERSION}`;
 const CACHE_PREFIX = "blackmarket-";
