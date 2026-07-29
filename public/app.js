@@ -277,6 +277,7 @@ const dom = {
   adminPricingSubtitle: document.querySelector("#adminPricingSubtitle"),
   adminPricingSearch: document.querySelector("#adminPricingSearch"),
   adminPricingGrid: document.querySelector("#adminPricingGrid"),
+  adminPricingCatalogCount: document.querySelector("#adminPricingCatalogCount"),
   adminPricingChangeCount: document.querySelector("#adminPricingChangeCount"),
   adminClosePricingEditor: document.querySelector("#adminClosePricingEditor"),
   adminCancelPricing: document.querySelector("#adminCancelPricing"),
@@ -692,6 +693,7 @@ function bindEvents() {
     renderAdminPricingEditor();
   });
   dom.adminPricingGrid?.addEventListener("click", handleAdminPricingClick);
+  dom.adminPricingGrid?.addEventListener("input", handleAdminPricingInput);
   dom.adminPricingGrid?.addEventListener("change", handleAdminPricingInput);
   dom.adminSavePricing?.addEventListener("click", saveAdminPricing);
 
@@ -2952,7 +2954,7 @@ function renderAdminPricingEditor() {
   }
   if (dom.adminPricingTitle) dom.adminPricingTitle.textContent = `${account.store?.storeName || "Store"} Pricing`;
   if (dom.adminPricingSubtitle) {
-    dom.adminPricingSubtitle.textContent = `Adjust each flavor for @${account.username}. Changes apply to future carts and orders after you save.`;
+    dom.adminPricingSubtitle.textContent = `Set the wholesale price each flavor receives when @${account.username} signs in.`;
   }
   const query = state.adminPricingQuery;
   const items = state.adminPricingCatalog.filter((item) => {
@@ -2969,16 +2971,20 @@ function renderAdminPricingEditor() {
       const baseline = roundPrice(state.adminPricingBaseline[item.variantId]);
       const custom = value !== baseline;
       const unavailable = item.hidden || item.status === "inactive";
+      const status = item.status === "coming-soon" ? "Coming Soon" : unavailable ? "Inactive" : "";
       return `
         <article class="admin-pricing-card ${custom ? "is-custom" : ""} ${unavailable ? "is-unavailable" : ""}" data-pricing-variant="${escapeHtml(item.variantId)}">
+          <div class="admin-pricing-meta">
+            <span>#${escapeHtml(item.item)}</span>
+            <span class="admin-pricing-flavor">${escapeHtml(item.flavor)}</span>
+          </div>
           <div class="admin-pricing-media">
             ${image ? `<img src="${escapeHtml(image)}" alt="" width="160" height="160" loading="lazy" decoding="async" />` : `<span aria-hidden="true">#${escapeHtml(item.item)}</span>`}
           </div>
           <div class="admin-pricing-copy">
-            <span class="admin-kicker">#${escapeHtml(item.item)}${item.status === "coming-soon" ? " · Coming Soon" : unavailable ? " · Inactive" : ""}</span>
             <h3>${escapeHtml(item.product)}</h3>
-            <p>${escapeHtml(item.flavor)}</p>
-            <small>${state.adminPricingOriginal[item.variantId] === null ? "Standard" : "Custom"} · Base ${money(baseline)}</small>
+            ${status ? `<p>${escapeHtml(status)}</p>` : ""}
+            <small data-price-status>${custom ? "Custom" : "Standard"} · Base ${money(baseline)}</small>
           </div>
           <div class="admin-price-stepper" aria-label="${escapeHtml(`${item.product} ${item.flavor} wholesale price`)}">
             <button type="button" data-price-adjust="-1" aria-label="${escapeHtml(`Decrease ${item.product} ${item.flavor} price by one dollar`)}">−</button>
@@ -2994,12 +3000,43 @@ function renderAdminPricingEditor() {
       `;
     }).join("");
   }
+  renderAdminPricingSummary(items.length);
+}
+
+function renderAdminPricingSummary(visibleCount = null) {
   const changeCount = state.adminPricingDirty.size;
+  const catalogCount = state.adminPricingCatalog.length;
+  const productCount = new Set(state.adminPricingCatalog.map((item) => item.productId)).size;
+  const shown = visibleCount === null ? catalogCount : visibleCount;
+  if (dom.adminPricingCatalogCount) {
+    dom.adminPricingCatalogCount.textContent = state.adminPricingQuery
+      ? `${shown} of ${catalogCount} SKUs`
+      : `${productCount} products · ${catalogCount} SKUs`;
+  }
   if (dom.adminPricingChangeCount) dom.adminPricingChangeCount.textContent = changeCount ? `${changeCount} unsaved` : "No changes";
   if (dom.adminSavePricing) {
     dom.adminSavePricing.disabled = changeCount === 0;
     dom.adminSavePricing.textContent = changeCount ? `Save ${changeCount} Change${changeCount === 1 ? "" : "s"}` : "Save Pricing";
   }
+}
+
+function syncAdminPricingCard(variantId, options = {}) {
+  const card = dom.adminPricingGrid?.querySelector(`[data-pricing-variant="${CSS.escape(variantId)}"]`);
+  if (!card) {
+    renderAdminPricingSummary();
+    return;
+  }
+  const value = roundPrice(state.adminPricingDraft[variantId]);
+  const baseline = roundPrice(state.adminPricingBaseline[variantId]);
+  const custom = value !== baseline;
+  card.classList.toggle("is-custom", custom);
+  const input = card.querySelector("[data-price-input]");
+  if (input && options.preserveInput !== true) input.value = value.toFixed(2);
+  const status = card.querySelector("[data-price-status]");
+  if (status) status.textContent = `${custom ? "Custom" : "Standard"} · Base ${money(baseline)}`;
+  const reset = card.querySelector("[data-price-reset]");
+  if (reset) reset.disabled = !custom;
+  renderAdminPricingSummary();
 }
 
 function handleAdminPricingClick(event) {
@@ -3015,11 +3052,7 @@ function handleAdminPricingClick(event) {
     state.adminPricingDraft[variantId] = roundPrice(state.adminPricingBaseline[variantId]);
   }
   syncAdminPricingDirty(variantId);
-  renderAdminPricingEditor();
-  window.requestAnimationFrame(() => {
-    const selector = adjust ? `[data-pricing-variant="${CSS.escape(variantId)}"] [data-price-adjust="${adjust.dataset.priceAdjust}"]` : `[data-price-reset="${CSS.escape(variantId)}"]`;
-    dom.adminPricingGrid?.querySelector(selector)?.focus();
-  });
+  syncAdminPricingCard(variantId);
 }
 
 function handleAdminPricingInput(event) {
@@ -3027,12 +3060,19 @@ function handleAdminPricingInput(event) {
   if (!input) return;
   const value = Number(input.value);
   if (!Number.isFinite(value) || value < 0 || value > 100000) {
-    input.value = Number(state.adminPricingDraft[input.dataset.priceInput] || 0).toFixed(2);
-    return showToast("Enter a valid wholesale price");
+    input.setAttribute("aria-invalid", "true");
+    if (event.type === "change") {
+      input.value = Number(state.adminPricingDraft[input.dataset.priceInput] || 0).toFixed(2);
+      input.removeAttribute("aria-invalid");
+      showToast("Enter a valid wholesale price");
+    }
+    return;
   }
+  input.removeAttribute("aria-invalid");
   state.adminPricingDraft[input.dataset.priceInput] = roundPrice(value);
   syncAdminPricingDirty(input.dataset.priceInput);
-  renderAdminPricingEditor();
+  syncAdminPricingCard(input.dataset.priceInput, { preserveInput: event.type === "input" });
+  if (event.type === "change") input.value = roundPrice(value).toFixed(2);
 }
 
 function syncAdminPricingDirty(variantId) {
@@ -3062,7 +3102,14 @@ async function saveAdminPricing() {
     });
     const result = await response.json().catch(() => ({}));
     if (!response.ok || !result.ok) throw new Error(result.message || "Unable to save product pricing");
-    await loadAdminAccounts({ silent: true });
+    const accountIndex = state.adminAccounts.findIndex((entry) => entry.id === account.id);
+    if (accountIndex !== -1 && result.account) {
+      state.adminAccounts[accountIndex] = {
+        ...result.account,
+        priceOverrides: Array.isArray(result.account.priceOverrides) ? result.account.priceOverrides : [],
+      };
+    }
+    renderAdminStoreAccounts();
     openAdminPricingEditor(account.id, lastPricingTrigger);
     showToast("Store pricing saved");
   } catch (error) {

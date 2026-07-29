@@ -25,6 +25,7 @@ export class UsernameConflictError extends Error {
 }
 
 export async function createAccount(account: StoreAccount): Promise<StoreAccount> {
+  account = normalizeStoredAccount(account);
   const pathname = accountPath(account.username);
   if (shouldUseBlob()) {
     try {
@@ -56,7 +57,8 @@ export async function createAccount(account: StoreAccount): Promise<StoreAccount
 }
 
 export async function getAccountByUsername(username: string): Promise<StoreAccount | null> {
-  return readRecord<StoreAccount>(accountPath(username), localPath("accounts", `${accountFileName(username)}.json`));
+  const account = await readRecord<StoreAccount>(accountPath(username), localPath("accounts", `${accountFileName(username)}.json`));
+  return account ? normalizeStoredAccount(account) : null;
 }
 
 export async function getAccountById(accountId: string): Promise<StoreAccount | null> {
@@ -73,7 +75,7 @@ export async function listAccounts(): Promise<StoreAccount[]> {
       do {
         const page = await list({ prefix: ACCOUNT_PREFIX, cursor, limit: 1000 });
         const records = await Promise.all(page.blobs.filter((blob) => blob.pathname.endsWith(".json")).map((blob) => readBlob<StoreAccount>(blob.pathname)));
-        results.push(...records.filter((record): record is StoreAccount => Boolean(record)));
+        results.push(...records.filter((record): record is StoreAccount => Boolean(record)).map(normalizeStoredAccount));
         cursor = page.hasMore ? page.cursor : undefined;
       } while (cursor);
       return results.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
@@ -88,7 +90,10 @@ export async function listAccounts(): Promise<StoreAccount[]> {
   const accounts = await Promise.all(names.filter((name) => name.endsWith(".json")).map(async (name) => {
     try { return JSON.parse(await readFile(path.join(directory, name), "utf8")) as StoreAccount; } catch { return null; }
   }));
-  return accounts.filter((entry): entry is StoreAccount => Boolean(entry)).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  return accounts
+    .filter((entry): entry is StoreAccount => Boolean(entry))
+    .map(normalizeStoredAccount)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
 export async function updateAccount(username: string, mutate: (account: StoreAccount) => StoreAccount): Promise<StoreAccount> {
@@ -99,7 +104,7 @@ export async function updateAccount(username: string, mutate: (account: StoreAcc
         const { head, put } = await import("@vercel/blob");
         const [account, metadata] = await Promise.all([readBlob<StoreAccount>(pathname), head(pathname)]);
         if (!account) throw new Error("Account not found.");
-        const next = mutate(structuredClone(account));
+        const next = normalizeStoredAccount(mutate(normalizeStoredAccount(structuredClone(account))));
         next.updatedAt = new Date().toISOString();
         await put(pathname, serialize(next), {
           access: "private",
@@ -120,7 +125,7 @@ export async function updateAccount(username: string, mutate: (account: StoreAcc
   ensureLocalAllowed();
   const target = localPath("accounts", `${accountFileName(username)}.json`);
   const account = JSON.parse(await readFile(target, "utf8")) as StoreAccount;
-  const next = mutate(structuredClone(account));
+  const next = normalizeStoredAccount(mutate(normalizeStoredAccount(structuredClone(account))));
   next.updatedAt = new Date().toISOString();
   await atomicWrite(target, serialize(next));
   return next;
@@ -221,7 +226,12 @@ async function readRecord<T>(pathname: string, localFile: string): Promise<T | n
 async function readBlob<T>(pathname: string): Promise<T | null> {
   try {
     const { get } = await import("@vercel/blob");
-    const result = await get(pathname, { access: "private" });
+    // Account data is mutable. Force revalidation so a just-saved price is not
+    // hidden behind the Blob's required minimum edge-cache lifetime.
+    const result = await get(pathname, {
+      access: "private",
+      headers: { "cache-control": "no-cache" },
+    });
     if (result?.statusCode !== 200 || !result.stream) return null;
     return JSON.parse(await new Response(result.stream).text()) as T;
   } catch (error) {
@@ -266,3 +276,15 @@ function localPath(...parts: string[]): string {
 function messageOf(error: unknown): string { return error instanceof Error ? error.message : String(error); }
 function isConflict(error: unknown): boolean { return /already exists|409|overwrite/i.test(messageOf(error)); }
 function isPrecondition(error: unknown): boolean { return /precondition|etag|412/i.test(messageOf(error)); }
+
+/**
+ * Accounts created before per-store pricing was introduced do not have this
+ * field in Blob storage. Normalize those records at the storage boundary so
+ * pricing reads and writes never depend on a migration having already run.
+ */
+export function normalizeStoredAccount(account: StoreAccount): StoreAccount {
+  return {
+    ...account,
+    priceOverrides: Array.isArray(account.priceOverrides) ? account.priceOverrides : [],
+  };
+}

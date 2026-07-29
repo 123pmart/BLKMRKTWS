@@ -2941,16 +2941,18 @@ body.admin-news-editing .admin-news-side {
 
 .admin-pricing-editor {
   position: fixed;
-  inset: 12px;
+  inset: 18px;
   z-index: 90;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
+  width: min(1540px, calc(100vw - 36px));
+  margin-inline: auto;
   visibility: hidden;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   opacity: 0;
-  background: #08080a;
+  background: var(--bg);
   box-shadow: 0 26px 90px rgba(0, 0, 0, 0.72);
   transform: translateY(18px) scale(.992);
   transition: opacity 180ms ease, transform 260ms var(--ease), visibility 260ms ease;
@@ -2966,17 +2968,18 @@ body.admin-pricing-editing .admin-pricing-editor {
 .admin-pricing-toolbar,
 .admin-pricing-footer {
   display: flex;
-  padding: 18px 20px;
+  padding: 16px 18px;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   border-bottom: 1px solid var(--line-soft);
-  background: rgba(8, 8, 10, .96);
+  background: rgba(8, 8, 10, .97);
+  backdrop-filter: blur(18px);
 }
 
 .admin-pricing-header h2 {
-  margin: 4px 0;
-  font-size: clamp(1.35rem, 2.4vw, 2.15rem);
+  margin: 3px 0;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
 
 .admin-pricing-header p {
@@ -2991,16 +2994,26 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 .admin-pricing-toolbar .admin-search-field {
-  width: min(520px, 100%);
+  width: min(430px, 100%);
   margin: 0;
+}
+
+.admin-pricing-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 750;
 }
 
 .admin-pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   min-height: 0;
-  padding: 16px 20px 24px;
+  padding: 14px 18px 28px;
   align-content: start;
   overflow: auto;
   overscroll-behavior: contain;
@@ -3010,12 +3023,17 @@ body.admin-pricing-editing .admin-pricing-editor {
   display: grid;
   min-width: 0;
   padding: 12px;
-  grid-template-rows: 150px minmax(106px, auto) 48px auto;
-  gap: 10px;
+  grid-template-rows: auto 146px minmax(74px, auto) 46px 30px;
+  gap: 9px;
   border: 1px solid var(--line);
-  border-radius: 13px;
-  background: linear-gradient(145deg, #111114, #09090b 68%);
+  border-radius: var(--radius);
+  background: var(--panel-gradient);
   transition: border-color 160ms ease, transform 180ms var(--ease), box-shadow 180ms ease;
+}
+
+.admin-pricing-card:hover {
+  border-color: #47474f;
+  background: var(--surface-2);
 }
 
 .admin-pricing-card.is-custom {
@@ -3027,21 +3045,48 @@ body.admin-pricing-editing .admin-pricing-editor {
   opacity: .58;
 }
 
+.admin-pricing-meta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  color: var(--quiet);
+  font-size: .58rem;
+  font-weight: 800;
+}
+
+.admin-pricing-meta > span:first-child {
+  flex: 0 0 auto;
+}
+
+.admin-pricing-flavor {
+  max-width: 72%;
+  padding: 3px 6px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  color: #aaaab2;
+  background: rgba(255, 255, 255, .025);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .admin-pricing-media {
+  position: relative;
   display: grid;
   min-width: 0;
   place-items: center;
   overflow: hidden;
-  border: 1px solid var(--line-soft);
-  border-radius: 9px;
   color: var(--muted);
-  background: #08080a;
 }
 
 .admin-pricing-media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  padding: 6px;
+  padding: 2px;
   object-fit: contain;
 }
 
@@ -3050,11 +3095,11 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 .admin-pricing-copy h3 {
-  margin: 5px 0 2px;
+  margin: 0 0 3px;
   overflow: hidden;
   font-size: .83rem;
-  line-height: 1.12;
-  text-overflow: ellipsis;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
 }
 
 .admin-pricing-copy p,
@@ -3069,7 +3114,7 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 .admin-pricing-copy small {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: .6rem;
 }
 
@@ -3127,6 +3172,10 @@ body.admin-pricing-editing .admin-pricing-editor {
   appearance: textfield;
 }
 
+.admin-price-stepper input[aria-invalid="true"] {
+  color: #fda4af;
+}
+
 .admin-price-stepper input::-webkit-inner-spin-button,
 .admin-price-stepper input::-webkit-outer-spin-button {
   margin: 0;
@@ -3141,8 +3190,9 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 .admin-price-reset {
-  min-height: 32px;
-  border: 0;
+  min-height: 30px;
+  border: 1px solid transparent;
+  border-radius: 7px;
   color: var(--muted);
   background: transparent;
   font-size: .6rem;
@@ -3152,6 +3202,8 @@ body.admin-pricing-editing .admin-pricing-editor {
 
 .admin-price-reset:not(:disabled) {
   color: var(--accent);
+  border-color: rgba(245, 169, 0, .16);
+  background: rgba(245, 169, 0, .045);
 }
 
 .admin-pricing-footer {
@@ -3175,7 +3227,11 @@ body.admin-pricing-editing .admin-pricing-editor {
   border: 0;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1320px) {
+  .admin-pricing-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1060px) {
   .admin-pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
@@ -3193,7 +3249,9 @@ body.admin-pricing-editing .admin-pricing-editor {
   .admin-store-actions .admin-button { flex: 1 1 140px; }
   .admin-pricing-editor {
     inset: 0;
+    width: 100%;
     height: 100dvh;
+    margin: 0;
     border: 0;
     border-radius: 0;
   }
@@ -3208,6 +3266,13 @@ body.admin-pricing-editing .admin-pricing-editor {
   .admin-pricing-toolbar {
     align-items: flex-end;
   }
+  .admin-pricing-summary {
+    display: grid;
+    flex: 0 0 auto;
+    gap: 5px;
+    justify-items: end;
+    text-align: right;
+  }
   .admin-pricing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -3215,7 +3280,7 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
   .admin-pricing-card {
     padding: 8px;
-    grid-template-rows: 116px minmax(102px, auto) 46px auto;
+    grid-template-rows: auto 112px minmax(80px, auto) 46px 30px;
     gap: 8px;
   }
   .admin-pricing-copy h3 {
@@ -3235,8 +3300,11 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 @media (max-width: 380px) {
-  .admin-pricing-grid { grid-template-columns: 1fr; }
-  .admin-pricing-card { grid-template-rows: 150px auto 46px auto; }
+  .admin-pricing-grid { gap: 6px; padding-inline: 7px; }
+  .admin-pricing-card { padding: 7px; }
+  .admin-price-stepper { grid-template-columns: 38px minmax(0, 1fr) 38px; }
+  .admin-price-stepper button { min-width: 38px; }
+  .admin-price-stepper input { width: 48px; }
 }
 
 @media (max-width: 900px) {

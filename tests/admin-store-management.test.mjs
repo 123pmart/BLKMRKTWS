@@ -28,3 +28,19 @@ test("dedicated pricing editor supports validated bulk variant changes", () => {
   assert.match(app, /data-price-adjust="1"/);
   assert.match(app, /action:\s*"set-prices"/);
 });
+
+test("legacy store accounts are normalized before pricing reads and writes", () => {
+  assert.match(store, /function normalizeStoredAccount\(account: StoreAccount\)/);
+  assert.match(store, /priceOverrides:\s*Array\.isArray\(account\.priceOverrides\)\s*\?\s*account\.priceOverrides\s*:\s*\[\]/);
+  assert.match(api, /function accountPriceOverrides\(account: StoreAccount\)/);
+  assert.match(api, /const existingOverrides = accountPriceOverrides\(record\)/);
+});
+
+test("direct price edits preserve the editor and save using the confirmed server record", () => {
+  assert.match(app, /adminPricingGrid\?\.addEventListener\("input",\s*handleAdminPricingInput\)/);
+  const inputHandler = app.match(/function handleAdminPricingInput\(event\)\s*{([\s\S]*?)\n}/)?.[1] || "";
+  assert.doesNotMatch(inputHandler, /renderAdminPricingEditor/);
+  assert.match(inputHandler, /syncAdminPricingCard/);
+  assert.match(app, /state\.adminAccounts\[accountIndex\]\s*=\s*{\s*\.\.\.result\.account/);
+  assert.match(html, /id="adminPricingCatalogCount"/);
+});

@@ -14,4 +14,6 @@ test("admin editors escape the active-view stacking context", () => {
 test("store pricing editor is a viewport-level overlay with a scrollable product grid", () => {
   assert.match(styles, /\.admin-pricing-editor\s*{[^}]*position:\s*fixed;[^}]*grid-template-rows:\s*auto auto minmax\(0,\s*1fr\) auto;/s);
   assert.match(styles, /\.admin-pricing-grid\s*{[^}]*overflow:\s*auto;/s);
+  assert.match(styles, /\.admin-pricing-media img\s*{[^}]*position:\s*absolute;[^}]*width:\s*100%;[^}]*height:\s*100%;[^}]*object-fit:\s*contain;/s);
+  assert.match(styles, /@media \(max-width:\s*620px\)[\s\S]*?\.admin-pricing-editor\s*{[^}]*inset:\s*0;[^}]*width:\s*100%;[^}]*height:\s*100dvh;/s);
 });

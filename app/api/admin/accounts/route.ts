@@ -114,7 +114,7 @@ export async function PATCH(request: Request) {
     if (!target) return badRequest("The selected catalog item no longer exists.");
     updated = await updateAccount(account.username, (record) => ({
       ...record,
-      priceOverrides: [...record.priceOverrides.filter((entry) => override.variantId ? entry.variantId !== override.variantId : entry.variantId || entry.productId !== override.productId), override],
+      priceOverrides: [...accountPriceOverrides(record).filter((entry) => override.variantId ? entry.variantId !== override.variantId : entry.variantId || entry.productId !== override.productId), override],
     }));
   } else if (action === "set-prices") {
     const submitted = Array.isArray(body.prices) ? body.prices : [];
@@ -141,9 +141,10 @@ export async function PATCH(request: Request) {
     }
     updated = await updateAccount(account.username, (record) => {
       const touched = new Set(changes.map((entry) => entry.variantId));
-      const retained = record.priceOverrides.filter((entry) => !entry.variantId || !touched.has(entry.variantId));
+      const existingOverrides = accountPriceOverrides(record);
+      const retained = existingOverrides.filter((entry) => !entry.variantId || !touched.has(entry.variantId));
       const next = changes.filter((entry) => !entry.remove).map((entry) => {
-        const existing = record.priceOverrides.find((override) => override.variantId === entry.variantId);
+        const existing = existingOverrides.find((override) => override.variantId === entry.variantId);
         return normalizePriceOverride({
           ...existing,
           productId: entry.productId,
@@ -155,7 +156,7 @@ export async function PATCH(request: Request) {
     });
   } else if (action === "remove-price") {
     const overrideId = String(body.overrideId || "");
-    updated = await updateAccount(account.username, (record) => ({ ...record, priceOverrides: record.priceOverrides.filter((entry) => entry.id !== overrideId) }));
+    updated = await updateAccount(account.username, (record) => ({ ...record, priceOverrides: accountPriceOverrides(record).filter((entry) => entry.id !== overrideId) }));
   } else if (action === "link-order") {
     const orders = await readOrders();
     const targetOrder = (orders as Array<{ id: string; salesperson?: "parker" | "matt" | "beau"; store: { salesperson?: "parker" | "matt" | "beau" } }>).find((order) => order.id === String(body.orderId || ""));
@@ -188,7 +189,10 @@ export async function DELETE(request: Request) {
 function publicAdminAccount(account: StoreAccount) {
   const { passwordHash: _passwordHash, ...safe } = account;
   void _passwordHash;
-  return safe;
+  return { ...safe, priceOverrides: accountPriceOverrides(account) };
+}
+function accountPriceOverrides(account: StoreAccount) {
+  return Array.isArray(account.priceOverrides) ? account.priceOverrides : [];
 }
 function unauthorized() { return Response.json({ ok: false, message: "Unauthorized" }, { status: 401, headers: { "Cache-Control": "no-store" } }); }
 function badRequest(message: string) { return Response.json({ ok: false, message }, { status: 400, headers: { "Cache-Control": "no-store" } }); }
