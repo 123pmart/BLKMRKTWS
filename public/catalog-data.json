@@ -613,7 +613,7 @@
       "description": "PURPOSE: BULK is one of our most dependable and time-tested pre-workouts, with everything you need for immense power output, strength, and natural testosterone support.",
       "featured": false,
       "bottle": "/assets/products/bulk-testosterone-pre-workout-bottle.png",
-      "panel": "/assets/site-images/bulk-testosterone-pre-workout-panel-bulk-side-2.png",
+      "panel": "/assets/products/bulk-testosterone-pre-workout-supplement-facts.jpg",
       "variants": [
         {
           "id": "bulk-testosterone-pre-workout-fruit-punch-51114",
@@ -626,6 +626,7 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-fruit-punch-51114-bulk-fruitpunch-final-fb798d5e-d4f4-4f03-89d1-34d1db71bfb5.png",
+          "panel": "/assets/products/bulk-testosterone-pre-workout-supplement-facts.jpg",
           "available": true,
           "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-fruit-punch-51114-f76ca15c4904.webp"
         },
@@ -640,6 +641,7 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-watermelon-51115-bulk-watermel-final-f75c5b23-17a9-4b10-94f8-4d1e64318140.png",
+          "panel": "/assets/products/bulk-testosterone-pre-workout-supplement-facts.jpg",
           "available": true,
           "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-watermelon-51115-1956ac347a08.webp"
         },
@@ -654,6 +656,7 @@
           "map": "$49.99",
           "mapValue": 49.99,
           "bottle": "/assets/site-images/bulk-testosterone-pre-workout-bulk-testosterone-pre-workout-blue-razz-51116-bulk-bluerazz-final-1e2f65f5-2b46-4f3a-b759-253953df1127.png",
+          "panel": "/assets/products/bulk-testosterone-pre-workout-supplement-facts.jpg",
           "available": true,
           "cardImage": "/assets/catalog-cards/bulk-testosterone-pre-workout-blue-razz-51116-2b5b40c4412c.webp"
         }
@@ -669,7 +672,7 @@
         "/assets/site-images/bulk-testosterone-pre-workout-2-bulk-bluerazz-final-1e2f65f5-2b46-4f3a-b759-253953df1127.png",
         "/assets/site-images/bulk-testosterone-pre-workout-3-bulk-watermel-final-f75c5b23-17a9-4b10-94f8-4d1e64318140.png",
         "/assets/site-images/bulk-testosterone-pre-workout-4-bulk-side-2.png",
-        "/assets/site-images/bulk-testosterone-pre-workout-5-bulkoging.png"
+        "/assets/products/bulk-testosterone-pre-workout-supplement-facts.jpg"
       ]
     },
     {
