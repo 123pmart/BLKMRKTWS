@@ -320,6 +320,10 @@
       "title": "CUTS PUMP Thermogenic Liquid Glycerol",
       "category": "Thermogenic Products",
       "categorySlug": "thermogenic",
+      "categorySlugs": [
+        "thermogenics",
+        "pump"
+      ],
       "accent": "#f5a900",
       "secondary": "#ff2a1f",
       "description": "PURPOSE: CUTS PUMP is a powerful, caffeine-free, liquid glycerol shot with added L-carnitine. It helps boost metabolism, enhance endurance, and maximize muscle hydration and volume.",
@@ -744,6 +748,75 @@
         "/assets/site-images/bulk-apex-strength-pre-workout-5-bulk-apex-sup-facts.jpg",
         "/assets/site-images/bulk-apex-strength-pre-workout-6-bulkapex-frontsour-d002e3c5-66aa-4a5b-b9c5-5f0961927c48.png",
         "/assets/site-images/bulk-apex-strength-pre-workout-7-bulkapex-frontgrape-b3e946fb-a12d-441f-9703-e655fdef66b7.png"
+      ]
+    },
+    {
+      "id": "bulk-pump-strength-liquid-glycerol",
+      "title": "BULK PUMP Strength Liquid Glycerol",
+      "category": "Strength Products",
+      "categorySlug": "strength",
+      "categorySlugs": [
+        "strength",
+        "pump"
+      ],
+      "accent": "#f01822",
+      "secondary": "#b19a61",
+      "description": "PURPOSE: BULK PUMP is a premium, caffeine-free liquid glycerol shot designed for enhanced muscle volume, hydration, strength output, muscular performance, and focus support.",
+      "featured": false,
+      "bottle": "/assets/products/bulk-pump/rocket-pop-front.png",
+      "panel": "/assets/products/bulk-pump/rocket-pop-facts.png",
+      "variants": [
+        {
+          "id": "bulk-pump-strength-liquid-glycerol-rocket-pop-56340",
+          "item": "56340",
+          "flavor": "Rocket Pop",
+          "description": "BULK PUMP Strength Liquid Glycerol Rocket Pop 30/60 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/products/bulk-pump/rocket-pop-front.png",
+          "panel": "/assets/products/bulk-pump/rocket-pop-facts.png",
+          "galleryImages": [
+            "/assets/products/bulk-pump/rocket-pop-front.png",
+            "/assets/products/bulk-pump/rocket-pop-side.png",
+            "/assets/products/bulk-pump/rocket-pop-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-pump-strength-liquid-glycerol-rocket-pop-56340-c673098156b2.webp"
+        },
+        {
+          "id": "bulk-pump-strength-liquid-glycerol-sour-gummy-56339",
+          "item": "56339",
+          "flavor": "Sour Gummy",
+          "description": "BULK PUMP Strength Liquid Glycerol Sour Gummy 30/60 Serv",
+          "wholesale": "$22.50",
+          "wholesaleValue": 22.5,
+          "map": "$49.99",
+          "mapValue": 49.99,
+          "bottle": "/assets/products/bulk-pump/sour-gummy-front.png",
+          "panel": "/assets/products/bulk-pump/sour-gummy-facts.png",
+          "galleryImages": [
+            "/assets/products/bulk-pump/sour-gummy-front.png",
+            "/assets/products/bulk-pump/sour-gummy-side.png",
+            "/assets/products/bulk-pump/sour-gummy-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/bulk-pump-strength-liquid-glycerol-sour-gummy-56339-3a59dedd26ee.webp"
+        }
+      ],
+      "siteVariants": [
+        "Rocket Pop",
+        "Sour Gummy"
+      ],
+      "handle": "bulk-pump-strength-liquid-glycerol",
+      "siteImages": [
+        "/assets/products/bulk-pump/rocket-pop-front.png",
+        "/assets/products/bulk-pump/rocket-pop-side.png",
+        "/assets/products/bulk-pump/rocket-pop-facts.png",
+        "/assets/products/bulk-pump/sour-gummy-front.png",
+        "/assets/products/bulk-pump/sour-gummy-side.png",
+        "/assets/products/bulk-pump/sour-gummy-facts.png"
       ]
     },
     {

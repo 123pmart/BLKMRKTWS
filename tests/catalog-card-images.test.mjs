@@ -28,6 +28,6 @@ test("catalog variants have compact WebP card images while retaining original me
     }
   }
 
-  assert.equal(variants, 56);
+  assert.equal(variants, 58);
   assert.ok(cardBytes < originalBytes * 0.4, `Expected optimized cards to be below 40% of originals; got ${(cardBytes / originalBytes * 100).toFixed(1)}%`);
 });

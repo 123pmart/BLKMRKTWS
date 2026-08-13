@@ -25,6 +25,7 @@ export interface Product {
   title: string;
   category: string;
   categorySlug: string;
+  categorySlugs?: string[];
   accent?: string;
   secondary?: string;
   description: string;
@@ -43,6 +44,7 @@ export interface FlattenedCatalogItem extends Variant {
   category: string;
   categorySlug: string;
   section: string;
+  sections?: string[];
   fullTitle: string;
   productDescription: string;
   sort: number;

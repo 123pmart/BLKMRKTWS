@@ -1,4 +1,5 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
+import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
 import {
   accountDestination,
   goHome as goPortalHome,
@@ -15,7 +16,7 @@ import {
   nextPortalLoad,
 } from "/lib/account-nudge.js?v=20260728-account-nudge-cadence";
 
-const DATA_URL = "/catalog-data.json?v=20260629-streettarts-admin";
+const DATA_URL = "/catalog-data.json?v=20260813-bulk-pump";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
 const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
@@ -928,6 +929,7 @@ function buildItems(products) {
         sort: productIndex * 100 + variantIndex,
       };
       item.section = displaySection(item);
+      item.sections = catalogItemSections(product, item.section);
       item.fullTitle = `${item.productTitle} ${item.flavor}`.replace(/\s+/g, " ").trim();
       item.aliases = catalogFlavorAliases(item.flavor);
       const standardWholesaleValue = Number(item.wholesaleValue || parseMoney(item.wholesale));
@@ -1057,7 +1059,7 @@ function renderProductEntrypoints() {
 }
 
 function representativeItem(option) {
-  return state.items.find(option.match) || state.items.find((item) => item.section === option.slug) || state.items[0];
+  return state.items.find(option.match) || state.items.find((item) => catalogItemMatchesSection(item, option.slug)) || state.items[0];
 }
 
 function landingImage(item) {
@@ -1323,7 +1325,7 @@ function renderSkuCard(item, index = 99) {
 
 function preloadProductMedia() {
   if (state.activeView === "products") {
-    const firstProduct = state.items.find((item) => item.section === state.activeFilter) || state.items[0];
+    const firstProduct = state.items.find((item) => catalogItemMatchesSection(item, state.activeFilter)) || state.items[0];
     enqueueMediaPreloads(firstProduct ? [firstProduct.cardImage || firstProduct.bottle] : []);
     return;
   }
@@ -1340,7 +1342,7 @@ function preloadProductMedia() {
 
 function scheduleNutritionPanelPreload() {
   const preloadPanels = () => {
-    const firstVisible = state.items.find((item) => item.section === state.activeFilter) || state.items[0];
+    const firstVisible = state.items.find((item) => catalogItemMatchesSection(item, state.activeFilter)) || state.items[0];
     if (firstVisible?.panel) enqueueMediaPreloads([firstVisible.panel]);
   };
   if ("requestIdleCallback" in window) {
@@ -1351,7 +1353,7 @@ function scheduleNutritionPanelPreload() {
 }
 
 function preloadFilterMedia(filter) {
-  const items = state.items.filter((item) => filter === "all" || item.section === filter);
+  const items = state.items.filter((item) => catalogItemMatchesSection(item, filter));
   enqueueMediaPreloads(unique(items.slice(0, 4).map((item) => item.cardImage || item.bottle)));
 }
 
@@ -1407,7 +1409,7 @@ function renderMiniQty(id) {
 function filteredItems() {
   const source = state.query
     ? searchCatalogItems(state.items, state.query)
-    : state.items.filter((item) => state.activeFilter === "all" || item.section === state.activeFilter);
+    : state.items.filter((item) => catalogItemMatchesSection(item, state.activeFilter));
   return source.sort((a, b) => {
     if (state.query) return 0;
     return sectionIndex(a.section) - sectionIndex(b.section) || productRank(a) - productRank(b) || a.sort - b.sort;
