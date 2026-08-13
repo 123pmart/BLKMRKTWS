@@ -148,6 +148,7 @@ const state = {
   accountResolved: false,
   contentResolved: false,
   adminResolved: false,
+  lastNewsNotification: null,
 };
 
 const mediaPreload = {
@@ -2677,6 +2678,7 @@ async function loadServerContent(options = {}) {
 
 async function persistAdminContent(options = {}) {
   if (!state.adminAuthed) return false;
+  if (options.notificationAnnouncementId) state.lastNewsNotification = null;
   try {
     const response = await fetch(CONTENT_API_URL, {
       method: "PUT",
@@ -2698,6 +2700,7 @@ async function persistAdminContent(options = {}) {
     const body = await response.json().catch(() => ({}));
     if (!response.ok || !body.ok) throw new Error(body.message || "Unable to save portal content");
     state.contentStorageMode = body.storage || "server";
+    if (options.notificationAnnouncementId) state.lastNewsNotification = body.notification || null;
     renderAdminMetrics();
     if (!options.silent) showToast("Portal content saved");
     return true;
@@ -3356,7 +3359,21 @@ async function publishAnnouncement() {
   if (!saved) return;
   clearAnnouncementEditor();
   closeNewsEditor();
-  showToast(id ? "Update saved" : "Announcement published");
+  showToast(id ? "Update saved" : newsPublishStatus(state.lastNewsNotification));
+}
+
+function newsPublishStatus(delivery) {
+  if (!delivery) return "Announcement published · notification status unavailable";
+  if (delivery.reason === "not-configured") return "Announcement published · notifications need setup";
+  if (delivery.reason === "duplicate-event") return "Announcement published · notification already processed";
+  if (delivery.sent > 0 && delivery.failed > 0) {
+    return `Announcement published · ${delivery.sent} sent, ${delivery.failed} failed`;
+  }
+  if (delivery.sent > 0) {
+    return `Announcement published · ${delivery.sent} notification${delivery.sent === 1 ? "" : "s"} sent`;
+  }
+  if (delivery.failed > 0) return "Announcement published · notification delivery failed";
+  return "Announcement published · no subscribed devices yet";
 }
 
 async function commitAnnouncements(nextAnnouncements, options = {}) {

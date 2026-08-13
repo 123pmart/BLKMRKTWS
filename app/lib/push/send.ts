@@ -12,6 +12,14 @@ interface SendPushOptions {
   message: PushMessage;
 }
 
+export interface PushDeliveryResult {
+  sent: number;
+  failed: number;
+  subscribers: number;
+  skipped: boolean;
+  reason?: "not-configured" | "duplicate-event";
+}
+
 export function webPushConfigured(): boolean {
   return Boolean(
     process.env.WEB_PUSH_VAPID_PUBLIC_KEY &&
@@ -24,14 +32,16 @@ export function webPushPublicKey(): string {
   return process.env.WEB_PUSH_VAPID_PUBLIC_KEY || "";
 }
 
-export async function sendPushNotification(options: SendPushOptions): Promise<{ sent: number; failed: number; skipped: boolean }> {
+export async function sendPushNotification(options: SendPushOptions): Promise<PushDeliveryResult> {
   if (!webPushConfigured()) {
     console.warn("Web Push is not configured; notification was not dispatched.");
-    return { sent: 0, failed: 0, skipped: true };
+    return { sent: 0, failed: 0, subscribers: 0, skipped: true, reason: "not-configured" };
   }
 
   const claimed = await claimPushEvent(options.eventId);
-  if (!claimed) return { sent: 0, failed: 0, skipped: true };
+  if (!claimed) {
+    return { sent: 0, failed: 0, subscribers: 0, skipped: true, reason: "duplicate-event" };
+  }
 
   const records = (await listActivePushSubscriptions()).filter((record) => matchesAudience(record, options));
   const payload = JSON.stringify(options.message);
@@ -63,7 +73,7 @@ export async function sendPushNotification(options: SendPushOptions): Promise<{ 
     }
   }));
 
-  return { sent, failed, skipped: false };
+  return { sent, failed, subscribers: records.length, skipped: false };
 }
 
 function matchesAudience(record: StoredPushSubscription, options: SendPushOptions): boolean {

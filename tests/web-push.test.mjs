@@ -6,6 +6,7 @@ const subscriptionRoute = await readFile(new URL("../app/api/push/subscription/r
 const sender = await readFile(new URL("../app/lib/push/send.ts", import.meta.url), "utf8");
 const orderRoute = await readFile(new URL("../app/api/send-order/route.js", import.meta.url), "utf8");
 const contentRoute = await readFile(new URL("../app/api/content/route.js", import.meta.url), "utf8");
+const legacyClient = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
 
 test("admin push audience is derived from the verified server session", () => {
   assert.match(subscriptionRoute, /audience === "admin" \? await getAdminIdentity\(request\) : null/);
@@ -31,4 +32,13 @@ test("news alerts are explicitly customer-only and tied to a persisted announcem
   assert.ok(storedAt > -1 && pushedAt > storedAt);
   assert.match(contentRoute, /audience: "customer"/);
   assert.match(contentRoute, /notificationAnnouncementId/);
+  assert.match(contentRoute, /title: "BLACKMARKET News Update"/);
+  assert.match(contentRoute, /body: cleanPushText\(announcement\.title, 160\)/);
+  assert.match(contentRoute, /notification \}/);
+});
+
+test("new announcements notify once while edits do not spam subscribers", () => {
+  assert.match(legacyClient, /const notificationAnnouncementId = id \? "" : `\$\{Date\.now\(\)\}`/);
+  assert.match(legacyClient, /newsPublishStatus\(state\.lastNewsNotification\)/);
+  assert.match(legacyClient, /no subscribed devices yet/);
 });

@@ -35,20 +35,26 @@ export async function PUT(request) {
     const announcement = notificationId
       ? content.announcements.find((entry) => String(entry.id) === notificationId)
       : null;
+    let notification = null;
     if (announcement) {
-      await sendPushNotification({
-        eventId: `news:${notificationId}`,
-        audience: "customer",
-        message: {
-          title: cleanPushText(announcement.title, 90) || "New BlackMarket update",
-          body: cleanPushText(announcement.body, 160) || "Open News to see the latest update.",
-          url: "/news",
-          tag: `blackmarket-news-${notificationId}`,
-        },
-      }).catch((error) => console.error("News push notification failed:", error));
+      try {
+        notification = await sendPushNotification({
+          eventId: `news:${notificationId}`,
+          audience: "customer",
+          message: {
+            title: "BLACKMARKET News Update",
+            body: cleanPushText(announcement.title, 160) || "Open News to see the latest update.",
+            url: "/news",
+            tag: `blackmarket-news-${notificationId}`,
+          },
+        });
+      } catch (error) {
+        console.error("News push notification failed:", error);
+        notification = { sent: 0, failed: 1, subscribers: 0, skipped: false };
+      }
     }
     return Response.json(
-      { ok: true, content, storage: contentStorageMode() },
+      { ok: true, content, storage: contentStorageMode(), notification },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
