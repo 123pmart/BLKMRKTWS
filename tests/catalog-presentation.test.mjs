@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
 import { catalogPresentation, catalogServingCount } from "../public/lib/catalog-presentation.js";
+import { searchCatalogItems } from "../public/lib/catalog-search.js";
 
 const catalog = JSON.parse(await readFile(new URL("../public/catalog-data.json", import.meta.url), "utf8"));
 const source = await readFile(new URL("../public/app.js", import.meta.url), "utf8");
@@ -13,7 +14,7 @@ test("every built-in variant has a concise product/flavor title and explicit ser
     for (const variant of product.variants) {
       const view = catalogPresentation(product, variant);
       assert.ok(view.displayName);
-      assert.equal(view.displayTitle, `${view.displayName} | ${variant.flavor}`);
+      assert.equal(view.displayTitle, `${view.displayName} - ${variant.flavor}`);
       assert.match(view.servingsLabel, /^\d+(?:\/\d+)? Servings$/);
       assert.ok(!/thermogenic|pre-workout|high focus|hyper/i.test(view.displayName));
     }
@@ -38,11 +39,31 @@ test("serving ranges remain accurate for liquids and two-scoop products", () => 
 test("admin-added flavors inherit only an unambiguous parent serving count", () => {
   const rule = catalog.products.find((entry) => entry.id === "rule-hyper-focus");
   assert.deepEqual(catalogPresentation(rule, { flavor: "Dragon Punch", description: "RULE Dragon Punch" }), {
-    displayName: "RULE", displayTitle: "RULE | Dragon Punch", servingsLabel: "20/40 Servings",
+    displayName: "RULE", displayTitle: "RULE - Dragon Punch", servingsLabel: "20/40 Servings",
   });
   assert.equal(catalogPresentation({ title: "New Product", variants: [{ description: "20 Serv" }, { description: "30 Serv" }] }, {}).servingsLabel, "");
   assert.equal(catalogPresentation({ title: "New Product" }, { description: "300 mg caffeine" }).servingsLabel, "");
   assert.equal(catalogPresentation(rule, { flavor: "Small size", description: "10 servings" }).servingsLabel, "10 Servings");
+});
+
+test("Original names distinguish CUTS and BULK from their related formulas", () => {
+  for (const [id, name] of [["cuts-thermogenic-pre-workout", "CUTS Original"], ["bulk-testosterone-pre-workout", "BULK Original"]]) {
+    const product = catalog.products.find((entry) => entry.id === id);
+    assert.equal(catalogPresentation(product, product.variants[0]).displayName, name);
+  }
+});
+
+test("Original display names remain searchable without losing legacy descriptions", () => {
+  const items = catalog.products.flatMap((product) => product.variants.map((variant) => {
+    const view = catalogPresentation(product, variant);
+    return { ...variant, productTitle: product.title, ...view, aliases: [view.displayName] };
+  }));
+  for (const name of ["CUTS Original", "BULK Original"]) {
+    const matches = searchCatalogItems(items, name);
+    assert.ok(matches.length >= 3);
+    assert.ok(matches.every((item) => item.displayName === name));
+  }
+  assert.ok(searchCatalogItems(items, "testosterone").length > 0);
 });
 
 test("serving count parsing ignores unrelated numbers and handles spacing", () => {

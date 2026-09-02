@@ -1,0 +1,120 @@
+/* Shared by legacy routes and React account pages. No animation leaves a
+   transform/filter behind: fixed controls must stay attached to the viewport. */
+:root {
+  --motion-glass-ease: cubic-bezier(.22, 1, .36, 1);
+  --motion-glass-duration: 320ms;
+  --portal-glass: linear-gradient(145deg, rgba(255, 255, 255, .045), transparent 45%), rgba(12, 12, 15, .92);
+  --portal-glass-edge: rgba(255, 255, 255, .12);
+}
+
+/* Progressive cross-document fades, including Account <-> customer portal.
+   Browsers without View Transitions retain immediate, functional navigation. */
+@view-transition { navigation: auto; }
+
+@keyframes glass-content-in {
+  from { opacity: 0; transform: translateY(5px); filter: blur(3px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes glass-panel-in {
+  from { opacity: 0; transform: translateY(12px) scale(.985); filter: blur(2px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@keyframes glass-page-out { to { opacity: 0; } }
+@keyframes glass-page-in { from { opacity: 0; filter: blur(2px); } }
+
+.topbar {
+  background: rgba(7, 7, 9, .86);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .025);
+}
+
+.modal-frame,
+.order-download-frame,
+#cartView.view,
+.admin-editor-card,
+.admin-pricing-editor,
+.account-glass {
+  border-color: var(--portal-glass-edge);
+  background: var(--portal-glass);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 24px 64px rgba(0, 0, 0, .4);
+  -webkit-backdrop-filter: blur(20px) saturate(115%);
+  backdrop-filter: blur(20px) saturate(115%);
+}
+
+.qty-mini button,
+.qty-control button,
+.detail-about summary,
+.account-auth-tabs button {
+  transition: background-color 160ms ease, color 160ms ease, transform 220ms var(--motion-glass-ease);
+}
+
+.qty-mini button:active,
+.qty-control button:active {
+  transform: scale(.92);
+  background: rgba(255, 255, 255, .08);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .view.active:not(#cartView),
+  .account-shell > :not(.account-page-header) {
+    animation: glass-content-in var(--motion-glass-duration) var(--motion-glass-ease) backwards;
+  }
+
+  dialog[open] > .modal-frame,
+  dialog[open] > .order-download-frame,
+  dialog[open] > .image-zoom-frame {
+    animation: glass-panel-in var(--motion-glass-duration) var(--motion-glass-ease) backwards;
+  }
+
+  /* Editor parents must never establish a containing block for fixed sheets. */
+  body.admin-news-editing #adminView,
+  body.admin-product-editing #adminView,
+  body.admin-pricing-editing #adminView { animation: none; }
+
+  #cartView.view,
+  .admin-editor-card,
+  .admin-pricing-editor {
+    transition: opacity 220ms ease, transform var(--motion-glass-duration) var(--motion-glass-ease), visibility var(--motion-glass-duration) ease;
+  }
+
+  ::view-transition-old(root) { animation: glass-page-out 140ms ease both; }
+  ::view-transition-new(root) { animation: glass-page-in 260ms var(--motion-glass-ease) both; }
+  ::view-transition-group(root) { animation-duration: 260ms; }
+
+  /* Native close/focus/history still run immediately. The browser retains only
+     the visual exit layer; no JS timers delay dismissal or swallow input. */
+  @supports (transition-behavior: allow-discrete) {
+    dialog {
+      opacity: 0;
+      transition: opacity 160ms ease, display 160ms allow-discrete, overlay 160ms allow-discrete;
+    }
+    dialog[open] { opacity: 1; }
+    dialog::backdrop {
+      opacity: 0;
+      animation: none;
+      transition: opacity 160ms ease, display 160ms allow-discrete, overlay 160ms allow-discrete;
+    }
+    dialog[open]::backdrop { opacity: 1; }
+    @starting-style { dialog[open]::backdrop { opacity: 0; } }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+}
+
+/* Readable opaque fallback when backdrop filtering isn't supported. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar, .modal-frame, .order-download-frame, #cartView.view,
+  .admin-editor-card, .admin-pricing-editor, .account-glass { background: #101012; }
+}

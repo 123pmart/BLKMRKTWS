@@ -23,7 +23,7 @@ function renderDetail(variant) {
     HTMLElement: class {}, lastProductTrigger: null,
     imageGalleryForItem: () => [], enqueueMediaPreloads: () => {},
     isOrderable: () => true, isPortalMaintenanceMode: () => false,
-    catalogPresentation, renderMiniQty: () => "", showDialog: () => {},
+    catalogPresentation, renderMiniQty: () => "", showDialog: () => {}, enhanceDisclosure: () => {},
   });
   vm.runInContext(`${escaping}\n${renderer}\nopenProductModal(${JSON.stringify(item.id)}, null, { history: false });`, context);
   return context.dom.modalContent.innerHTML;
@@ -47,10 +47,10 @@ test("CUTS Diamond details contain one concise heading and 25 Servings, not repe
   const product = catalog.products.find((entry) => entry.id === "cuts-diamond-ultra-thermogenic");
   const variant = product.variants.find((entry) => entry.flavor === "Blue Razz");
   const html = renderDetail(variant);
-  assert.ok(html.includes("<h2>CUTS Diamond | Blue Razz</h2>"));
+  assert.ok(html.includes("<h2>CUTS Diamond - Blue Razz</h2>"));
   assert.ok(html.includes('<p class="detail-servings">25 Servings</p>'));
   assert.ok(!html.includes(variant.description));
-  assert.match(html, /<details class="detail-about"><summary>About this product<\/summary>/);
+  assert.match(html, /<details class="detail-about"><summary>About this product<span class="detail-about-chevron" aria-hidden="true">/);
   assert.ok(html.includes(product.description));
 });
 

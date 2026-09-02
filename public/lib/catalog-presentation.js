@@ -1,7 +1,7 @@
 // Display-only names. Original catalog titles remain authoritative for search,
 // order records, PDFs, and administration.
 const productNames = {
-  "cuts-thermogenic-pre-workout": "CUTS",
+  "cuts-thermogenic-pre-workout": "CUTS Original",
   "cuts-natural-thermogenic-pre-workout": "CUTS Natural",
   "cuts-diamond-ultra-thermogenic": "CUTS Diamond",
   "cuts-pump-thermogenic-liquid-glycerol": "CUTS PUMP",
@@ -9,7 +9,7 @@ const productNames = {
   "cuts-heat-stim-free-thermogenic": "CUTS HEAT",
   "scorch-ultra-thermogenic": "SCORCH",
   "tone-weight-loss-pre-workout": "TONE",
-  "bulk-testosterone-pre-workout": "BULK",
+  "bulk-testosterone-pre-workout": "BULK Original",
   "bulk-apex-strength-pre-workout": "BULK APEX",
   "bulk-pump-strength-liquid-glycerol": "BULK PUMP",
   "bulk-pills-testosterone-capsules": "BULK PILLS",
@@ -44,7 +44,7 @@ export function catalogPresentation(product = {}, variant = {}) {
   }
   return {
     displayName,
-    displayTitle: flavor ? `${displayName} | ${flavor}` : displayName,
+    displayTitle: flavor ? `${displayName} - ${flavor}` : displayName,
     servingsLabel: servings ? `${servings} ${servings === "1" ? "Serving" : "Servings"}` : "",
   };
 }

@@ -1,7 +1,8 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
 import { catalogIdentifiers } from "/lib/catalog-identifiers.js?v=20260902-master";
-import { catalogPresentation } from "/lib/catalog-presentation.js?v=20260902-polish";
+import { catalogPresentation } from "/lib/catalog-presentation.js?v=20260902-refinement";
+import { enhanceDisclosure } from "/lib/disclosure-motion.js?v=20260902-refinement";
 import {
   accountDestination,
   goHome as goPortalHome,
@@ -935,7 +936,7 @@ function buildItems(products) {
       item.sections = catalogItemSections(product, item.section);
       item.fullTitle = `${item.productTitle} ${item.flavor}`.replace(/\s+/g, " ").trim();
       Object.assign(item, catalogPresentation(product, variant));
-      item.aliases = catalogFlavorAliases(item.flavor);
+      item.aliases = [item.displayName, ...catalogFlavorAliases(item.flavor)];
       const standardWholesaleValue = Number(item.wholesaleValue || parseMoney(item.wholesale));
       const accountPrice = effectiveAccountPrice(item, standardWholesaleValue);
       item.standardWholesaleValue = standardWholesaleValue;
@@ -1477,7 +1478,7 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
               <div><span>MAP</span><strong>${escapeHtml(item.map)}</strong></div>
             </div>
             ${isPortalMaintenanceMode() ? "" : `<div class="detail-actions">${renderMiniQty(item.id)}</div>`}
-            ${product?.description ? `<details class="detail-about"><summary>About this product</summary><p>${escapeHtml(product.description)}</p></details>` : ""}
+            ${product?.description ? `<details class="detail-about"><summary>About this product<span class="detail-about-chevron" aria-hidden="true"></span></summary><div class="detail-about-body"><p>${escapeHtml(product.description)}</p></div></details>` : ""}
           </div>
         </div>
         <div class="nutrition-block">
@@ -1506,6 +1507,7 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
   const modalLabel = document.querySelector("#productModalLabel");
   if (modalLabel) modalLabel.textContent = item.flavor || "Product Details";
   showDialog(dom.productModal);
+  enhanceDisclosure(dom.modalContent.querySelector?.(".detail-about"));
   if (options.history !== false) {
     pushPortalRoute(`/products/${encodeURIComponent(item.id)}`, {
       modal: "product",
