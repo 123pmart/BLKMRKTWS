@@ -38,7 +38,7 @@ test("maintenance customers retain catalog access without ordering controls", ()
   assert.match(portalHtml, /aria-label="Dismiss maintenance message"/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) return "";/);
   assert.match(portalScript, /sessionStorage\.setItem\(MAINTENANCE_NOTICE_DISMISSED_KEY, "true"\)/);
-  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.sku-card\s*\{\s*grid-template-rows: auto 168px auto auto;/);
+  assert.match(portalStyles, /maintenance-catalog-mode[^}]+\.sku-card\s*\{\s*grid-template-rows: auto 168px 1fr auto;/);
   assert.match(portalScript, /if \(isPortalMaintenanceMode\(\)\) \{\s+showToast\("Online ordering is paused/);
   assert.doesNotMatch(portalScript, /if \(isPortalMaintenanceMode\(\) && view !== "admin"\) view = "products"/);
 });

@@ -15,6 +15,8 @@
   --success: #62d39b;
   --header: 68px;
   --radius: 8px;
+  --product-heading-weight: 800;
+  --product-space: 12px;
   --content: 1180px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -628,7 +630,7 @@ body[data-view="admin"] .maintenance-catalog-hero {
 
 .sku-card {
   display: grid;
-  grid-template-rows: auto 168px auto auto 46px;
+  grid-template-rows: auto 168px 1fr auto 46px;
   gap: 9px;
   min-width: 0;
   padding: 12px;
@@ -662,6 +664,7 @@ body[data-view="admin"] .maintenance-catalog-hero {
 .sku-meta {
   display: flex;
   min-width: 0;
+  min-height: 22px;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
@@ -672,6 +675,7 @@ body[data-view="admin"] .maintenance-catalog-hero {
 
 .sku-number {
   flex: 0 0 auto;
+  color: var(--accent);
 }
 
 .sku-flavor-chip {
@@ -699,16 +703,21 @@ body[data-view="admin"] .maintenance-catalog-hero {
 }
 
 .bottle-stage {
+  position: relative;
   display: grid;
   min-width: 0;
+  min-height: 0;
   align-self: stretch;
   place-items: center;
   overflow: hidden;
 }
 
 .bottle-stage img {
-  width: 96%;
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
+  padding-inline: 2%;
   object-fit: contain;
 }
 
@@ -716,11 +725,12 @@ body[data-view="admin"] .maintenance-catalog-hero {
   position: relative;
   z-index: 1;
   min-width: 0;
+  min-height: 2.5em;
   margin: 0;
   overflow-wrap: anywhere;
   font-size: 0.82rem;
-  font-weight: 780;
-  line-height: 1.18;
+  font-weight: var(--product-heading-weight);
+  line-height: 1.25;
   display: block;
 }
 
@@ -1475,18 +1485,18 @@ dialog::backdrop {
 }
 
 .product-detail {
-  padding: 28px;
+  padding: 24px;
 }
 
 .detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
   gap: 20px;
 }
 
 .detail-left {
   display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);
+  grid-template-columns: minmax(160px, 0.8fr) minmax(0, 1.2fr);
   gap: 18px;
 }
 
@@ -1509,13 +1519,43 @@ dialog::backdrop {
 .detail-copy {
   align-content: center;
   display: grid;
-  gap: 16px;
+  min-width: 0;
+  gap: var(--product-space);
+}
+
+.detail-heading {
+  display: grid;
+  gap: var(--product-space);
+  min-width: 0;
+}
+
+.detail-heading .eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: var(--product-heading-weight);
 }
 
 .detail-copy h2 {
   margin: 0;
-  font-size: clamp(1.7rem, 3vw, 2.7rem);
-  line-height: 1;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: var(--product-heading-weight);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.detail-identifiers {
+  display: grid;
+  gap: 4px;
+}
+
+.detail-servings {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .detail-copy > p:not(.eyebrow) {
@@ -1537,7 +1577,7 @@ dialog::backdrop {
 .detail-upc dt {
   color: var(--muted);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: var(--product-heading-weight);
   letter-spacing: 0.06em;
 }
 
@@ -1545,12 +1585,39 @@ dialog::backdrop {
   min-width: 0;
   margin: 0;
   color: var(--text);
-  font-size: 0.9rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.035em;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: var(--product-heading-weight);
+  letter-spacing: 0;
   overflow-wrap: anywhere;
   -webkit-user-select: text;
   user-select: text;
+}
+
+.detail-about {
+  padding-top: var(--product-space);
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.detail-about summary {
+  width: fit-content;
+  min-height: 32px;
+  padding-block: 6px;
+  color: var(--muted);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.detail-about summary:hover,
+.detail-about[open] summary {
+  color: var(--text);
+}
+
+.detail-about p {
+  margin: 8px 0 0;
+  color: var(--muted);
 }
 
 .detail-status-note {
@@ -1601,9 +1668,21 @@ dialog::backdrop {
 }
 
 .nutrition-block > div {
+  display: grid;
+  gap: 4px;
   width: 100%;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line-soft);
+}
+
+.nutrition-block > div span {
+  margin: 0;
+}
+
+.nutrition-block > div strong {
+  font-size: 0.9rem;
+  font-weight: var(--product-heading-weight);
+  line-height: 1.3;
 }
 
 .nutrition-zoom {
@@ -3483,12 +3562,13 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .sku-card {
-    grid-template-rows: auto 118px auto auto 42px;
+    grid-template-rows: auto 118px 1fr auto 42px;
     gap: 7px;
     padding: 8px;
   }
 
   .sku-meta {
+    min-height: 18px;
     justify-content: flex-start;
     font-size: 0.52rem;
   }
@@ -3499,8 +3579,8 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .sku-card h4 {
-    font-size: 0.66rem;
-    line-height: 1.12;
+    font-size: 0.7rem;
+    line-height: 1.25;
   }
 
   .sku-price strong {
@@ -3762,11 +3842,11 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .detail-copy {
-    gap: 12px;
+    gap: var(--product-space);
   }
 
   .detail-copy h2 {
-    font-size: 1.65rem;
+    font-size: 1.5rem;
   }
 
   .nutrition-zoom img {
@@ -3937,12 +4017,12 @@ body.admin-pricing-editing .admin-pricing-editor {
   }
 
   .sku-card {
-    grid-template-rows: auto 104px auto auto 40px;
+    grid-template-rows: auto 104px 1fr auto 42px;
     padding: 7px;
   }
 
   .sku-card h4 {
-    font-size: 0.64rem;
+    font-size: 0.7rem;
   }
 
   .sku-price span {
@@ -5183,17 +5263,17 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 body.maintenance-catalog-mode:not([data-view="admin"]) .sku-card {
-  grid-template-rows: auto 168px auto auto;
+  grid-template-rows: auto 168px 1fr auto;
 }
 
 @media (max-width: 720px) {
   body.maintenance-catalog-mode:not([data-view="admin"]) .sku-card {
-    grid-template-rows: auto 118px auto auto;
+    grid-template-rows: auto 118px 1fr auto;
   }
 }
 
 @media (max-width: 430px) {
   body.maintenance-catalog-mode:not([data-view="admin"]) .sku-card {
-    grid-template-rows: auto 104px auto auto;
+    grid-template-rows: auto 104px 1fr auto;
   }
 }

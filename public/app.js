@@ -1,6 +1,7 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
 import { catalogIdentifiers } from "/lib/catalog-identifiers.js?v=20260902-master";
+import { catalogPresentation } from "/lib/catalog-presentation.js?v=20260902-polish";
 import {
   accountDestination,
   goHome as goPortalHome,
@@ -933,6 +934,7 @@ function buildItems(products) {
       item.section = displaySection(item);
       item.sections = catalogItemSections(product, item.section);
       item.fullTitle = `${item.productTitle} ${item.flavor}`.replace(/\s+/g, " ").trim();
+      Object.assign(item, catalogPresentation(product, variant));
       item.aliases = catalogFlavorAliases(item.flavor);
       const standardWholesaleValue = Number(item.wholesaleValue || parseMoney(item.wholesale));
       const accountPrice = effectiveAccountPrice(item, standardWholesaleValue);
@@ -1302,18 +1304,17 @@ function activeFilterLabel() {
 
 function renderSkuCard(item, index = 99) {
   const orderable = isOrderable(item);
-  const statusPrefix = item.limitedEdition ? "Limited" : "";
-  const flavorLabel = statusPrefix ? `${statusPrefix} / ${item.flavor}` : item.flavor;
+  const statusLabel = !orderable ? "Coming soon" : item.limitedEdition ? "Limited" : "";
   return `
     <article class="sku-card ${!orderable ? "is-coming-soon" : ""}" data-detail="${item.id}" tabindex="0" role="button" aria-label="View ${escapeHtml(item.fullTitle)} details">
       <div class="sku-meta">
         <span class="sku-number">#${escapeHtml(item.item)}</span>
-        <span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""} ${!orderable ? "sku-coming" : ""}">${escapeHtml(flavorLabel)}</span>
+        ${statusLabel ? `<span class="sku-flavor-chip ${item.limitedEdition ? "sku-limited" : ""} ${!orderable ? "sku-coming" : ""}">${escapeHtml(statusLabel)}</span>` : ""}
       </div>
       <div class="bottle-stage">
         <img src="${escapeHtml(item.cardImage || item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="480" height="480" loading="${index < 4 ? "eager" : "lazy"}" decoding="async" ${index === 0 ? 'fetchpriority="high"' : ""} />
       </div>
-      <h4>${escapeHtml(item.fullTitle)}</h4>
+      <h4>${escapeHtml(item.displayTitle || item.fullTitle)}</h4>
       <div class="sku-price">
         <div class="sku-price-line">
           <strong>${escapeHtml(item.wholesale)}</strong>
@@ -1444,6 +1445,7 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
   const item = state.items.find((entry) => entry.id === itemId);
   if (!item) return;
   const product = state.products.find((entry) => entry.id === item.productId);
+  const presentation = catalogPresentation(product, item);
   const gallery = imageGalleryForItem(item, product);
   enqueueMediaPreloads(gallery.map((image) => image.src));
   dom.modalContent.innerHTML = `
@@ -1454,13 +1456,17 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
             <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="700" height="700" />
           </div>
           <div class="detail-copy">
-            <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
-            <h2>${escapeHtml(item.fullTitle)}</h2>
-            <dl class="detail-upc">
-              <dt>UPC</dt>
-              <dd>${escapeHtml(String(item.upc || "").trim() || "Not provided")}</dd>
-            </dl>
-            <p>${escapeHtml(item.description || item.productDescription)}</p>
+            <div class="detail-heading">
+              <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
+              <h2>${escapeHtml(presentation.displayTitle)}</h2>
+              <div class="detail-identifiers">
+                <dl class="detail-upc">
+                  <dt>UPC</dt>
+                  <dd>${escapeHtml(String(item.upc || "").trim() || "Not provided")}</dd>
+                </dl>
+                ${presentation.servingsLabel ? `<p class="detail-servings">${escapeHtml(presentation.servingsLabel)}</p>` : ""}
+              </div>
+            </div>
             ${!isOrderable(item) ? `<p class="detail-status-note">Coming soon. Ordering opens when this item is available.</p>` : ""}
             <div class="detail-price">
               <div>
@@ -1470,15 +1476,14 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
               </div>
               <div><span>MAP</span><strong>${escapeHtml(item.map)}</strong></div>
             </div>
-            <div class="detail-actions">
-              ${renderMiniQty(item.id)}
-            </div>
+            ${isPortalMaintenanceMode() ? "" : `<div class="detail-actions">${renderMiniQty(item.id)}</div>`}
+            ${product?.description ? `<details class="detail-about"><summary>About this product</summary><p>${escapeHtml(product.description)}</p></details>` : ""}
           </div>
         </div>
         <div class="nutrition-block">
           <div>
             <span>Supplement Facts</span>
-            <strong id="detailMediaTitle">${escapeHtml(item.productTitle)}</strong>
+            <strong id="detailMediaTitle">${escapeHtml(presentation.displayName)}</strong>
           </div>
           <button class="nutrition-zoom" type="button" data-zoom-image aria-label="Enlarge ${escapeHtml(item.fullTitle)} Supplement Facts">
             <img id="detailMediaImage" src="${escapeHtml(item.panel)}" alt="${escapeHtml(item.fullTitle)} nutrition label" width="1000" height="1000" />
@@ -1806,7 +1811,7 @@ function renderCartLine({ item, qty, lineWholesale }) {
     <article class="cart-line">
       <img src="${escapeHtml(item.bottle)}" alt="${escapeHtml(item.fullTitle)} bottle" width="180" height="180" loading="lazy" decoding="async" />
       <div>
-        <h3>${escapeHtml(item.fullTitle)}</h3>
+        <h3>${escapeHtml(item.displayTitle || item.fullTitle)}</h3>
         <p>${escapeHtml(item.wholesale)} each / MAP ${escapeHtml(item.map)}</p>
         <div class="qty-control">
           <button type="button" data-adjust="-1" data-variant="${item.id}" aria-label="Decrease quantity">-</button>

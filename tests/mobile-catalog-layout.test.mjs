@@ -26,3 +26,8 @@ test("mobile categories retain a partial next-card scroll cue while products pre
     /@media \(max-width: 520px\)[\s\S]*?\.sku-row\.unified-grid\s*\{[^}]*width:\s*calc\(100% - 2px\);[^}]*margin-inline:\s*1px;/,
   );
 });
+
+test("product images stay inside their fixed stage instead of clipping at intrinsic height", () => {
+  assert.match(portalStyles, /\.bottle-stage\s*\{[^}]*position: relative;[^}]*min-height: 0;/);
+  assert.match(portalStyles, /\.bottle-stage img\s*\{[^}]*position: absolute;[^}]*inset: 0;[^}]*width: 100%;[^}]*height: 100%;[^}]*object-fit: contain;/);
+});

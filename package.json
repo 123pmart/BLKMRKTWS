@@ -12,7 +12,7 @@
     "optimize:catalog-images": "node scripts/optimize-catalog-images.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "lint": "eslint app tests public/lib/catalog-search.js public/lib/catalog-sections.js public/lib/catalog-identifiers.js public/lib/margin-metrics.js"
+    "lint": "eslint app tests public/lib/catalog-search.js public/lib/catalog-sections.js public/lib/catalog-identifiers.js public/lib/catalog-presentation.js public/lib/margin-metrics.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.19",
