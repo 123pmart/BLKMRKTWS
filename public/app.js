@@ -1,5 +1,6 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
+import { catalogIdentifiers } from "/lib/catalog-identifiers.js?v=20260902-master";
 import {
   accountDestination,
   goHome as goPortalHome,
@@ -16,7 +17,7 @@ import {
   nextPortalLoad,
 } from "/lib/account-nudge.js?v=20260728-account-nudge-cadence";
 
-const DATA_URL = "/catalog-data.json?v=20260813-bulk-pump";
+const DATA_URL = "/catalog-data.json?v=20260902-master-identifiers";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
 const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
@@ -977,6 +978,7 @@ function applyVariantOverride(variant) {
   const status = normalizeVariantStatus(hasOverrideStatus ? override.status : variant.status || (variant.available === false ? "coming-soon" : "available"));
   return {
     ...variant,
+    ...catalogIdentifiers(variant),
     bottle: override.bottle || variant.bottle,
     panel: override.panel || variant.panel,
     galleryImages: Array.isArray(override.images) && override.images.length ? [...override.images] : variant.galleryImages,

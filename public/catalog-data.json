@@ -768,7 +768,8 @@
       "variants": [
         {
           "id": "bulk-pump-strength-liquid-glycerol-rocket-pop-56340",
-          "item": "56340",
+          "item": "56332",
+          "upc": "810055901586",
           "flavor": "Rocket Pop",
           "description": "BULK PUMP Strength Liquid Glycerol Rocket Pop 30/60 Serv",
           "wholesale": "$22.50",
@@ -787,7 +788,8 @@
         },
         {
           "id": "bulk-pump-strength-liquid-glycerol-sour-gummy-56339",
-          "item": "56339",
+          "item": "56331",
+          "upc": "810055901579",
           "flavor": "Sour Gummy",
           "description": "BULK PUMP Strength Liquid Glycerol Sour Gummy 30/60 Serv",
           "wholesale": "$22.50",
@@ -1131,7 +1133,7 @@
         },
         {
           "id": "defy-hyper-stimulant-razz-mango-sherbert-56182",
-          "item": "56182",
+          "item": "56281",
           "upc": "810055901180",
           "flavor": "Razz Mango Sherbert",
           "description": "DEFY Hyper Stimulant Pre-workout Razz Mango Sherbert 20/40 Serv",
@@ -1160,7 +1162,7 @@
         {
           "id": "defy-hyper-stimulant-streettarts-56329",
           "item": "56329",
-          "upc": "",
+          "upc": "810055901593",
           "flavor": "STREETTARTS",
           "description": "DEFY Hyper Stimulant Pre-workout LE STREETTARTS 20/40 Serv",
           "wholesale": "$28.00",
@@ -1211,7 +1213,7 @@
       "variants": [
         {
           "id": "rule-hyper-focus-peach-rings-56277",
-          "item": "56277",
+          "item": "56284",
           "upc": "810055901210",
           "flavor": "Peach Rings",
           "description": "RULE Hyper Focus Pre-workout Peach Rings 20/40 Serv",
@@ -1225,7 +1227,7 @@
         },
         {
           "id": "rule-hyper-focus-watermelon-lemonade-56278",
-          "item": "56278",
+          "item": "56283",
           "upc": "810055901203",
           "flavor": "Watermelon Lemonade",
           "description": "RULE Hyper Focus Pre-workout Watermelon Lemonade 20/40 Serv",
@@ -1239,7 +1241,7 @@
         },
         {
           "id": "rule-hyper-focus-razz-mango-sherbert-56182",
-          "item": "56182",
+          "item": "56282",
           "upc": "810055901197",
           "flavor": "Razz Mango Sherbert",
           "description": "RULE Hyper Focus Pre-workout Razz Mango Sherbert 20/40 Serv",

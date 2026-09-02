@@ -16,15 +16,22 @@ test("every built-in catalog variant has a bundled PDF thumbnail", () => {
   }
 });
 
-test("shared DEFY and RULE item numbers retain distinct variant thumbnails", () => {
-  for (const item of ["56277", "56278", "56182"]) {
-    const variants = catalog.products
-      .flatMap((product) => product.variants || [])
-      .filter((variant) => String(variant.item || "") === item);
-    assert.equal(variants.length, 2);
-    assert.equal(thumbnails.items[item], undefined, `ambiguous item ${item} must not have a SKU-only fallback`);
-    const encoded = variants.map((variant) => thumbnails.images[String(variant.id || "")]);
-    assert.ok(encoded.every(Boolean));
-    assert.notEqual(encoded[0], encoded[1], `item ${item} variants must not share an image`);
+test("PDF SKU fallbacks use current unique item numbers, not stale ID suffixes", () => {
+  const variants = catalog.products.flatMap((product) => product.variants || []);
+  for (const variant of variants) {
+    const matches = variants.filter((entry) => entry.item === variant.item);
+    assert.equal(thumbnails.items[variant.item], matches.length === 1 ? variant.id : undefined);
+  }
+  assert.equal(thumbnails.items["56182"], undefined);
+  assert.equal(thumbnails.items["56339"], undefined);
+  assert.equal(thumbnails.items["56340"], undefined);
+});
+
+test("DEFY and RULE retain their distinct images and stable IDs after item corrections", () => {
+  for (const suffix of ["peach-rings-56277", "watermelon-lemonade-56278", "razz-mango-sherbert-56182"]) {
+    const defy = thumbnails.images[`defy-hyper-stimulant-${suffix}`];
+    const rule = thumbnails.images[`rule-hyper-focus-${suffix}`];
+    assert.ok(defy && rule);
+    assert.notEqual(defy, rule);
   }
 });

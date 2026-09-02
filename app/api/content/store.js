@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { catalogIdentifiers } from "../../../public/lib/catalog-identifiers.js";
 
 const STORE_STATE = Symbol.for("blackmarket.wholesale.content");
 const BLOB_PATH = "blackmarket/content.json";
@@ -96,7 +97,12 @@ export function normalizeContentPayload(payload = {}) {
   return {
     maintenanceMode: typeof payload.maintenanceMode === "boolean" ? payload.maintenanceMode : true,
     announcements: cleanEntries(payload.announcements, MAX_ANNOUNCEMENTS),
-    customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS),
+    customProducts: cleanEntries(payload.customProducts, MAX_CUSTOM_PRODUCTS).map((product) => ({
+      ...product,
+      variants: Array.isArray(product.variants)
+        ? product.variants.map((variant) => ({ ...variant, ...catalogIdentifiers(variant) }))
+        : [],
+    })),
     hiddenVariants: cleanStrings(payload.hiddenVariants, MAX_HIDDEN_VARIANTS),
     variantOverrides: cleanVariantOverrides(payload.variantOverrides, MAX_VARIANT_OVERRIDES),
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : new Date().toISOString(),

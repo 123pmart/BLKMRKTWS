@@ -6,6 +6,7 @@ import path from "node:path";
 import { readContent } from "@/api/content/store.js";
 import { isEmbeddedCatalogImageSource } from "@/lib/catalog/embedded-image";
 import { resolveCatalogProductImage } from "@/lib/catalog/image-core";
+import { catalogIdentifiers } from "../../../public/lib/catalog-identifiers.js";
 
 export interface ServerCatalogItem {
   productId: string;
@@ -49,8 +50,7 @@ export async function loadServerCatalog(options: { includeEmbeddedImages?: boole
       variantId,
       product: clean(product.title),
       flavor: clean(variant.flavor),
-      item: clean(variant.item),
-      upc: clean(variant.upc),
+      ...catalogIdentifiers(variant),
       wholesalePrice: moneyValue(variant.wholesaleValue, variant.wholesale),
       mapPrice: moneyValue(variant.mapValue, variant.map),
       image: resolveServerCatalogImage({

@@ -1,0 +1,416 @@
+{
+  "source": "BlackMarket Master UPC & Order Form (Pricing & MAP) (2).xlsx",
+  "sheet": "Sheet1",
+  "checkedAt": "2026-09-02",
+  "entries": [
+    {
+      "row": 5,
+      "description": "CUTS Thermogenic Pre-workout Blue Razz 30 serv",
+      "variantId": "cuts-thermogenic-pre-workout-blue-razz-56232",
+      "item": "56232",
+      "upc": "858113007023"
+    },
+    {
+      "row": 6,
+      "description": "CUTS Thermogenic Pre-workout Fruit Punch 30 serv",
+      "variantId": "cuts-thermogenic-pre-workout-fruit-punch-56234",
+      "item": "56234",
+      "upc": "858113007016"
+    },
+    {
+      "row": 7,
+      "description": "CUTS Thermogenic Pre-workout  Peach Ring 30 serv",
+      "variantId": "cuts-thermogenic-pre-workout-peach-ring-56260",
+      "item": "56260",
+      "upc": "810055900671"
+    },
+    {
+      "row": 8,
+      "description": "CUTS Thermogenic Pre-workout Sour Gummy 30 Serv",
+      "variantId": "cuts-thermogenic-pre-workout-sour-gummy-56237",
+      "item": "56237",
+      "upc": "858113007313"
+    },
+    {
+      "row": 9,
+      "description": "CUTS Thermogenic Pre-workout  Watermelon 30 Serv",
+      "variantId": "cuts-thermogenic-pre-workout-watermelon-56233",
+      "item": "56233",
+      "upc": "858113007009"
+    },
+    {
+      "row": 10,
+      "description": "CUTS Thermogenic Pre-workout Strawberry Lemonade 30 Serv",
+      "variantId": "cuts-thermogenic-pre-workout-strawberry-lemonade-56235",
+      "item": "56235",
+      "upc": "810055900619"
+    },
+    {
+      "row": 11,
+      "description": "CUTS Thermogenic Pre-workout LE Blue Slushy Bomb 30 Serv",
+      "variantId": "cuts-thermogenic-pre-workout-blue-slushy-bomb-56323",
+      "item": "56323",
+      "upc": "810055901531"
+    },
+    {
+      "row": 13,
+      "description": "CUTS Natural Thermogenic Pre-Workout Sour Gummy 30 Serv",
+      "variantId": "cuts-natural-thermogenic-pre-workout-sour-gummy-56325",
+      "item": "56325",
+      "upc": "810055901548"
+    },
+    {
+      "row": 14,
+      "description": "CUTS Natural Thermogenic Pre-Workout Strawberry Lemonade 30 Serv",
+      "variantId": "cuts-natural-thermogenic-pre-workout-strawberry-lemonade-56326",
+      "item": "56326",
+      "upc": "810055901555"
+    },
+    {
+      "row": 16,
+      "description": "CUTS Diamond Ultra Thermogenic Pre-workout Fruit Punch 25 Serv",
+      "variantId": "cuts-diamond-ultra-thermogenic-fruit-punch-56292",
+      "item": "56292",
+      "upc": "850018672399"
+    },
+    {
+      "row": 17,
+      "description": "CUTS Diamond Ultra Thermogenic Pre-workout Blue Razz 25 Serv",
+      "variantId": "cuts-diamond-ultra-thermogenic-blue-razz-56293",
+      "item": "56293",
+      "upc": "850018672986"
+    },
+    {
+      "row": 18,
+      "description": "CUTS Diamond Ultra Thermogenic Pre-workout Watermelon 25 Serv",
+      "variantId": "cuts-diamond-ultra-thermogenic-watermelon-56294",
+      "item": "56294",
+      "upc": "850018672993"
+    },
+    {
+      "row": 19,
+      "description": "CUTS Diamond Ultra Thermogenic Pre-workout LE Grape Limeade 25 Serv",
+      "variantId": "cuts-diamond-ultra-thermogenic-grape-limeade-56316",
+      "item": "56316",
+      "upc": "810055901463"
+    },
+    {
+      "row": 21,
+      "description": "CUTS PUMP - Thermogenic Liquid Glycerol Sour Gummy 30/60 Serv",
+      "variantId": "cuts-pump-thermogenic-liquid-glycerol-sour-gummy-56310",
+      "item": "56310",
+      "upc": "810055901401"
+    },
+    {
+      "row": 22,
+      "description": "CUTS PUMP - Thermogenic Liquid Glycerol Strawberry Lemonade 30/60 Serv",
+      "variantId": "cuts-pump-thermogenic-liquid-glycerol-strawberry-lemonade-56311",
+      "item": "56311",
+      "upc": "810055901418"
+    },
+    {
+      "row": 23,
+      "description": "CUTS PUMP - Thermogenic Liquid Glycerol LE Bubble Gum Chew 30/60 Serv",
+      "variantId": "cuts-pump-thermogenic-liquid-glycerol-bubble-gum-chew-56324",
+      "item": "56324",
+      "upc": "810055901562"
+    },
+    {
+      "row": 25,
+      "description": "CUTS PILLS Thermogenic Capusles 30 Serv",
+      "variantId": "cuts-pills-thermogenic-capsules-capsules-56314",
+      "item": "56314",
+      "upc": "810055901449"
+    },
+    {
+      "row": 27,
+      "description": "CUTS Heat Stimulant Free Thermogenic Watermelon 30 Serv",
+      "variantId": "cuts-heat-stim-free-thermogenic-watermelon-56320",
+      "item": "56320",
+      "upc": "810055901517"
+    },
+    {
+      "row": 28,
+      "description": "CUTS Heat Stimulant Free Thermogenic Blue Razz 30 Serv",
+      "variantId": "cuts-heat-stim-free-thermogenic-blue-razz-56321",
+      "item": "56321",
+      "upc": "810055901524"
+    },
+    {
+      "row": 29,
+      "description": "CUTS Heat Stimulant Free Thermogenic Fruit Punch 30 Serv",
+      "variantId": "cuts-heat-stim-free-thermogenic-fruit-punch-56322",
+      "item": "56322",
+      "upc": "810055901500"
+    },
+    {
+      "row": 31,
+      "description": "SCORCH Ultra Theromogenic Pre-workout Hawaiian Kill Shot 20 Serv",
+      "variantId": "scorch-ultra-thermogenic-hawaiian-kill-shot-56312",
+      "item": "56312",
+      "upc": "810055901432"
+    },
+    {
+      "row": 32,
+      "description": "SCORCH Ultra Theromogenic Pre-workout Cherry Slush Bomb 20 Serv",
+      "variantId": "scorch-ultra-thermogenic-cherry-slush-bomb-56313",
+      "item": "56313",
+      "upc": "810055901425"
+    },
+    {
+      "row": 34,
+      "description": "TONE Weightloss Pre-workout Raspberry Lemonade 30 Serv",
+      "variantId": "tone-weight-loss-pre-workout-raspberry-lemonade-52061",
+      "item": "52061",
+      "upc": "858113007108"
+    },
+    {
+      "row": 35,
+      "description": "TONE Weightloss Pre-workout Strawberry Kiwi 30 Serv",
+      "variantId": "tone-weight-loss-pre-workout-strawberry-kiwi-52059",
+      "item": "52059",
+      "upc": "858113007085"
+    },
+    {
+      "row": 39,
+      "description": "BULK Testosterone Pre-workout Fruit Punch 30 Serv",
+      "variantId": "bulk-testosterone-pre-workout-fruit-punch-51114",
+      "item": "51114",
+      "upc": "858113007054"
+    },
+    {
+      "row": 40,
+      "description": "BULK Testosterone Pre-workout Watermelon 30 Serv",
+      "variantId": "bulk-testosterone-pre-workout-watermelon-51115",
+      "item": "51115",
+      "upc": "858113007047"
+    },
+    {
+      "row": 42,
+      "description": "BULK Apex Strength Pre-Workout Sour gummy 20 Serv",
+      "variantId": "bulk-apex-strength-pre-workout-sour-gummy-56317",
+      "item": "56317",
+      "upc": "810055901470"
+    },
+    {
+      "row": 43,
+      "description": "BULK Apex Strength Pre-Workout Strawberry Lemonade 20 Serv",
+      "variantId": "bulk-apex-strength-pre-workout-strawberry-lemonade-56318",
+      "item": "56318",
+      "upc": "810055901487"
+    },
+    {
+      "row": 44,
+      "description": "BULK Apex Strength Pre-Workout Grape Limeade 20 Serv",
+      "variantId": "bulk-apex-strength-pre-workout-grape-limeade-56319",
+      "item": "56319",
+      "upc": "810055901494"
+    },
+    {
+      "row": 46,
+      "description": "BULK PUMP - Strength Liquid Glycerol Sour Gummy 30/60 Serv",
+      "variantId": "bulk-pump-strength-liquid-glycerol-sour-gummy-56339",
+      "item": "56331",
+      "upc": "810055901579"
+    },
+    {
+      "row": 47,
+      "description": "BULK PUMP - Strength Liquid Glycerol Rocket Pop 30/60 Serv",
+      "variantId": "bulk-pump-strength-liquid-glycerol-rocket-pop-56340",
+      "item": "56332",
+      "upc": "810055901586"
+    },
+    {
+      "row": 49,
+      "description": "BULK PILLS Testosterone Capsules 30 Serv",
+      "variantId": "bulk-pills-testosterone-capsules-capsules-56315",
+      "item": "56315",
+      "upc": "810055901456"
+    },
+    {
+      "row": 51,
+      "description": "Beta Alanine Raw 60 Serv",
+      "variantId": "beta-alanine-raw-unflavored-53002",
+      "item": "53002",
+      "upc": "858113007191"
+    },
+    {
+      "row": 52,
+      "description": "Creatine Raw 60 Serv",
+      "variantId": "creatine-monohydrate-raw-unflavored-53003",
+      "item": "53003",
+      "upc": "858113007207"
+    },
+    {
+      "row": 56,
+      "description": "Adrenolyn Nootropic High Focus Pre-workout Candy Dust 25 Serv",
+      "variantId": "nootropic-high-focus-pre-workout-candy-dust-56055",
+      "item": "56055",
+      "upc": "858113007504"
+    },
+    {
+      "row": 57,
+      "description": "Adrenolyn Nootropic High Focus Pre-workout Peach Ring  25 Serv",
+      "variantId": "nootropic-high-focus-pre-workout-peach-ring-56262",
+      "item": "56262",
+      "upc": "810055900664"
+    },
+    {
+      "row": 58,
+      "description": "Adrenolyn Nootropic High Focus Pre-workout Strawberry Lemonade 25 Serv",
+      "variantId": "nootropic-high-focus-pre-workout-strawberry-lemonade-56070",
+      "item": "56070",
+      "upc": "858113007788"
+    },
+    {
+      "row": 59,
+      "description": "Adrenolyn Nootropic High Focus Pre-workout LE Candy Road 25 Serv",
+      "variantId": "nootropic-high-focus-pre-workout-candy-road-56303",
+      "item": "56303",
+      "upc": "810055901326"
+    },
+    {
+      "row": 61,
+      "description": "AdreNOlyn Underground High Stimulant Pre-workout  Strawberry Lemonade 25 Serv",
+      "variantId": "underground-high-stimulant-strawberry-lemonade-56063",
+      "item": "56063",
+      "upc": "858113007764"
+    },
+    {
+      "row": 62,
+      "description": "AdreNOlyn Underground High Stimulant Pre-workout Candy Dust 25 Serv",
+      "variantId": "underground-high-stimulant-candy-dust-56126",
+      "item": "56126",
+      "upc": "850018672443"
+    },
+    {
+      "row": 63,
+      "description": "AdreNOlyn Underground High Stimulant Pre-workout Peach Ring 25 Serv",
+      "variantId": "underground-high-stimulant-peach-ring-56263",
+      "item": "56263",
+      "upc": "810055900657"
+    },
+    {
+      "row": 65,
+      "description": "DEFY Hyper Stimulant Pre-workout Peach Rings 20/40 Serv",
+      "variantId": "defy-hyper-stimulant-peach-rings-56277",
+      "item": "56277",
+      "upc": "810055901128"
+    },
+    {
+      "row": 66,
+      "description": "DEFY Hyper Stimulant Pre-workout Watermelon Lemonade 20/40 Serv",
+      "variantId": "defy-hyper-stimulant-watermelon-lemonade-56278",
+      "item": "56278",
+      "upc": "810055901135"
+    },
+    {
+      "row": 67,
+      "description": "DEFY Hyper Stimulant Pre-workout Razz Mango Sherbet 20/40 Serv",
+      "variantId": "defy-hyper-stimulant-razz-mango-sherbert-56182",
+      "item": "56281",
+      "upc": "810055901180"
+    },
+    {
+      "row": 68,
+      "description": "DEFY Hyper Stimulant Pre-workout LE Street Tarts 20/40 Serv",
+      "variantId": "defy-hyper-stimulant-streettarts-56329",
+      "item": "56329",
+      "upc": "810055901593"
+    },
+    {
+      "row": 70,
+      "description": "RULE Hyper Focus Pre-workout Peach Rings 20/40 Serv",
+      "variantId": "rule-hyper-focus-peach-rings-56277",
+      "item": "56284",
+      "upc": "810055901210"
+    },
+    {
+      "row": 71,
+      "description": "RULE Hyper Focus Pre-workout Watermelon Lemonade 20/40 Serv",
+      "variantId": "rule-hyper-focus-watermelon-lemonade-56278",
+      "item": "56283",
+      "upc": "810055901203"
+    },
+    {
+      "row": 72,
+      "description": "RULE Hyper Focus Pre-workout  Razz Mango Sherbet 20/40 Serv",
+      "variantId": "rule-hyper-focus-razz-mango-sherbert-56182",
+      "item": "56282",
+      "upc": "810055901197"
+    },
+    {
+      "row": 73,
+      "description": "RULE Hyper Focus Pre-workout LE Dragon Punch",
+      "variantId": "extension-rule-hyper-focus-dragon-punch-1783533527232-dragon-punch",
+      "item": "56330",
+      "upc": "810055901609"
+    },
+    {
+      "row": 75,
+      "description": "BUMP Laser Focus Nootropic Razz Mango Sherbet 20/40 Serv",
+      "variantId": "bump-laser-focus-nootropic-razz-mango-sherbet-56305",
+      "item": "56305",
+      "upc": "810055901371"
+    },
+    {
+      "row": 76,
+      "description": "BUMP Laser Focus Nootropic Watermelon Lemonade 20/40 Serv",
+      "variantId": "bump-laser-focus-nootropic-watermelon-lemonade-56307",
+      "item": "56307",
+      "upc": "810055901395"
+    },
+    {
+      "row": 80,
+      "description": "AdreNOlyn Nitric Oxide Stim Free Pre-workout Strawberry Lemonade 25 Serv",
+      "variantId": "nitricoxide-stim-free-pre-workout-strawberry-lemonade-56157",
+      "item": "56157",
+      "upc": "850018672740"
+    },
+    {
+      "row": 81,
+      "description": "AdreNOlyn Nitric Oxide Stim Free Pre-workout  Candy Dust  25 Serv",
+      "variantId": "nitricoxide-stim-free-pre-workout-candy-dust-56155",
+      "item": "56155",
+      "upc": "850018672764"
+    },
+    {
+      "row": 83,
+      "description": "PUMP Hyper Pump Pre-wrokout Watermelon Lemonade 20/40 Serv",
+      "variantId": "pump-hyper-pump-pre-workout-watermelon-lemonade-56302",
+      "item": "56302",
+      "upc": "810055901357"
+    },
+    {
+      "row": 84,
+      "description": "PUMP Hyper Pump Pre-wrokout Razz Mango Sherbet 20/40 Serv",
+      "variantId": "pump-hyper-pump-pre-workout-razz-mango-sherbet-56300",
+      "item": "56300",
+      "upc": "810055901333"
+    },
+    {
+      "row": 86,
+      "description": "L-Citrulline Raw 60 Serv",
+      "variantId": "l-citrulline-raw-unflavored-53006",
+      "item": "53006",
+      "upc": "858113007238"
+    }
+  ],
+  "notListed": [
+    {
+      "id": "bulk-testosterone-pre-workout-blue-razz-51116",
+      "item": "51116",
+      "upc": "858113007061"
+    },
+    {
+      "id": "defy-hyper-stimulant-white-gummy-bear-56298",
+      "item": "56298",
+      "upc": "810055901302"
+    },
+    {
+      "id": "rule-hyper-focus-purge-pop-56299",
+      "item": "56299",
+      "upc": "810055901319"
+    }
+  ]
+}
