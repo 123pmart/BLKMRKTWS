@@ -1456,6 +1456,10 @@ function openProductModal(itemId, trigger = document.activeElement, options = {}
           <div class="detail-copy">
             <p class="eyebrow">#${escapeHtml(item.item)}${item.limitedEdition ? " / Limited Edition" : ""}</p>
             <h2>${escapeHtml(item.fullTitle)}</h2>
+            <dl class="detail-upc">
+              <dt>UPC</dt>
+              <dd>${escapeHtml(String(item.upc || "").trim() || "Not provided")}</dd>
+            </dl>
             <p>${escapeHtml(item.description || item.productDescription)}</p>
             ${!isOrderable(item) ? `<p class="detail-status-note">Coming soon. Ordering opens when this item is available.</p>` : ""}
             <div class="detail-price">
