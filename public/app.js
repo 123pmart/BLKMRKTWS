@@ -2000,6 +2000,24 @@ function buildClientOrder(lines = cartLines()) {
   };
 }
 
+function paymentPreferenceLabel(value) {
+  return {
+    "contact-to-add": "Contact buyer to add a card securely",
+    "on-file": "Card already on file",
+    "not-now": "Continue without card on file",
+    "not-provided": "Not provided",
+  }[String(value || "not-provided")] || "Not provided";
+}
+
+function paymentPreferencePdfLabel(value) {
+  return {
+    "contact-to-add": "Card setup requested",
+    "on-file": "Card on file",
+    "not-now": "Not on file",
+    "not-provided": "Not provided",
+  }[String(value || "not-provided")] || "Not provided";
+}
+
 async function showSubmittedOrderOptions(order) {
   const previewLines = (order.lines || []).slice(0, 4).map((line) => `
     <div class="order-confirmation-line">
@@ -2146,7 +2164,7 @@ function drawOrderPageHeader(ops, order) {
 
   pdfTable(ops, 30, 562, [94, 94, 94, 94, 94, 82], 30, [
     ["Sales Rep", "Payment Terms", "FOB Point", "Carrier", "Ship Service", "Date Scheduled"],
-    ["pmart", "Due on Order", "Origin", "FedEx - 6278-0", "Ground", shortPdfDate(order.date)],
+    ["pmart", paymentPreferencePdfLabel(store.paymentPreference), "Origin", "FedEx - 6278-0", "Ground", shortPdfDate(order.date)],
   ]);
 }
 
@@ -3525,6 +3543,7 @@ function renderAdminOrder(order) {
         ${renderAdminOrderField("Phone", store.phone)}
         ${renderAdminOrderField("Email", store.email)}
         ${address ? renderAdminOrderField("Address", address) : ""}
+        ${renderAdminOrderField("Card on file", paymentPreferenceLabel(store.paymentPreference))}
         ${renderAdminOrderField("MAP Value", money(totals.map))}
       </div>
       ${store.notes ? `<p class="admin-order-notes">${escapeHtml(store.notes)}</p>` : ""}

@@ -1,4 +1,4 @@
-import { normalizeOrderPayload, orderStorageMode, upsertOrder, validateOrder } from "../orders/store.js";
+import { normalizeOrderPayload, orderStorageMode, paymentPreferenceLabel, upsertOrder, validateOrder } from "../orders/store.js";
 import { readContent } from "../content/store.js";
 import { getVerifiedStoreAccount } from "../../lib/account/auth.ts";
 import { InvalidOrderPricingError, repriceOrderPayload } from "../../lib/catalog/pricing.ts";
@@ -198,6 +198,7 @@ function orderText(order, title) {
     `Phone: ${store.phone}`,
     `Email: ${store.email}`,
     `Address: ${store.street}, ${store.city}, ${store.state} ${store.zip}`,
+    `Card on file: ${paymentPreferenceLabel(store.paymentPreference)}`,
     store.notes ? `Notes: ${store.notes}` : "",
     "",
     "Items",
@@ -239,7 +240,7 @@ function orderHtml(order, { title, eyebrow, intro }) {
                 <td style="padding:12px;border-radius:16px;background:#f7f7f8;">
                   <span style="display:block;color:#777;font-size:11px;font-weight:800;text-transform:uppercase;">Store</span>
                   <strong style="display:block;margin-top:4px;font-size:15px;">${escapeHtml(store.storeName)}</strong>
-                  <span style="display:block;margin-top:4px;color:#555;font-size:13px;line-height:1.45;">${escapeHtml(store.contactName || "")}<br>${escapeHtml(store.phone)} / ${escapeHtml(store.email)}<br>${escapeHtml(store.street)}, ${escapeHtml(store.city)}, ${escapeHtml(store.state)} ${escapeHtml(store.zip)}</span>
+                  <span style="display:block;margin-top:4px;color:#555;font-size:13px;line-height:1.45;">${escapeHtml(store.contactName || "")}<br>${escapeHtml(store.phone)} / ${escapeHtml(store.email)}<br>${escapeHtml(store.street)}, ${escapeHtml(store.city)}, ${escapeHtml(store.state)} ${escapeHtml(store.zip)}<br>Card on file: ${escapeHtml(paymentPreferenceLabel(store.paymentPreference))}</span>
                 </td>
               </tr>
             </table>
