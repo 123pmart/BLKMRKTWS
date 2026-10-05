@@ -236,23 +236,8 @@ function normalizeStore(store) {
     state: cleanString(store.state).toUpperCase(),
     zip: cleanString(store.zip),
     salesperson: normalizeSalesperson(store.salesperson),
-    paymentPreference: normalizePaymentPreference(store.paymentPreference),
     notes: cleanString(store.notes, 1200),
   };
-}
-
-export function normalizePaymentPreference(value) {
-  const normalized = cleanString(value).toLowerCase();
-  return ["contact-to-add", "on-file", "not-now"].includes(normalized) ? normalized : "not-provided";
-}
-
-export function paymentPreferenceLabel(value) {
-  return {
-    "contact-to-add": "Contact buyer to add a card securely",
-    "on-file": "Card already on file",
-    "not-now": "Continue without card on file",
-    "not-provided": "Not provided",
-  }[normalizePaymentPreference(value)];
 }
 
 function normalizeSalesperson(value) {

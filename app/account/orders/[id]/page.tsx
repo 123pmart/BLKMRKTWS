@@ -44,7 +44,6 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
             <span><small>Contact</small><strong>{order.store.contactName}</strong></span>
             <span><small>Email</small><strong>{order.store.email}</strong></span>
             <span><small>Phone</small><strong>{order.store.phone}</strong></span>
-            <span><small>Card on file</small><strong>{paymentPreferenceLabel(order.store.paymentPreference)}</strong></span>
             <span className="order-store-address"><small>Ship to</small><strong>{order.store.street}, {order.store.city}, {order.store.state} {order.store.zip}</strong></span>
           </div>
         </section>
@@ -72,15 +71,6 @@ export default async function AccountOrderDetailPage({ params }: { params: Promi
       </article>
     </main>
   );
-}
-
-function paymentPreferenceLabel(value: string | undefined): string {
-  return {
-    "contact-to-add": "Contact requested",
-    "on-file": "Already on file",
-    "not-now": "Not added yet",
-    "not-provided": "Not provided",
-  }[value || "not-provided"] || "Not provided";
 }
 
 function unitPrice(total: number, quantity: number) {

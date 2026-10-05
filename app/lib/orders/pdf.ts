@@ -105,17 +105,7 @@ function drawDetails(page: PDFPage, order: Order, fonts: Fonts, y: number): numb
   detailValue(page, fonts, rightX, startY, "CONTACT", order.store.contactName || "-");
   detailValue(page, fonts, leftX, startY - 31, "SHIP TO", shippingLabel(order));
   detailValue(page, fonts, rightX, startY - 31, "EMAIL / PHONE", [order.store.email, order.store.phone].filter(Boolean).join("  /  ") || "-");
-  detailValue(page, fonts, leftX, startY - 62, "CARD ON FILE", paymentPreferenceLabel(order.store.paymentPreference));
-  return y - 110;
-}
-
-function paymentPreferenceLabel(value: Order["store"]["paymentPreference"]): string {
-  return {
-    "contact-to-add": "Contact requested to add a card securely",
-    "on-file": "Already on file",
-    "not-now": "Not added yet",
-    "not-provided": "Not provided",
-  }[value || "not-provided"] || "Not provided";
+  return y - 79;
 }
 
 function detailValue(page: PDFPage, fonts: Fonts, x: number, y: number, label: string, value: string): void {

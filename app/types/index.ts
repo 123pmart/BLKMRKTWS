@@ -84,7 +84,6 @@ export interface Store {
   state: string;
   zip: string;
   salesperson?: SalespersonId;
-  paymentPreference?: "contact-to-add" | "on-file" | "not-now" | "not-provided";
   notes?: string;
   status?: "active" | "disabled";
   createdAt?: string;
