@@ -62,4 +62,8 @@ test("new listings have unique valid identifiers and the updated section label",
   }
   assert.equal(catalog.categories.find((category) => category.slug === "strength").short, "Strength & Endurance");
   assert.match(appSource, /label: "STRENGTH & ENDURANCE"/);
+  assert.match(appSource, /slug: "strength"[^\n]+productId === "fuel-performance-pre-workout"/);
+  assert.match(appSource, /slug: "raws"[^\n]+productId === "ten-hyper-creatine"/);
+  assert.match(appSource, /"fuel-performance-pre-workout": "\/assets\/catalog-cards\/fuel-performance-pre-workout-sour-green-apple/);
+  assert.match(appSource, /"ten-hyper-creatine": "\/assets\/catalog-cards\/ten-hyper-creatine-loaded-lemonade/);
 });

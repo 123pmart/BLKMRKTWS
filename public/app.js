@@ -64,8 +64,8 @@ const LANDING_OPTIONS = [
   { slug: "thermogenics", label: "THERMOGENICS", match: (item) => item.productId === "cuts-thermogenic-pre-workout" },
   { slug: "focus", label: "HIGH STIM & NOOTROPICS", match: (item) => item.productId === "defy-hyper-stimulant" },
   { slug: "pump", label: "PUMP", match: (item) => item.productId === "pump-hyper-pump-pre-workout" },
-  { slug: "strength", label: "STRENGTH & ENDURANCE", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
-  { slug: "raws", label: "RAWS", match: (item) => item.productId === "creatine-monohydrate-raw" },
+  { slug: "strength", label: "STRENGTH & ENDURANCE", match: (item) => item.productId === "fuel-performance-pre-workout" },
+  { slug: "raws", label: "RAWS", match: (item) => item.productId === "ten-hyper-creatine" },
   { slug: "all", label: "ALL PRODUCTS", match: (item) => item.productId === "rule-hyper-focus" },
 ];
 
@@ -75,6 +75,8 @@ const LANDING_THUMBNAILS = {
   "pump-hyper-pump-pre-workout": "/assets/landing/pump.webp",
   "bulk-apex-strength-pre-workout": "/assets/landing/bulk.webp",
   "creatine-monohydrate-raw": "/assets/landing/creatine.webp",
+  "fuel-performance-pre-workout": "/assets/catalog-cards/fuel-performance-pre-workout-sour-green-apple-56333-07316a42900c.webp",
+  "ten-hyper-creatine": "/assets/catalog-cards/ten-hyper-creatine-loaded-lemonade-56335-2f5807d1949f.webp",
   "rule-hyper-focus": "/assets/landing/rule.webp",
 };
 
