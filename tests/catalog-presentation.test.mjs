@@ -30,6 +30,8 @@ test("serving ranges remain accurate for liquids and two-scoop products", () => 
     ["cuts-diamond-ultra-thermogenic", "25 Servings"],
     ["creatine-monohydrate-raw", "60 Servings"],
     ["bulk-pills-testosterone-capsules", "30 Servings"],
+    ["fuel-performance-pre-workout", "20 Servings"],
+    ["ten-hyper-creatine", "30 Servings"],
   ]) {
     const product = catalog.products.find((entry) => entry.id === id);
     assert.equal(catalogPresentation(product, product.variants[0]).servingsLabel, label);

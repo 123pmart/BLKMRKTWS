@@ -11,12 +11,12 @@
       "strap": "Fat-burner and metabolic support"
     },
     {
-      "name": "Strength Products",
+      "name": "Strength & Endurance Products",
       "slug": "strength",
-      "short": "Strength",
+      "short": "Strength & Endurance",
       "accent": "#f01822",
       "secondary": "#b19a61",
-      "strap": "Strength, testosterone, and raw essentials"
+      "strap": "Strength, performance, endurance, and raw essentials"
     },
     {
       "name": "High Stimulant & Focus Products",
@@ -822,6 +822,76 @@
       ]
     },
     {
+      "id": "fuel-performance-pre-workout",
+      "title": "FUEL Performance Pre-workout",
+      "category": "Strength & Endurance Products",
+      "categorySlug": "strength",
+      "accent": "#b19a61",
+      "secondary": "#f01822",
+      "description": "PURPOSE: FUEL is a fully loaded performance pre-workout built for training energy, endurance, hydration, pump, and focus. It combines 5 g L-Citrulline, 3.2 g Beta-Alanine, 2 g PeakO2®, a fortified electrolyte blend, 600 mg Alpha GPC 50%, and 325 mg total caffeine.",
+      "featured": false,
+      "bottle": "/assets/products/fuel/sour-green-apple-front.png",
+      "panel": "/assets/products/fuel/supplement-facts.png",
+      "variants": [
+        {
+          "id": "fuel-performance-pre-workout-sour-green-apple-56333",
+          "item": "56333",
+          "upc": "810055901616",
+          "flavor": "Sour Green Apple",
+          "description": "FUEL Performance Pre-workout Sour Green Apple 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/products/fuel/sour-green-apple-front.png",
+          "panel": "/assets/products/fuel/supplement-facts.png",
+          "galleryImages": [
+            "/assets/products/fuel/sour-green-apple-front.png",
+            "/assets/products/fuel/sour-green-apple-side-facts.png",
+            "/assets/products/fuel/sour-green-apple-side-copy.png",
+            "/assets/products/fuel/supplement-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/fuel-performance-pre-workout-sour-green-apple-56333-07316a42900c.webp"
+        },
+        {
+          "id": "fuel-performance-pre-workout-streetarts-56334",
+          "item": "56334",
+          "upc": "810055901623",
+          "flavor": "Streetarts",
+          "description": "FUEL Performance Pre-workout Streetarts 20 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/products/fuel/streetarts-front.png",
+          "panel": "/assets/products/fuel/supplement-facts.png",
+          "galleryImages": [
+            "/assets/products/fuel/streetarts-front.png",
+            "/assets/products/fuel/streetarts-side-facts.png",
+            "/assets/products/fuel/streetarts-side-copy.png",
+            "/assets/products/fuel/supplement-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/fuel-performance-pre-workout-streetarts-56334-0db26ad10edc.webp"
+        }
+      ],
+      "siteVariants": [
+        "Sour Green Apple",
+        "Streetarts"
+      ],
+      "handle": "fuel-performance-pre-workout",
+      "siteImages": [
+        "/assets/products/fuel/sour-green-apple-front.png",
+        "/assets/products/fuel/sour-green-apple-side-facts.png",
+        "/assets/products/fuel/sour-green-apple-side-copy.png",
+        "/assets/products/fuel/streetarts-front.png",
+        "/assets/products/fuel/streetarts-side-facts.png",
+        "/assets/products/fuel/streetarts-side-copy.png",
+        "/assets/products/fuel/supplement-facts.png"
+      ]
+    },
+    {
       "id": "bulk-pills-testosterone-capsules",
       "title": "BULK PILLS Testosterone Capsules",
       "category": "Strength Products",
@@ -933,6 +1003,76 @@
         "/assets/site-images/creatine-monohydrate-raw-2-creatine-side-1.png",
         "/assets/site-images/creatine-monohydrate-raw-3-creatine-side-2-93b59a50-3d53-45ca-8162-38803f1dbfc2.png",
         "/assets/site-images/creatine-monohydrate-raw-4-creatine-ingred-aae1b4f5-c2bc-4635-9eba-1e1f66ef4734.png"
+      ]
+    },
+    {
+      "id": "ten-hyper-creatine",
+      "title": "TEN Hyper Creatine Matrix",
+      "category": "Raw Products",
+      "categorySlug": "raws",
+      "accent": "#d7d9dc",
+      "secondary": "#777b82",
+      "description": "PURPOSE: TEN is a premium hyper-creatine matrix built for muscle performance, strength, power, and hydration. Each serving provides 10 g Creatine Monohydrate, 2.5 g Betaine Anhydrous, 1.5 g Taurine, Pink Himalayan Salt, Potassium Citrate, and 50 mg AstraGin®.",
+      "featured": false,
+      "bottle": "/assets/products/ten/loaded-lemonade-front.png",
+      "panel": "/assets/products/ten/supplement-facts.png",
+      "variants": [
+        {
+          "id": "ten-hyper-creatine-loaded-lemonade-56335",
+          "item": "56335",
+          "upc": "810055901630",
+          "flavor": "Loaded Lemonade",
+          "description": "TEN Hyper Creatine Matrix Loaded Lemonade 30 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/products/ten/loaded-lemonade-front.png",
+          "panel": "/assets/products/ten/supplement-facts.png",
+          "galleryImages": [
+            "/assets/products/ten/loaded-lemonade-front.png",
+            "/assets/products/ten/loaded-lemonade-side-facts.png",
+            "/assets/products/ten/loaded-lemonade-side-copy.png",
+            "/assets/products/ten/supplement-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/ten-hyper-creatine-loaded-lemonade-56335-2f5807d1949f.webp"
+        },
+        {
+          "id": "ten-hyper-creatine-sour-watermelon-56336",
+          "item": "56336",
+          "upc": "810055901647",
+          "flavor": "Sour Watermelon",
+          "description": "TEN Hyper Creatine Matrix Sour Watermelon 30 Serv",
+          "wholesale": "$28.00",
+          "wholesaleValue": 28,
+          "map": "$59.99",
+          "mapValue": 59.99,
+          "bottle": "/assets/products/ten/sour-watermelon-front.png",
+          "panel": "/assets/products/ten/supplement-facts.png",
+          "galleryImages": [
+            "/assets/products/ten/sour-watermelon-front.png",
+            "/assets/products/ten/sour-watermelon-side-facts.png",
+            "/assets/products/ten/sour-watermelon-side-copy.png",
+            "/assets/products/ten/supplement-facts.png"
+          ],
+          "available": true,
+          "cardImage": "/assets/catalog-cards/ten-hyper-creatine-sour-watermelon-56336-40e566d2593a.webp"
+        }
+      ],
+      "siteVariants": [
+        "Loaded Lemonade",
+        "Sour Watermelon"
+      ],
+      "handle": "ten-hyper-creatine",
+      "siteImages": [
+        "/assets/products/ten/loaded-lemonade-front.png",
+        "/assets/products/ten/loaded-lemonade-side-facts.png",
+        "/assets/products/ten/loaded-lemonade-side-copy.png",
+        "/assets/products/ten/sour-watermelon-front.png",
+        "/assets/products/ten/sour-watermelon-side-facts.png",
+        "/assets/products/ten/sour-watermelon-side-copy.png",
+        "/assets/products/ten/supplement-facts.png"
       ]
     },
     {

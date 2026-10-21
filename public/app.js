@@ -1,7 +1,7 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
 import { catalogIdentifiers } from "/lib/catalog-identifiers.js?v=20260902-master";
-import { catalogPresentation } from "/lib/catalog-presentation.js?v=20260902-refinement";
+import { catalogPresentation } from "/lib/catalog-presentation.js?v=20261021-fuel-ten";
 import { enhanceDisclosure } from "/lib/disclosure-motion.js?v=20260902-refinement";
 import {
   accountDestination,
@@ -19,7 +19,7 @@ import {
   nextPortalLoad,
 } from "/lib/account-nudge.js?v=20260728-account-nudge-cadence";
 
-const DATA_URL = "/catalog-data.json?v=20260902-master-identifiers";
+const DATA_URL = "/catalog-data.json?v=20261021-fuel-ten";
 const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
 const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
@@ -56,7 +56,7 @@ const SECTION_META = [
   { slug: "thermogenics", label: "THERMOGENICS" },
   { slug: "focus", label: "HIGH STIM & NOOTROPICS" },
   { slug: "pump", label: "PUMP" },
-  { slug: "strength", label: "STRENGTH" },
+  { slug: "strength", label: "STRENGTH & ENDURANCE" },
   { slug: "raws", label: "RAWS" },
 ];
 
@@ -64,7 +64,7 @@ const LANDING_OPTIONS = [
   { slug: "thermogenics", label: "THERMOGENICS", match: (item) => item.productId === "cuts-thermogenic-pre-workout" },
   { slug: "focus", label: "HIGH STIM & NOOTROPICS", match: (item) => item.productId === "defy-hyper-stimulant" },
   { slug: "pump", label: "PUMP", match: (item) => item.productId === "pump-hyper-pump-pre-workout" },
-  { slug: "strength", label: "STRENGTH", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
+  { slug: "strength", label: "STRENGTH & ENDURANCE", match: (item) => item.productId === "bulk-apex-strength-pre-workout" },
   { slug: "raws", label: "RAWS", match: (item) => item.productId === "creatine-monohydrate-raw" },
   { slug: "all", label: "ALL PRODUCTS", match: (item) => item.productId === "rule-hyper-focus" },
 ];
