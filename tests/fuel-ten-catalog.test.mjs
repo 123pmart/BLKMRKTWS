@@ -41,6 +41,8 @@ test("TEN has both launch flavors and belongs to RAWS", async () => {
   ]);
   for (const variant of product.variants) {
     assert.equal(catalogPresentation(product, variant).servingsLabel, "30 Servings");
+    assert.equal(variant.wholesaleValue, 25);
+    assert.equal(variant.mapValue, 49.99);
     assert.equal(variant.galleryImages.length, 4);
     await Promise.all(variant.galleryImages.map(assertAsset));
   }
