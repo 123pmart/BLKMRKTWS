@@ -20,7 +20,7 @@ import {
 } from "/lib/account-nudge.js?v=20260728-account-nudge-cadence";
 
 const DATA_URL = "/catalog-data.json?v=20261021-fuel-ten";
-const CATALOG_PAGES_URL = "/catalog-pages.json?v=20260630-optimized-viewer";
+const CATALOG_PAGES_URL = "/catalog-pages.json?v=20261029-updated-catalog";
 const ORDERS_API_URL = "/api/orders";
 const CONTENT_API_URL = "/api/content";
 const ORDER_SUBMIT_URL = "/api/send-order";

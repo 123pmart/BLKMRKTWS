@@ -2,69 +2,75 @@
   "pages": [
     {
       "page": 1,
-      "src": "/assets/catalog-pages-optimized/page-01.jpg",
+      "src": "/assets/catalog-pages-optimized/page-01.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 2,
-      "src": "/assets/catalog-pages-optimized/page-02.jpg",
+      "src": "/assets/catalog-pages-optimized/page-02.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 3,
-      "src": "/assets/catalog-pages-optimized/page-03.jpg",
+      "src": "/assets/catalog-pages-optimized/page-03.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 4,
-      "src": "/assets/catalog-pages-optimized/page-04.jpg",
+      "src": "/assets/catalog-pages-optimized/page-04.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 5,
-      "src": "/assets/catalog-pages-optimized/page-05.jpg",
+      "src": "/assets/catalog-pages-optimized/page-05.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 6,
-      "src": "/assets/catalog-pages-optimized/page-06.jpg",
+      "src": "/assets/catalog-pages-optimized/page-06.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 7,
-      "src": "/assets/catalog-pages-optimized/page-07.jpg",
+      "src": "/assets/catalog-pages-optimized/page-07.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 8,
-      "src": "/assets/catalog-pages-optimized/page-08.jpg",
+      "src": "/assets/catalog-pages-optimized/page-08.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 9,
-      "src": "/assets/catalog-pages-optimized/page-09.jpg",
+      "src": "/assets/catalog-pages-optimized/page-09.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 10,
-      "src": "/assets/catalog-pages-optimized/page-10.jpg",
+      "src": "/assets/catalog-pages-optimized/page-10.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
     },
     {
       "page": 11,
-      "src": "/assets/catalog-pages-optimized/page-11.jpg",
+      "src": "/assets/catalog-pages-optimized/page-11.jpg?v=20261029",
       "width": 900,
-      "height": 1164
+      "height": 1165
+    },
+    {
+      "page": 12,
+      "src": "/assets/catalog-pages-optimized/page-12.jpg?v=20261029",
+      "width": 900,
+      "height": 1165
     }
   ]
 }
