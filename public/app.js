@@ -1,6 +1,7 @@
 import { catalogFlavorAliases, searchCatalogItems } from "/lib/catalog-search.js?v=20260717-global";
 import { catalogItemMatchesSection, catalogItemSections } from "/lib/catalog-sections.js?v=20260813-multi-category";
 import { catalogIdentifiers } from "/lib/catalog-identifiers.js?v=20260902-master";
+import { isTrustedCatalogImageSource } from "/lib/catalog-image-source.js";
 import { catalogPresentation } from "/lib/catalog-presentation.js?v=20261021-fuel-ten";
 import { enhanceDisclosure } from "/lib/disclosure-motion.js?v=20260902-refinement";
 import {
@@ -606,6 +607,18 @@ function bindEvents() {
     }
   });
 
+  dom.adminOrdersList.addEventListener("error", (event) => {
+    const image = event.target;
+    if (!image.matches?.(".admin-order-thumb img")) return;
+    if (image.dataset.fallback) {
+      const fallback = image.dataset.fallback;
+      delete image.dataset.fallback;
+      image.src = fallback;
+    } else {
+      image.hidden = true;
+    }
+  }, true);
+
   dom.adminOrdersList.addEventListener("click", async (event) => {
     const refresh = event.target.closest("[data-refresh-orders]");
     if (refresh) {
@@ -913,6 +926,7 @@ function rebuildProductState() {
   renderCart();
   renderAdminProducts();
   renderAdminStoreAccounts();
+  renderAdminOrders();
 }
 
 function buildItems(products) {
@@ -3531,15 +3545,44 @@ function renderAdminOrder(order) {
       </div>
       ${store.notes ? `<p class="admin-order-notes">${escapeHtml(store.notes)}</p>` : ""}
       <div class="admin-order-lines">
-        ${lines.map((line) => `
-          <div>
-            <span>${escapeHtml(String(line.qty))}x</span>
-            <strong>${escapeHtml(line.product)} ${escapeHtml(line.flavor)}</strong>
-            <em>#${escapeHtml(line.item)}${line.upc ? ` / UPC ${escapeHtml(line.upc)}` : ""} / ${escapeHtml(line.wholesale)} / line ${money(line.lineWholesale)}</em>
-          </div>
-        `).join("")}
+        ${lines.map(renderAdminOrderLine).join("")}
       </div>
     </article>
+  `;
+}
+
+function renderAdminOrderLine(line) {
+  const match = (line.variantId && findCatalogVariant(line.variantId))
+    || (line.upc && findCatalogVariantBy("upc", line.upc))
+    || (line.item && findCatalogVariantBy("item", line.item));
+  const { product, variant } = match || {};
+  const bottle = variant?.bottle || product?.bottle;
+  const cardImage = variant && !variantOverrides()[variant.id]?.bottle ? variant.cardImage : "";
+  const saved = String(line.image || "").trim();
+  const catalogImage = [cardImage, bottle, product?.bottle].find(isTrustedCatalogImageSource);
+  const image = saved !== bottle && isTrustedCatalogImageSource(saved) ? saved : catalogImage;
+  const fallback = image === cardImage ? bottle : catalogImage;
+  const fallbackAttr = fallback !== image && isTrustedCatalogImageSource(fallback)
+    ? ` data-fallback="${escapeHtml(fallback)}"` : "";
+  const { displayName } = catalogPresentation({ id: line.productId || product?.id, title: line.product || product?.title });
+  const identifiers = [line.item && `#${line.item}`, line.upc && `UPC ${line.upc}`].filter(Boolean);
+
+  return `
+    <div class="admin-order-line">
+      <div class="admin-order-thumb" aria-hidden="true">
+        ${image ? `<img src="${escapeHtml(image)}"${fallbackAttr} width="48" height="48" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />` : ""}
+      </div>
+      <div class="admin-order-product">
+        <strong>${escapeHtml(displayName)}</strong>
+        ${line.flavor ? `<span class="admin-order-flavor">${escapeHtml(line.flavor)}</span>` : ""}
+        ${identifiers.length ? `<small>${escapeHtml(identifiers.join(" · "))}</small>` : ""}
+      </div>
+      <span class="admin-order-qty">${escapeHtml(line.qty)}×</span>
+      <div class="admin-order-line-price">
+        <strong>${money(line.lineWholesale)}</strong>
+        <small>${escapeHtml(line.wholesale)} each</small>
+      </div>
+    </div>
   `;
 }
 
@@ -3806,8 +3849,12 @@ function galleryRoleForVariantImage(image, variant, product) {
 }
 
 function findCatalogVariant(id) {
+  return findCatalogVariantBy("id", id);
+}
+
+function findCatalogVariantBy(field, value) {
   for (const product of state.products) {
-    const variant = product.variants.find((entry) => entry.id === id);
+    const variant = product.variants.find((entry) => entry[field] === value);
     if (variant) return { product, variant };
   }
   return null;

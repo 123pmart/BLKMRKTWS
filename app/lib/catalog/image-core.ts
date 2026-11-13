@@ -1,5 +1,6 @@
-export const TRUSTED_PRODUCT_IMAGE_PATH = "/assets/";
-const PUBLIC_BLOB_SUFFIX = ".public.blob.vercel-storage.com";
+import { isTrustedCatalogImageSource } from "../../../public/lib/catalog-image-source.js";
+
+export { isTrustedCatalogImageSource, TRUSTED_PRODUCT_IMAGE_PATH } from "../../../public/lib/catalog-image-source.js";
 
 export interface CatalogImageCandidate {
   variantOverrideImage?: string;
@@ -20,25 +21,6 @@ export interface CatalogImageItem {
   productId: string;
   item: string;
   image: string;
-}
-
-export function isTrustedCatalogImageSource(value: unknown): boolean {
-  const source = String(value ?? "").trim();
-  if (!source) return false;
-  if (source.startsWith("/")) {
-    try {
-      const decoded = decodeURIComponent(source.split(/[?#]/, 1)[0]);
-      return decoded.startsWith(TRUSTED_PRODUCT_IMAGE_PATH) && !decoded.split("/").includes("..");
-    } catch {
-      return false;
-    }
-  }
-  try {
-    const url = new URL(source);
-    return url.protocol === "https:" && url.hostname.endsWith(PUBLIC_BLOB_SUFFIX) && url.username === "" && url.password === "";
-  } catch {
-    return false;
-  }
 }
 
 export function resolveCatalogProductImage(candidate: CatalogImageCandidate): string | null {

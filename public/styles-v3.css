@@ -2734,26 +2734,72 @@ body.admin-news-editing .admin-news-side {
   border-radius: 6px;
 }
 
-.admin-order-lines > div {
+.admin-order-line {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
-  gap: 10px;
-  padding: 9px 10px;
+  grid-template-columns: 48px minmax(0, 1fr) auto minmax(66px, auto);
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
 }
 
-.admin-order-lines > div + div {
+.admin-order-line + .admin-order-line {
   border-top: 1px solid var(--line-soft);
 }
 
-.admin-order-lines span,
-.admin-order-lines em {
-  color: var(--muted);
-  font-size: 0.65rem;
-  font-style: normal;
+.admin-order-thumb {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  border-radius: 6px;
+  background: #141416;
+  overflow: hidden;
 }
 
-.admin-order-lines strong {
+.admin-order-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.admin-order-product,
+.admin-order-line-price {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.admin-order-product {
+  overflow-wrap: anywhere;
+}
+
+.admin-order-line-price {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.admin-order-line strong {
+  font-size: 0.78rem;
+}
+
+.admin-order-line small {
+  color: var(--muted);
+  font-size: 0.64rem;
+}
+
+.admin-order-flavor {
+  color: #c9c9ce;
+  font-size: 0.69rem;
+}
+
+.admin-order-qty {
+  padding: 4px 6px;
+  border-radius: 5px;
+  background: #17171a;
+  color: #d2d2d6;
   font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 
 .admin-settings-grid {
@@ -4031,12 +4077,27 @@ body.admin-pricing-editing .admin-pricing-editor {
     grid-template-columns: 1fr 1fr;
   }
 
-  .admin-order-lines > div {
-    grid-template-columns: 32px minmax(0, 1fr);
+  .admin-order-line {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 5px 8px;
+    padding-inline: 8px;
   }
 
-  .admin-order-lines em {
-    grid-column: 2;
+  .admin-order-thumb {
+    grid-row: span 2;
+    height: 40px;
+  }
+
+  .admin-order-qty {
+    justify-self: end;
+  }
+
+  .admin-order-line-price {
+    grid-column: 2 / -1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
   }
 }
 
