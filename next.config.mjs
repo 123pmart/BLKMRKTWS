@@ -1,4 +1,8 @@
 const nextConfig = {
+  outputFileTracingIncludes: {
+    "/api/order-pdf": ["./node_modules/@img/**/*"],
+    "/api/account/orders/*/pdf": ["./node_modules/@img/**/*"],
+  },
   turbopack: {
     root: process.cwd(),
   },

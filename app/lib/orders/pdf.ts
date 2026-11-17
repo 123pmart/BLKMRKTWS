@@ -2,7 +2,6 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFImage, type PDFPage } from "pdf-lib";
-import sharp from "sharp";
 
 import { decodeEmbeddedCatalogImage } from "@/lib/catalog/embedded-image";
 import { isTrustedCatalogImageSource } from "@/lib/catalog/image-core";
@@ -228,6 +227,9 @@ async function remoteThumbnail(url: string): Promise<Buffer> {
 }
 
 async function makeThumbnail(source: Buffer): Promise<Buffer> {
+  // Conversion is optional: bundled JPEGs keep PDFs working if a native
+  // image dependency is unavailable in the serverless runtime.
+  const { default: sharp } = await import("sharp");
   return sharp(source)
     .resize(104, 104, { fit: "contain", background: "#f5f5f3" })
     .flatten({ background: "#f5f5f3" })
