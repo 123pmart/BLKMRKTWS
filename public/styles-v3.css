@@ -854,7 +854,21 @@ body[data-view="admin"] .maintenance-catalog-hero {
 
 .qty-control input {
   width: 100%;
+  -webkit-appearance: none;
   appearance: textfield;
+  -moz-appearance: textfield;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qty-control input::-webkit-inner-spin-button,
+.qty-control input::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.qty-control:focus-within {
+  border-color: var(--accent);
 }
 
 .cart-backdrop,
@@ -1016,7 +1030,7 @@ body.cart-open #cartView.view {
   gap: 12px;
   min-width: 0;
   align-items: center;
-  padding: 12px 42px 12px 10px;
+  padding: 14px 54px 14px 12px;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
   background: var(--panel-gradient);
@@ -1049,18 +1063,48 @@ body.cart-open #cartView.view {
 .cart-line > strong {
   align-self: start;
   font-size: 0.86rem;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 
 .remove-line {
   position: absolute;
-  top: 8px;
+  top: 0;
   right: 8px;
   width: 44px;
   height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: 0;
+  border-radius: 8px;
   color: var(--muted);
   background: transparent;
-  font-size: 0.9rem;
+  font-size: 0;
+  touch-action: manipulation;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.remove-line::before,
+.remove-line::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  content: "";
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.remove-line::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.remove-line:hover {
+  color: #ff8179;
+  background: rgba(255, 95, 87, .07);
 }
 
 .store-card,
@@ -4178,29 +4222,37 @@ body.admin-pricing-editing .admin-pricing-editor {
 }
 
 .icon-close::before,
-.admin-sheet-close::before {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  content: "\00d7";
+.icon-close::after,
+.admin-sheet-close::before,
+.admin-sheet-close::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 1px;
+  content: "";
   color: #ff5f57;
-  background: transparent;
-  font-size: 1.45rem;
-  font-weight: 520;
-  line-height: 1;
-  transition: color 140ms ease, opacity 140ms ease, transform 150ms var(--ease);
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: color 140ms ease;
+}
+
+.icon-close::after,
+.admin-sheet-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .icon-close:hover::before,
-.admin-sheet-close:hover::before {
+.icon-close:hover::after,
+.admin-sheet-close:hover::before,
+.admin-sheet-close:hover::after {
   color: #ff7b73;
-  transform: scale(1.08);
 }
 
-.icon-close:active::before,
-.admin-sheet-close:active::before {
-  transform: scale(0.94);
+.icon-close:hover,
+.admin-sheet-close:hover {
+  background: rgba(255, 95, 87, .06);
 }
 
 .icon-close:focus-visible,

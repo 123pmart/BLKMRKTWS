@@ -79,3 +79,14 @@ test("both route systems share glass motion without retaining fixed-position tra
   assert.match(motion, /prefers-reduced-motion: reduce/);
   assert.match(motion, /@view-transition \{ navigation: none/);
 });
+
+test("shared polish covers customer pages and keeps the account return link below its form", async () => {
+  const signIn = await readFile(new URL("../app/sign-in/page.tsx", import.meta.url), "utf8");
+  assert.ok(signIn.indexOf('className="account-auth-back"') > signIn.indexOf("</Card>"));
+  assert.doesNotMatch(signIn, /AccountPageHeader/);
+  for (const selector of [".sku-card", ".category-tile", ".news-card", ".cart-line", ".account-order-row", ".download-link", ".admin-button", ".bm-workspace"]) {
+    assert.ok(motion.includes(selector), selector);
+  }
+  assert.match(motion, /:focus-visible/);
+  assert.match(motion, /prefers-reduced-motion: reduce/);
+});

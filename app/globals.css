@@ -271,6 +271,76 @@ a:active {
 .account-page-account { color: #d8d8dc; font-size: .72rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
 .account-auth-card { box-shadow: inset 0 1px 0 rgb(255 255 255 / 6%), 0 10px 24px rgb(0 0 0 / 22%); }
 
+.account-auth-wrap {
+  display: grid;
+  align-items: center;
+  width: min(100%, 540px);
+  min-height: 0;
+  margin-inline: auto;
+  padding-block: clamp(12px, 6dvh, 56px) 32px;
+}
+
+.account-auth-back {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  font-size: .78rem;
+  font-weight: 650;
+}
+.account-auth-back svg { width: 16px; height: 16px; }
+.account-auth-back:hover { color: var(--foreground); background: rgb(255 255 255 / 4%); }
+
+.account-auth-content { padding: clamp(22px, 4vw, 34px); }
+.account-auth-intro { margin: 10px 0 26px; color: var(--muted-foreground); font-size: .84rem; line-height: 1.6; }
+.account-auth-form { display: grid; gap: 18px 16px; }
+.account-auth-form[data-mode="register"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.account-auth-field { display: grid; align-content: start; gap: 8px; min-width: 0; color: #c8c8cd; font-size: .78rem; font-weight: 700; }
+.account-auth-field[data-full-width],
+.account-auth-form > .account-form-message,
+.account-auth-submit { grid-column: 1 / -1; }
+.account-auth-field input,
+.account-auth-field select {
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--input);
+  border-radius: 8px;
+  color: var(--foreground);
+  background: #0b0b0d;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 450;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.account-auth-field input:hover,
+.account-auth-field select:hover { border-color: #48484e; }
+.account-auth-field input:focus,
+.account-auth-field select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgb(245 169 0 / 12%); background: #101012; }
+.account-auth-field [aria-invalid="true"] { border-color: #bc665e; }
+.account-field-hint,
+.account-field-error { font-size: .69rem; line-height: 1.5; font-weight: 450; }
+.account-field-hint { color: var(--muted-foreground); }
+.account-field-error { color: #fca5a5; }
+.account-auth-submit { height: 46px; margin-top: 6px; border-radius: 8px; transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
+.account-auth-submit:hover { box-shadow: 0 3px 16px rgb(245 169 0 / 12%); }
+.account-page-home,
+.account-page-account { min-height: 44px; display: inline-flex; align-items: center; }
+
+@media (max-width: 520px) {
+  .account-auth-wrap { padding-block: 4px 20px; min-height: 0; }
+  .account-auth-form[data-mode="register"] { grid-template-columns: minmax(0, 1fr); }
+  .account-auth-content { padding: 24px 20px; }
+}
+
 .account-route-loading { display: grid; gap: 16px; padding-top: 24px; }
 .account-route-loading > span { display: block; height: 112px; border-radius: 16px; background: rgb(255 255 255 / 4%); animation: account-loading 1.2s ease-in-out infinite alternate; }
 .account-route-loading .account-route-loading__title { width: 48%; height: 38px; }
@@ -303,6 +373,7 @@ a:active {
   margin-bottom: 22px;
   padding: 4px;
   border-radius: 12px;
+  border: 1px solid rgb(255 255 255 / 5%);
   background: rgb(0 0 0 / 32%);
 }
 
@@ -313,12 +384,18 @@ a:active {
   color: var(--muted-foreground);
   background: transparent;
   font-weight: 800;
+  font-size: .8rem;
 }
 
 .account-auth-tabs button[aria-selected="true"] {
   color: var(--foreground);
   background: rgb(255 255 255 / 8%);
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 9%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .account-auth-form { animation: account-form-in 200ms var(--ease-ios); }
+  @keyframes account-form-in { from { opacity: 0; translate: 0 3px; } to { opacity: 1; translate: 0 0; } }
 }
 
 .account-form-message {

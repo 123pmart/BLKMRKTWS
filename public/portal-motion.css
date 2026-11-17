@@ -51,6 +51,76 @@
   transition: background-color 160ms ease, color 160ms ease, transform 220ms var(--motion-glass-ease);
 }
 
+.sku-card,
+.category-tile,
+.cart-line,
+.news-card,
+.account-glass,
+.account-order-row,
+.account-order-list a,
+.bm-lead-card,
+.bm-reminder-card {
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+:where(.portal, .account-shell, .bm-workspace) :is(button, a, summary) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:where(.portal, .account-shell, .bm-workspace) :is(button, a, summary):focus-visible {
+  outline: 2px solid var(--accent, #f5a900);
+  outline-offset: 3px;
+}
+
+:where(.portal, .account-shell, .bm-workspace) :is(input, select, textarea) {
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+:where(.portal, .account-shell, .bm-workspace) :is(input, select, textarea):focus-visible {
+  border-color: var(--accent, #f5a900);
+  box-shadow: 0 0 0 3px rgba(245, 169, 0, .10);
+}
+
+:where(.portal, .account-shell, .bm-workspace) :is(h1, h2, h3, h4) {
+  text-wrap: pretty;
+}
+
+.account-order-row,
+.account-order-list a { text-decoration: none; }
+.account-order-row:hover,
+.account-order-list a:hover { background: rgba(255, 255, 255, .035); }
+
+@media (hover: hover) {
+  .category-tile:hover .category-tile-media,
+  .sku-card:hover,
+  .news-card:hover,
+  .account-glass:has(> a):hover {
+    border-color: rgba(255, 255, 255, .24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .045), 0 6px 20px rgba(0, 0, 0, .13);
+  }
+}
+
+@media (max-width: 720px) {
+  :where(.portal, .account-shell, .bm-workspace) :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+    font-size: max(16px, 1em);
+  }
+}
+
+.link-button,
+.download-link,
+.news-cta,
+.admin-button,
+.account-shell button,
+.account-shell a,
+.bm-workspace .bm-btn {
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 180ms var(--motion-glass-ease);
+}
+
+.sku-card h4,
+.cart-line h3,
+.news-card h2 { overflow-wrap: anywhere; }
+
 .qty-mini button:active,
 .qty-control button:active {
   transform: scale(.92);
@@ -62,6 +132,10 @@
   .account-shell > :not(.account-page-header) {
     animation: glass-content-in var(--motion-glass-duration) var(--motion-glass-ease) backwards;
   }
+
+  .account-auth-back { animation: none; }
+  .bm-main { animation: portal-surface-in 220ms ease backwards; }
+  @keyframes portal-surface-in { from { opacity: 0; } to { opacity: 1; } }
 
   dialog[open] > .modal-frame,
   dialog[open] > .order-download-frame,

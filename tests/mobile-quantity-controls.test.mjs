@@ -13,3 +13,9 @@ test("quantity buttons prevent double-tap zoom without disabling page pinch zoom
   assert.match(html, /name="viewport"\s+content="width=device-width,\s*initial-scale=1"/);
   assert.doesNotMatch(html, /user-scalable\s*=\s*no|maximum-scale\s*=\s*1/i);
 });
+
+test("cart quantities suppress duplicate browser steppers and keep a centered remove control", () => {
+  assert.match(styles, /\.qty-control input::-webkit-inner-spin-button,[^{]+\{[^}]*-webkit-appearance:\s*none/s);
+  assert.match(styles, /\.qty-control input\s*\{[^}]*font-size:\s*16px/s);
+  assert.match(styles, /\.remove-line::before,\s*\.remove-line::after\s*\{[^}]*top:\s*50%;[^}]*left:\s*50%;[^}]*translate\(-50%, -50%\)/s);
+});
